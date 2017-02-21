@@ -22,7 +22,11 @@
       <modulesDirectory>
         <moduleDirectory moduleName="encuesta">
           <configsDirectory enabled="false"/>
-          <controllersDirectory/>
+          <controllersDirectory>
+            <controllerFile controllerName="Index">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+          </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>
@@ -30,14 +34,22 @@
           <modelsDirectory/>
           <servicesDirectory enabled="false"/>
           <viewsDirectory>
-            <viewScriptsDirectory/>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
           </viewsDirectory>
         </moduleDirectory>
         <moduleDirectory moduleName="soporte">
           <configsDirectory enabled="false"/>
-          <controllersDirectory/>
+          <controllersDirectory>
+            <controllerFile controllerName="Index">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+          </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>
@@ -45,14 +57,22 @@
           <modelsDirectory/>
           <servicesDirectory enabled="false"/>
           <viewsDirectory>
-            <viewScriptsDirectory/>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
           </viewsDirectory>
         </moduleDirectory>
         <moduleDirectory moduleName="biblioteca">
           <configsDirectory enabled="false"/>
-          <controllersDirectory/>
+          <controllersDirectory>
+            <controllerFile controllerName="Index">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+          </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>
@@ -60,7 +80,11 @@
           <modelsDirectory/>
           <servicesDirectory enabled="false"/>
           <viewsDirectory>
-            <viewScriptsDirectory/>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
           </viewsDirectory>
@@ -113,6 +137,29 @@
             <testApplicationActionMethod forActionName="index"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
+        <testApplicationModulesDirectory>
+          <testApplicationModuleDirectory forModuleName="encuesta">
+            <testApplicationControllerDirectory>
+              <testApplicationControllerFile forControllerName="Index">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+            </testApplicationControllerDirectory>
+          </testApplicationModuleDirectory>
+          <testApplicationModuleDirectory forModuleName="soporte">
+            <testApplicationControllerDirectory>
+              <testApplicationControllerFile forControllerName="Index">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+            </testApplicationControllerDirectory>
+          </testApplicationModuleDirectory>
+          <testApplicationModuleDirectory forModuleName="biblioteca">
+            <testApplicationControllerDirectory>
+              <testApplicationControllerFile forControllerName="Index">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+            </testApplicationControllerDirectory>
+          </testApplicationModuleDirectory>
+        </testApplicationModulesDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory/>
     </testsDirectory>
