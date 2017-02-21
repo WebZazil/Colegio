@@ -1,43 +1,218 @@
-<style>
-    a:link,
-    a:visited
-    {
-        color: #0398CA;
-    }
+<?php
+	$niveles = $this->niveles;
+	$evaluaciones = array();
+?>
+<!-- Navegacion  --> 
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+	<div class="container">
+		<div class="navbar-header page-scroll">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-nav-1">
+				<span class="sr-only">Activar Navegación</span> Menú <i class="fa fa-bars"></i>
+			</button>
+			<a class="navbar-brand" href="#page-top">Colegio Sagrado Corazón</a>
+		</div>
+		
+		<div id="menu-nav-1" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="hidden">
+					<a href="#page-top"></a>
+				</li>
+				<li class="page-scroll">
+					<a href="#login">Login</a>
+				</li>
+				<li class="page-scroll">
+					<a href="#evaluaciones">Evaluaciones</a>
+				</li>
+				<li class="page-scroll">
+					<a href="#consulta">Consulta</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
 
-    span#zf-name
-    {
-        color: #91BE3F;
-    }
+<header>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<img class="img-responsive" alt="Una imagen aca!" src="<?php echo $this->baseUrl() ?>/public/images/profile.png">
+				<div class="intro-text">
+					<span class="name">Colegio Sagrado Corazón</span>
+					<hr class="star-light">
+					<span class="skills">Preescolar - Primaria - Secundaria - Preparatoria</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
 
-    div#welcome
-    {
-        color: #FFFFFF;
-        background-image: url(http://framework.zend.com/images/bkg_header.jpg);
-        width:  600px;
-        height: 400px;
-        border: 2px solid #444444;
-        overflow: hidden;
-        text-align: center;
-    }
+<section id="login">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2>Login</h2>
+				<hr class="star-primary">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+				<form class="form-horizontal" action="" method="post" enctype="application/x-www-form-urlencoded">
+					<fieldset>
+						<legend>Acceso al Sistema:</legend>
+						<div class="form-group">
+							<label class="col-xs-2" for="usuario">Usuario: </label>
+							<div class="col-xs-10">
+								<input type="text" class="form-control" name="usuario" placeholder="Usuario..." autofocus>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-2" for="password">Password: </label>
+							<div class="col-xs-10">
+								<input type="password" class="form-control" name="password">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-offset-2 col-xs-10">
+								<button type="submit" class="btn btn-success">
+									Acceder
+								</button>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+	</div>
+</section>
 
-    div#more-information
-    {
-        background-image: url(http://framework.zend.com/images/bkg_body-bottom.gif);
-        height: 100%;
-    }
-</style>
-<div id="welcome">
-    <h1>Welcome to the <span id="zf-name">Zend Framework!</span></h1>
+<section id="evaluaciones">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2>Evaluaciones</h2>
+				<hr class="star-primary">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+				<form class="form-horizontal" action="" method="post" enctype="application/x-www-form-urlencoded">
+					<fieldset>
+						<legend>Realizar evaluación:</legend>
+						<div class="form-group">
+							<label class="col-xs-2" for="nivel">Nivel: </label>
+							<div class="col-xs-10">
+								<select class="form-control" name="nivel">
+									<?php foreach ($niveles as $nivel): ?>
+									<option></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-offset-2 col-xs-10">
+								<button type="submit" class="btn btn-success">
+									<i class="fa fa-search"></i> Buscar
+								</button>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+				<?php if(!is_null($evaluaciones)){ ?>
+				<table class="table table-stripped table-condensed">
+					<thead>
+						<tr>
+							<td>Grado</td>
+							<td>Grupo</td>
+							<td>Materia</td>
+							<td>Evaluación</td>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($evaluaciones as $evaluacion): ?>
+							<tr>
+								<td></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+				<?php } ?>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+	</div>
+</section>
 
-    <h3>This is your project's main page</h3>
+<section id="consulta">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2>Consulta</h2>
+				<hr class="star-primary">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-8">
+				<form action="">
+					
+				</form>
+			</div>
+			<div class="col-sm-4"></div>
+		</div>
+	</div>	
+</section>
 
-    <div id="more-information">
-        <p><img src="http://framework.zend.com/images/PoweredBy_ZF_4LightBG.png" /></p>
-        <p>
-            Helpful Links: <br />
-            <a href="http://framework.zend.com/">Zend Framework Website</a> |
-            <a href="http://framework.zend.com/manual/en/">Zend Framework Manual</a>
-        </p>
-    </div>
-</div>
+<footer class="text-center">
+	<div class="footer-above">
+		<div class="container">
+			<div class="row">
+				<div class="footer-col col-md-4">
+					<h3>Dirección</h3>
+					<p>numero,calle,<br>colonia, codigo postal</p>
+				</div>
+				<div class="footer-col col-md-4">
+					<h3>En la Web</h3>
+					<ul class="list-inline">
+						<li>
+							<a href="" target="_blank" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
+						</li>
+						<li>
+							<a href="" target="_blank" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+						</li>
+						<li>
+							<a href="" target="_blank" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
+						</li>
+					</ul>
+				</div>
+				<div class="footer-col col-md-4">
+					<h3>Acerca de</h3>
+					<p>
+						
+						<a class="btn-social btn-outline" href="https://www.facebook.com/Zazil-Consultores-522417087936523/?fref=ts" target="_blank">
+							<i class="fa fa-fw fa-facebook"></i> Zazil Consultores S.A. de C.V. 
+						</a> <br>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-below">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					Copyright &copy; Plataforma de Evaluaciones By Zazil Consultores 2016 - 2017
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
