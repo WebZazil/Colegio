@@ -4,6 +4,5 @@
 .project
 
 #Archivos y carpetas de Zend
-library/Zend
 tests/
 
