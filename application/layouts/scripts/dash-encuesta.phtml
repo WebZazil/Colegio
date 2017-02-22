@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="author" content="Hector Rodriguez">
+<meta name="description" content="">
+<?php $public = $this->baseUrl()."/public" ?>
+		<title>Colegio Sagrado Corazón México</title>
+		<link rel="stylesheet" href="<?php echo $public; ?>/lib/bootstrap/css/bootstrap.min.css ">
+		<!-- MetisMenu CSS -->
+		<link rel="stylesheet" href="<?php echo $public; ?>/lib/metisMenu/metisMenu.min.css ">
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="<?php echo $public; ?>/lib/dist/css/sb-admin-2.min.css ">
+		<!-- Morris Charts CSS -->
+		<link rel="stylesheet" href="<?php echo $public; ?>/lib/morrisjs/morris.css ">
+		<!-- Custom Fonts -->
+		<link href="<?php echo $public ?>/lib/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<!-- jQuery -->
+	<script type="text/javascript" src="<?php echo $public ?>/lib/jquery/jquery.min.js"></script>
+	</head>
+	<body>
+		<div id="wrapper">
+	        <!-- Navigation -->
+	        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+	            <div class="navbar-header">
+	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	                    <span class="sr-only">Menú</span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                </button>
+	                <a class="navbar-brand" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"dashboard","action"=>"index",),null,true) ?>">Encuesta Dashboard</a>
+	            </div>
+	            <!-- /.navbar-header -->
+	            <!-- navbar-links was here -->
+	            <!-- /.navbar-top-links -->
+	            <!-- sidebar was here -->
+	            <!-- /.navbar-static-side -->
+	        </nav>
+	        <div id="page-wrapper">
+	            <!-- dashboard title was here -->
+	            <!-- /.row -->
+	            <!-- statistics was here -->
+	            <!-- /.row -->
+	            <div class="row">
+	            	<?php echo $this->layout()->content; ?>
+	            </div>
+	            <div class="row">
+	                <div class="col-lg-8">
+	                    <!-- area chart example was here -->
+	                    <!-- /.panel -->
+	                    <!-- bar chart example was here -->
+	                    <!-- /.panel -->
+	                    <!-- timeline was here -->
+	                    <!-- /.panel -->
+	                </div>
+	                <!-- /.col-lg-8 -->
+	                <div class="col-lg-4">
+	                    <!-- notifications panel was here -->
+	                    <!-- /.panel -->
+	                    <!-- donut chart example was here -->
+	                    <!-- /.panel -->
+	                    <!-- chat was here -->
+	                    <!-- /.panel .chat-panel -->
+	                </div>
+	                <!-- /.col-lg-4 -->
+	            </div>
+	            <!-- /.row -->
+	        </div>
+	        <!-- /#page-wrapper -->
+	    </div>
+    	<!-- /#wrapper -->
+	</body>
+	<!-- Bootstrap Core JavaScript -->
+	<script type="text/javascript" src="<?php echo $public ?>/lib/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Metis Menu Plugin JavaScript -->
+	<script type="text/javascript" src="<?php echo $public ?>/lib/metisMenu/metisMenu.min.js"></script>
+	<!-- Morris Charts JavaScript -->
+	<script type="text/javascript" src="<?php echo $public ?>/lib/raphael/raphael.min.js"></script>
+	<script type="text/javascript" src="<?php echo $public ?>/lib/morrisjs/morris.min.js"></script>
+	<script type="text/javascript" src="<?php echo $public ?>/lib/morrisjs/morris-data.min.js"></script>
+	<!-- Custom Theme JavaScript -->
+    <script type="text/javascript" src="<?php echo $public ?>/lib/dist/js/sb-admin-2.min.js"></script>
+</html>

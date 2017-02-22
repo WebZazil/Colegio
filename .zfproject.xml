@@ -26,6 +26,67 @@
             <controllerFile controllerName="Index">
               <actionMethod actionName="index"/>
             </controllerFile>
+            <controllerFile controllerName="Json">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Categoria">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="edita"/>
+              <actionMethod actionName="opciones"/>
+            </controllerFile>
+            <controllerFile controllerName="Ciclo">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="edita"/>
+              <actionMethod actionName="ciclos"/>
+            </controllerFile>
+            <controllerFile controllerName="Docente">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="evaluaciones"/>
+            </controllerFile>
+            <controllerFile controllerName="Encuesta">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="edita"/>
+              <actionMethod actionName="config"/>
+              <actionMethod actionName="secciones"/>
+            </controllerFile>
+            <controllerFile controllerName="Grado">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="edita"/>
+              <actionMethod actionName="baja"/>
+              <actionMethod actionName="grados"/>
+              <actionMethod actionName="materias"/>
+            </controllerFile>
+            <controllerFile controllerName="Grupoe">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="admin"/>
+            </controllerFile>
+            <controllerFile controllerName="Grupo">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="edita"/>
+              <actionMethod actionName="baja"/>
+              <actionMethod actionName="opciones"/>
+            </controllerFile>
+            <controllerFile controllerName="Materia">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Nivel">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Opcion">
+              <actionMethod actionName="index"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false">
@@ -37,6 +98,123 @@
             <viewScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Categoria">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ciclo">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Docente">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Encuesta">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grado">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grupoe">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grupo">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Materia">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Nivel">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Opcion">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Categoria">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ciclo">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Docente">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Encuesta">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grado">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grupo">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grupoe">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Categoria">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Categoria">
+                <viewScriptFile forActionName="edita"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Categoria">
+                <viewScriptFile forActionName="opciones"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ciclo">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ciclo">
+                <viewScriptFile forActionName="edita"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ciclo">
+                <viewScriptFile forActionName="ciclos"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Docente">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Docente">
+                <viewScriptFile forActionName="evaluaciones"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Encuesta">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Encuesta">
+                <viewScriptFile forActionName="edita"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Encuesta">
+                <viewScriptFile forActionName="config"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Encuesta">
+                <viewScriptFile forActionName="secciones"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grado">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grado">
+                <viewScriptFile forActionName="edita"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grado">
+                <viewScriptFile forActionName="baja"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grado">
+                <viewScriptFile forActionName="grados"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grado">
+                <viewScriptFile forActionName="materias"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grupo">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grupo">
+                <viewScriptFile forActionName="edita"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grupo">
+                <viewScriptFile forActionName="baja"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grupo">
+                <viewScriptFile forActionName="opciones"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -141,6 +319,67 @@
           <testApplicationModuleDirectory forModuleName="encuesta">
             <testApplicationControllerDirectory>
               <testApplicationControllerFile forControllerName="Index">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Json">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Categoria">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="edita"/>
+                <testApplicationActionMethod forActionName="opciones"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Ciclo">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="edita"/>
+                <testApplicationActionMethod forActionName="ciclos"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Docente">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="evaluaciones"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Encuesta">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="edita"/>
+                <testApplicationActionMethod forActionName="config"/>
+                <testApplicationActionMethod forActionName="secciones"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Grado">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="edita"/>
+                <testApplicationActionMethod forActionName="baja"/>
+                <testApplicationActionMethod forActionName="grados"/>
+                <testApplicationActionMethod forActionName="materias"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Grupoe">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="admin"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Grupo">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="edita"/>
+                <testApplicationActionMethod forActionName="baja"/>
+                <testApplicationActionMethod forActionName="opciones"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Materia">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Nivel">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Opcion">
                 <testApplicationActionMethod forActionName="index"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
