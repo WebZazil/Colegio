@@ -87,6 +87,9 @@
             <controllerFile controllerName="Opcion">
               <actionMethod actionName="index"/>
             </controllerFile>
+            <controllerFile controllerName="Dashboard">
+              <actionMethod actionName="index"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false">
@@ -215,6 +218,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Grupo">
                 <viewScriptFile forActionName="opciones"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Dashboard">
+                <viewScriptFile forActionName="index"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -380,6 +386,9 @@
                 <testApplicationActionMethod forActionName="index"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Opcion">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Dashboard">
                 <testApplicationActionMethod forActionName="index"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
