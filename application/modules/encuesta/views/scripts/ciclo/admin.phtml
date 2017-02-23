@@ -1,4 +1,95 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Ciclo</b> and script/action name <b>admin</b></p>
+<?php 
+	$ciclo = $this->ciclo;
+	$formulario = $this->formulario;
+	$formulario->setAction($this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"edita","idCiclo"=>$ciclo->getIdCiclo()),null,true));
+?>
+<div class="row">
+    <div class="col-xs-12 panel panel-default">
+        <div class="panel-heading">
+            <h5>Detalle del ciclo escolar</h5>
+        </div>
+        <div class="panel-body">
+            <div>
+                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"ciclos","idPlan"=>$ciclo->getIdPlan()), null, true); ?>">
+                    <span class="fa fa-arrow-circle-left"></span> Ciclos Escolares.
+                </a>
+            </div>
+            <hr />
+            <div>
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <th>Ciclo</th>
+                        <th>Inicio</th>
+                        <th>Término</th>
+                        <th>Creación</th>
+                        <th>Descripción</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo $ciclo->getCiclo(); ?></td>
+                            <td><?php echo $ciclo->getInicio(); ?></td>
+                            <td><?php echo $ciclo->getTermino(); ?></td>
+                            <td><?php echo $ciclo->getFecha(); ?></td>
+                            <td><?php echo $ciclo->getDescripcion(); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 panel panel-default">
+        <div class="panel-heading">
+            <h5>Editar Ciclo Escolar: <strong><?php echo $ciclo->getCiclo(); ?></strong></h5>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded"
+                action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"edita","idCiclo"=>$ciclo->getIdCiclo()),null,true) ?>">
+                <div class="form-group">
+                        <label class="col-xs-2 control-label" for="ciclo">Ciclo: </label>
+                        <div class="col-xs-10">
+                            <input name="ciclo" class="form-control" type="text" value="<?php echo $ciclo->getCiclo(); ?>" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="fechaInicio">Fecha Inicio: </label>
+                        <div class="col-xs-10">
+                            <input name="fechaInicio" class="form-control" type="text" value="<?php echo $ciclo->getInicio(); ?>" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="fechaTermino">Fecha Termino</label>
+                        <div class="col-xs-10">
+                            <input name="fechaTermino" class="form-control" type="text" value="<?php echo $ciclo->getTermino(); ?>" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="vigente">Ciclo en Curso: </label>
+                        <div class="col-xs-10">
+                            <input name="vigente" type="checkbox" <?php if ($ciclo->getVigente() == 1) echo "checked=''" ?> />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="descripcion">Descripcion: </label>
+                        <div class="col-xs-10">
+                            <input name="descripcion" class="form-control" type="text" value="<?php echo $ciclo->getDescripcion(); ?>" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button class="btn btn-warning" type="submit">
+                                <span class="fa fa-refresh"></span> Actualizar Ciclo Escolar
+                            </button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
 </div>

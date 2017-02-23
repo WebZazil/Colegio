@@ -1,4 +1,105 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Ciclo</b> and script/action name <b>alta</b></p>
+<?php 
+	$plan = $this->plan;
+	$formulario = $this->formulario;
+	$messageSuccess = $this->messageSuccess;
+	$messageFail = $this->messageFail;
+?>
+<div class="row">
+    <div class="col-xs-12 panel panel-default">
+        <div class="panel-heading">
+            <h5>Nuevo Ciclo Escolar</h5>
+        </div>
+        <div class="panel-body">
+            <div>
+                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"index","idPlan"=>$plan["idPlanEducativo"]),null,true) ?>">
+                    <span class="fa fa-arrow-circle-left"></span> Regresar a Ciclos Escolares
+                </a><br />
+                <?php if(!is_null($messageSuccess)){ ?>
+                <br />
+                <div class="alert alert-success" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <?php echo $messageSuccess; ?>
+                </div>
+                <?php }elseif(!is_null($messageFail)){ ?>
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <?php echo $messageFail; ?>
+                </div>
+                <br />
+                <?php } ?>
+            </div>
+            <hr />
+            <div>
+                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="ciclo">Ciclo: </label>
+                        <div class="col-xs-10">
+                            <input name="ciclo" class="span10" type="text" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="fechaInicio">Fecha Inicio: </label>
+                        <div class="col-xs-10">
+                            <input name="fechaInicio" class="span10" type="text" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="fechaTermino">Fecha Termino</label>
+                        <div class="col-xs-10">
+                            <input name="fechaTermino" class="span10" type="text" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="vigente">Ciclo en Curso: </label>
+                        <div class="col-xs-10">
+                            <input name="vigente" type="checkbox" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="descripcion">Descripcion: </label>
+                        <div class="col-xs-10">
+                            <input name="descripcion" class="span10" type="text" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button class="btn btn-success" type="submit">
+                                <span class="fa fa-save"></span> Guardar Ciclo Escolar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+	$().ready(function(){
+		$.datepicker.setDefaults( $.datepicker.regional[ "es" ] );
+		//$("input.fechaInicio").datepicker( $.datepicker.regional[ "es" ] );
+		//$("input.fechaTermino").datepicker( $.datepicker.regional[ "es" ] );
+		$("[name='fechaInicio']").datepicker({
+			//showOn: "both",
+			//minDate: 0,
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: "dd/mm/yy"
+		});
+		$("[name='fechaTermino']").datepicker({
+			//showOn: "both",
+			minDate: 0,
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: "dd/mm/yy"
+		});
+	});
+</script>

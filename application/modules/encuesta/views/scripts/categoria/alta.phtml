@@ -1,4 +1,64 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Categoria</b> and script/action name <b>alta</b></p>
+<?php 
+	//$categoria = $this->categoria;
+	$formulario = $this->formulario;
+	$messageSuccess = $this->messageSuccess;
+	$messageFail = $this->messageFail;
+?>
+<div class="row">
+    <div class="col-xs-12">
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+	            <i class="fa fa-plus-square fa-fw"></i> Alta de Categoria
+	        </div>
+	        <div class="panel-body">
+	        	<div class="col-xs-12">
+	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta", "controller"=>"categoria", "action"=>"index")) ?>">
+	                    <span class="glyphicon glyphicon-chevron-left"></span> Regresar a Categorias
+	                </a><br />
+	                <?php if(!is_null($messageSuccess)){ ?>
+	                <br />
+	                <div class="alert alert-success" role="alert">
+	                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                      <span aria-hidden="true">&times;</span>
+	                    </button>
+	                    <?php echo $messageSuccess; ?>
+	                </div>
+	                <?php }elseif(!is_null($messageFail)){ ?>
+	                <div class="alert alert-danger" role="alert">
+	                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                      <span aria-hidden="true">&times;</span>
+	                    </button>
+	                    <?php echo $messageFail; ?>
+	                </div>
+	                <?php } ?>
+	            </div>
+	            <br /><br />
+	            <div class="col-xs-12">
+	                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+	                    <div class="form-group">
+	                        <label class="col-xs-2 control-label" for="categoria">Categoria: </label>
+	                        <div class="col-xs-10">
+	                            <input class="form-control" name="categoria" type="text" placeholder="Nombre Categoría ..." autofocus />
+	                        </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                        <label class="col-xs-2 control-label" for="descripcion">Descripcion: </label>
+	                        <div class="col-xs-10">
+	                            <input class="form-control" type="text" name="descripcion" placeholder="Descripción ..." />
+	                        </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                        <div class="col-xs-offset-2 col-xs-10">
+	                            <button class="btn btn-success" type="submit">
+	                                <i class="fa fa-save"></i> Guardar Categoría
+	                            </button>
+	                        </div>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+    	</div>
+    </div>
 </div>
