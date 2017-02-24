@@ -1,0 +1,62 @@
+<?php
+	$grado = $this->grado;
+	$formulario = $this->formulario;
+	$messageSuccess = $this->messageSuccess;
+	$messageFail = $this->messageFail;
+?>
+<section class="row">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Alta de Materia.
+			</h3>
+		</div>
+			<div class="panel-body">
+				<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado->getIdGrado()),null,true) ?>">
+					<span class="glyphicon glyphicon-chevron-left"></span> Regresar a el grado: <strong><?php echo $grado->getGrado() ?></strong>
+				</a><br /><br />
+				<?php if(!is_null($messageSuccess)){ ?>
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					<?php echo $messageSuccess; ?>
+				</div>
+				<?php }elseif(!is_null($messageFail)){ ?>
+				<div class="alert alert-danger" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					<?php echo $messageFail; ?>
+				</div>
+				<?php } ?>
+				<?php echo $formulario; ?>
+		</div>
+	</div>
+</section>
+<script>
+	$().ready(function(){
+		$("select#idNivel").on('change', function(){
+			console.log(this.value);
+			//Borro el contenido del select municipio
+			//Obtengo los municipios del estado
+			$url = "/General/public/encuesta/json/grados/idNivel/" + this.value;
+			console.log($url);
+			$.ajax({
+				url: $url,
+				dataType: "json",
+				success: function(data){
+					console.log($url);
+					console.dir(data);
+					$("select#idGrado").empty();
+					$.each(data, function(i,item){//function(key,value)		
+						$("select#idGrado").append($("<option></option>").attr("value",data[i].idGrado).text(data[i].grado));
+						//$("select#1-idMunicipio").append($("<option></option>").attr("value",key).text(value)); 
+					});
+					
+				}
+			});
+		});
+		
+	});
+</script>

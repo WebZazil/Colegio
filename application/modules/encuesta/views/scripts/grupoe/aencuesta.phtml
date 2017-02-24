@@ -1,0 +1,40 @@
+<?php 
+	$ciclo = $this->ciclo;
+	$nivel = $this->nivel;
+	$grado = $this->grado;
+	$grupo = $this->grupo;
+	$formulario = $this->formulario;
+	$messageFail = $this->messageFail;
+	$messageSuccess = $this->messageSuccess;
+?>
+<section class="row">
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Nivel: <strong><?php echo $nivel->getNivel() ?></strong> >> Grado: <strong><?php echo $grado->getGrado() ?></strong> >> Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
+			</h3>
+		</div>
+		<div class="panel-body">
+			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"index","idGrupo"=>$grupo->getIdGrupo()),null,true) ?>">
+				<span class="glyphicon glyphicon-chevron-left"></span> Regresar a Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
+			</a><br /><br />
+			<?php if(!is_null($messageSuccess)){ ?>
+			<div class="alert alert-success" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+				<?php echo $messageSuccess; ?>
+			</div>
+			<?php }elseif(!is_null($messageFail)){ ?>
+			<div class="alert alert-danger" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+				<?php echo $messageFail; ?>
+			</div>
+			<?php } ?>
+			<?php echo $formulario ?>
+		</div>
+	</div>
+	
+</section>

@@ -1,0 +1,38 @@
+<?php 
+	$nivel = $this->nivel;
+	$formulario = $this->formulario;
+?>
+<section class="row">
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Nivel: <?php echo $nivel->getNivel(); ?>
+			</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table table-condensed table-striped">
+				<thead>
+					<th>Nivel</th>
+					<th>Descripción</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td><?php $nivel->getNivel() ?></td>
+						<td><?php $nivel->getDescripcion() ?></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Editar Nivel: <?php echo $nivel->getNivel(); ?>
+			</h3>
+		</div>
+		<div class="panel-body">
+			<?php echo $this->formulario; ?>
+		</div>
+	</div>
+</section>

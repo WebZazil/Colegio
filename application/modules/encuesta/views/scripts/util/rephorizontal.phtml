@@ -1,0 +1,25 @@
+<?php
+	$nombreArchivo = "reporteHBE.pdf";
+	$pdfBase = new My_Pdf_Document($nombreArchivo, PDF_PATH . '/reports/bases/');
+	$pdfBase->properties["Title"] = "Main Report Letter Horizontal Template";
+	$pdfBase->properties["Author"] = "Zazil Consultores S.A. de C.V.";
+	
+	$page = new My_Pdf_Page(Zend_Pdf_Page::SIZE_LETTER_LANDSCAPE);
+	//$page = $pdfBase->createPage();
+	
+	$imgEncabezado = Zend_Pdf_Image::imageWithPath(IMAGES_PATH . '/EncabezadoHorizontal20abril.png');
+	//$page->drawImage($imgEncabezado, 30, 40, 0, 0);
+	//Imagen reducida al 65%
+	$page->drawImage($imgEncabezado, 35, 20, 720, 97.5);
+	
+?>
+<section class="row">
+	Plantilla de Reporte Creada.
+</section>
+<?php
+	$pdfBase->addPage($page);
+	
+	//$pdfBase->save();
+	$pdfBase->saveDocument();
+	//$pdfBase->save(PDF_PATH . '/reports/bases/' . $nombreArchivo,false);
+?>

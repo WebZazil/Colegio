@@ -1,0 +1,23 @@
+<?php
+	$preguntas = $this->preguntas;
+?>
+<section class="row">
+	<table class="table table-striped table-condensed">
+		<thead>
+			<th>Pregunta</th>
+			<th>Preferencia</th>
+		</thead>
+		<tbody>
+			<?php foreach ($preguntas as $pregunta) : ?>
+			<tr>
+				<td><?php echo $pregunta->getPregunta() ?></td>
+				<td>
+					<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"grafica"),null,true) ?>">
+						<span class="glyphicon glyphicon-search"></span> Ver Gráfica
+					</a>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+</section>

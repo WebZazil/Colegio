@@ -1,0 +1,31 @@
+<?php
+    $reporte = $this->reporte;
+    $tipoReporte = $this->tipoReporte;
+    $ruta = $this->baseUrl();
+    
+    
+    switch ($reporte["tipoReporte"]) {
+        case 'RGRU':
+            $ruta .= "/public/pdf".$reporte["rutaReporte"] . $reporte["nombreReporte"];
+            break;
+        case 'RGRA':
+            $ruta .= "/public/pdf".$reporte["rutaReporte"] . $reporte["nombreReporte"];
+            break;
+        case 'RPAB':
+            $ruta .= "/public/pdf".$reporte["rutaReporte"] . $reporte["nombreReporte"];
+            break;
+    }
+    //print_r($ruta);
+?>
+<div class="row-fluid">
+    <div class="span12 widget-box">
+        <div class="widget-title">
+            <h5>Reporte en PDF</h5>
+        </div>
+        <div class="widget-content">
+            <div id="archivo">
+                <object width="90%" height="890" data="<?php echo $ruta ?>" type="application/pdf"></object>
+            </div>
+        </div>
+    </div>
+</div>

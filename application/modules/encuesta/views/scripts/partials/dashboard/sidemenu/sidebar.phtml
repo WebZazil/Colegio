@@ -34,7 +34,7 @@
             			</a>
             		</li>
             		<li>
-            			<a href="">
+            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"consulta"),null,true) ?>">
             				<i class="fa fa-search"></i> Consultar Reportes
             			</a>
             		</li>
@@ -45,18 +45,13 @@
             	<a href="#"><i class="fa fa-th-large fa-fw"></i> Encuestas Escolares<span class="fa arrow"></span></a>
             	<ul class="nav nav-second-level">
             		<li>
-            			<a href="">
+            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"plan","action"=>"index"),null,true) ?>">
             				<i class="fa fa-search"></i> Planes Estudio
             			</a>
             		</li>
             		<li>
-            			<a href="">
+            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"nivel","action"=>"index"),null,true) ?>">
             				<i class="fa fa-list-ul"></i> Niveles Educativos
-            			</a>
-            		</li>
-            		<li>
-            			<a href="">
-            				<i class="fa fa-search"></i> Consultar Docentes
             			</a>
             		</li>
             	</ul>

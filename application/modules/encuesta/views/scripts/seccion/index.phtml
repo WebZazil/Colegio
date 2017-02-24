@@ -1,0 +1,66 @@
+<?php 
+	$encuesta = $this->encuesta;
+	$seccion = $this->seccion;
+	$elementos = $this->elementos;
+	$tipo = Zend_Registry::get("tipo");
+?>
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget-box">
+            <div class="widget-title">
+                <h5>Grupos y preguntas de la sección: <strong><?php echo $seccion->getNombre(); ?></strong></h5>
+            </div>
+            <div class="widget-content">
+                <div>
+                    <a class="btn btn-info" href="<?php echo $this->url(array("module" => "encuesta", "controller" => "encuestas", "action" => "secciones", "id" => $encuesta->getIdEncuesta()), null, true); ?>">
+                        <span class="icon"><i class="icon-arrow-left"></i></span> Regresar a Secciones
+                    </a>
+                    <a class="btn btn-warning" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"admin","id"=>$seccion->getIdSeccionEncuesta()), null, true) ?>">
+                        <span class="icon"><i class="icon-cog"></i></span> Administrar Sección
+                    </a>
+                    <a class="btn btn-success" href="<?php echo $this->url(array("module" => "encuesta", "controller" => "grupo", "action" => "alta", "id" => $seccion->getIdSeccionEncuesta()), null, true); ?>">
+                        <span class="icon"><i class="icon-plus"></i></span> Agregar grupo
+                    </a>
+                    <a class="btn btn-success" href="<?php echo $this->url(array("module" => "encuesta", "controller" => "pregunta", "action" => "alta", "idSeccion" => $seccion->getIdSeccionEncuesta()), null, true); ?>">
+                        <span class="icon"><i class="icon-plus"></i></span> Agregar pregunta
+                    </a>
+                </div>
+                <?php if(!is_null($elementos) && count($elementos)) { ?>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Elemento</th>
+                            <th>Nombre</th>
+                            <th>Orden</th>
+                            <th>Tipo Pregunta(s)</th>
+                            <th>Creación</th>
+                            <th>Administrar</th>
+                        </tr>
+                    </thead>
+                    <?php foreach ($elementos as $elemento) : 
+                        $t = ($elemento instanceof Encuesta_Models_Grupo) ? "grupo" : "pregunta";
+                        $id = ($elemento instanceof Encuesta_Models_Grupo) ? $elemento->getIdGrupoSeccion() : $elemento->getIdPregunta();
+                        $url = $this->url(array("module" => "encuesta", "controller" => $t, "action" => "admin", "id".ucfirst($t) => $id), null, true);
+                        ?>
+                    <tr>
+                        <td><?php echo ucfirst($t); ?></td>
+                        <td><?php echo ($elemento instanceof Encuesta_Models_Grupo) ? $elemento->getNombre() : $elemento->getNombre(); ?></td>
+                        <td><?php echo $elemento->getOrden(); ?></td>
+                        <td><?php echo $tipo[$elemento->getTipo()]; ?></td>
+                        <td><?php echo $elemento->getFecha(); ?></td>
+                        <td>
+                            <a class="btn btn-info" href="<?php echo $url; ?>">
+                                <span class="glyphicon glyphicon-cog"></span> Administrar
+                            </a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+                <?php }else{ ?>
+                    <h3>Esta seccion no contiene grupos ni preguntas.</h3>
+                <?php } ?>
+                
+            </div>
+        </div>
+    </div>
+</div>

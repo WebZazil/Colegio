@@ -1,0 +1,75 @@
+<?php 
+	$encuesta = $this->encuesta;
+	$preguntas = $this->preguntas;
+	$jsonobjs = $this->jsonobjs;
+?>
+<section class="row">
+	<article>
+		<header>
+			<h3>Resultados de la Encuesta:<?php echo $encuesta->getNombre() ?></h3> 
+		</header>
+		<div>
+			
+			<?php foreach ($preguntas as $pregunta) : ?>
+			<div pregunta="p<?php echo $pregunta->getIdPregunta() ?>">
+				<h3><?php echo $pregunta->getPregunta() ?></h3>
+				<div class="canvas-holder">
+					<canvas id="p<?php echo $pregunta->getIdPregunta() ?>" width="300" height="300" />
+				</div>
+			</div>
+			<?php endforeach; ?>
+			<div class="chartjs-tooltip"></div>
+		</div>
+	</article>	
+</section>
+<script>
+	window.onload = function() {
+		Chart.defaults.global.customTooltips = function(tooltip) {
+	
+	    	// Tooltip Element
+	        var tooltipEl = $('.chartjs-tooltip');
+	
+	        // Hide if no tooltip
+	        if (!tooltip) {
+	            tooltipEl.css({
+	                opacity: 0
+	            });
+	            return;
+	        }
+	
+	        // Set caret Position
+	        tooltipEl.removeClass('above below');
+	        tooltipEl.addClass(tooltip.yAlign);
+	
+	        // Set Text
+	        tooltipEl.html(tooltip.text);
+	
+	        // Find Y Location on page
+	        var top;
+	        if (tooltip.yAlign == 'above') {
+	            top = tooltip.y - tooltip.caretHeight - tooltip.caretPadding;
+	        } else {
+	            top = tooltip.y + tooltip.caretHeight + tooltip.caretPadding;
+	        }
+	
+	        // Display, position, and set styles for font
+	        tooltipEl.css({
+	            opacity: 1,
+	            left: tooltip.chart.canvas.offsetLeft + tooltip.x + 'px',
+	            top: tooltip.chart.canvas.offsetTop + top + 'px',
+	            fontFamily: tooltip.fontFamily,
+	            fontSize: tooltip.fontSize,
+	            fontStyle: tooltip.fontStyle,
+	        });
+	    };
+	    
+		<?php foreach ($preguntas as $pregunta) : ?>
+			var ctx<?php echo $pregunta->getIdPregunta() ?> = document.getElementById("<?php echo "p".$pregunta->getIdPregunta() ?>").getContext("2d");
+	    	<?php echo "\n"; ?>
+	    	var data<?php echo $pregunta->getIdPregunta() ?> = <?php echo $jsonobjs[$pregunta->getIdPregunta()] ?>;
+	    	<?php echo "\n"; ?>
+	    	window.myPie<?php echo $pregunta->getIdPregunta() ?> = new Chart(ctx<?php echo $pregunta->getIdPregunta() ?>).Pie(data<?php echo $pregunta->getIdPregunta() ?>);
+	    	<?php echo "\n"; ?>
+    	<?php endforeach ?>
+    };
+</script>

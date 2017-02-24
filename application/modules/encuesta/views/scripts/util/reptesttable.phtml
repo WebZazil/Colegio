@@ -1,0 +1,32 @@
+<?php
+	$nombreArchivo = "reporteM.pdf";
+	$pdfBase = new My_Pdf_Document($nombreArchivo, PDF_PATH . '/reports/bases/');
+	$pdfBase->properties["Title"] = "Main Test Letter Vertical Margin Template";
+	$pdfBase->properties["Author"] = "Zazil Consultores S.A. de C.V.";
+	
+	$page = new My_Pdf_Page(Zend_Pdf_Page::SIZE_LETTER);
+	//$page = $pdfBase->createPage();
+	
+	//$imgEncabezado = Zend_Pdf_Image::imageWithPath(IMAGES_PATH . '/EncabezadoVertical20Abril.png');
+	//$page->drawImage($imgEncabezado, 30, 40, 0, 0);
+	//$page->drawImage($imgEncabezado, 20, 25, 510.3, 108.3);
+	$page->drawLine(0, 10, $page->getWidth(), 10);
+	$page->drawLine(10, 0, 10, $page->getHeight());
+	
+	//$page->drawLine(0, 10, $page->getWidth(), 10);
+	$page->drawLine($page->getWidth() - 10, 0, $page->getWidth() - 10, $page->getHeight());
+	
+	//$pdfBase->set
+	
+?>
+<section class="row">
+	Plantilla de Reporte Creada.
+</section>
+<?php
+	$pdfBase->addPage($page);
+	
+	//$pdfBase->save();
+	$pdfBase->_debugTable($page);
+	$pdfBase->save();
+	//$pdfBase->save(PDF_PATH . '/reports/bases/' . $nombreArchivo,false);
+?>

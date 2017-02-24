@@ -1,0 +1,74 @@
+<?php 
+	$categoria = $this->categoria;
+	$formulario = $this->formulario;
+	$messageFail = $this->messageFail;
+	$messageSuccess = $this->messageSuccess;
+    $valores = Zend_Registry::get("tiposValores");
+?>
+<div class="row-fluid">
+    <div class="span12 widget-box">
+        <div class="widget-title">
+            <h5>Nueva Opción en la Categoría: <strong><?php echo $categoria["categoria"]; ?></strong></h5>
+        </div>
+        <div class="widget-content">
+            <div>
+                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"admin","idCategoria"=>$categoria["idCategoriasRespuesta"]),null,true) ?>">
+                    <span class="icon icon-arrow-left"></span> Regresar a categoría <strong><?php echo $categoria["categoria"]; ?></strong>
+                </a><br />
+                <?php if(!is_null($messageSuccess)){ ?>
+                <br />
+                <div class="alert alert-success" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <?php echo $messageSuccess; ?>
+                </div>
+                <?php }elseif(!is_null($messageFail)){ ?>
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <?php echo $messageFail; ?>
+                </div>
+                <?php } ?>
+            </div>
+            <hr />
+            <div>
+                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="control-group">
+                        <label class="control-label" for="nombreOpcion">Opcion: </label>
+                        <div class="controls">
+                            <input name="nombreOpcion" class="span10" type="text" placeholder="Nombre opción" autofocus="" />
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label" for="tipoValor">Tipo Valor: </label>
+                        <div class="controls">
+                            <select class="span10" name="tipoValor">
+                                <?php foreach ($valores as $key => $value) : ?>
+                                <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label" for="valor">Valor: </label>
+                        <div class="controls">
+                            <input type="text" class="span10" name="valor" placeholder="Valor texto/decimal/entero" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <div class="pull-right">
+                            <button class="btn btn-success" type="submit">
+                                <span class="icon icon-save"></span> Guardar Opción
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

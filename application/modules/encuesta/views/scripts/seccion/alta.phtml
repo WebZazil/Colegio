@@ -1,0 +1,32 @@
+<?php $encuesta = $this->encuesta; ?>
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget-box">
+            <div class="widget-title">
+                <h5>Agregar una nueva seccion a la encuesta: <strong><?php echo $encuesta->getNombre(); ?></strong></h5>
+            </div>
+            
+            <div class="widget-content">
+                <a class="btn btn-info" href="<?php echo $this->url(array("module" => "encuesta", "controller" => "encuestas", "action" => "seccion", "id" => $encuesta->getIdEncuesta()), null, true); ?>">
+                    <span class="icon"><i class="icon-arrow-left"></i></span> Regresar a Secciones
+                </a>
+                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="control-group">
+                        <label class="control-label" for="nombre">Nombre Sección :</label>
+                        <div class="controls">
+                            <input class="span10" name="nombre" type="text" placeholder="Nombre Sección" autofocus="" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-success">
+                                <span class="icon icon-plus"></span> Agregar Sección
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

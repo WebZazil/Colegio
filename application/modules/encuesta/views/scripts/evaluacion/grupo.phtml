@@ -1,0 +1,47 @@
+<?php
+	$grupoDAO = new Encuesta_DAO_Grupos;
+	$materiaDAO = new Encuesta_DAO_Materia;
+	$registroDAO = new Encuesta_DAO_Registro;
+	
+	$asignaciones = $this->asignaciones;
+	$grupo = $grupoDAO->obtenerGrupo($this->idGrupo);
+?>
+<section class="row">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Evaluaciones del Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
+			</h3>
+		</div>
+		<div class="panel-body">
+			<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"evaluacion","action"=>"acapa","idGrupo"=>$grupo->getIdGrupo()),null,true) ?>">
+				<span class="glyphicon glyphicon-plus"></span> Agregar Capa de Evaluación.
+			</a>
+			<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"evaluacion","action"=>"capas","idGrupo"=>$grupo->getIdGrupo()),null,true) ?>">
+				<span class="glyphicon glyphicon-list-alt"></span> Capas de la evaluación.
+			</a>
+			<table class="table table-striped table-condensed">
+				<thead>
+					<th>Materia</th>
+					<th>Docente</th>
+					<th>Capa</th>
+				</thead>
+				<tbody>
+					<?php foreach ($asignaciones as $asignacion) :
+						$materia = $materiaDAO->obtenerMateria($asignacion["idMateria"]);
+						$docente = $registroDAO->obtenerRegistro($asignacion["idRegistro"]);
+						?>
+					<tr>
+						<td><?php echo $materia->getMateria() ?></td>
+						<td><?php echo $docente->getApellidos().", ".$docente->getNombres() ?></td>
+						<td>
+							
+						</td>
+					</tr>	
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+</section>

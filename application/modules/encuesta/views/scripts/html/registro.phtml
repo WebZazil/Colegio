@@ -1,0 +1,20 @@
+<?php if(!is_null($this->messageUser)){ ?>
+	<div class="alert alert-warning alert-dismissible fade in">
+		<button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
+		<?php echo $this->messageUser;?>
+	</div>
+<?php } ?>
+
+<?php if(!is_null($this->messageComplete)){ ?>
+	<div class="alert alert-danger alert-dismissible fade in">
+		<button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
+		<?php echo $this->messageComplete;?>
+	</div>
+<?php } ?>
+
+<?php if(!is_null($this->messageSuccess)){ ?>
+	<div class="alert alert-success alert-dismissible fade in">
+		<button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
+		<?php echo $this->messageSuccess;?>
+	</div>
+<?php } ?>

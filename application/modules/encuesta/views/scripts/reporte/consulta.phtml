@@ -1,0 +1,33 @@
+<?php
+    $docentes = $this->docentes;
+?>
+<div class="row-fluid">
+    <div class="span12 widget-box">
+        <div class="widget-title">
+            <h5></h5>
+        </div>
+        <div class="widget-content">
+            <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded"
+                action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"docente"),null,true); ?>">
+                <div class="control-group">
+                    <label class="control-label" for="docente">Docente: </label>
+                    <div class="controls">
+                        <select name="docente" class="span10">
+                            <?php foreach ($docentes as $docente) : ?>
+                            <option value="<?php echo $docente->getIdRegistro() ?>" ><?php echo $docente->getApellidos().", ".$docente->getNombres(); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <div class="pull-right">
+                        <button class="btn btn-info" type="submit">
+                            <span class="icon icon-search"></span> Consultar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

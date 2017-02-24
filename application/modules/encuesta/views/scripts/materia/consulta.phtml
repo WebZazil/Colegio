@@ -1,0 +1,63 @@
+<?php 
+	$formulario = $this->formulario;
+	$ciclo = $this->ciclo;
+	$nivel = $this->nivel;
+	$grado = $this->grado;
+	$materias = $this->materias;
+?>
+<section class="row">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Consulta de Materias
+			</h3>
+		</div>
+		<div class="panel-body">
+			<?php echo $formulario; ?>
+			<table class="table table-striped table-condensed">
+				<thead>
+					<th>Ciclo</th>
+					<th>Nivel</th>
+					<th>Grado</th>
+					<th>Materia</th>
+				</thead>
+				<tbody>
+					<?php foreach ($materias as $materia) : ?>
+					<tr>
+						<td><?php echo $ciclo->getCiclo() ?></td>
+						<td><?php echo $nivel->getNivel() ?></td>
+						<td><?php echo $grado->getGrado() ?></td>
+						<td><?php echo $materia->getMateria() ?></td>
+					</tr>
+					<?php endforeach ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
+<script>
+	$().ready(function(){
+		$("select#idNivel").on('change', function(){
+			console.log(this.value);
+			//Borro el contenido del select municipio
+			//Obtengo los municipios del estado
+			$url = "/General/public/encuesta/json/grados/idNivel/" + this.value;
+			console.log($url);
+			$.ajax({
+				url: $url,
+				dataType: "json",
+				success: function(data){
+					console.log($url);
+					console.dir(data);
+					$("select#idGrado").empty();
+					$.each(data, function(i,item){//function(key,value)		
+						$("select#idGrado").append($("<option></option>").attr("value",data[i].idGrado).text(data[i].grado));
+						//$("select#1-idMunicipio").append($("<option></option>").attr("value",key).text(value)); 
+					});
+					
+				}
+			});
+		});
+		
+	});
+</script>

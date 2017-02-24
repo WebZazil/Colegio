@@ -1,0 +1,70 @@
+<?php
+	$grupo = $this->grupo;
+	$materia = $this->materia;
+	$docente = $this->docente;
+	$encuestas = $this->encuestas;
+	$asignacion = $this->asignacion;
+	$encuestaDAO = new Encuesta_DAO_Encuesta;
+?>
+<section class="row">
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Encuestas del Docente: <strong><?php echo $docente->getApellidos().", ".$docente->getNombres() ?></strong> de la materia:<strong><?php echo $materia->getMateria() ?></strong> en el grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
+			</h3>
+		</div>
+		<div class="panel-body">
+			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"index","idGrupo"=>$grupo->getIdGrupo()), null, true); ?>">
+				<span class="glyphicon glyphicon-chevron-left"></span> Regresar al Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
+			</a>
+			<br />
+			<table class="table table-striped table-condensed">
+				<thead>
+					<th>Encuesta</th>
+					<th>Evaluar</th>
+					<th>Resultados por Pregunta</th>
+					<th>Resultados Finales</th>
+					<th>Reiniciar</th>
+					<th>Recalcular Preferencias</th>
+				</thead>
+				<tbody>
+					<?php foreach ($encuestas as $encuestar) :
+						$encuesta = $encuestaDAO->obtenerEncuesta($encuestar["idEncuesta"]); 
+						$numeroEncuestasRealizadas = $encuestaDAO->obtenerNumeroEncuestasRealizadas($encuesta->getIdEncuesta(), $asignacion["idAsignacion"]);
+						?>
+					<tr>
+						<td><?php echo $encuesta->getNombre() ?></td>
+						<td>
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"encuesta","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+								Evaluar Encuesta
+							</a>
+						</td>
+						<td>
+							<?php $registro = array("idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]); ?>
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"resultado","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+								<span class="glyphicon glyphicon-search"></span> <?php echo $numeroEncuestasRealizadas ?> Encuestas contestadas
+							</a>
+						</td>
+						<td>
+							<?php $registro = array("idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]); ?>
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"resgrupal","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+								<span class="glyphicon glyphicon-search"></span>  Ver Resultados <?php echo $numeroEncuestasRealizadas ?> Encuestas
+							</a>
+						</td>
+						<td>
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"respuesta","action"=>"baja","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+								<span class="glyphicon glyphicon-search"></span> Borrar Respuestas
+							</a>
+						</td>
+						<td>
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"rpreferencia","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+								<span class="glyphicon glyphicon-search"></span> Recalcular Preferencias
+							</a>
+						</td>
+					</tr>
+					<?php endforeach ?>
+				</tbody>
+		</table>
+		</div>
+	</div>
+</section>

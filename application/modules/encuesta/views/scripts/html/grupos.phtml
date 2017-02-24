@@ -1,0 +1,24 @@
+<?php 
+	$seccion = $this->seccion;
+	$grupos = $this->grupos; 
+?>
+<table class="table table-condensed">
+	<tbody>
+		<tr>
+			<td>
+				<a class="btn btn-block btn-success" href="<?php echo $this->url(array("module" => "encuesta","controller" => "grupo", "action" => "alta", "idSeccion" => $seccion->getIdSeccionEncuesta()), null, true) ?>">
+					<span class="glyphicon glyphicon-plus"></span> Nueva
+				</a>
+			</td>
+		</tr>
+		<?php foreach ($grupos as $grupo) : ?>
+		<tr>
+			<td>
+				<button type="button" class="btn btn-block btn-default" tipo="grupo" numero="<?php echo $grupo->getIdGrupoSeccion(); ?>" padre="<?php echo $seccion->getIdSeccionEncuesta(); ?>" claveGrupo="<?php echo $grupo->getIdGrupoSeccion(); ?>" data-toggle="modal" data-target="#msgDetails" >
+					<span class="glyphicon glyphicon-th-large"></span> <?php echo $grupo->getNombre(); ?>
+				</button>
+			</td>
+		</tr>
+		<?php endforeach?>
+	</tbody>
+</table>

@@ -1,0 +1,39 @@
+<?php 
+	$seccion = $this->seccion;
+	$encuesta = $this->encuesta;
+	
+	$estatus = Zend_Registry::get("estatus");
+	$tipo = Zend_Registry::get("tipo");
+	//print_r($seccion);
+	if(! is_null($seccion)){ ?>
+<div>
+	<strong>Encuesta: </strong> <span style="font-style: italic;"><?php echo $encuesta->getNombre(); ?></span> <br />
+	<strong>Seccion:</strong> <span style="font-style: italic;"><?php echo $seccion->getNombre(); ?></span><br /><hr />
+</div>
+<div>
+	<table class="table table-bordered table-striped">
+		<thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Creación</th>
+                <th>Orden En Encuesta</th>
+                <th>Número Elementos</th>
+                <th>Configurar</th>
+            </tr>
+        </thead>
+		<tbody>
+			<tr>
+			    <td><?php echo $seccion->getNombre() ?></td>
+				<td><?php echo $seccion->getFecha(); ?></td>
+				<td><?php echo $seccion->getOrden(); ?></td>
+				<td><?php echo $seccion->getElementos(); ?></td>
+				<td>
+					<a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta", "controller"=>"seccion", "action"=>"admin", "id"=>$seccion->getIdSeccionEncuesta()), null, true) ?>">
+						<span class="glyphicon glyphicon-cog"></span> Configurar
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<?php }?>

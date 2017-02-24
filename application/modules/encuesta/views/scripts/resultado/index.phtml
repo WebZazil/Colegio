@@ -1,0 +1,29 @@
+<?php 
+	$encuestas = $this->encuestas;
+	$e = Zend_Registry::get("estatus");
+?>
+<section class="row">
+	<article>
+		<header>
+			<h3>Encuestas Realizadas</h3>
+		</header>
+		<div>
+			<table class="table table-striped table-condensed">
+				<tbody>
+					<?php foreach ($encuestas as $encuesta) : ?>
+					<tr>
+						<td><?php echo $encuesta->getNombre() ?></td>
+						<td><?php echo $e[$encuesta->getEstatus()] ?></td>
+						<td><?php echo $encuesta->getFecha() ?></td>
+						<td>
+							<a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"grafica","idEncuesta" => $encuesta->getIdEncuesta()), null, true) ?>">
+								<span class="glyphicon glyphicon-cog"></span> Resultados
+							</a>
+						</td>
+					</tr>
+					<?php endforeach ?>
+				</tbody>
+			</table>
+		</div>
+	</article>
+</section>

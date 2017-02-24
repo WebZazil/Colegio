@@ -1,0 +1,148 @@
+<?php
+    // Obtenemos la asignacion del controller
+    $asignacionE = $this->asignacion;   // Array de la BD
+    //print_r($asignacionE);
+    //print_r("<br />");
+    $encuesta = $this->encuesta;        // Objeto, viene de un DAO
+    
+    //print_r($asignacionE);
+    //print_r("<br />");
+    //print_r($encuesta);
+    //print_r("<br />");
+    
+    $encuestaDAO = $this->encuestaDAO;
+    $seccionDAO = $this->seccionDAO;
+    $grupoDAO = $this->grupoDAO;
+    $preguntaDAO = $this->preguntaDAO;
+    
+    $registroDAO = $this->registroDAO;          // Obtendremos datos del Docente a evaluar
+    $nivelDAO = $this->nivelDAO;
+    $gradoDAO = $this->gradoDAO;
+    
+    $reporteDAO = $this->reporteDAO;
+    $materiaDAO = $this->materiaDAO;       //Obtenemos datos de la materia evaluada
+    $gruposDAO = $this->gruposDAO;
+    
+    $preferenciaDAO = $this->preferenciaDAO;
+    $reporteador = $this->reporter;
+    $idReporte = null;
+    // ========================================================================= Obtenemos los datos de el reporte en general
+    $registro = $registroDAO->obtenerRegistro($asignacionE["idRegistro"]);      // Docente
+    //print_r("<br />Uno <br />");
+    $materia = $materiaDAO->obtenerMateria($asignacionE["idMateriaEscolar"]);
+    //Nivel y grado
+    
+    
+    $grupoE = $gruposDAO->obtenerGrupo($asignacionE["idGrupoEscolar"]);
+    $grado = $gradoDAO->getGradoById($grupoE->getIdGrado());
+    $nivel = $nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
+    
+    $encuestasRealizadas = $encuestaDAO->obtenerEncuestaRealizadaPorAsignacion($asignacionE["idAsignacionGrupo"]);
+    
+    $secciones = $encuestaDAO->obtenerSecciones($encuesta->getIdEncuesta());
+    
+    $categorias = array();
+    foreach ($secciones as $seccion) {
+        $grupos = $seccionDAO->getGruposByIdSeccion($seccion->getIdSeccionEncuesta());//->obtenerGrupos($seccion->getIdSeccion());
+        foreach ($grupos as $grupo) {
+            $categorias[] = $grupo;
+        }
+    }
+    
+    $idReporte = $reporteador->generarReporteGrupalEvaluacionAsignacionDos($encuesta->getIdEncuesta(), $asignacionE["idAsignacionGrupo"]);
+    
+    $promedioGeneral = 0;
+    
+?>
+<div class="row-fluid">
+    <div class="span12 widget-box">
+        <div class="widget-title">
+            <h5>Resultado Grupal de Encuesta: <?php echo $encuesta->getNombre() ?> </h5>
+        </div>
+        <div class="widget-content">
+            <div>
+                <table class="table table-bordered table-striped table-condensed">
+                    <tbody>
+                        <tr>
+                            <td>Docente</td>
+                            <td><strong><?php echo $registro->getApellidos().", ". $registro->getNombres() ?></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Nivel, Grado, Materia y Grupo</td>
+                            <td><strong><?php echo $nivel->getNivel().", ".$grado->getGradoEducativo().", ". $materia->getMateria().", ".$grupoE->getGrupo() ?></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Encuestadas</td>
+                            <td><strong><?php  echo $encuestasRealizadas["realizadas"] ?></strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <a class="btn btn-info" target="_blank" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"descarga","idReporte"=>$idReporte), null, true) ?>">
+                    <span class="icon icon-copy"></span> Reporte en PDF
+                </a>
+            </div>
+            <hr />
+            <div>
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                        <?php foreach ($categorias as $categoria) : ?>
+                        <th>
+                            <?php 
+                                $encabezados[] = $categoria->getNombre();
+                                echo $categoria->getNombre(); ?>
+                        </th>
+                        <?php endforeach; ?>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <?php foreach ($categorias as $categoria) : ?>
+                            <td>
+                                <?php
+                                    $valorMayor = $grupoDAO->obtenerValorMayorOpcion($categoria->getIdGrupoSeccion());
+                                    $numeroPreguntas = count($grupoDAO->getPreguntasByIdGrupo($categoria->getIdGrupoSeccion()));//->obtenerPreguntas($categoria->getIdGrupoSeccion()));
+                                    
+                                    $maximo = 0;
+                                    if(!is_null($encuestasRealizadas)) $maximo = $encuestasRealizadas["realizadas"] * $numeroPreguntas * $valorMayor["valorMaximo"];
+                                    $puntaje = $preferenciaDAO->obtenerTotalPreferenciaGrupo($categoria->getIdGrupoSeccion(), $asignacionE["idAsignacionGrupo"]);
+                                    
+                                    if($maximo == 0){
+                                        $calificacion = 0;
+                                    }else{
+                                        $calificacion = (10 * $puntaje) / $maximo;
+                                    }
+                                    $promedioGeneral += $calificacion; 
+                                    //print_r("Calif: ".sprintf('%.2f', $calificacion));
+                                    echo sprintf('%.2f', $calificacion);
+                                    $totalCategorias[$categoria->getIdGrupoSeccion()][] = sprintf('%.2f', $calificacion);
+                                    
+                                ?>
+                            </td>
+                            <?php endforeach; ?>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr />
+            <div>
+                <?php 
+                    $promedioGeneral = $promedioGeneral / count($categorias);
+                    $resultado = ""; 
+                    
+                    if($promedioGeneral > 10){
+                        $resultado = "ERROR, RANGO SOBREPASADO";
+                    }elseif($promedioGeneral >= 8.5){
+                        $resultado = "EXCELENTE";
+                    }elseif($promedioGeneral >= 7.0){
+                        $resultado = "ADECUADO";
+                    }elseif($promedioGeneral >= 5.0){
+                        $resultado = "INSUFICIENTE";
+                    }elseif($promedioGeneral >= 4.0){
+                        $resultado = "DEFICIENTE";
+                    }
+                ?>
+                <h4>PROMEDIO: <strong><?php echo sprintf('%.2f', $promedioGeneral) ; ?></strong> - <?php echo $resultado ?></h4>
+            </div>
+        </div>
+    </div>
+</div>

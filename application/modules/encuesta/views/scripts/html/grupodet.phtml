@@ -1,0 +1,38 @@
+<?php 
+	$encuesta = $this->encuesta;
+	$seccion = $this->seccion;
+	$grupo = $this->grupo; 
+	//$estatus = Zend_Registry::get("estatusEncuesta");
+	$tipo = Zend_Registry::get("tipo");
+	//print_r($seccion);
+	if(! is_null($grupo)){ ?>
+<div>
+	<strong>Encuesta: </strong> <span style="font-style: italic;"><?php echo $encuesta->getNombre(); ?></span> <br />
+	<strong>Seccion:</strong> <span style="font-style: italic;"><?php echo $seccion->getNombre(); ?></span><br />
+	<strong>Grupo:</strong><span style="font-style: italic;"><?php echo $grupo->getNombre() ?></span><br /><hr /><br />
+</div>
+<div>
+	<table class="table table-striped table-condensed">
+		<thead>
+			<th>Creación</th>
+			<th>Orden</th>
+			<th>Elementos</th>
+			<th>Tipo</th>
+			<th>Configurar</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td><?php echo $grupo->getFecha(); ?></td>
+				<td><?php echo $grupo->getOrden(); ?></td>
+				<td><?php echo $grupo->getElementos(); ?></td>
+				<td><?php echo $tipo[$grupo->getTipo()]; ?></td>
+				<td>
+					<a class="btn btn-warning" href="<?php echo $this->url(array("module"=>"encuesta","controller" => "grupo", "action" => "admin", "idGrupo" => $grupo->getIdGrupoSeccion()), null, true) ?>">
+						<span class="glyphicon glyphicon-cog"></span> Configurar
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<?php }?>

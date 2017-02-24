@@ -1,0 +1,24 @@
+<?php
+	$nombreArchivo = "reporteBaseEncuestas.pdf";
+	$pdfBase = new My_Pdf_Document($nombreArchivo, PDF_PATH . '/reports/bases/');
+	$pdfBase->properties["Title"] = "Main Report Letter Vertical Template";
+	$pdfBase->properties["Author"] = "Zazil Consultores S.A. de C.V.";
+	
+	$page = new My_Pdf_Page(Zend_Pdf_Page::SIZE_LETTER);
+	//$page = $pdfBase->createPage();
+	
+	$imgEncabezado = Zend_Pdf_Image::imageWithPath(IMAGES_PATH . '/EncabezadoVertical02Mayo.png');
+	//$page->drawImage($imgEncabezado, 30, 40, 0, 0);
+	//Imagen reducida al 65%
+	$page->drawImage($imgEncabezado, 30, 25, 535, 92);
+	
+?>
+<section class="row">
+	Plantilla de Reporte Creada.
+</section>
+<?php
+	$pdfBase->addPage($page);
+	
+	$pdfBase->save();
+	//$pdfBase->save(PDF_PATH . '/reports/bases/' . $nombreArchivo,false);
+?>

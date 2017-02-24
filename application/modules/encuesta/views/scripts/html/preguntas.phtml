@@ -1,0 +1,27 @@
+<?php 
+	$tipo = (is_null($this->seccion)) ? "grupo" : "seccion";
+	$objeto = (is_null($this->seccion)) ? $this->grupo : $this->seccion;
+	$metodo = "getId" . ucfirst($tipo) . "()";
+	$preguntas = $this->preguntas;
+	$contador = 1;
+?>
+<table class="table table-condensed">
+	<tbody>
+		<tr>
+			<td>
+				<a id="nuevaPregunta" class="btn btn-block btn-success" href="<?php echo $this->url(array("module" => "encuesta","controller" => "pregunta", "action" => "alta", "id" . ucfirst($tipo) => ($tipo === "seccion") ? $objeto->getIdSeccionEncuesta() : $objeto->getIdGrupoSeccion() ), null, true) ?>">
+					<span class="glyphicon glyphicon-plus"></span> Nueva
+				</a>
+			</td>
+		</tr>
+		<?php foreach ($preguntas as $pregunta) : ?>
+		<tr>
+			<td>
+				<button type="button" class="btn btn-block btn-default" tipo="pregunta" padre="<?php echo ($tipo === "seccion") ? $objeto->getIdSeccionEncuesta() : $objeto->getIdGrupoSeccion(); ?>" tpadre="<?php echo $tipo; ?>" clavePregunta="<?php echo $pregunta->getIdPregunta(); ?>" data-toggle="modal" data-target="#msgDetails" >
+					<span class="glyphicon glyphicon-question-sign"></span> - <?php echo $contador; $contador++; ?> - <span class="glyphicon glyphicon-sort-by-order"></span> - <?php echo $pregunta->getOrden();?>
+				</button>
+			</td>
+		</tr>
+		<?php endforeach ?>
+	</tbody>
+</table>

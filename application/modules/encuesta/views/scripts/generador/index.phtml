@@ -1,0 +1,71 @@
+<?php 
+	$encuesta = $this->encuesta;
+	$formulario = $this->formulario;
+	$formulario->setAction($this->url(array("module"=>"encuesta","controller"=>"generador","action"=>"alta","idEncuesta"=>$encuesta->getIdEncuesta())));
+?>
+<section class="row">
+	<article class="col-md-12">
+		<header>
+			<h3>Encuesta: <?php echo $encuesta->getNombre()  ?></h3>
+		</header>
+	</article>
+</section>
+
+<section class="row">
+	<article class="col-md-4"></article>
+	<article class="col-md-4">
+		<img src="<?php echo $this->baseUrl() . "/images/Logo.png" ?>" />
+	</article>
+	<article class="col-md-4"></article>
+	<article class="col-md-12"><div id="messages"></div></article>
+</section>
+<br />
+<section class="row">
+	<article class="col-md-12">
+		<?php echo $formulario; ?>
+	</article>
+</section>
+<br /><br /><br />
+<script>
+	window.onload = function() {
+		$("input#referencia-referencia").on("focusout", function () {
+			//$(this).html();
+			//console.log($(this).html());
+			//console.log($(this).val());
+			console.log("Fuera de referencia");
+			$idEncuesta = $("input#referencia-idEncuesta").val();
+			$referencia = $(this).val();
+			//console.log(this.value);
+			//Borro el contenido del select municipio
+			//Obtengo los municipios del estado
+			$url = "/General/public/encuesta/html/registro/idEncuesta/"+$idEncuesta +"/referencia/"+$referencia;
+			console.log($url);
+			$.ajax({
+				url: $url,
+				dataType: "html",
+				success: function(data){
+					//console.log($url);
+					console.dir(data);
+					$("div#messages").html(data);
+					$valor = $("div.alert-success").val();
+					console.log($valor);
+					if($valor == null){
+						$("input#submit").attr("disabled", "disabled");
+					}else{
+						$("input#submit").removeAttr("disabled");
+					}
+					//$("input#submit").removeAttr("disabled");
+					//$("select#1-idMunicipio").empty();
+					/*
+					$.each(data, function(i,item){//function(key,value)		
+						$("select#1-idMunicipio").append($("<option></option>").attr("value",data[i].idMunicipio).text(data[i].municipio));
+						//$("select#1-idMunicipio").append($("<option></option>").attr("value",key).text(value)); 
+					});
+					*/
+				}
+			});
+			
+		});
+		
+	};
+</script>

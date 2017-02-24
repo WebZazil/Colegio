@@ -1,4 +1,17 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Materia</b> and script/action name <b>index</b></p>
-</div>
+<section class="row">
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Materias en el Colegio.
+			</h3>
+		</div>
+		<div class="panel-body">
+			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"materia","action"=>"consulta"),null,true) ?>">
+				<span class="glyphicon glyphicon-search"></span> Consulta de Materias 
+			</a>
+			<a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"materia","action"=>"alta"),null,true) ?>">
+				<span class="glyphicon glyphicon-plus"></span> Alta de Materias
+			</a>
+		</div>
+	</div>
+</section>

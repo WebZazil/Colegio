@@ -1,0 +1,84 @@
+<?php
+	$ciclosEscolares = $this->ciclosEscolares;
+	$niveles = $this->niveles;
+?>
+<section class="panel panel-success">
+	<div class="panel-heading">
+		<h3 class="panel-title">Consulta de Encuestas Realizadas</h3>
+	</div>
+	<div class="panel-body">
+		<table class="table table-striped table-condensed">
+			<thead>
+				<th>Parametro</th>
+				<th>Valor</th>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Ciclo Escolar</td>
+					<td>
+						<select id="idCicloEscolar" class="form-control">
+							<?php foreach ($ciclosEscolares as $ciclo) : ?>
+							<option value="<?php echo $ciclo->getIdCiclo() ?>"><?php echo $ciclo->getCiclo(); echo $txt = ($ciclo->getVigente() == 1) ? " - Vigente" : "" ; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Nivel</td>
+					<td>
+						<select id="idNivel" class="form-control">
+							<option value="0">Seleccione opción...</option>
+							<?php foreach ($niveles as $nivel) : ?>
+							<option value="<?php echo $nivel->getIdNivel() ?>"><?php echo $nivel->getNivel(); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Grado</td>
+					<td>
+						<select id="idGradoEducativo" class="form-control disabled">
+							<option value="0">Seleccione Nivel...</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Grupo</td>
+					<td>
+						<select id="idGrupoEscolar" class="form-control disabled">
+							<option value="0">Seleccione Grado...</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button id="btnQueryEncuesta" class="btn btn-success" disabled>
+							<span class="glyphicon glyphicon-search"></span> Buscar encuestas
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div></div>
+</section>
+<section class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title">Encuestas Terminadas</h3>
+	</div>
+	<div class="panel-body">
+		<table id="tableDetails" class="table table-striped table-condensed">
+			<thead>
+				<th>Materia</th>
+				<th>Docente</th>
+				<th>Encuesta</th>
+				<th>Detalle</th>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</section>
+<script type="text/javascript" src="<?php echo $this->baseUrl() ?>/js/mencuesta/consultaEncuestas.js"></script>
+<link rel="stylesheet" href="<?php echo $this->baseUrl() ?>/css/mencuesta/preloader.css" />

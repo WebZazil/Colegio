@@ -1,0 +1,75 @@
+<?php 
+	$seccion = $this->seccion;
+	$formulario = $this->formulario;
+	$formulario->setAction($this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"edita","id"=>$seccion->getIdSeccionEncuesta()), null, TRUE));
+?>
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget-box">
+            <div class="widget-title">
+                <span class="icon">
+                    <i class="icon-search"></i>
+                </span>
+                <h5>Detalle Sección</h5>
+            </div>
+            <div class="widget-content">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Fecha Creacion</th>
+                            <th>Orden</th>
+                            <th>Elementos</th>
+                            <th>Navegar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo $seccion->getNombre(); ?></td>
+                            <td><?php echo $seccion->getFecha(); ?></td>
+                            <td><?php echo $seccion->getOrden(); ?></td>
+                            <td><?php echo $seccion->getElementos(); ?></td>
+                            <td>
+                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"index","id"=>$seccion->getIdSeccionEncuesta()),null,true) ?>">
+                                    Ir a los Elementos
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget-box">
+            <div class="widget-title">
+                <span class="icon">
+                    <i class="icon-edit"></i>
+                </span>
+                <h5>Editar Sección</h5>
+            </div>
+            <div class="widget-content">
+                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded"
+                    action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"editar","id"=>$seccion->getIdSeccionEncuesta()),null,true) ?>">
+                    <div class="control-group">
+                        <label for="nombre" class="control-label">Nombre Sección</label>
+                        <div class="controls">
+                            <input class="span10" type="text" name="nombre" value="<?php echo $seccion->getNombre() ?>" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="pull-right">
+                            <button class="btn btn-warning">
+                                <i class="icon-save"></i> Actualizar Sección
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
