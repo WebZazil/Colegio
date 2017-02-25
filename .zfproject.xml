@@ -242,6 +242,7 @@
             <modelFile modelName="Registro"/>
             <modelFile modelName="Nivel"/>
             <modelFile modelName="Grupoe"/>
+            <modelFile modelName="Materia"/>
           </modelsDirectory>
           <servicesDirectory enabled="false"/>
           <viewsDirectory>
