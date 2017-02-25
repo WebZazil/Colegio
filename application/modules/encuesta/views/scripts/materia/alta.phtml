@@ -12,8 +12,8 @@
 			</h3>
 		</div>
 			<div class="panel-body">
-				<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado->getIdGrado()),null,true) ?>">
-					<span class="glyphicon glyphicon-chevron-left"></span> Regresar a el grado: <strong><?php echo $grado->getGrado() ?></strong>
+				<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado->getIdGradoEducativo()),null,true) ?>">
+					<span class="glyphicon glyphicon-chevron-left"></span> Regresar a el grado: <strong><?php echo $grado->getGradoEducativo() ?></strong>
 				</a><br /><br />
 				<?php if(!is_null($messageSuccess)){ ?>
 				<div class="alert alert-success" role="alert">

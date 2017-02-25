@@ -5,11 +5,15 @@
 class Encuesta_DAO_Materia implements Encuesta_Interfaces_IMateria {
 	
 	private $tablaMateria;
+	private $tablaGrado;
+	private $tablaCiclo;
 	
 	public function __construct($dbAdapter) {
 		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
 		
 		$this->tablaMateria = new Encuesta_Model_DbTable_MateriaEscolar(array('db'=>$dbAdapter));
+		$this->tablaCiclo = new Encuesta_Model_DbTable_CicloEscolar(array('db'=>$dbAdapter));
+		$this->tablaGrado = new Encuesta_Model_DbTable_GradoEducativo(array('db'=>$dbAdapter));
 		//$this->tablaMateria->setDefaultAdapter($dbAdapter);
 	}
 	
@@ -24,6 +28,30 @@ class Encuesta_DAO_Materia implements Encuesta_Interfaces_IMateria {
 			//$modelMateria = new Encuesta_Model_Materia($rowMateria->toArray());
 			return $rowMateria->toArray();
 		}
+	}
+	
+	public function getMateriasByIdGradoAndCurrentCiclo($idGrado) {
+		//Obtenemos ciclo actual
+		$tablaCiclo = $this->tablaCiclo;
+		$ciclos = $tablaCiclo->fetchAll();
+		$cicloActual = null;
+		
+		foreach ($ciclos as $ciclo) {
+			if ($ciclo->vigente) {
+				$cicloActual = $ciclo->toArray();
+			}
+		}
+		
+		$tablaMaterias = $this->tablaMateria;
+		$select = $tablaMaterias->select()->from($tablaMaterias)->where("idCicloEscolar=?",$cicloActual["idCicloEscolar"])->where("idGradoEducativo=?",$idGrado);
+		
+		$materias = $tablaMaterias->fetchAll($select);
+		if (is_null($materias)) {
+			return null;
+		} else {
+			return $materias->toArray();
+		}
+		
 	}
 	
 	public function obtenerMateria($idMateria) {

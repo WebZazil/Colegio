@@ -27,12 +27,12 @@
 				<tbody>
 					<?php foreach ($grupos as $grupo) : ?>
 					<tr>
-						<td><?php echo $ciclo["cicloEscolar"]; ?></td>
-						<td><?php echo $nivel->getNivelEducativo(); ?></td>
+						<td><?php echo $ciclo->getCiclo(); ?></td>
+						<td><?php echo $nivel->getNivel(); ?></td>
 						<td><?php echo $grado->getGradoEducativo(); ?></td>
 						<td>
-							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"index","idGrupo"=>$grupo["idGrupoEscolar"]),null,true) ?>">
-								<span class="glyphicon glyphicon-search"></span> Grupo: <strong><?php echo $grupo["grupoEscolar"]; ?></strong>
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","idGrupo"=>$grupo->getIdGrupo()),null,true) ?>">
+								<span class="glyphicon glyphicon-search"></span> Grupo: <strong><?php echo $grupo->getGrupo(); ?></strong>
 							</a>
 						</td>
 					</tr>

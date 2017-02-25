@@ -1,4 +1,105 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Grado</b> and script/action name <b>admin</b></p>
+<?php 
+	$nivel = $this->nivel;
+	$grado = $this->grado;
+	$formulario = $this->formulario;
+	$formulario->setAction($this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"edita","idGrado"=>$grado->getIdGradoEducativo()),null,true));
+?>
+<div class="row">
+    <div class="col-xs-12">
+    	<div class="panel panel-info">
+    		<div class="panel-heading">
+	            <h5 class="panel-title">Nivel: <strong><?php echo $nivel->getNivel(); ?></strong> >> Grado: <strong><?php echo $grado->getGradoEducativo(); ?></strong></h5>
+	        </div>
+	        <div class="panel-body">
+	            <div>
+	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"grados","idNivel"=>$grado->getIdNivelEducativo()),null,true) ?>">
+	                    <span class="fa fa-arrow-circle-left"></span> Regresar al Nivel
+	                </a>
+	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"materia","action"=>"alta","idGrado"=>$grado->getIdGradoEducativo()),null,true) ?>">
+	                    <span class="fa fa-plus-circle"></span> Nueva Materia
+	                </a>
+	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"alta","idGrado"=>$grado->getIdGradoEducativo()),null,true) ?>">
+	                    <span class="fa fa-plus-circle"></span> Nuevo Grupo
+	                </a>
+	            </div>
+	            <hr />
+	            <div>
+	                <table class="table table-condensed table-striped">
+	                <thead>
+	                    <tr>
+	                        <th>Materias</th>
+	                        <th>Grupos</th>
+	                        <th>Descripción</th>
+	                        <th>Abreviatura</th>
+	                        <th>Creación</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr>
+	                        <td>
+	                            <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"materias","idGrado"=>$grado->getIdGradoEducativo()),null,true) ?>">
+	                                <span class="fa fa-search"></span> Materias
+	                            </a>
+	                        </td>
+	                        <td>
+	                            <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"consulta","idGrado"=>$grado->getIdGradoEducativo()),null,true) ?>">
+	                                <span class="fa fa-search"></span> Grupos
+	                            </a>
+	                        </td>
+	                        <td><?php echo $grado->getDescripcion(); ?></td>
+	                        <td><?php echo $grado->getAbreviatura()."°"; ?></td>
+	                        <td><?php echo $grado->getFecha() ?></td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	            </div>
+	        </div>
+    	</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+    	<div class="panel panel-warning">
+    		<div class="panel-heading">
+	            <h5 class="panel-title">Editar Grado: <strong><?php echo $grado->getGradoEducativo(); ?></strong></h5>
+	        </div>
+	        <div class="panel-body">
+	            <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded"
+	                action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"edita","idGrado"=>$grado->getIdGradoEducativo()),null,true); ?>">
+	                <div class="form-group">
+	                    <label class="col-xs-2 control-label" for="gradoEducativo">Grado: </label>
+	                    <div class="col-xs-10">
+	                        <input class="form-control" type="text" name="gradoEducativo" placeholder="Primero, Segundo, Tercero, Etc..." autofocus="" value="<?php echo $grado->getGradoEducativo(); ?>" />
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-2 control-label" for="abreviatura">Abreviatura: </label>
+	                    <div class="col-xs-10">
+	                        <select name="abreviatura" class="form-control">
+	                            <?php for ($cont=1; $cont < 13; $cont++) { ?>
+	                            <option value="<?php echo $cont; ?>" <?php if ($cont == $grado->getAbreviatura()) echo "selected=\'selected\'"; ?> ><?php echo $cont." °"; ?></option>
+	                            <?php } ?>
+	                        </select>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-2 control-label" for="descripcion">Descripción: </label>
+	                    <div class="col-xs-10">
+	                        <input class="form-control" type="text" name="descripcion" placeholder="Agregue una descripción al grado" value="<?php echo $grado->getDescripcion(); ?>" />
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <div class="col-xs-offset-2 col-xs-10">
+	                        <button class="btn btn-warning" type="submit">
+	                            <span class="fa fa-refresh"></span> Actualizar
+	                        </button>
+	                    </div>
+	                </div>
+	            </form>
+        </div>
+    	</div>
+    </div>
 </div>

@@ -1,4 +1,49 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Grado</b> and script/action name <b>index</b></p>
+<?php 
+	$nivel = $this->nivel;
+	$grados = $this->grados;
+?>
+<div class="row">
+    <div class="col-xs-12">
+    	<div class="panel panel-info">
+    		<div class="panel-heading">
+	            <h5 class="panel-title">Grados Escolares del Nivel: <strong><?php echo $nivel->getNivel() ?></strong></h5>
+	        </div>
+	        <div class="panel-body">
+	            <div>
+	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"nivel","action"=>"index"),null,true) ?>">
+	                    <span class="fa fa-arrow-circle-left"></span> Regresar a los Niveles
+	                </a>
+	                
+	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"alta","idNivel"=>$nivel->getIdNivel()),null,true) ?>">
+	                    <span class="fa fa-plus"></span> Agregar Grado
+	                </a>
+	            </div>
+	            <hr />
+	            <div>
+	                <table class="table table-condensed table-striped">
+	                    <thead>
+	                        <tr>
+	                            <th>Grado</th>
+	                            <th>Configuración</th>
+	                            <th>Descripción</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <?php foreach ($grados as $grado) : ?>
+	                        <tr>
+	                            <td><?php echo $grado->getGradoEducativo(); ?></td>
+	                            <td>
+	                                <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado->getIdGradoEducativo()),null,true) ?>">
+	                                    <span class="fa fa-cogs"></span> Configurar
+	                                </a>
+	                            </td>
+	                            <td><?php echo $grado->getDescripcion(); ?></td>
+	                        </tr>
+	                        <?php endforeach ?>
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+    	</div>
+    </div>
 </div>

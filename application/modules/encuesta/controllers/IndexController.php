@@ -140,8 +140,19 @@ class Encuesta_IndexController extends Zend_Controller_Action
         
     }
 
+    public function logoutAction()
+    {
+        // action body
+        $auth = Zend_Auth::getInstance();
+		$auth->clearIdentity();
+		
+		$this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+    }
+
 
 }
+
+
 
 
 

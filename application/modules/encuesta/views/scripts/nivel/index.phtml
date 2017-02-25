@@ -1,42 +1,44 @@
 <?php
 	$niveles = $this->niveles;
 ?>
-<div class="row-fluid">
-    <div class="span12 widget-box">
-        <div class="widget-title">
-            <h5>Niveles Educativos</h5>
-        </div>
-        <div class="widget-content">
-            <div>
-                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"nivel","action"=>"alta"),null,true); ?>">
-                    <span class="icon icon-plus"></span> Nuevo Nivel
-                </a>
-            </div>
-            <hr />
-            <div>
-                <table class="table table-bordered table-condensed table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nivel</th>
-                            <th>Descripción</th>
-                            <th>Grados Educativos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($niveles as $nivel) : ?>
-                        <tr>
-                            <td><?php echo $nivel->getNivel(); ?></td>
-                            <td><?php echo $nivel->getDescripcion(); ?></td>
-                            <td>
-                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"grados","idNivel"=>$nivel->getIdNivel()),null,true) ?>">
-                                    <span class="icon icon-search"></span> Grados
-                                </a>
-                            </td>
-                        </tr>
-                        <?php endforeach ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-xs-12">
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+	            <h5 class="panel-title">Niveles Educativos</h5>
+	        </div>
+	        <div class="panel-body">
+	            <div>
+	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"nivel","action"=>"alta"),null,true); ?>">
+	                    <span class="fa fa-plus-circle"></span> Nuevo Nivel
+	                </a>
+	            </div>
+	            <hr />
+	            <div>
+	                <table class="table table-condensed table-striped">
+	                    <thead>
+	                        <tr>
+	                            <th>Nivel</th>
+	                            <th>Descripción</th>
+	                            <th>Grados Educativos</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <?php foreach ($niveles as $nivel) : ?>
+	                        <tr>
+	                            <td><?php echo $nivel->getNivel(); ?></td>
+	                            <td><?php echo $nivel->getDescripcion(); ?></td>
+	                            <td>
+	                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"grados","idNivel"=>$nivel->getIdNivel()),null,true) ?>">
+	                                    <span class="fa fa-search"></span> Grados
+	                                </a>
+	                            </td>
+	                        </tr>
+	                        <?php endforeach ?>
+	                    </tbody>
+	                </table>
+	            </div>
+        	</div>
+    	</div>
     </div>
 </div>

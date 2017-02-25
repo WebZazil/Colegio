@@ -3,44 +3,46 @@
 	$ciclos = $this->ciclos;
 ?>
 <div class="row">
-    <div class="col-xs-12 panel panel-default">
-        <div class="panel-heading">
-            <h5>Ciclos Escolares</h5>
-        </div>
-        <div class="panel-body">
-            <div>
-                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"plan","action"=>"index"),null,true) ?>">
-                    <span class="icon icon-arrow-left"></span> Planes de Estudio
-                </a>
-                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"alta","idPlan"=>$plan["idPlanEducativo"]),null,true) ?>">
-                    <span class="icon icon-plus"></span> Nuevo Ciclo
-                </a><br />
-            </div>
-            <br /><br />
-            <div>
-                <table class="table table-striped table-condensed">
-                    <thead>
-                        <th>Ciclo</th>
-                        <th>Inicio</th>
-                        <th>Término</th>
-                        <th>Configuración</th>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($ciclos as $ciclo) : ?>
-                        <tr>
-                            <td><?php echo $ciclo->getCiclo(); ?></td>
-                            <td><?php echo $ciclo->getInicio(); ?></td>
-                            <td><?php echo $ciclo->getTermino(); ?></td>
-                            <td>
-                                <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"admin","idCiclo"=>$ciclo->getIdCiclo()),null,true) ?>">
-                                    <span class="fa fa-cog"></span> Configurar 
-                                </a>
-                            </td>
-                        </tr>
-                        <?php endforeach ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="col-xs-12">
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+	            <h5>Ciclos Escolares</h5>
+	        </div>
+	        <div class="panel-body">
+	            <div>
+	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"plan","action"=>"index"),null,true) ?>">
+	                    <span class="fa fa-arrow-circle-left"></span> Planes de Estudio
+	                </a>
+	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"alta","idPlan"=>$plan["idPlanEducativo"]),null,true) ?>">
+	                    <span class="fa fa-plus-circle"></span> Nuevo Ciclo
+	                </a><br />
+	            </div>
+	            <br /><br />
+	            <div>
+	                <table class="table table-striped table-condensed">
+	                    <thead>
+	                        <th>Ciclo</th>
+	                        <th>Inicio</th>
+	                        <th>Término</th>
+	                        <th>Configuración</th>
+	                    </thead>
+	                    <tbody>
+	                        <?php foreach ($ciclos as $ciclo) : ?>
+	                        <tr>
+	                            <td><?php echo $ciclo->getCiclo(); ?></td>
+	                            <td><?php echo $ciclo->getInicio(); ?></td>
+	                            <td><?php echo $ciclo->getTermino(); ?></td>
+	                            <td>
+	                                <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"admin","idCiclo"=>$ciclo->getIdCiclo()),null,true) ?>">
+	                                    <span class="fa fa-cog"></span> Configurar 
+	                                </a>
+	                            </td>
+	                        </tr>
+	                        <?php endforeach ?>
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+    	</div>
     </div>
 </div>

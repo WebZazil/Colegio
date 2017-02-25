@@ -122,7 +122,8 @@ class Encuesta_GradoController extends Zend_Controller_Action
 		$nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
 		//$ciclo = $this->cicloDAO->obtenerCiclo($grado->get)
 		//$formulario = new Encuesta_Form_AltaMateria;
-		$materias = $this->materiaDAO->obtenerMateriasGrado($idGrado);
+		//$materias = $this->materiaDAO->obtenerMateriasGrado($idGrado);
+		$materias = $this->materiaDAO->getMateriasByIdGradoAndCurrentCiclo($idGrado);
 		
 		$this->view->nivel = $nivel;
 		$this->view->grado = $grado;

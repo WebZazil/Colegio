@@ -1,4 +1,75 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Grado</b> and script/action name <b>alta</b></p>
+<?php 
+	$nivel = $this->nivel;
+	$messageSuccess = $this->messageSuccess;
+	$messageFail = $this->messageFail;
+?>
+<div class="row">
+    <div class="col-xs-12">
+    	<div class="panel panel-success">
+    		<div class="panel-heading">
+	            <h5 class="panel-title">Alta de Grado Escolar al Nivel: <strong><?php echo $nivel->getNivel() ?></strong></h5>
+	        </div>
+	        <div class="panel-body">
+	            <div>
+	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"index","idNivel"=>$nivel->getIdNivel()),null,true) ?>">
+	                    <span class="fa fa-arrow-circle-left"></span> Regresar al Nivel <strong><?php echo $nivel->getNivel(); ?></strong>
+	                </a><br />
+	                <?php if(!is_null($messageSuccess)){ ?>
+	                <br />
+	                <div class="alert alert-success" role="alert">
+	                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                      <span aria-hidden="true">&times;</span>
+	                    </button>
+	                    <?php echo $messageSuccess; ?>
+	                </div>
+	                <?php }elseif(!is_null($messageFail)){ ?>
+	                <div class="alert alert-danger" role="alert">
+	                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                      <span aria-hidden="true">&times;</span>
+	                    </button>
+	                    <?php echo $messageFail; ?>
+	                </div>
+	                <br />
+	                <?php } ?>
+	            </div>
+	            <hr />
+	            <div>
+	                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+	                    <div class="form-group">
+	                        <label class="col-xs-2 control-label" for="gradoEducativo">Grado: </label>
+	                        <div class="col-xs-10">
+	                            <input class="form-control" type="text" name="gradoEducativo" placeholder="Primero, Segundo, Tercero, Etc..." autofocus="" />
+	                        </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                        <label class="col-xs-2 control-label" for="abreviatura">Simbolo: </label>
+	                        <div class="col-xs-10">
+	                            <select name="abreviatura" class="form-control">
+	                                <?php for ($cont=1; $cont < 13; $cont++) { ?>
+	                                <option value="<?php echo $cont; ?>"><?php echo $cont." °"; ?></option>
+	                                <?php } ?>
+	                            </select>
+	                        </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                        <label class="col-xs-2 control-label" for="descripcion">Descripción: </label>
+	                        <div class="col-xs-10">
+	                            <input class="form-control" type="text" name="descripcion" placeholder="Agregue una descripción al grado" />
+	                        </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                        <div class="col-xs-offset-2 col-xs-10">
+	                            <button class="btn btn-success" type="submit">
+	                                <span class="fa fa-save"></span> Guardar
+	                            </button>
+	                        </div>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+    	</div>
+    </div>
 </div>
