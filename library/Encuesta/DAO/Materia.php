@@ -102,12 +102,15 @@ class Encuesta_DAO_Materia implements Encuesta_Interfaces_IMateria {
 	
 	public function crearMateria(Encuesta_Model_Materia $materia){
 		$tablaMateria = $this->tablaMateria;
+		$materia->setFecha(date('Y-m-d h:i:s',time()));
 		
+		$tablaMateria->insert($materia->toArray());
+		/*
 		try{
 			$tablaMateria->insert($materia->toArray());
 		}catch(Exception $ex){
 			throw new Util_Exception_BussinessException("Error: <strong>". $ex->getMessage() . "</strong>");
-		}
+		}*/
 		
 		
 	}

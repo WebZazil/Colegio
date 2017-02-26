@@ -31,7 +31,7 @@
 						<td><?php echo $nivel->getNivel(); ?></td>
 						<td><?php echo $grado->getGradoEducativo(); ?></td>
 						<td>
-							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","idGrupo"=>$grupo->getIdGrupo()),null,true) ?>">
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"admin","idGrupo"=>$grupo->getIdGrupo()),null,true) ?>">
 								<span class="glyphicon glyphicon-search"></span> Grupo: <strong><?php echo $grupo->getGrupo(); ?></strong>
 							</a>
 						</td>

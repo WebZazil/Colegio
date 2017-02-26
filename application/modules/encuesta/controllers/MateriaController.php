@@ -43,10 +43,10 @@ class Encuesta_MateriaController extends Zend_Controller_Action
 		//$grado = $this->gradoDAO->obtenerGrado($idGrado);
 		
         $formulario = new Encuesta_Form_AltaMateria;
-		$formulario->getElement("idNivel")->clearMultiOptions();
-		$formulario->getElement("idNivel")->addMultiOption($nivel->getIdNivel(),$nivel->getNivel());
-		$formulario->getElement("idGrado")->clearMultiOptions();
-		$formulario->getElement("idGrado")->addMultiOption($grado->getIdGradoEducativo(),$grado->getGradoEducativo());
+		$formulario->getElement("idNivelEducativo")->clearMultiOptions();
+		$formulario->getElement("idNivelEducativo")->addMultiOption($nivel->getIdNivel(),$nivel->getNivel());
+		$formulario->getElement("idGradoEducativo")->clearMultiOptions();
+		$formulario->getElement("idGradoEducativo")->addMultiOption($grado->getIdGradoEducativo(),$grado->getGradoEducativo());
 		
 		$this->view->grado = $grado;
 		$this->view->formulario = $formulario;
@@ -58,8 +58,8 @@ class Encuesta_MateriaController extends Zend_Controller_Action
 				$materia = new Encuesta_Model_Materia($datos);
 				try{
 					$this->materiaDAO->crearMateria($materia);
-					$this->view->messageSuccess = "Materia: <strong>" . $materia->getMateria() . "</strong> dada de alta exitosamente";
-				}catch(Util_Exception_BussinessException $ex){
+					$this->view->messageSuccess = "Materia: <strong>" . $materia->getMateriaEscolar() . "</strong> dada de alta exitosamente";
+				}catch(Exception $ex){
 					//print_r($ex->__toString());
 					$this->view->messageFail = $ex->getMessage();
 				}

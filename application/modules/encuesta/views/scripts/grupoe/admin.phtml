@@ -1,4 +1,65 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Grupoe</b> and script/action name <b>admin</b></p>
+<?php
+	$grupo = $this->grupo;
+	$grado = $this->grado;
+	$nivel = $this->nivel;
+	
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Detalle del Grupo: <strong></strong></h5>
+			</div>
+			<div class="panel-body">
+				<table class="table table-condensed table-striped">
+					<thead>
+						<tr>
+							<th>Nivel</th>
+							<th>Grado</th>
+							<th>Grupo</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php ?>
+						<tr>
+							<td><?php echo $nivel->getNivel() ?></td>
+							<td><?php echo $grado->getGradoEducativo() ?></td>
+							<td><?php echo $grupo->getGrupo() ?></td>
+						</tr>
+						<?php ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Materias -->
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Detalle del Grupo: <strong></strong></h5>
+			</div>
+			<div class="panel-body">
+				<table class="table table-condensed table-striped">
+					<thead>
+						<tr>
+							<th>Nivel</th>
+							<th>Grado</th>
+							<th>Grupo</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php ?>
+						<tr>
+							<td><?php echo $nivel->getNivel() ?></td>
+							<td><?php echo $grado->getGradoEducativo() ?></td>
+							<td><?php echo $grupo->getGrupo() ?></td>
+						</tr>
+						<?php ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>

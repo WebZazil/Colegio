@@ -5,18 +5,21 @@
  * @version 1.0.0
  */
 class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
-	
+	private $dbAdapter;
 	private $tablaGrupo;
 	//private $tablaProfesoresGrupo;
 	private $tablaCiclo;
 	private $tablaAsignacionGrupo;
+	private $tablaMateria;
 	
 	public function __construct($dbAdapter) {
 		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+		$this->dbAdapter = $dbAdapter;
 		
 		$this->tablaGrupo = new Encuesta_Model_DbTable_GrupoEscolar(array('db'=>$dbAdapter));
 		$this->tablaCiclo = new Encuesta_Model_DbTable_CicloEscolar(array('db'=>$dbAdapter));
 		$this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
+		$this->tablaMateria = new Encuesta_Model_DbTable_MateriaEscolar(array('db'=>$dbAdapter));
 	}
 	
 	public function obtenerGrupos($idGrado,$idCiclo){
@@ -62,6 +65,7 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 	 */
 	public function crearGrupo(array $grupo){
 		$tablaGrupo = $this->tablaGrupo;
+		$grupo["idsMaterias"] ="";
 		$tablaGrupo->insert($grupo);
 		
 		/*
@@ -90,8 +94,8 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 		$profesoresGrupo = array();
 		
 		if(!is_null($profesores)){
-			$materiaDAO = new Encuesta_DAO_Materia;
-			$registroDAO = new Encuesta_DAO_Registro;
+			$materiaDAO = new Encuesta_DAO_Materia($this->dbAdapter);
+			$registroDAO = new Encuesta_DAO_Registro($this->dbAdapter);
 			
 			foreach ($profesores as $profesor) {
 				$obj = $profesor->toArray();
@@ -123,6 +127,27 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 			}
 			
 		}
+	}
+	/**
+	 * 
+	 */
+	public function obtenerMaterias($idGrupo) {
+		$tablaGrupo = $this->tablaGrupo;
+		$select = $tablaGrupo->select()->from($tablaGrupo)->where("idGrupo=?", $idGrupo);
+		$rowGrupo = $tablaGrupo->fetchRow($select);
+		$tablaMateria = $this->tablaMateria;
+		$idsMaterias = null;
+		
+		if($rowGrupo->idsMaterias == ""){
+			return array();
+		}else{
+			$idsMaterias = explode(",", $rowGrupo->idsMaterias);
+			$select = $tablaMateria->select()->from($tablaMateria)->where("idMateriaEscolar IN (?)",$idsMaterias);
+			$rowsMaterias = $tablaMateria->fetchAll($select);
+			return $rowsMaterias->toArray();
+		}
+		
+		
 	}
 	
 }

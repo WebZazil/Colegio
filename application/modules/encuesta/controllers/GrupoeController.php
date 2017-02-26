@@ -63,6 +63,25 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        $request = $this->getRequest();
+		$idGrupo = $this->getParam("idGrupo");
+		$materiasRelacionadas = $this->gruposDAO->obtenerMaterias($idGrupo);
+		
+		$grupo = $this->gruposDAO->obtenerGrupo($idGrupo);
+		$grado = $this->gradoDAO->getGradoById($grupo->getIdGrado());
+		$nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
+		
+		$this->view->grupo = $grupo;
+		$this->view->grado = $grado;
+		$this->view->nivel = $nivel;
+		//$this->view->materias = $materias;
+		$materiasGrado = $this->materiaDAO->getMateriasByIdGradoAndCurrentCiclo($grado->getGradoEducativo());
+		$materiasDisponibles = array();
+		foreach ($materiasGrado as $materiaGrado) {
+			foreach ($materias as $key => $value) {
+				
+			}
+		}
     }
 
     public function consultaAction()

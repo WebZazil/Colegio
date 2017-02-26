@@ -1,4 +1,63 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Grupoe</b> and script/action name <b>index</b></p>
-</div>
+<?php
+	$nivel = $this->nivel;
+	$grado = $this->grado;
+	$grupo = $this->grupo;
+	$materias = $this->materias;
+	$profesores = $this->profesores;
+	$docente = null;
+	$materiaD = null;
+?>
+<section class="row">
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Nivel: <strong><?php echo $nivel->getNivel() ?></strong> >> Grado: <strong><?php echo $grado->getGradoEducativo() ?></strong> >> Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
+			</h3>
+		</div>
+		<div class="panel-body">
+			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grupo->getIdGrado()), null, true); ?>">
+				<span class="glyphicon glyphicon-chevron-left"></span> Regresar al Grado: <strong><?php echo $grado->getGradoEducativo() ?></strong>
+			</a>
+			<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"aencuesta","idGrupo"=>$grupo->getIdGrupo()), null, true); ?>">
+				<span class="glyphicon glyphicon-plus"></span> Asociar Encuesta con Materia-Docente.
+			</a>
+			<br />
+			<table class="table table-striped table-condensed">
+				<thead>
+					<th>Materia</th>
+					<th>Docente</th>
+					<th>Consultar</th>
+				</thead>
+				<tbody>
+					<?php foreach ($materias as $materia) : ?>
+					<tr>
+						<td><?php echo $materia->getMateriaEscolar(); ?></td>
+						<td>
+							<?php
+								if(!empty($profesores) && key_exists($materia->getIdMateriaEscolar(), $profesores)){
+									$profesor = $profesores[$materia->getIdMateriaEscolar()];
+									$docente = $profesor["profesor"]; 
+									$materiaD = $profesor["materia"];
+									echo $docente->getApellidos() . ", " . $docente->getNombres();
+								}else{?>
+											<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"asociarp","idGrupo"=>$grupo->getIdGrupo(),"idMateria"=>$materia->getIdMateriaEscolar()),null,true) ?>">
+												<span class="glyphicon glyphicon-plus"></span> Asignar profesor
+											</a>
+							<?php } ?>
+						</td>
+						<td>
+							<?php if(!empty($profesores) && key_exists($materia->getIdMateria(), $profesores)){ 
+								$obj = $profesores[$materia->getIdMateria()];
+								?>
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"encuestas","idAsignacion" =>$obj["idAsignacion"]),null,true) ?>">
+								<span class="glyphicon glyphicon-search"></span> Encuestas
+							</a>
+							<?php } ?>
+						</td>
+					</tr>
+					<?php endforeach ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
