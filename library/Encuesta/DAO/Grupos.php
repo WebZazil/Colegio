@@ -133,12 +133,12 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 	 */
 	public function obtenerMaterias($idGrupo) {
 		$tablaGrupo = $this->tablaGrupo;
-		$select = $tablaGrupo->select()->from($tablaGrupo)->where("idGrupo=?", $idGrupo);
+		$select = $tablaGrupo->select()->from($tablaGrupo)->where("idGrupoEscolar=?", $idGrupo);
 		$rowGrupo = $tablaGrupo->fetchRow($select);
 		$tablaMateria = $this->tablaMateria;
 		$idsMaterias = null;
 		
-		if($rowGrupo->idsMaterias == ""){
+		if(is_null($rowGrupo) || $rowGrupo->idsMaterias == ""){
 			return array();
 		}else{
 			$idsMaterias = explode(",", $rowGrupo->idsMaterias);
@@ -148,6 +148,24 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 		}
 		
 		
+	}
+	
+	/**
+	 * 
+	 */
+	public function asociarMateriaAgrupo($idGrupoEscolar, $idMateriaEscolar) {
+		$tablaGrupo = $this->tablaGrupo;
+		$select = $tablaGrupo->select()->from($tablaGrupo)->where("idGrupoEscolar=?",$idGrupoEscolar);
+		$rowGrupo = $tablaGrupo->fetchRow($select);
+		
+		$idsMaterias = explode(",", $rowGrupo->idsMaterias);
+		
+		if (!in_array($idMateriaEscolar, $idsMaterias)) {
+			$idsMaterias[] = $idMateriaEscolar;
+		}
+		
+		$rowGrupo->idsMaterias = implode(",", $idsMaterias);
+		$rowGrupo->save();
 	}
 	
 }

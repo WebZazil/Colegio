@@ -2,63 +2,79 @@
 	$grupo = $this->grupo;
 	$grado = $this->grado;
 	$nivel = $this->nivel;
+	$materiasAsociadas = $this->materiasAsociadas;
+	$materiasDisponibles = $this->materiasDisponibles;
 	
 ?>
 <div class="row">
 	<div class="col-xs-12">
-		<div class="panel panel-info">
+		<div class="panel panel-warning">
 			<div class="panel-heading">
-				<h5 class="panel-title">Detalle del Grupo: <strong></strong></h5>
+				<h5 class="panel-title">Agregar Materias al Grupo <strong></strong></h5>
 			</div>
 			<div class="panel-body">
-				<table class="table table-condensed table-striped">
-					<thead>
-						<tr>
-							<th>Nivel</th>
-							<th>Grado</th>
-							<th>Grupo</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php ?>
-						<tr>
-							<td><?php echo $nivel->getNivel() ?></td>
-							<td><?php echo $grado->getGradoEducativo() ?></td>
-							<td><?php echo $grupo->getGrupo() ?></td>
-						</tr>
-						<?php ?>
-					</tbody>
-				</table>
+				<div>
+					<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"consulta","idGrado"=>$grado->getIdGradoEducativo()), null,true); ?>">
+						<i class="fa fa-arrow-circle-left"></i> Regresar a grupos
+					</a>
+				</div>
+				<hr />
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarm","idGrupoEscolar" => $grupo->getIdGrupo()),null,true) ?>" >
+						<div class="form-group">
+							<label class="col-xs-2 control-label" for="idMateriaEscolar">Materias Disponibles: </label>
+							<div class="col-xs-10">
+								<select name="idMateriaEscolar" class="form-control">
+									<?php foreach ($materiasDisponibles as $materiaDisponible) : ?>
+									<option value="<?php echo $materiaDisponible["idMateriaEscolar"] ?>"><?php echo $materiaDisponible["materiaEscolar"] ?></option>
+									<?php endforeach ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-xs-offset-2 col-xs-10">
+								<button class="btn btn-warning" type="submit">
+									<i></i> Asociar Materia a Grupo
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>				
 			</div>
 		</div>
 	</div>
 </div>
-<!-- Materias -->
+
 <div class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h5 class="panel-title">Detalle del Grupo: <strong></strong></h5>
+				<h5 class="panel-title">Grupo: <strong><?php echo $grupo->getGrupo(); ?></strong></h5>
 			</div>
-			<div class="panel-body">
-				<table class="table table-condensed table-striped">
-					<thead>
-						<tr>
-							<th>Nivel</th>
-							<th>Grado</th>
-							<th>Grupo</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php ?>
-						<tr>
-							<td><?php echo $nivel->getNivel() ?></td>
-							<td><?php echo $grado->getGradoEducativo() ?></td>
-							<td><?php echo $grupo->getGrupo() ?></td>
-						</tr>
-						<?php ?>
-					</tbody>
-				</table>
+			<div class="panel-body">				
+				<div>
+					<table class="table table-condensed table-striped">
+						<thead>
+							<tr>
+								<th>Nivel</th>
+								<th>Grado</th>
+								<th>Grupo</th>
+								<th>Materia</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($materiasAsociadas as $materiaAsociada) : ?>
+							<tr>
+								<td><?php echo $nivel->getNivel() ?></td>
+								<td><?php echo $grado->getGradoEducativo() ?></td>
+								<td><?php echo $grupo->getGrupo() ?></td>
+								<td><?php echo $materiaAsociada["materiaEscolar"] ?></td>
+							</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -4,21 +4,13 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 {
 
     private $gradoDAO = null;
-
     private $cicloDAO = null;
-
     private $gruposDAO = null;
-
     private $nivelDAO = null;
-
     private $materiaDAO = null;
-
     private $encuestaDAO = null;
-
     private $registroDAO = null;
-
     private $preferenciaDAO = null;
-
     private $planDAO = null;
 
     public function init()
@@ -71,17 +63,47 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		$grado = $this->gradoDAO->getGradoById($grupo->getIdGrado());
 		$nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
 		
+		$idsRelacionadas = explode(",", $grupo->getIdsMaterias());
+		
 		$this->view->grupo = $grupo;
 		$this->view->grado = $grado;
 		$this->view->nivel = $nivel;
 		//$this->view->materias = $materias;
-		$materiasGrado = $this->materiaDAO->getMateriasByIdGradoAndCurrentCiclo($grado->getGradoEducativo());
+		$materiasGrado = $this->materiaDAO->getMateriasByIdGradoAndCurrentCiclo($grado->getIdGradoEducativo());
 		$materiasDisponibles = array();
-		foreach ($materiasGrado as $materiaGrado) {
-			foreach ($materias as $key => $value) {
-				
+		
+		if (empty($idsRelacionadas)) {
+			//print_r($idsRelacionadas);
+			//print_r($idsRelacionadas);
+			$materiasDisponibles = $materiasGrado;
+		}else{
+			foreach ($materiasGrado as $materiaGrado) {
+				if (!in_array($materiaGrado["idMateriaEscolar"], $idsRelacionadas)) {
+					$materiasDisponibles[] = $materiaGrado;
+				}
 			}
 		}
+		
+		//print_r("<br />Desplegando materias<br />");
+		//print_r($materiasDisponibles);
+		$this->view->materiasDisponibles = $materiasDisponibles;
+		$this->view->materiasAsociadas = $materiasRelacionadas;
+		/*
+		$idsMateriaGrado = array();
+		
+		foreach ($materiasGrado as $materiaGrado) {
+			$idsMateriaGrado[] = $materiaGrado["idMateriaEscolar"];
+		}
+		
+		$materiasDisponibles = array();
+		foreach ($materiasGrado as $materiaGrado) {
+			foreach ($materiasRelacionadas as $materiaRelacionada) {
+				if($materiaGrado["idMateriaEscolar"] == $materiaRelacionada["idMateriaEscolar"]){
+					$materiasDisponibles[] = $materiaGrado;
+				}
+			}
+		}
+		*/
     }
 
     public function consultaAction()
@@ -301,8 +323,26 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		$preferenciaDAO = $this->preferenciaDAO;
     }
 
+    public function asociarmAction()
+    {
+        // action body
+        $request = $this->getRequest();
+		if($request->isPost()){
+			$idGrupoEscolar = $this->getParam("idGrupoEscolar");
+			$datos = $request->getPost();
+			print_r($datos);
+			
+			$this->gruposDAO->asociarMateriaAgrupo($idGrupoEscolar, $datos["idMateriaEscolar"]);
+			$this->_helper->redirector->gotoSimple("admin", "grupoe", "encuesta", array("idGrupo"=>$idGrupoEscolar));
+		}else{
+			$this->_helper->redirector->gotoSimple("index", "nivel", "encuesta");
+		}
+    }
+
 
 }
+
+
 
 
 

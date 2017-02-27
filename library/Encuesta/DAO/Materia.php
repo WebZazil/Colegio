@@ -49,6 +49,9 @@ class Encuesta_DAO_Materia implements Encuesta_Interfaces_IMateria {
 		if (is_null($materias)) {
 			return null;
 		} else {
+			//print_r("Id Grado: <strong>".$idGrado."</strong>");
+			//print_r("Materias del ciclo escolar id:<strong>".$cicloActual["idCicloEscolar"]."</strong>");
+			//print_r($materias->toArray());
 			return $materias->toArray();
 		}
 		

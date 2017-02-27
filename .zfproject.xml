@@ -82,6 +82,7 @@
               <actionMethod actionName="aencuesta"/>
               <actionMethod actionName="encuestas"/>
               <actionMethod actionName="resultado"/>
+              <actionMethod actionName="asociarm"/>
             </controllerFile>
             <controllerFile controllerName="Grupo">
               <actionMethod actionName="index"/>
@@ -616,6 +617,9 @@
               <viewControllerScriptsDirectory forControllerName="Usuario">
                 <viewScriptFile forActionName="settings"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Grupoe">
+                <viewScriptFile forActionName="asociarm"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -777,6 +781,7 @@
                 <testApplicationActionMethod forActionName="aencuesta"/>
                 <testApplicationActionMethod forActionName="encuestas"/>
                 <testApplicationActionMethod forActionName="resultado"/>
+                <testApplicationActionMethod forActionName="asociarm"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Grupo">
                 <testApplicationActionMethod forActionName="index"/>

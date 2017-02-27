@@ -45,6 +45,16 @@ class Encuesta_Model_Grupoe
     public function setGrupo($grupo) {
         $this->grupo = $grupo;
     }
+	
+	private $idsMaterias;
+	
+	public function getIdsMaterias() {
+		return $this->idsMaterias;
+	}
+	
+	public function setIdsMaterias($idsMaterias) {
+		$this->idsMaterias = $idsMaterias;
+	}
 
     public function __construct(array $datos)
     {
@@ -52,6 +62,7 @@ class Encuesta_Model_Grupoe
 		if(array_key_exists("idGradoEducativo", $datos)) $this->idGrado = $datos["idGradoEducativo"];
 		if(array_key_exists("idCicloEscolar", $datos)) $this->idCiclo = $datos["idCicloEscolar"];
 		$this->grupo = utf8_encode($datos["grupoEscolar"]);
+		$this->idsMaterias = $datos["idsMaterias"];
     }
 	
 	public function toArray()
@@ -62,6 +73,7 @@ class Encuesta_Model_Grupoe
 		$datos["idGradoEducativo"] = $this->idGrado;
 		$datos["idCicloEscolar"] = $this->idCiclo;
 		$datos["grupoEscolar"] = $this->grupo;
+		$datos["idsMaterias"] = $this->idsMaterias;
 		
 		return $datos;
 	}
