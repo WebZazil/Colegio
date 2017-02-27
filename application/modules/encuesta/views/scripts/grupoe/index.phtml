@@ -18,7 +18,7 @@
 			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grupo->getIdGrado()), null, true); ?>">
 				<span class="glyphicon glyphicon-chevron-left"></span> Regresar al Grado: <strong><?php echo $grado->getGradoEducativo() ?></strong>
 			</a>
-			<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"aencuesta","idGrupo"=>$grupo->getIdGrupo()), null, true); ?>">
+			<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"aencuesta","idGrupo"=>$grupo->getIdGrupo()), null, true); ?>">
 				<span class="glyphicon glyphicon-plus"></span> Asociar Encuesta con Materia-Docente.
 			</a>
 			<br />
@@ -40,16 +40,16 @@
 									$materiaD = $profesor["materia"];
 									echo $docente->getApellidos() . ", " . $docente->getNombres();
 								}else{?>
-											<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"asociarp","idGrupo"=>$grupo->getIdGrupo(),"idMateria"=>$materia->getIdMateriaEscolar()),null,true) ?>">
+											<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarp","idGrupo"=>$grupo->getIdGrupo(),"idMateria"=>$materia->getIdMateriaEscolar()),null,true) ?>">
 												<span class="glyphicon glyphicon-plus"></span> Asignar profesor
 											</a>
 							<?php } ?>
 						</td>
 						<td>
-							<?php if(!empty($profesores) && key_exists($materia->getIdMateria(), $profesores)){ 
-								$obj = $profesores[$materia->getIdMateria()];
+							<?php if(!empty($profesores) && key_exists($materia->getIdMateriaEscolar(), $profesores)){ 
+								$obj = $profesores[$materia->getIdMateriaEscolar()];
 								?>
-							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"encuestas","idAsignacion" =>$obj["idAsignacion"]),null,true) ?>">
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"encuestas","idAsignacion" =>$obj["idAsignacionGrupo"]),null,true) ?>">
 								<span class="glyphicon glyphicon-search"></span> Encuestas
 							</a>
 							<?php } ?>

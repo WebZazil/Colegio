@@ -85,7 +85,7 @@ class Encuesta_IndexController extends Zend_Controller_Action
                 $currentDbConnection["username"] = $subscripcion["username"];
                 $currentDbConnection["password"] = $subscripcion["password"];
                 $currentDbConnection["dbname"] = $subscripcion["dbname"];
-                //$currentDbConnection["charset"] = $subscripcion["charset"];
+                $currentDbConnection["charset"] = $subscripcion["charset"];
                 //$adapter = new Zend_Db_Adapter_Abstract($currentDbConnection);
                 print_r("<br /><br />");
                 print_r($currentDbConnection);

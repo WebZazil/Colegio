@@ -68,8 +68,8 @@ class Encuesta_Model_Materia
 		if(array_key_exists("idMateriaEscolar", $datos)) $this->idMateriaEscolar = $datos["idMateriaEscolar"];
 		if(array_key_exists("idCicloEscolar", $datos)) $this->idCicloEscolar = $datos["idCicloEscolar"];
 		if(array_key_exists("idGradoEducativo", $datos)) $this->idGradoEducativo = $datos["idGradoEducativo"];
-		$this->materiaEscolar = utf8_encode($datos["materiaEscolar"]);
-		$this->creditos = utf8_encode($datos["creditos"]);
+		$this->materiaEscolar = $datos["materiaEscolar"]; //utf8_encode($datos["materiaEscolar"]);
+		$this->creditos = $datos["creditos"]; //utf8_encode($datos["creditos"]);
 		if(array_key_exists("fecha", $datos)) $this->fecha = $datos["fecha"];
 	}
 	
@@ -80,7 +80,7 @@ class Encuesta_Model_Materia
 		$datos["idMateriaEscolar"] = $this->idMateriaEscolar;
 		$datos["idCicloEscolar"] = $this->idCicloEscolar;
 		$datos["idGradoEducativo"] = $this->idGradoEducativo;
-		$datos["materiaEscolar"] = $this->materiaEscolar;
+		$datos["materiaEscolar"] = $this->materiaEscolar; //utf8_encode($this->materiaEscolar);
 		$datos["creditos"] = $this->creditos;
 		$datos["fecha"] = $this->fecha;
 		

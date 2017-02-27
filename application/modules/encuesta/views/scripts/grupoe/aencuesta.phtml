@@ -11,11 +11,11 @@
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Nivel: <strong><?php echo $nivel->getNivel() ?></strong> >> Grado: <strong><?php echo $grado->getGrado() ?></strong> >> Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
+				Nivel: <strong><?php echo $nivel->getNivel() ?></strong> >> Grado: <strong><?php echo $grado->getGradoEducativo() ?></strong> >> Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
 			</h3>
 		</div>
 		<div class="panel-body">
-			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"index","idGrupo"=>$grupo->getIdGrupo()),null,true) ?>">
+			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","idGrupo"=>$grupo->getIdGrupo()),null,true) ?>">
 				<span class="glyphicon glyphicon-chevron-left"></span> Regresar a Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
 			</a><br /><br />
 			<?php if(!is_null($messageSuccess)){ ?>

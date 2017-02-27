@@ -210,6 +210,8 @@
             <formFile formName="AltaMateria"/>
             <formFile formName="AltaGrupoEscolar"/>
             <formFile formName="ConsultaGrupos"/>
+            <formFile formName="MateriasProfesor"/>
+            <formFile formName="AsociarEncuesta"/>
           </formsDirectory>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>
@@ -244,6 +246,7 @@
             <modelFile modelName="Nivel"/>
             <modelFile modelName="Grupoe"/>
             <modelFile modelName="Materia"/>
+            <modelFile modelName="Encuesta"/>
           </modelsDirectory>
           <servicesDirectory enabled="false"/>
           <viewsDirectory>

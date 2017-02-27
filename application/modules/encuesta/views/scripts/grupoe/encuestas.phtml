@@ -4,17 +4,21 @@
 	$docente = $this->docente;
 	$encuestas = $this->encuestas;
 	$asignacion = $this->asignacion;
-	$encuestaDAO = new Encuesta_DAO_Encuesta;
+    
+    $auth = Zend_Auth::getInstance();
+    $dataIdentity = $auth->getIdentity();
+    
+	$encuestaDAO = new Encuesta_DAO_Encuesta($dataIdentity["adapter"]);
 ?>
 <section class="row">
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Encuestas del Docente: <strong><?php echo $docente->getApellidos().", ".$docente->getNombres() ?></strong> de la materia:<strong><?php echo $materia->getMateria() ?></strong> en el grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
+				Encuestas del Docente: <strong><?php echo $docente->getApellidos().", ".$docente->getNombres() ?></strong> de la materia: <strong><?php echo $materia->getMateriaEscolar() ?></strong> en el grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
 			</h3>
 		</div>
 		<div class="panel-body">
-			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupos","action"=>"index","idGrupo"=>$grupo->getIdGrupo()), null, true); ?>">
+			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","idGrupo"=>$grupo->getIdGrupo()), null, true); ?>">
 				<span class="glyphicon glyphicon-chevron-left"></span> Regresar al Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
 			</a>
 			<br />

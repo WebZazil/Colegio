@@ -61,6 +61,7 @@
 								<th>Grado</th>
 								<th>Grupo</th>
 								<th>Materia</th>
+								<th>Docente</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -70,6 +71,11 @@
 								<td><?php echo $grado->getGradoEducativo() ?></td>
 								<td><?php echo $grupo->getGrupo() ?></td>
 								<td><?php echo $materiaAsociada["materiaEscolar"] ?></td>
+								<td>
+								    <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarp","idGrupoEscolar"=>$grupo->getIdGrupo(),"idMateriaEscolar"=>$materiaAsociada["idMateriaEscolar"],),null,true) ?>">
+								        <i class="fa fa-plus-circle"></i> Asociar Docente
+								    </a>
+								</td>
 							</tr>
 							<?php endforeach; ?>
 						</tbody>

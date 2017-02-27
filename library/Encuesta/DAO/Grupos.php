@@ -99,10 +99,10 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 			
 			foreach ($profesores as $profesor) {
 				$obj = $profesor->toArray();
-				$obj["materia"] = $materiaDAO->obtenerMateria($obj["idMateria"]); //Objeto Encuesta_Model_Materia;
+				$obj["materia"] = $materiaDAO->obtenerMateria($obj["idMateriaEscolar"]); //Objeto Encuesta_Model_Materia;
 				$obj["profesor"] = $registroDAO->obtenerRegistro($profesor->idRegistro); //Objeto Encuesta_Model_Profesor
 				
-				$profesoresGrupo[$obj["idMateria"]] = $obj;
+				$profesoresGrupo[$obj["idMateriaEscolar"]] = $obj;
 			}
 		}
 		
@@ -117,7 +117,7 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 		$row = $tablaAsignacion->fetchRow($select);
 		
 		if(!is_null($row)){
-			throw new Util_Exception_BussinessException("Error: <strong>Docente</strong> ya registrado en la <strong>Materia</strong> seleccionada");
+			throw new Exception("Error: <strong>Docente</strong> ya registrado en la <strong>Materia</strong> seleccionada");
 		}else{
 			try{
 				$tablaAsignacion->insert($registro);
