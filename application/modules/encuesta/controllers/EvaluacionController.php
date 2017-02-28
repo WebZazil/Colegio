@@ -2,16 +2,23 @@
 
 class Encuesta_EvaluacionController extends Zend_Controller_Action
 {
-	private $asignacionDAO = null;
-	private $gruposDAO = null;
-	private $evaluacionDAO = null;
 
+    private $asignacionDAO = null;
+    private $gruposDAO = null;
+    private $evaluacionDAO = null;
+	private $encuestaDAO = null;
+	private $generador = null;
+	
     public function init()
     {
         /* Initialize action controller here */
-        $this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo;
-		$this->gruposDAO = new Encuesta_DAO_Grupos;
-		$this->evaluacionDAO = new Encuesta_DAO_Evaluacion;
+        $dbAdapter = Zend_Registry::get("dbmodquery");
+        
+        $this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dbAdapter);
+		$this->gruposDAO = new Encuesta_DAO_Grupos($dbAdapter);
+		$this->encuestaDAO = new Encuesta_DAO_Encuesta($dbAdapter);
+		$this->generador = new Encuesta_Util_Generator($dbAdapter);
+		//$this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
     }
 
     public function indexAction()
@@ -68,16 +75,37 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
 		
 		$this->view->asignaciones = $asignaciones;
 		$this->view->idGrupo = $idGrupo;
+		$this->view->encuestaDAO = $this->encuestaDAO;
     }
 
-
+    public function evaluarAction()
+    {
+        // action body
+        $request = $this->getRequest();
+        $idEncuesta = $this->getParam("idEncuesta");
+		$idAsignacion = $this->getParam("idAsignacion");
+		$generador = $this->generador;
+		
+		$asignacion = $this->gruposDAO->obtenerAsignacion($idAsignacion);
+		
+		$formulario = $generador->generarFormulario($idEncuesta, $idAsignacion);
+		
+		if($request->isGet()){
+			$this->view->formulario = $formulario;
+		}
+		
+		if ($request->isPost()) {
+			$post = $request->getPost();
+			//print_r($post);
+			
+			try{
+				$generador->procesarFormulario($idEncuesta,$idAsignacion,$post);
+				$this->view->messageSuccess = "Encuesta registrada correctamente";
+			}catch(Exception $ex){
+				$this->view->messageFail = "Error al Registrar la encuesta: " . $ex->getMessage();
+			}
+			/**/
+		}
+		
+    }
 }
-
-
-
-
-
-
-
-
-

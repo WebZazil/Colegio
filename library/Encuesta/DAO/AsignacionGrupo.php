@@ -77,7 +77,7 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 	
 	public function obtenerAsignacionesGrupo($idGrupo){
 		$tablaAsignacion = $this->tablaAsignacionGrupo;
-		$select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idGrupo=?",$idGrupo);
+		$select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idGrupoEscolar=?",$idGrupo);
 		
 		$asignaciones = $tablaAsignacion->fetchAll($select);
 		

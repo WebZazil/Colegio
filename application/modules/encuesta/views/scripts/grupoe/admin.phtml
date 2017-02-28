@@ -72,7 +72,7 @@
 								<td><?php echo $grupo->getGrupo() ?></td>
 								<td><?php echo $materiaAsociada["materiaEscolar"] ?></td>
 								<td>
-								    <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarp","idGrupoEscolar"=>$grupo->getIdGrupo(),"idMateriaEscolar"=>$materiaAsociada["idMateriaEscolar"],),null,true) ?>">
+								    <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarp","idGrupo"=>$grupo->getIdGrupo(),"idMateria"=>$materiaAsociada["idMateriaEscolar"],),null,true) ?>">
 								        <i class="fa fa-plus-circle"></i> Asociar Docente
 								    </a>
 								</td>

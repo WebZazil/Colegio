@@ -10,14 +10,16 @@ class Encuesta_DAO_Preferencia implements Encuesta_Interfaces_IPreferencia {
 	private $tablaPregunta;
 	private $tablaOpcion;
 	private $tablaPreferenciaSimple;
+	private $opcionDAO;
 	
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+		$dbAdapter2 = Zend_Registry::get('dbmodquery');
 		
-		$this->tablaGrupoSeccion = new Encuesta_Model_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
-		$this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array('db'=>$dbAdapter));
-		$this->tablaOpcion = new Encuesta_Model_DbTable_OpcionCategoria(array('db'=>$dbAdapter));
-		$this->tablaPreferenciaSimple = new Encuesta_Model_DbTable_PreferenciaSimple(array('db'=>$dbAdapter));
+		$this->tablaGrupoSeccion = new Encuesta_Model_DbTable_GrupoSeccion(array('db' => $dbAdapter2));
+		$this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array('db' => $dbAdapter2));
+		$this->tablaOpcion = new Encuesta_Model_DbTable_OpcionCategoria(array('db' => $dbAdapter2));
+		$this->tablaPreferenciaSimple = new Encuesta_Model_DbTable_PreferenciaSimple(array('db' => $dbAdapter2));
+		$this->opcionDAO = new Encuesta_DAO_Opcion($dbAdapter);
 	}
 	
 	// =====================================================================================>>>   Buscar
@@ -181,37 +183,47 @@ class Encuesta_DAO_Preferencia implements Encuesta_Interfaces_IPreferencia {
 	 */
 	public function agregarPreferenciaPreguntaAsignacion($idAsignacion,$idPregunta,$idOpcion){
 		$tablaPS = $this->tablaPreferenciaSimple;
-		$select = $tablaPS->select()->from($tablaPS)->where("idPregunta = ?", $idPregunta)->where("idOpcion = ?", $idOpcion)->where("idAsignacion=?",$idAsignacion);
+		$select = $tablaPS->select()->from($tablaPS)->where("idPregunta = ?", $idPregunta)->where("idOpcionCategoria = ?", $idOpcion)->where("idAsignacionGrupo=?",$idAsignacion);
 		$mustBe = 0; //Debe ser el total
 		//print_r("<br />");
 		//print_r($select->__toString());
 		//print_r("<br />");
 		$rowPreferencia = $tablaPS->fetchRow($select);
 		
-		$opcionDAO = new Encuesta_DAO_Opcion;
+		$opcionDAO = $this->opcionDAO;
 		$modelOpcion = $opcionDAO->obtenerOpcion($idOpcion);
 		//Si no existe registro previo iniciamos uno nuevo
 		if(is_null($rowPreferencia)){
 			$datos = array();
-			$datos["idAsignacion"] = $idAsignacion;
+			$datos["idAsignacionGrupo"] = $idAsignacion;
 			$datos["idPregunta"] = $idPregunta;
-			$datos["idOpcion"] = $idOpcion;
+			$datos["idOpcionCategoria"] = $idOpcion;
 			$datos["preferencia"] = 1;
 			
-			$datos["total"] = $datos["preferencia"] * $modelOpcion->getVreal();
+			$datos["total"] = $datos["preferencia"] * $modelOpcion->getValorEntero();
 			
 			try{
 				$tablaPS->insert($datos);
 			}catch(Exception $ex){
-				throw new Util_Exception_BussinessException("Error: ".$ex->getMessage());
+				throw new Exception("Error: ".$ex->getMessage());
 			}
 			
 		}else{ // Ya existe registro, agregamos 1+ y recalculamos el total
 			$rowPreferencia->preferencia++;
+			$valor = null;
+			switch ($modelOpcion->getTipoValor()) {
+				case 'EN':
+					$mustBe = $modelOpcion->getValorEntero() * $rowPreferencia->preferencia;
+					$valor = $modelOpcion->getValorEntero();
+					break;
+				
+				default:
+					
+					break;
+			}
+			//$mustBe = $modelOpcion->getVreal() * $rowPreferencia->preferencia;
 			
-			$mustBe = $modelOpcion->getVreal() * $rowPreferencia->preferencia;
-			
-			$valor = $modelOpcion->getVreal();
+			//$valor = $modelOpcion->getVreal();
 			/*
 			print_r("<br />");
 			print_r("Valor a agregar: ".$valor." en la preferencia con Id: ".$idOpcion);

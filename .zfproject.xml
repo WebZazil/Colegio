@@ -154,6 +154,7 @@
               <actionMethod actionName="alta"/>
               <actionMethod actionName="capas"/>
               <actionMethod actionName="grupo"/>
+              <actionMethod actionName="evaluar"/>
             </controllerFile>
             <controllerFile controllerName="Generador">
               <actionMethod actionName="index"/>
@@ -247,6 +248,7 @@
             <modelFile modelName="Grupoe"/>
             <modelFile modelName="Materia"/>
             <modelFile modelName="Encuesta"/>
+            <modelFile modelName="Respuesta"/>
           </modelsDirectory>
           <servicesDirectory enabled="false"/>
           <viewsDirectory>
@@ -623,6 +625,9 @@
               <viewControllerScriptsDirectory forControllerName="Grupoe">
                 <viewScriptFile forActionName="asociarm"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Evaluacion">
+                <viewScriptFile forActionName="evaluar"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -856,6 +861,7 @@
                 <testApplicationActionMethod forActionName="alta"/>
                 <testApplicationActionMethod forActionName="capas"/>
                 <testApplicationActionMethod forActionName="grupo"/>
+                <testApplicationActionMethod forActionName="evaluar"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Generador">
                 <testApplicationActionMethod forActionName="index"/>

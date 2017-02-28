@@ -170,7 +170,7 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
 	 */
 	public function obtenerNumeroEncuestasRealizadas($idEncuesta, $idAsignacion){
 		//print_r("public function obtenerNumeroEncuestasRealizadas(idEncuesta, idAsignacion)");
-		$tablaERealizadas = $this->tablaERealizadas;
+		$tablaERealizadas = $this->tablaEncuestasRealizadas;
 		$select = $tablaERealizadas->select()->from($tablaERealizadas)->where("idEncuesta=?",$idEncuesta)->where("idAsignacionGrupo=?",$idAsignacion);
 		//print_r($select->__toString());
 		$row = $tablaERealizadas->fetchRow($select);
@@ -186,7 +186,7 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
 	 * Obtiene un numero indicador de encuesta, es como un turno en una fila de encuestas 
 	 */
 	public function obtenerNumeroConjuntoAsignacion($idEncuesta, $idAsignacion){
-		$tablaERealizadas = $this->tablaERealizadas;
+		$tablaERealizadas = $this->tablaEncuestasRealizadas;
 		$select = $tablaERealizadas->select()->from($tablaERealizadas)->where("idEncuesta=?",$idEncuesta)->where("idAsignacionGrupo=?",$idAsignacion);
 		//print_r($select->__toString());
 		$rowR = $tablaERealizadas->fetchRow($select);
@@ -225,11 +225,11 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
 	}
 	
 	public function obtenerEncuestasRealizadasPorAsignacion($idAsignacion){
-	    print_r($idAsignacion);
+	    //print_r($idAsignacion);
 		$tablaERealizadas = $this->tablaEncuestasRealizadas;
 		$select = $tablaERealizadas->select()->from($tablaERealizadas)->where("idAsignacionGrupo=?",$idAsignacion);
 		$erealizadas = $tablaERealizadas->fetchAll($select);
-        print_r($erealizadas->toArray());
+        //print_r($erealizadas->toArray());
 		//if(is_null($erealizadas)) throw new Util_Exception_BussinessException("Error: No ninguna encuesta relacionada con esta asignacion: <strong>".$idAsignacion."</strong>", 1);
 		if (is_null($erealizadas)) {
 			return null;
@@ -310,11 +310,11 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
      * 
      */
 	public function agregarEncuestaGrupo(array $registro){
-	    print_r($registro);
+	    //print_r($registro);
 		$tablaERealizadas = $this->tablaEncuestasRealizadas;
 		
 		$tablaAsignacion = $this->tablaAsignacionGrupo;
-		$select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idAsignacionGrupo = ?",$registro["idAsignacion"]);
+		$select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idAsignacionGrupo = ?",$registro["idAsignacionGrupo"]);
 		$rowAsignacion = $tablaAsignacion->fetchRow($select);
 		
 		$tablaRegistro = $this->tablaRegistro;
@@ -336,6 +336,7 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
 		try{
 			$tablaERealizadas->insert($registro);
 		}catch(Exception $ex){
+			//print_r($ex->getMessage());
 			$mensaje = "Error:<br /> Encuesta <strong>".$rowEncuesta->nombre ."</strong> ya esta asociada con <br />Docente-Materia <strong>".$rowRegistro->apellidos.", ".$rowRegistro->nombres." - ".$rowMateria->materiaEscolar."</strong>";
 			throw new Exception($mensaje);
 		}
@@ -521,5 +522,21 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
             return true;
         }
     }
+	
+	/**
+	 * Obtener 1 vez las encuestas relacionadas 
+	 */
+	public function getEncRelByIdGrupoEscolar($idGrupoEscolar) {
+		//print_r($idGrupoEscolar);
+		$tablaAG = $this->tablaAsignacionGrupo;
+		//Obtenemos las asignaciones del grupo
+		$select = $tablaAG->select()->from($tablaAG,array('idAsignacionGrupo'))->where("idGrupoEscolar=?",$idGrupoEscolar);
+		$rowsAsignaciones = $tablaAG->fetchAll($select);
+		$tablaER = $this->tablaEncuestasRealizadas;
+		$select = $tablaER->select()->distinct()->from($tablaER, array('idEncuesta'))->where("idAsignacionGrupo IN (?)",$rowsAsignaciones->toArray())->order('idEncuesta');
+		//print_r($select->__toString());
+		$idsEncuestas = $tablaER->fetchAll($select);
+		return $idsEncuestas->toArray();
+	}
     
 }

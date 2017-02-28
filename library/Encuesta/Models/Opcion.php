@@ -9,7 +9,7 @@ class Encuesta_Models_Opcion
 	private $idOpcionCategoria;
 
     public function getIdOpcionCategoria() {
-        return $this->idOpcion;
+        return $this->idOpcionCategoria;
     }
     
     public function setIdOpcionCategoria($idOpcionCategoria) {

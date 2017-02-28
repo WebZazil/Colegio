@@ -99,11 +99,11 @@ class Encuesta_DAO_Respuesta implements Encuesta_Interfaces_IRespuesta {
 		//print_r($respuesta->toArray());
 		//print_r("<br />");
 		
-		$tablaRespuesta->insert($respuesta->toArray());
+		$idRespuesta = $tablaRespuesta->insert($respuesta->toArray());
 		
-		$rowRes = $tablaRespuesta->fetchRow($select);
-		$modelRespuesta = new Encuesta_Model_Respuesta($rowRes->toArray());
-		return $modelRespuesta;
+		//$rowRes = $tablaRespuesta->fetchRow($select);
+		//$modelRespuesta = new Encuesta_Model_Respuesta($rowRes->toArray());
+		return $idRespuesta;
 	}
 	// =====================================================================================>>>   Actualizar
 	public function editarRespuesta($idEncuesta, $idRegistro, array $respuesta){

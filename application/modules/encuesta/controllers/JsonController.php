@@ -16,20 +16,21 @@ class Encuesta_JsonController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $auth = Zend_Auth::getInstance();
-        $dataIdentity = $auth->getIdentity();
+        //$auth = Zend_Auth::getInstance();
+        //$dataIdentity = $auth->getIdentity();
+		$dbAdapter = Zend_Registry::get("dbmodquery");
         
-        $this->encuestaDAO = new Encuesta_DAO_Encuesta($dataIdentity["adapter"]);
-        $this->gradosDAO = new Encuesta_DAO_Grado($dataIdentity["adapter"]);
-		$this->gruposDAO = new Encuesta_DAO_Grupos($dataIdentity["adapter"]);
-		$this->cicloDAO = new Encuesta_DAO_Ciclo($dataIdentity["adapter"]);
-		$this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dataIdentity["adapter"]);
-        $this->reporteDAO = new Encuesta_DAO_Reporte($dataIdentity["adapter"]);
+        $this->encuestaDAO = new Encuesta_DAO_Encuesta($dbAdapter);
+        $this->gradosDAO = new Encuesta_DAO_Grado($dbAdapter);
+		$this->gruposDAO = new Encuesta_DAO_Grupos($dbAdapter);
+		$this->cicloDAO = new Encuesta_DAO_Ciclo($dbAdapter);
+		$this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dbAdapter);
+        $this->reporteDAO = new Encuesta_DAO_Reporte($dbAdapter);
         
 		
-		$this->materiaDAO = new Encuesta_DAO_Materia($dataIdentity["adapter"]);
-		$this->registroDAO = new Encuesta_DAO_Registro($dataIdentity["adapter"]);
-        $this->nivelDAO = new Encuesta_DAO_Nivel($dataIdentity["adapter"]);
+		$this->materiaDAO = new Encuesta_DAO_Materia($dbAdapter);
+		$this->registroDAO = new Encuesta_DAO_Registro($dbAdapter);
+        $this->nivelDAO = new Encuesta_DAO_Nivel($dbAdapter);
 		
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender(true);

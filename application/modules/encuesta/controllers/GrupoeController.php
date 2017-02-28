@@ -208,8 +208,8 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-        $idGrupo = $this->getParam("idGrupoEscolar");
-		$idMateria = $this->getParam("idMateriaEscolar");
+        $idGrupo = $this->getParam("idGrupo");
+		$idMateria = $this->getParam("idMateria");
 		
 		$grupo = $this->gruposDAO->obtenerGrupo($idGrupo);
 		$materia = $this->materiaDAO->obtenerMateria($idMateria);
@@ -231,7 +231,8 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 				try{
 					$this->gruposDAO->agregarDocenteGrupo($registro);
 					$docente = $this->registroDAO->obtenerRegistro($registro["idRegistro"]);
-					$this->view->messageSuccess = "Docente: <strong>".$docente->getApellidos().", ".$docente->getNombres()."</strong> asociado a la materia <strong>".$materia->getMateriaEscolar()."</strong> exitosamente.";
+					//$this->view->messageSuccess = "Docente: <strong>".$docente->getApellidos().", ".$docente->getNombres()."</strong> asociado a la materia <strong>".$materia->getMateriaEscolar()."</strong> exitosamente.";
+					$this->_helper->redirector->gotoSimple("index", "grupoe", "encuesta", array("idGrupo"=>$idGrupo));
 				}catch(Exception $ex){
 					$this->view->messageFail = $ex->getMessage();
 				}
@@ -261,7 +262,7 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		$docentes = $this->gruposDAO->obtenerDocentes($idGrupo);
 		foreach ($docentes as $docente) {
 			$label = $docente["profesor"]->getApellidos().", ".$docente["profesor"]->getNombres()." -- ".$docente["materia"]->getMateriaEscolar();
-			$formulario->getElement("idAsignacion")->addMultiOption($docente["idAsignacionGrupo"], $label);
+			$formulario->getElement("idAsignacionGrupo")->addMultiOption($docente["idAsignacionGrupo"], $label);
 		}
 		
 		$this->view->grupo = $grupo;
@@ -276,7 +277,7 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 				//print_r($datos);
 				//$encuesta = $this->encuestaDAO->obtenerEncuesta($datos["idEncuesta"]);
                 $encuesta = $this->encuestaDAO->getEncuestaById($datos["idEncuesta"]);
-				$asignacion = $this->gruposDAO->obtenerAsignacion($datos["idAsignacion"]);
+				$asignacion = $this->gruposDAO->obtenerAsignacion($datos["idAsignacionGrupo"]);
 				
 				$materia = $this->materiaDAO->obtenerMateria($asignacion["idMateriaEscolar"]);
 				$docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"]);

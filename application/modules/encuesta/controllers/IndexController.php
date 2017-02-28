@@ -4,14 +4,11 @@ class Encuesta_IndexController extends Zend_Controller_Action
 {
 
     private $service = null;
-
     private $loginDAO = null;
-
     private $identity = null;
-
     private $cicloDAO = null;
-
     private $docenteDAO = null;
+	private $nivelDAO = null;
 
     public function init()
     {
@@ -26,7 +23,9 @@ class Encuesta_IndexController extends Zend_Controller_Action
         
         $this->service = new Encuesta_Util_Service;
         $this->loginDAO = new Encuesta_DAO_Login();
-        //$this->cicloDAO = new Encuesta_DAO_Ciclo($this->identity["adapter"]);
+		$dbAdapter = Zend_Registry::get('dbmodquery');
+        $this->cicloDAO = new Encuesta_DAO_Ciclo($dbAdapter);
+		$this->nivelDAO = new Encuesta_DAO_Nivel($dbAdapter);
         //$this->docenteDAO = new Encuesta_DAO_Registro($this->identity["adapter"]);
         $this->_helper->layout->setLayout('homeEncuesta');
     }
@@ -34,11 +33,56 @@ class Encuesta_IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-        $request = $this->getRequest();
+        $cicloDAO = $this->cicloDAO;
+		$ciclos = $cicloDAO->getAllCiclos();
+		//Niveles Educativos - Independiente de Ciclos escolares
+		$niveles = $this->nivelDAO->obtenerNiveles();
 		
-		if($request->isPost()){
-			
+		$this->view->ciclosEscolares = $ciclos;
+		$this->view->nivelesEscolares = $niveles;
+		// Iniciamos sesion con usuario 'test'
+		$loginDAO = $this->loginDAO;
+		$claveOrganizacion = 'colsagcor16';
+        $organizacion = $loginDAO->getOrganizacionByClave($claveOrganizacion);
+		$authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('dbmodadmin'),"Usuario","nickname","password",'SHA1(?)');
+        $authAdapter->setIdentity('test')->setCredential('zazil');
+        $auth = Zend_Auth::getInstance();
+        $resultado = $auth->authenticate($authAdapter);
+		if ($resultado->isValid()) {
+			$data = $authAdapter->getResultRowObject(null,'password');
+            $subscripcion = $loginDAO->getSubscripcion($organizacion["idOrganizacion"]);
+            //print_r($subscripcion);
+            $adapter = $subscripcion["adapter"];
+            //unset($subscripcion["adapter"]);
+            // Creamos la conexion a la bd en la que vamos a operar
+            $currentDbConnection = array();
+            //$currentDbConnection["adapter"] = $subscripcion["adapter"];
+            $currentDbConnection["host"] = $subscripcion["host"];
+            $currentDbConnection["username"] = $subscripcion["username"];
+            $currentDbConnection["password"] = $subscripcion["password"];
+            $currentDbConnection["dbname"] = $subscripcion["dbname"];
+            $currentDbConnection["charset"] = $subscripcion["charset"];
+            //$adapter = new Zend_Db_Adapter_Abstract($currentDbConnection);
+            print_r("<br /><br />");
+            print_r($currentDbConnection);
+            print_r("<br /><br />");
+            //Zend_Registry::set('dbmodencuesta', $adapter);
+            //print_r(Zend_Registry::get('dbmodencuesta'));
+            $db = Zend_Db::factory(strtoupper($adapter),$currentDbConnection);
+            //Zend_Registry::set('dbmodencuesta', $db);
+            //$dbAdapter = Zend_Registry::get('dbmodencuesta');
+            print_r("<br /><br />");
+            print_r($db);
+            //print_r($data);
+            $userInfo = array();
+            $userInfo["user"] = $data;
+            $userInfo["rol"] = $this->loginDAO->getRolbyId($data->idRol);
+            $userInfo["organizacion"] = $organizacion;
+            $userInfo["adapter"] = $db;
+            //$userInfo["organizacion"] = $this->loginDAO->getOrganizacionByClave($datos["claveOrganizacion"]);
+            $auth->getStorage()->write($userInfo);
 		}
+		
     }
 
     public function loginAction()
@@ -75,7 +119,7 @@ class Encuesta_IndexController extends Zend_Controller_Action
             if ($resultado->isValid()) {
                 $data = $authAdapter->getResultRowObject(null,'password');
                 $subscripcion = $loginDAO->getSubscripcion($organizacion["idOrganizacion"]);
-                print_r($subscripcion);
+                //print_r($subscripcion);
                 $adapter = $subscripcion["adapter"];
                 //unset($subscripcion["adapter"]);
                 // Creamos la conexion a la bd en la que vamos a operar

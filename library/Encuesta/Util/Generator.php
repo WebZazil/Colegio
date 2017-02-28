@@ -75,19 +75,19 @@ class Encuesta_Util_Generator {
 	public function generarFormulario($idEncuesta, $idAsignacion)
 	{
 		
-		$encuesta = $this->encuestaDAO->obtenerEncuesta($idEncuesta);
+		$encuesta = $this->encuestaDAO->getEncuestaById($idEncuesta);//->obtenerEncuesta($idEncuesta);
 		$asignacion = $this->gruposDAO->obtenerAsignacion($idAsignacion);
 		$ticket = $this->encuestaDAO->obtenerNumeroConjuntoAsignacion($idEncuesta, $idAsignacion);
 		
-		$secciones = $this->seccionDAO->obtenerSecciones($idEncuesta);
+		$secciones = $this->seccionDAO->getSeccionesByIdEncuesta($idEncuesta);#->obtenerSecciones($idEncuesta);
 		
-		$grupoe = $this->gruposDAO->obtenerGrupo($asignacion["idGrupo"]);
-		$grado = $this->gradoDAO->obtenerGrado($grupoe->getIdGrado());
-		$nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivel());
+		$grupoe = $this->gruposDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
+		$grado = $this->gradoDAO->getGradoById($grupoe->getIdGrado());#->obtenerGrado($grupoe->getIdGrado());
+		$nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
 		$docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"]);
-		$materia = $this->materiaDAO->obtenerMateria($asignacion["idMateria"]);
+		$materia = $this->materiaDAO->obtenerMateria($asignacion["idMateriaEscolar"]);
 		
-		$formulario = new Zend_Form($encuesta->getHash());
+		$formulario = new Zend_Form($encuesta->getIdEncuesta());
 		
 		$eSubCabecera = new Zend_Form_SubForm;
 		$eSubCabecera->setLegend("Evaluación de Habilidades del Docente");
@@ -115,7 +115,7 @@ class Encuesta_Util_Generator {
 		$eGrado->setLabel("Grado: ");
 		$eGrado->setAttrib("class", "form-control");
 		$eGrado->setAttrib("disabled", "disabled");
-		$eGrado->addMultiOption($grado->getIdGrado(),$grado->getGrado());
+		$eGrado->addMultiOption($grado->getIdGradoEducativo(),$grado->getGradoEducativo());
 		$eGrado->setDecorators($this->decoratorsPregunta);
 		
 		$eGrupo = new Zend_Form_Element_Select("idGrupo");
@@ -137,7 +137,7 @@ class Encuesta_Util_Generator {
 		$eMateria->setLabel("Materia: ");
 		$eMateria->setAttrib("class", "form-control");
 		$eMateria->setAttrib("disabled", "disabled");
-		$eMateria->addMultiOption($materia->getIdMateria(),$materia->getMateria());
+		$eMateria->addMultiOption($materia->getIdMateriaEscolar(),$materia->getMateriaEscolar());
 		//$eMateria->setValue($materia->getMateria());
 		$eMateria->setDecorators($this->decoratorsPregunta);
 		
@@ -149,11 +149,11 @@ class Encuesta_Util_Generator {
 		//============================================= Iteramos a traves de las secciones del grupo
 		foreach ($secciones as $seccion) {
 			//============================================= Cada seccion es una subforma
-			$subFormSeccion = new Zend_Form_SubForm($seccion->getHash());
+			$subFormSeccion = new Zend_Form_SubForm($seccion->getIdSeccionEncuesta());
 			//$subFormSeccion->setLegend("Sección: " .$seccion->getNombre());
 			//============================================= Obtenemos los elementos de la seccion
-			$grupos = $this->seccionDAO->obtenerGrupos($seccion->getIdSeccion());
-			$preguntas = $this->seccionDAO->obtenerPreguntas($seccion->getIdSeccion());
+			$grupos = $this->seccionDAO->getGruposByIdSeccion($seccion->getIdSeccionEncuesta());#->obtenerGrupos($seccion->getIdSeccion());
+			$preguntas = $this->seccionDAO->getPreguntasByIdSeccion($seccion->getIdSeccionEncuesta());#->obtenerPreguntas($seccion->getIdSeccionEncuesta());
 			
 			$elementos = array();
 			
@@ -170,24 +170,24 @@ class Encuesta_Util_Generator {
 			
 			foreach ($elementos as $elemento) {
 				//============================================= Verificamos que tipo de elemento es
-				if($elemento instanceof Encuesta_Model_Pregunta){
+				if($elemento instanceof Encuesta_Models_Pregunta){
 					//============================================= Aqui ya la agregamos a la seccion
 					$this->agregarPregunta($subFormSeccion, $elemento);
-				}elseif($elemento instanceof Encuesta_Model_Grupo){
+				}elseif($elemento instanceof Encuesta_Models_Grupo){
 					//============================================= un grupo es otra subform
-					$subFormGrupo = new Zend_Form_SubForm($elemento->getHash());
+					$subFormGrupo = new Zend_Form_SubForm();
 					//$subFormGrupo->setLegend("Grupo: " . $elemento->getNombre());
-					$preguntasGrupo = $this->grupoDAO->obtenerPreguntas($elemento->getIdGrupo());
+					$preguntasGrupo = $this->grupoDAO->getPreguntasByIdGrupo($elemento->getIdGrupoSeccion());#->obtenerPreguntas($elemento->getIdGrupo());
 					foreach ($preguntasGrupo as $pregunta) {
 						//============================================= Aqui ya la agregamos al grupo
 						$this->agregarPregunta($subFormGrupo, $pregunta);
 					}
 					$subFormGrupo->setDecorators($this->decoratorsGrupo);
-					$subFormSeccion->addSubForm($subFormGrupo, $elemento->getIdGrupo());
+					$subFormSeccion->addSubForm($subFormGrupo, $elemento->getIdGrupoSeccion());
 				}
 			}
 			$subFormSeccion->setDecorators($this->decoratorsSeccion);
-			$formulario->addSubForm($subFormSeccion, $seccion->getIdSeccion());
+			$formulario->addSubForm($subFormSeccion, $seccion->getIdSeccionEncuesta());
 			
 		}
 		
@@ -274,17 +274,19 @@ class Encuesta_Util_Generator {
 		//print_r("<br />");
 		foreach ($arrRespuestas as $idPregunta => $respuesta) {
 			
-			$pregunta = $preguntaDAO->obtenerPregunta($idPregunta);
+			$pregunta = $preguntaDAO->getPreguntaById($idPregunta);#->obtenerPregunta($idPregunta);
 			
 			$datos = array();
-			$datos["idEncuesta"] = $idEncuesta;
-			$datos["idAsignacion"] = $idAsignacion;
 			$datos["idPregunta"] = $idPregunta;
+			$datos["idEncuesta"] = $idEncuesta;
+			$datos["idAsignacionGrupo"] = $idAsignacion;
 			$datos["respuesta"] = $respuesta;
+			$datos["tipo"] = $pregunta->getTipo();
 			$datos["conjunto"] = $conjunto;
+			//$datos["fecha"] = date('Y-m-d h:i:s', time());
 			$modelRespuesta = new Encuesta_Model_Respuesta($datos);
 			
-			$mResp = $respuestaDAO->crearRespuesta($idEncuesta, $modelRespuesta);
+			$idRespuesta = $respuestaDAO->crearRespuesta($idEncuesta, $modelRespuesta);
 			
 			if($pregunta->getTipo() == "SS"){
 				$this->preferenciaDAO->agregarPreferenciaPreguntaAsignacion($idAsignacion, $idPregunta, $respuesta); //($idPregunta,
@@ -293,13 +295,13 @@ class Encuesta_Util_Generator {
 		}
 		$registro = array();
 		$registro["idEncuesta"] = $idEncuesta;
-		$registro["idAsignacion"] = $idAsignacion;
+		$registro["idAsignacionGrupo"] = $idAsignacion;
 		$encuestaDAO->agregarEncuestaRealizada($registro);
+		print_r("Encuesta Registrada");
 		
 	}
 	
-	private function agregarPregunta(Zend_Form $contenedor, Encuesta_Model_Pregunta $pregunta)
-	{
+	private function agregarPregunta(Zend_Form $contenedor, Encuesta_Models_Pregunta $pregunta) {
 		$ePregunta = null;
 		if($pregunta->getTipo() == "AB"){
 			$ePregunta = new Zend_Form_Element_Textarea($pregunta->getIdPregunta());
@@ -316,10 +318,10 @@ class Encuesta_Util_Generator {
 			}
 			
 			foreach ($opciones as $opcion) {
-				$ePregunta->addMultiOption($opcion->getIdOpcion(), $opcion->getOpcion());//->setSeparator("");
+				$ePregunta->addMultiOption($opcion->getIdOpcionCategoria(), $opcion->getNombreOpcion());//->setSeparator("");
 			}
 		}
-		$ePregunta->setLabel($pregunta->getPregunta());
+		$ePregunta->setLabel($pregunta->getNombre());
 		//$ePregunta->setAttrib("class", "form-control");
 		$ePregunta->setDecorators($this->decoratorsPregunta);
 		$contenedor->addElement($ePregunta);

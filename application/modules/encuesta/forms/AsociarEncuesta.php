@@ -13,7 +13,7 @@ class Encuesta_Form_AsociarEncuesta extends Zend_Form
         //$encuestas = $encuestaDAO->obtenerEncuestas();
         $encuestas = $encuestaDAO->getAllEncuestas();
         
-        $eAsignacion = new Zend_Form_Element_Select("idAsignacion");
+        $eAsignacion = new Zend_Form_Element_Select("idAsignacionGrupo");
         $eAsignacion->setAttrib("class", "form-control");
         $eAsignacion->setLabel("Docente-Materia: ");
         

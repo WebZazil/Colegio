@@ -23,7 +23,7 @@ class Encuesta_Form_MateriasProfesor extends Zend_Form
         $eDocente->setAttrib("class", "form-control");
         
         foreach ($docentes as $docente) {
-            $eDocente->addMultiOption($docente->getIdRegistro(),$docente->getApellidos(). " ".$docente->getNombres());
+            $eDocente->addMultiOption($docente->getIdRegistro(), $docente->getApellidos(). " ".$docente->getNombres());
         }
         
         $eSubmit = new Zend_Form_Element_Submit("submit");

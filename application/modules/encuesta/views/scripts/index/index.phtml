@@ -1,7 +1,7 @@
 <?php
 	$ciclosEscolares = $this->ciclosEscolares;
-	$niveles = $this->niveles;
-	$niveles = array();
+	$nivelesEscolares = $this->nivelesEscolares;
+	//$niveles = array();
 	$evaluaciones = array();
 ?>
 <!-- Navegacion  --> 
@@ -85,13 +85,16 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
-				<div class="form-horizontal">
+				<div id="form-eval" class="form-horizontal">
 					<fieldset>
 						<legend>Realizar evaluación:</legend>
 						<div class="form-group">
 							<label class="col-xs-2" for="ciclo">Ciclo Escolar: </label>
 							<div class="col-xs-10">
 								<select id="ciclo" class="form-control" name="ciclo">
+									<?php foreach ($ciclosEscolares as $cicloEscolar) : ?>
+									<option <?php echo ($cicloEscolar["vigente"] == '1') ? 'selected="selected"' : '' ; ?> value="<?php echo $cicloEscolar["idCicloEscolar"] ?>"><?php echo $cicloEscolar["ciclo"] ?></option>
+									<?php endforeach ?>
 								</select>
 							</div>
 						</div>
@@ -99,6 +102,10 @@
 							<label class="col-xs-2" for="nivel">Nivel: </label>
 							<div class="col-xs-10">
 								<select id="nivel" class="form-control" name="nivel">
+									<option value="0">Seleccione Nivel Educativo</option>
+									<?php foreach ($nivelesEscolares as $nivelEscolar) : ?>
+										<option value="<?php echo $nivelEscolar->getIdNivel() ?>" > <?php echo $nivelEscolar->getNivel() ?></option>
+									<?php endforeach; ?>
 								</select>
 							</div>
 						</div>
@@ -118,32 +125,6 @@
 						</div>
 					</fieldset>
 				</div>
-			</div>
-			<div class="col-sm-2"></div>
-		</div>
-		<hr>
-		<div class="row">
-			<div class="col-sm-2"></div>
-			<div class="col-sm-8">
-				<?php if(!is_null($evaluaciones)){ ?>
-				<table class="table table-stripped table-condensed">
-					<thead>
-						<tr>
-							<td>Grado</td>
-							<td>Grupo</td>
-							<td>Materia</td>
-							<td>Evaluación</td>
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ($evaluaciones as $evaluacion): ?>
-							<tr>
-								<td></td>
-							</tr>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-				<?php } ?>
 			</div>
 			<div class="col-sm-2"></div>
 		</div>

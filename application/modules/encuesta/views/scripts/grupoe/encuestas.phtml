@@ -33,35 +33,35 @@
 				</thead>
 				<tbody>
 					<?php foreach ($encuestas as $encuestar) :
-						$encuesta = $encuestaDAO->obtenerEncuesta($encuestar["idEncuesta"]); 
-						$numeroEncuestasRealizadas = $encuestaDAO->obtenerNumeroEncuestasRealizadas($encuesta->getIdEncuesta(), $asignacion["idAsignacion"]);
+						$encuesta = $encuestaDAO->getEncuestaById($encuestar["idEncuesta"]);//obtenerEncuesta($encuestar["idEncuesta"]); 
+						$numeroEncuestasRealizadas = $encuestaDAO->obtenerNumeroEncuestasRealizadas($encuesta->getIdEncuesta(), $asignacion["idAsignacionGrupo"]);
 						?>
 					<tr>
 						<td><?php echo $encuesta->getNombre() ?></td>
 						<td>
-							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"encuesta","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"encuesta","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacionGrupo"]),null,true) ?>">
 								Evaluar Encuesta
 							</a>
 						</td>
 						<td>
-							<?php $registro = array("idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]); ?>
-							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"resultado","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+							<?php $registro = array("idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacionGrupo"]); ?>
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"resultado","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacionGrupo"]),null,true) ?>">
 								<span class="glyphicon glyphicon-search"></span> <?php echo $numeroEncuestasRealizadas ?> Encuestas contestadas
 							</a>
 						</td>
 						<td>
-							<?php $registro = array("idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]); ?>
-							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"resgrupal","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+							<?php $registro = array("idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacionGrupo"]); ?>
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"resgrupal","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacionGrupo"]),null,true) ?>">
 								<span class="glyphicon glyphicon-search"></span>  Ver Resultados <?php echo $numeroEncuestasRealizadas ?> Encuestas
 							</a>
 						</td>
 						<td>
-							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"respuesta","action"=>"baja","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"respuesta","action"=>"baja","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacionGrupo"]),null,true) ?>">
 								<span class="glyphicon glyphicon-search"></span> Borrar Respuestas
 							</a>
 						</td>
 						<td>
-							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"rpreferencia","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=>$asignacion["idAsignacion"]),null,true) ?>">
+							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"rpreferencia","idEncuesta"=>$encuesta->getIdEncuesta(),"idAsignacion"=> $asignacion["idAsignacionGrupo"]),null,true) ?>">
 								<span class="glyphicon glyphicon-search"></span> Recalcular Preferencias
 							</a>
 						</td>
