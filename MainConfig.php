@@ -34,6 +34,7 @@ class MainConfig {
 		$tipoSucursal = array("SE"=>"Sucursal Empresa","SC"=>"Sucursal Cliente", "SP" => "Sucursal Proveedor");
 		Zend_Registry::set('tipoSucursal', $tipoSucursal);
 		//$tipoEmail = array("OF"=>"Oficina","CS"=>"Casa","PR"=>"Proveedor");
+		Zend_Registry::set('tiposEvaluador', array("ALUM"=>"Alumna", "DOCE"=>"Docente"));
 		$tipoMantenimiento = array("MH"=>"Mantenimiento Hardware","MS"=>"Mantenimiento Software","AV"=>"Antivirus","RO"=>"Registro Observaciones");
 		
 		$gradosEscolares = array(1=>"1°",2=>"2°",3=>"3°",4=>"4°",5=>"5°",6=>"6°",7=>"7°",8=>"8°",9=>"9°");

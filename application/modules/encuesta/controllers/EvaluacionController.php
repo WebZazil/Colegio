@@ -4,11 +4,15 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
 {
 
     private $asignacionDAO = null;
+
     private $gruposDAO = null;
+
     private $evaluacionDAO = null;
-	private $encuestaDAO = null;
-	private $generador = null;
-	
+
+    private $encuestaDAO = null;
+
+    private $generador = null;
+
     public function init()
     {
         /* Initialize action controller here */
@@ -108,4 +112,20 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
 		}
 		
     }
+
+    public function conjuntoAction()
+    {
+        // action body
+    }
+
+    public function evaluadoresAction()
+    {
+        // action body
+    }
+
+
 }
+
+
+
+

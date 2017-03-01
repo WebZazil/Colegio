@@ -155,6 +155,8 @@
               <actionMethod actionName="capas"/>
               <actionMethod actionName="grupo"/>
               <actionMethod actionName="evaluar"/>
+              <actionMethod actionName="conjunto"/>
+              <actionMethod actionName="evaluadores"/>
             </controllerFile>
             <controllerFile controllerName="Generador">
               <actionMethod actionName="index"/>
@@ -202,6 +204,11 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="settings"/>
             </controllerFile>
+            <controllerFile controllerName="Evaluador">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory>
             <formFile formName="AltaCategoria"/>
@@ -213,6 +220,7 @@
             <formFile formName="ConsultaGrupos"/>
             <formFile formName="MateriasProfesor"/>
             <formFile formName="AsociarEncuesta"/>
+            <formFile formName="AltaEvaluador"/>
           </formsDirectory>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>
@@ -242,6 +250,8 @@
               <dbTableFile dbTableName="Respuesta"/>
               <dbTableFile dbTableName="SeccionEncuesta"/>
               <dbTableFile dbTableName="CategoriasRespuesta"/>
+              <dbTableFile dbTableName="ConjuntoEvaluador"/>
+              <dbTableFile dbTableName="Evaluador"/>
             </dbTableDirectory>
             <modelFile modelName="Registro"/>
             <modelFile modelName="Nivel"/>
@@ -249,6 +259,7 @@
             <modelFile modelName="Materia"/>
             <modelFile modelName="Encuesta"/>
             <modelFile modelName="Respuesta"/>
+            <modelFile modelName="Evaluador"/>
           </modelsDirectory>
           <servicesDirectory enabled="false"/>
           <viewsDirectory>
@@ -628,6 +639,21 @@
               <viewControllerScriptsDirectory forControllerName="Evaluacion">
                 <viewScriptFile forActionName="evaluar"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Evaluacion">
+                <viewScriptFile forActionName="conjunto"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Evaluacion">
+                <viewScriptFile forActionName="evaluadores"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Evaluador">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Evaluador">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Evaluador">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -862,6 +888,8 @@
                 <testApplicationActionMethod forActionName="capas"/>
                 <testApplicationActionMethod forActionName="grupo"/>
                 <testApplicationActionMethod forActionName="evaluar"/>
+                <testApplicationActionMethod forActionName="conjunto"/>
+                <testApplicationActionMethod forActionName="evaluadores"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Generador">
                 <testApplicationActionMethod forActionName="index"/>
@@ -908,6 +936,11 @@
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="settings"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Evaluador">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
