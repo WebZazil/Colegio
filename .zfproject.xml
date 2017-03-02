@@ -34,6 +34,8 @@
               <actionMethod actionName="grados"/>
               <actionMethod actionName="grupos"/>
               <actionMethod actionName="reposdocente"/>
+              <actionMethod actionName="evaluadores"/>
+              <actionMethod actionName="evals"/>
             </controllerFile>
             <controllerFile controllerName="Categoria">
               <actionMethod actionName="index"/>
@@ -209,6 +211,13 @@
               <actionMethod actionName="alta"/>
               <actionMethod actionName="admin"/>
             </controllerFile>
+            <controllerFile controllerName="Conjunto">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="evaluadores"/>
+              <actionMethod actionName="agregareval"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory>
             <formFile formName="AltaCategoria"/>
@@ -221,6 +230,7 @@
             <formFile formName="MateriasProfesor"/>
             <formFile formName="AsociarEncuesta"/>
             <formFile formName="AltaEvaluador"/>
+            <formFile formName="AltaConjunto"/>
           </formsDirectory>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>
@@ -654,6 +664,27 @@
               <viewControllerScriptsDirectory forControllerName="Evaluador">
                 <viewScriptFile forActionName="admin"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="evaluadores"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Conjunto">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Conjunto">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Conjunto">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Conjunto">
+                <viewScriptFile forActionName="evaluadores"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Conjunto">
+                <viewScriptFile forActionName="agregareval"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="evals"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -767,6 +798,8 @@
                 <testApplicationActionMethod forActionName="grados"/>
                 <testApplicationActionMethod forActionName="grupos"/>
                 <testApplicationActionMethod forActionName="reposdocente"/>
+                <testApplicationActionMethod forActionName="evaluadores"/>
+                <testApplicationActionMethod forActionName="evals"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Categoria">
                 <testApplicationActionMethod forActionName="index"/>
@@ -941,6 +974,13 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
                 <testApplicationActionMethod forActionName="admin"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Conjunto">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="evaluadores"/>
+                <testApplicationActionMethod forActionName="agregareval"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

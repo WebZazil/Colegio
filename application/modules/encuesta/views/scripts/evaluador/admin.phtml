@@ -1,4 +1,26 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Evaluador</b> and script/action name <b>admin</b></p>
+<?php 
+	$formulario = $this->formulario;
+	$evaluador = $this->evaluador;
+	$urlEdit = $this->url(array("module"=>"encuesta","controller"=>"evaluador","action"=>"edit","idEvaluador"=>$evaluador["idEvaluador"]),null,true);
+	$urlEvaluadores = $this->url(array("module"=>"encuesta","controller"=>"evaluador","action"=>"index"),null,true);
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Actualizando Evaluador</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a class="btn btn-info" href="<?php echo $urlEvaluadores ?>">
+						<i class="fa fa-arrow-circle-left"></i> Regresar a Evaluadores
+					</a>
+				</div>
+				<hr />
+				<div>
+					<?php echo $formulario; ?>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

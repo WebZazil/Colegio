@@ -22,7 +22,7 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
 		$this->gruposDAO = new Encuesta_DAO_Grupos($dbAdapter);
 		$this->encuestaDAO = new Encuesta_DAO_Encuesta($dbAdapter);
 		$this->generador = new Encuesta_Util_Generator($dbAdapter);
-		//$this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
+		$this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
     }
 
     public function indexAction()
@@ -116,6 +116,7 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
     public function conjuntoAction()
     {
         // action body
+        
     }
 
     public function evaluadoresAction()

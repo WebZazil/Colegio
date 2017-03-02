@@ -2,16 +2,28 @@
 
 class Encuesta_JsonController extends Zend_Controller_Action
 {
-	private $encuestaDAO = null;
+
+    private $encuestaDAO = null;
+
     private $gradosDAO = null;
+
     private $gruposDAO = null;
+
     private $cicloDAO = null;
+
     private $asignacionDAO = null;
+
     private $materiaDAO = null;
+
     private $registroDAO = null;
+
     private $reporteDAO = null;
+
     private $nivelDAO = null;
-	private $encoder = null;
+
+    private $encoder = null;
+
+    private $evaluacionDAO = null;
 
     public function init()
     {
@@ -26,7 +38,7 @@ class Encuesta_JsonController extends Zend_Controller_Action
 		$this->cicloDAO = new Encuesta_DAO_Ciclo($dbAdapter);
 		$this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dbAdapter);
         $this->reporteDAO = new Encuesta_DAO_Reporte($dbAdapter);
-        
+		
 		
 		$this->materiaDAO = new Encuesta_DAO_Materia($dbAdapter);
 		$this->registroDAO = new Encuesta_DAO_Registro($dbAdapter);
@@ -35,6 +47,8 @@ class Encuesta_JsonController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender(true);
 		$this->encoder = new App_Util_Encode;
+		
+		$this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
     }
 
     public function indexAction()
@@ -152,8 +166,42 @@ class Encuesta_JsonController extends Zend_Controller_Action
 		echo Zend_Json::encode($reposEncuestas);
     }
 
+    public function evaluadoresAction()
+    {
+        // action body
+        $nombres = $this->getParam("nombre");
+		$apellidos = $this->getParam("apellidos");
+		/*
+		if (is_null($nombres)) {
+			print_r("Nombres es Null");
+		}elseif(is_null($apellidos)){
+			print_r("Apellidos es Null");
+		}
+		print_r("<br />");
+		*/
+        $evaluacionDAO = $this->evaluacionDAO;
+		$evaluadores = $evaluacionDAO->getEvaluadoresByNombresOApellidos($nombres, $apellidos);
+		//$arrEvaluadores = array();
+		
+		if(is_null($evaluadores)){
+			echo Zend_Json::encode(array());
+		}else{
+			echo Zend_Json::encode($evaluadores);
+		}
+        
+    }
+
+    public function evalsAction()
+    {
+        // action body
+    }
+
 
 }
+
+
+
+
 
 
 

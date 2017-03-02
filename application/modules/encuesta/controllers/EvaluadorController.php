@@ -29,9 +29,12 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
 		if ($request->isPost()) {
 			if ($formulario->isValid($request->getPost())) {
 				$datos = $formulario->getValues();
-				
-				$this->evaluacionDAO->addEvaluador($datos);
-				
+				try{
+					$this->evaluacionDAO->addEvaluador($datos);
+					$this->view->messageSuccess = "Evaluador: <strong>".$datos["apellidos"].", ".$datos["nombres"]."</strong> agregado correctamente.";
+				}catch(Exception $ex){
+					$this->view->messageFail = "Ha ocurrido un error: <strong>".$ex->getMessage()."</strong>";
+				}
 			}
 		}
     }
@@ -39,6 +42,18 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        $idEvaluador = $this->getParam("idEvaluador");
+		$evaluacionDAO = $this->evaluacionDAO;
+		$evaluador = $evaluacionDAO->getEvaluadorById($idEvaluador);
+		
+		$formulario = new Encuesta_Form_AltaEvaluador();
+		$formulario->getElement("nombres")->setValue($evaluador["nombres"]);
+		$formulario->getElement("apellidos")->setValue($evaluador["apellidos"]);
+		$formulario->getElement("submit")->setLabel("Actualizar Evaluador")->setAttrib("class",	"btn btn-warning");
+		
+		$this->view->evaluador = $evaluador;
+		$this->view->formulario = $formulario;
+		
     }
 
 

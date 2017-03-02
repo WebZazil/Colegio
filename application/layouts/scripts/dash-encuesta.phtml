@@ -19,7 +19,9 @@
 		<!-- Custom Fonts -->
 		<link href="<?php echo $public ?>/lib/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<!-- jQuery -->
-	<script type="text/javascript" src="<?php echo $public ?>/lib/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="<?php echo $public ?>/lib/jquery/jquery.min.js"></script>
+		<!-- jQuery DataTables -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/r-2.1.1/datatables.min.css"/>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -49,26 +51,6 @@
 	            <!-- /.row -->
 	            <br />
 	            <?php echo $this->layout()->content; ?>
-	            <div class="row">
-	                <div class="col-lg-8">
-	                    <!-- area chart example was here -->
-	                    <!-- /.panel -->
-	                    <!-- bar chart example was here -->
-	                    <!-- /.panel -->
-	                    <!-- timeline was here -->
-	                    <!-- /.panel -->
-	                </div>
-	                <!-- /.col-lg-8 -->
-	                <div class="col-lg-4">
-	                    <!-- notifications panel was here -->
-	                    <!-- /.panel -->
-	                    <!-- donut chart example was here -->
-	                    <!-- /.panel -->
-	                    <!-- chat was here -->
-	                    <!-- /.panel .chat-panel -->
-	                </div>
-	                <!-- /.col-lg-4 -->
-	            </div>
 	            <!-- /.row -->
 	        </div>
 	        <!-- /#page-wrapper -->
@@ -82,7 +64,8 @@
 	<!-- Morris Charts JavaScript -->
 	<script type="text/javascript" src="<?php echo $public ?>/lib/raphael/raphael.min.js"></script>
 	<script type="text/javascript" src="<?php echo $public ?>/lib/morrisjs/morris.min.js"></script>
-	<script type="text/javascript" src="<?php echo $public ?>/lib/morrisjs/morris-data.min.js"></script>
+	<!-- jQuery DataTables -->
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/r-2.1.1/datatables.min.js"></script>
 	<!-- Custom Theme JavaScript -->
     <script type="text/javascript" src="<?php echo $public ?>/lib/dist/js/sb-admin-2.min.js"></script>
 </html>
