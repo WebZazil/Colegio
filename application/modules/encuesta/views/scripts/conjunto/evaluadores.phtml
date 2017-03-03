@@ -4,7 +4,8 @@
 	$tiposEvaluador = Zend_Registry::get("tiposEvaluador");
 	$dbAdapter = Zend_Registry::get("dbmodquery");
 	$evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
-	$urlAsociarEvaluador = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE); 
+	$urlAsociarEvaluador = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
+    $urlScriptEvaluadores = $this->baseUrl()."/public/js/helpers/searchEvaluadores.js"; 
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -18,7 +19,7 @@
 						<div class="form-group">
 							<label for="evaluador" class="control-label col-xs-2">Evaluador: </label>
 							<div class="col-xs-10">
-								<input id="evaluador" name="evaluador" type="text" class="form-control" />
+								<input id="evaluador" name="evaluador" type="text" class="form-control" autofocus="" />
 							</div>
 						</div>
 					</div>
@@ -72,45 +73,4 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	$().ready(function(){
-		var appname = "/colegio/encuesta";
-		var url = window.location.origin + appname;
-		
-		$("#evaluador").on('blur',function(){
-			console.log("Saliendo del input!!");
-			var valor = $(this).val();
-			console.log(valor);
-			if(valor != ""){
-				
-				var urlCond = "/eval/" + valor; 
-				
-				var urlQueryEvaluador = url + "/json/evals"+urlCond;
-				console.log(urlQueryEvaluador);
-				
-				$.ajax({
-					url: urlQueryEvaluador,
-					dataType: "json",
-					success: function(data){
-						
-						console.dir(data);
-						var tbody = $("#evaluadores").find('tbody'); 
-						tbody.empty();
-						
-						$.each(data, function(i,item){
-							
-							//var checkbox = $("<input></input>").attr("type", "checkbox");
-							
-							tbody.append($('<tr>').
-								append($('<td>').append(item.nombres)).
-								append($('<td>').append(item.apellidos)) )
-							);
-						});
-						/**/
-					}
-				});
-				/**/
-			}
-		});
-	});
-</script>
+<script type="text/javascript" src="<?php echo $urlScriptEvaluadores; ?>"></script>
