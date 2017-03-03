@@ -194,6 +194,14 @@ class Encuesta_JsonController extends Zend_Controller_Action
     public function evalsAction()
     {
         // action body
+        $eval = $this->getParam("eval");
+		$evaluadores = $this->evaluacionDAO->getEvaluadoresByString($eval);
+		
+		if(is_null($evaluadores)){
+			echo Zend_Json::encode(array());
+		}else{
+			echo Zend_Json::encode($evaluadores);
+		}
     }
 
 

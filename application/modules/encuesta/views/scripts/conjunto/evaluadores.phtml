@@ -87,39 +87,29 @@
 				
 				var urlQueryEvaluador = url + "/json/evals"+urlCond;
 				console.log(urlQueryEvaluador);
-				/*
+				
 				$.ajax({
 					url: urlQueryEvaluador,
 					dataType: "json",
 					success: function(data){
+						
 						console.dir(data);
 						var tbody = $("#evaluadores").find('tbody'); 
 						tbody.empty();
 						
-						$.each(data, function(i,item){//function(key,value)
-							var tipo = null;
-							switch (item.tipo) {
-								case "ALUM":
-									tipo = "Alumna";
-									break;
-								case "DOCE":
-									tipo = "Docente";
-									break;
-								default:
-									tipo = "No especificado";
-									break;
-							}
+						$.each(data, function(i,item){
+							
+							//var checkbox = $("<input></input>").attr("type", "checkbox");
 							
 							tbody.append($('<tr>').
 								append($('<td>').append(item.nombres)).
-								append($('<td>').append(item.apellidos)).
-								append($('<td>').append(tipo))
+								append($('<td>').append(item.apellidos)) )
 							);
-							
 						});
+						/**/
 					}
 				});
-				*/
+				/**/
 			}
 		});
 	});

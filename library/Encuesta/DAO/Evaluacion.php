@@ -124,6 +124,18 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		} else {
 			return $rowConjunto->toArray();
 		}
+	}
+	
+	public function getEvaluadoresByString($string) {
+		$valor = "'%$string%'";
+		$tablaEvaluador = $this->tablaEvaluador;
+		$select = $tablaEvaluador->select()->from($tablaEvaluador)->where("nombres LIKE $valor OR apellidos LIKE $valor");
+		$rowsEvaluadores = $tablaEvaluador->fetchAll($select);
 		
+		if(is_null($rowsEvaluadores)){
+			return array();
+		}else{
+			return $rowsEvaluadores->toArray();
+		}
 	}
 }
