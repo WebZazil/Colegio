@@ -6,10 +6,15 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	
 	private $tablaConjuntoEvaluador;
 	private $tablaEvaluador;
+	private $tablaEvaluacionesConjunto;
+	private $tablaAsignacionGrupo;
+	
 	
 	function __construct($dbAdapter) {
 		$this->tablaConjuntoEvaluador = new Encuesta_Model_DbTable_ConjuntoEvaluador(array('db'=>$dbAdapter));
 		$this->tablaEvaluador = new Encuesta_Model_DbTable_Evaluador(array('db'=>$dbAdapter));
+		$this->tablaEvaluacionesConjunto = new Encuesta_Model_DbTable_EvaluacionesConjunto(array('db'=>$dbAdapter));
+		$this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
 	}
 	
 	public function getEvaluadoresByTipo($tipo) {
@@ -137,5 +142,63 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		}else{
 			return $rowsEvaluadores->toArray();
 		}
+	}
+	
+	public function asociarEvaluadorAConjunto($idEvaluador,$idConjunto) {
+		$tablaConjunto = $this->tablaConjuntoEvaluador;
+		$where = $tablaConjunto->getAdapter()->quoteInto("idConjuntoEvaluador=?", $idConjunto);
+		$rowConjunto = $tablaConjunto->fetchRow($where);
+		
+		$idsEvaluadores = explode(",", $rowConjunto->idsEvaluadores);
+		
+		if(in_array($idEvaluador, $idsEvaluadores)){
+			// Esta en el Array, no se agrega nada
+		}else{
+			$idsEvaluadores[] = $idEvaluador;
+		}
+		
+		$rowConjunto->idsEvaluadores = implode(",", $idsEvaluadores);
+		$rowConjunto->save();
+	}
+	
+	public function getAsignacionesByIdConjunto($idConjunto) {
+		$tablaEvalsConjunto = $this->tablaEvaluacionesConjunto;
+		$where = $tablaEvalsConjunto->getAdapter()->quoteInto("idConjuntoEvaluador=?", $idConjunto);
+		$rowConjunto = $tablaEvalsConjunto->fetchRow($where);
+		
+		$tablaAsignacion = $this->tablaAsignacionGrupo;
+		
+		if(is_null($rowConjunto)){
+			return array();
+		}else{
+			$idsAsignaciones = explode(",", $rowConjunto->idsAsignacionesGrupo); 
+			$select = $tablaAsignacion->select->from($tablaAsignacion)->where("idAsignacionGrupo IN (?)", $idsAsignaciones);
+			$rowsAsignaciones = $tablaAsignacion->fetchAll($select);
+			
+			return $rowsAsignaciones->toArray();
+		}
+	}
+	
+	public function asociarAsignacionAConjunto($idConjunto, $idAsignacion) {
+		$tablaEvalsConjunto = $this->tablaEvaluacionesConjunto;
+		$datos = array();
+		$datos["idConjuntoEvaluador"] = $idConjunto;
+		//$datos[""]
+		try{
+			
+		}catch(Exception $ex){
+			print_r($ex->getMessage());
+		}
+		
+	}
+	
+	public function asociarEvaluacionAConjunto($idConjunto, $idEncuesta) {
+		$tablaEvalsConjunto = $this->tablaEvaluacionesConjunto;
+		$datos = array();
+		$datos["idConjuntoEvaluador"] = $idConjunto;
+		$datos["idsEncuesta"] = implode(",", array($idEncuesta));
+		$datos["idsAsignacionesGrupo"] = "";
+		
+		$tablaEvalsConjunto->insert($datos);
 	}
 }

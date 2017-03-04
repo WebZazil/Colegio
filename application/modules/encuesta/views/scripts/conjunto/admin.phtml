@@ -1,4 +1,107 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Conjunto</b> and script/action name <b>admin</b></p>
+<?php 
+	$conjunto = $this->conjunto;
+	$encuestas = $this->encuestas;
+	$asignacionesDisponibles = $this->asignacionesDisponibles;
+	$asignacionesConjunto = $this->asignacionesConjunto;
+	$urlAltaEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
+	$urlAltaAsignacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregarasign","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);	
+?>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Asociar Asignaciones a Conjunto</h5>
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" action="<?php echo $urlAltaAsignacion ?>" >
+					<div class="form-group">
+						<label for="idAsignacion" class="col-xs-2 control-label">Asignaciones Disponibles</label>
+						<div class="col-xs-10">
+							<select class="form-control" name="idAsignacion">
+								<?php foreach ($asignacionesDisponibles as $index => $asignacionesD) : 
+									$relacion = $asignacionesD["materia"]["materiaEscolar"]." - " .$asignacionesD["docente"]["apellidos"].", ".$asignacionesD["docente"]["nombres"];
+									?>
+								<option value="<?php echo $index; ?>"><?php echo $relacion; ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-offset-2 col-xs-10">
+							<button class="btn btn-success" type="submit">
+								<i class="fa fa-plus-circle"></i> Asociar Asignacion.
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Agregar Evaluacion</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<form action="" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="idEncuesta" class="col-xs-2 control-label">Evaluaciones: </label>
+							<div class="col-xs-10">
+								<select name="idEncuesta" class="form-control">
+									<?php foreach ($encuestas as $index => $encuesta) : ?>
+									<option value="<?php echo $index ?>"><?php echo $encuesta; ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-xs-offset-2 col-xs-10">
+								<button type="submit" class="btn btn-warning">
+									<i class="fa fa-plus-circle"></i> Asociar Encuesta
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Asignaciones del Conjunto</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Materia</th>
+								<th>Docente</th>
+								<th>Evaluacion</th>
+								<th>Estatus</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($asignacionesConjunto as $asignacion): ?>
+							<tr>
+								<td><?php echo $asignacion["materia"]["materiaEscolar"] ?></td>
+								<td><?php echo $asignacion["docente"]["apellidos"].", ".$asignacion["docente"]["nombres"] ?></td>
+							</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

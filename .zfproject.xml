@@ -210,6 +210,7 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
               <actionMethod actionName="admin"/>
+              <actionMethod actionName="asociar"/>
             </controllerFile>
             <controllerFile controllerName="Conjunto">
               <actionMethod actionName="index"/>
@@ -217,6 +218,7 @@
               <actionMethod actionName="admin"/>
               <actionMethod actionName="evaluadores"/>
               <actionMethod actionName="agregareval"/>
+              <actionMethod actionName="agregarasign"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -262,6 +264,7 @@
               <dbTableFile dbTableName="CategoriasRespuesta"/>
               <dbTableFile dbTableName="ConjuntoEvaluador"/>
               <dbTableFile dbTableName="Evaluador"/>
+              <dbTableFile dbTableName="EvaluacionesConjunto"/>
             </dbTableDirectory>
             <modelFile modelName="Registro"/>
             <modelFile modelName="Nivel"/>
@@ -685,6 +688,12 @@
               <viewControllerScriptsDirectory forControllerName="Json">
                 <viewScriptFile forActionName="evals"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Evaluador">
+                <viewScriptFile forActionName="asociar"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Conjunto">
+                <viewScriptFile forActionName="agregarasign"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -974,6 +983,7 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
                 <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="asociar"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Conjunto">
                 <testApplicationActionMethod forActionName="index"/>
@@ -981,6 +991,7 @@
                 <testApplicationActionMethod forActionName="admin"/>
                 <testApplicationActionMethod forActionName="evaluadores"/>
                 <testApplicationActionMethod forActionName="agregareval"/>
+                <testApplicationActionMethod forActionName="agregarasign"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

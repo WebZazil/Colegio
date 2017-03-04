@@ -9,12 +9,13 @@ $().ready(function(){
         console.log("Saliendo del input!!");
         var valor = $(this).val();
         console.log(valor);
+        
+        var conjunto = $("#searchPanel").attr("conjunto");
+        
         if(valor != ""){
-            
             var urlCond = "/eval/" + valor; 
-            
             var urlQueryEvaluador = url + "/json/evals"+urlCond;
-            console.log(urlQueryEvaluador);
+            //console.log(urlQueryEvaluador);
             
             $.ajax({
                 url: urlQueryEvaluador,
@@ -26,26 +27,25 @@ $().ready(function(){
                     tbody.empty();
                     
                     $.each(data, function(i,item){
-                        var opts = {
-                            id: "eval_"+item.idEvaluador,
-                            "type": "checkbox",
-                        };
-                        var checkbox = $("<input />", opts);
+                        var tipo = "";
+                        switch (item.tipo) {
+                        	case "ALUM" : tipo = "Alumna"; break;
+                        	case "DOCE" : tipo = "Docente"; break;
+                        }
                         
-                        var div = $("<div />").attr("class", "checkbox");
-                        div.append($("<label />").append(checkbox));
-                        
+                        var link = $("<a />").attr("class", "btn btn-success");
+                        var urlLink = url + "/evaluador/asociar/idConjunto/"+conjunto+"/idEvaluador/"+item.idEvaluador;
+                        console.log(urlLink);
+                        link.attr("href", urlLink).text("Asociar");
                         
                         tbody.append($('<tr>').
-                            append($('<td>').append(div)).
                             append($('<td>').append(item.nombres)).
-                            append($('<td>').append(item.apellidos))
-                        );
+                            append($('<td>').append(item.apellidos)).
+                            append($('<td>').append(tipo)).
+                            append($('<td>').append(link)) );
                     });
-                    /**/
                 }
             });
-            /**/
         }
     });
 });

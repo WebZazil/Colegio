@@ -2,8 +2,8 @@
 
 class Encuesta_EvaluadorController extends Zend_Controller_Action
 {
-	
-	private $evaluacionDAO; 
+
+    private $evaluacionDAO = null;
 
     public function init()
     {
@@ -56,8 +56,23 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
 		
     }
 
+    public function asociarAction()
+    {
+        // action body
+        $idConjunto = $this->getParam("idConjunto");
+		$idEvaluador = $this->getParam("idEvaluador");
+		try{
+			$this->evaluacionDAO->asociarEvaluadorAConjunto($idEvaluador, $idConjunto);
+			$this->_helper->redirector->gotoSimple("evaluadores", "conjunto", "encuesta",array("idConjunto"=>$idConjunto));
+		}catch(Exception $ex){
+			print_r($ex->getMessage());
+		}
+    }
+
 
 }
+
+
 
 
 
