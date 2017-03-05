@@ -8,13 +8,14 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	private $tablaEvaluador;
 	private $tablaEvaluacionesConjunto;
 	private $tablaAsignacionGrupo;
-	
+	private $tablaEncuesta;	
 	
 	function __construct($dbAdapter) {
 		$this->tablaConjuntoEvaluador = new Encuesta_Model_DbTable_ConjuntoEvaluador(array('db'=>$dbAdapter));
 		$this->tablaEvaluador = new Encuesta_Model_DbTable_Evaluador(array('db'=>$dbAdapter));
 		$this->tablaEvaluacionesConjunto = new Encuesta_Model_DbTable_EvaluacionesConjunto(array('db'=>$dbAdapter));
 		$this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
+		$this->tablaEncuesta = new Encuesta_Model_DbTable_Encuesta(array('db'=>$dbAdapter));
 	}
 	
 	public function getEvaluadoresByTipo($tipo) {
@@ -172,7 +173,7 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 			return array();
 		}else{
 			$idsAsignaciones = explode(",", $rowConjunto->idsAsignacionesGrupo); 
-			$select = $tablaAsignacion->select->from($tablaAsignacion)->where("idAsignacionGrupo IN (?)", $idsAsignaciones);
+			$select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idAsignacionGrupo IN (?)", $idsAsignaciones);
 			$rowsAsignaciones = $tablaAsignacion->fetchAll($select);
 			
 			return $rowsAsignaciones->toArray();
@@ -181,13 +182,16 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	
 	public function asociarAsignacionAConjunto($idConjunto, $idAsignacion) {
 		$tablaEvalsConjunto = $this->tablaEvaluacionesConjunto;
-		$datos = array();
-		$datos["idConjuntoEvaluador"] = $idConjunto;
-		//$datos[""]
-		try{
-			
-		}catch(Exception $ex){
-			print_r($ex->getMessage());
+		$where = $tablaEvalsConjunto->getAdapter()->quoteInto("idConjuntoEvaluador=?", $idConjunto);
+		$rowConjunto = $tablaEvalsConjunto->fetchRow($where);
+		$idsAsignaciones = explode(",", $rowConjunto->idsAsignacionesGrupo);
+		
+		//print_r($idsAsignaciones);
+		
+		if (!in_array($idAsignacion, $idsAsignaciones)) {
+			$idsAsignaciones[] = $idAsignacion;
+			$rowConjunto->idsAsignacionesGrupo = implode(",", $idsAsignaciones);
+			$rowConjunto->save();
 		}
 		
 	}
@@ -200,5 +204,18 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		$datos["idsAsignacionesGrupo"] = "";
 		
 		$tablaEvalsConjunto->insert($datos);
+	}
+	
+	public function getEvaluacionesByIdConjunto($idConjunto) {
+		$tablaEvalsConjunto = $this->tablaEvaluacionesConjunto;
+		$where = $tablaEvalsConjunto->getAdapter()->quoteInto("idConjuntoEvaluador=?", $idConjunto);
+		$rowConjunto = $tablaEvalsConjunto->fetchRow($where);
+		$idsEncuestas = explode(",", $rowConjunto->idsEncuesta);
+		
+		$tablaEncuesta = $this->tablaEncuesta;
+		$select = $tablaEncuesta->select()->from($tablaEncuesta)->where("idEncuesta IN (?)", $idsEncuestas);
+		$rowsEncuestas = $tablaEncuesta->fetchAll($select);
+		
+		return $rowsEncuestas->toArray(); 
 	}
 }

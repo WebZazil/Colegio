@@ -219,6 +219,7 @@
               <actionMethod actionName="evaluadores"/>
               <actionMethod actionName="agregareval"/>
               <actionMethod actionName="agregarasign"/>
+              <actionMethod actionName="evals"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -694,6 +695,9 @@
               <viewControllerScriptsDirectory forControllerName="Conjunto">
                 <viewScriptFile forActionName="agregarasign"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Conjunto">
+                <viewScriptFile forActionName="evals"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -992,6 +996,7 @@
                 <testApplicationActionMethod forActionName="evaluadores"/>
                 <testApplicationActionMethod forActionName="agregareval"/>
                 <testApplicationActionMethod forActionName="agregarasign"/>
+                <testApplicationActionMethod forActionName="evals"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

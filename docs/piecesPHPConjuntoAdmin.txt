@@ -1,0 +1,49 @@
+<?php
+$asignacionesDisponibles = array();
+		$asignacionesD = array();
+		$asignaciones = array();
+		
+		//print_r($asignacionesConjunto);
+		foreach ($asignacionesGrupo as $asignacionG) {
+			//print_r($asignacionG);
+			if(empty($asignacionesConjunto)){
+				//print_r("conjunto vacio");
+				$asignaciones = $asignacionesGrupo;
+			}else{
+				foreach ($asignacionesConjunto as $asignacionC) {
+					if($asignacionC["idAsignacionGrupo"] != $asignacionG["idAsignacionGrupo"]) {
+						$asignaciones[] = $asignacionG;
+					}else{
+						$asignacionesD[] = $asignacionG;
+					}
+				}
+			}
+		}
+		
+		//print_r($asignaciones);
+		
+		//print_r($asignacionesGrupo);
+		
+		foreach ($asignaciones as $asignacion) {
+			$obj = array();
+			$obj["materia"] = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
+			$obj["docente"] = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+			$asignacionesDisponibles[$asignacion["idAsignacionGrupo"]] = $obj;
+		}
+		//print_r($asignacionesDisponibles);
+		print_r($asignacionesConjunto);
+		$asignacionesC = array();
+		foreach ($asignacionesConjunto as $asignacionC) {
+			$obj = array();
+			$obj["materia"] = $this->materiaDAO->getMateriaById($asignacionC["idMateriaEscolar"]);
+			$obj["docente"] = $this->registroDAO->obtenerRegistro($asignacionC["idRegistro"])->toArray();
+			$asignacionesC[$asignacionC["idAsignacionGrupo"]] = $obj;
+		}
+		
+		$this->view->conjunto = $conjunto;
+		//print_r($encuestas);
+		$this->view->encuestas = $encuestas;
+		
+		$this->view->asignacionesDisponibles = $asignacionesDisponibles;
+		//$this->view->asignacionesConjunto = $asignacionesConjunto;
+		$this->view->asignacionesConjunto = $asignacionesC;
