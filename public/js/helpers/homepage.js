@@ -73,7 +73,8 @@ $().ready(function(){
 		console.log("combo grupo ha cambiado");
 		var idGrupo = $(this).val();
 		if(idGrupo != "0"){
-			var urlEncuesta = url+"/evaluacion/grupo/idGrupo/"+idGrupo;
+			var urlEncuesta = url+"/conjunto/conjuntos/idGrupo/"+idGrupo;
+			//var urlEncuesta = url+"/evaluacion/grupo/idGrupo/"+idGrupo;
 			var form = $("#form-eval");
 			var link = $("<a></a>").attr("class","btn btn-success").attr("href",urlEncuesta).text("Buscar Evaluaciones");
 			var linkContainer = $("<div></div>").attr("class","col-xs-offset-2 col-xs-10");

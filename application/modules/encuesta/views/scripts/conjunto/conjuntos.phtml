@@ -1,0 +1,44 @@
+<?php 
+	$grupo = $this->grupo;
+	$conjuntos = $this->conjuntos;
+	$evaluadores = $this->evaluadores;
+	
+	
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Conjuntos del Grupo: <strong> <?php echo $grupo->getGrupo() ?> </strong> </h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Creacion</th>
+								<th>Evaluadores</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($conjuntos as $conjunto) : 
+								$urlEvaluaciones = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjuntos",""=>"",),null,true);
+								?>
+							<tr>
+								<td><?php echo $conjunto["nombre"] ?></td>
+								<td><?php echo $conjunto["creacion"] ?></td>
+								<td>
+									<a class="btn btn-info" href="<?php echo $urlEvaluaciones; ?>">
+										<i class="fa fa-check-square-o"></i> Evaluadores
+									</a>
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

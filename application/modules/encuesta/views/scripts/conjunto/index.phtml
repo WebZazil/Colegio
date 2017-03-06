@@ -24,23 +24,28 @@
 								<th>Conjunto</th>
 								<th>Grupo</th>
 								<th>Creado</th>
+								<th>Asignaciones</th>
 								<th>Evaluadores</th>
 								<th>Evaluaciones</th>
-								<th>Configurar</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php foreach ($conjuntos as $conjunto) : 
 								$grupo = $grupoDAO->obtenerGrupo($conjunto["idGrupoEscolar"]);
 								$urlEvaluadores = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
-								$urlEvals = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evals","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
-								$urlAdmin = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"admin","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
+								$urlEvals = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
+								$urlAsignaciones = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
 								
 								?>
 							<tr>
 								<td><?php echo $conjunto["nombre"] ?></td>
 								<td><?php echo $grupo->getGrupo(); ?></td>
 								<td><?php echo $conjunto["creacion"] ?></td>
+								<td>
+									<a class="btn btn-link" href="<?php echo $urlAsignaciones;  ?>">
+										<i class="fa fa-graduation-cap"></i> Asignaciones Conjunto
+									</a>
+								</td>
 								<td>
 									<a class="btn btn-link" href="<?php echo $urlEvaluadores;  ?>">
 										<i class="fa fa-users"></i> Evaluadores
@@ -49,11 +54,6 @@
 								<td>
 									<a class="btn btn-link" href="<?php echo $urlEvals;  ?>">
 										<i class="fa fa-check-square-o"></i> Evaluaciones
-									</a>
-								</td>
-								<td>
-									<a class="btn btn-link" href="<?php echo $urlAdmin;  ?>">
-										<i class="fa fa-cogs"></i> Config Conjunto
 									</a>
 								</td>
 							</tr>

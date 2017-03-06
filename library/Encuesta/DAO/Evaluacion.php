@@ -132,6 +132,19 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		}
 	}
 	
+	public function getConjuntosByIdGrupoEscolar($idGrupoEscolar) {
+		$tablaConjunto = $this->tablaConjuntoEvaluador;
+		$where = $tablaConjunto->getAdapter()->quoteInto("idGrupoEscolar=?", $idGrupoEscolar);
+		
+		$rowsConjuntos = $tablaConjunto->fetchAll($where);
+		
+		if(is_null($rowsConjuntos)){
+			return array();
+		}else{
+			return $rowsConjuntos->toArray();
+		}
+	}
+	
 	public function getEvaluadoresByString($string) {
 		$valor = "'%$string%'";
 		$tablaEvaluador = $this->tablaEvaluador;

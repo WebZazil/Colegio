@@ -1,4 +1,44 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Conjunto</b> and script/action name <b>evals</b></p>
+<?php 
+	$conjunto = $this->conjunto;
+	$evaluadores = $this->evaluadores;
+	$evaluacion = $this->evaluacion;
+	
+?>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Evaluaciones del Conjunto: <strong><?php echo $conjunto["nombre"] ?></strong></h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<table id="evaluadores" class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Apellido</th>
+								<th>Evaluaciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($evaluadores as $evaluador) : 
+								$urlEvals = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evals","idEvaluador"=>$evaluador["idEvaluador"],),null,TRUE);
+								?>
+							<tr>
+								<td><?php echo $evaluador["apellidos"] ?></td>
+								<td><?php echo $evaluador["nombres"] ?></td>
+								<td>
+									<a class="btn btn-info" href="<?php echo $urlEvals ?>">
+										<i class="fa fa-check-square-o"></i> Evaluaciones
+									</a>
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

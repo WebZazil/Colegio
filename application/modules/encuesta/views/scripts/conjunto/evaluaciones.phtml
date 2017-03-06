@@ -1,0 +1,89 @@
+<?php 
+	$evaluaciones = $this->evaluaciones;
+	$conjunto = $this->conjunto;
+	$estatusEncuesta = Zend_Registry::get("estatus");
+	$encuestas = $this->encuestas;
+	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,true);
+	$urlAltaEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"],),null,TRUE);
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Agregar Evaluacion a Conjunto: <?php echo $conjunto["nombre"]; ?> </h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a class="btn btn-info" href="<?php echo $urlConjuntos; ?>">
+						<i class="fa fa-arrow-circle-left"></i> Regresar al Conjunto
+					</a>
+				</div>
+				<hr />
+				<div>
+					<form action="<?php echo $urlAltaEvaluacion; ?>" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="idEncuesta" class="col-xs-2 control-label">Evaluaciones: </label>
+							<div class="col-xs-10">
+								<select name="idEncuesta" class="form-control">
+									<?php foreach ($encuestas as $index => $encuesta) : ?>
+									<option value="<?php echo $encuesta->getIdEncuesta() ?>"><?php echo $encuesta->getNombre(); ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-xs-offset-2 col-xs-10">
+								<button type="submit" class="btn btn-warning">
+									<i class="fa fa-plus-circle"></i> Asociar Evaluacion
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Evaluaciones del Conjunto: <?php echo $conjunto["nombre"]; ?> </h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Evaluaciones</th>
+								<th>Evaluacion</th>
+								<th>Descripcion</th>
+								<th>Estatus</th>
+								<th>Creacion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($evaluaciones as $evaluacion) : 
+								$urlEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evals","idConjunto"=>$conjunto["idConjuntoEvaluador"],"idEvaluacion"=>$evaluacion["idEncuesta"]),null,TRUE);
+								?>
+							<tr>
+								<td>
+									<a class="btn btn-link" href="<?php echo $urlEvaluacion ?>">
+										<i class="fa fa-check-square-o"></i> Consultar
+									</a>
+								</td>
+								<td><?php echo $evaluacion["nombre"]; ?></td>
+								<td><?php echo $evaluacion["descripcion"]; ?></td>
+								<td><?php echo $estatusEncuesta[$evaluacion["estatus"]]; ?></td>
+								<td><?php echo $evaluacion["fecha"]; ?></td>
+							</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
