@@ -236,6 +236,7 @@
             <formFile formName="AsociarEncuesta"/>
             <formFile formName="AltaEvaluador"/>
             <formFile formName="AltaConjunto"/>
+            <formFile formName="TestForm"/>
           </formsDirectory>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>

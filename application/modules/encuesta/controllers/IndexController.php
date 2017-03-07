@@ -4,11 +4,32 @@ class Encuesta_IndexController extends Zend_Controller_Action
 {
 
     private $service = null;
+
     private $loginDAO = null;
+
     private $identity = null;
+
     private $cicloDAO = null;
+
     private $docenteDAO = null;
-	private $nivelDAO = null;
+
+    private $nivelDAO = null;
+
+    private $encuestaDAO = null;
+
+    private $materiaDAO = null;
+
+    private $registroDAO = null;
+
+    private $evaluacionDAO = null;
+
+    private $asignacionDAO = null;
+    
+    private $generador = null;
+    
+    private $grupoDAO = null;
+    
+    private $gradoDAO = null;
 
     public function init()
     {
@@ -24,8 +45,18 @@ class Encuesta_IndexController extends Zend_Controller_Action
         $this->service = new Encuesta_Util_Service;
         $this->loginDAO = new Encuesta_DAO_Login();
 		$dbAdapter = Zend_Registry::get('dbmodquery');
+        
+        $this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dbAdapter);
+        $this->generador = new Encuesta_Util_Generator($dbAdapter);
         $this->cicloDAO = new Encuesta_DAO_Ciclo($dbAdapter);
 		$this->nivelDAO = new Encuesta_DAO_Nivel($dbAdapter);
+        $this->grupoDAO = new Encuesta_DAO_Grupos($dbAdapter);
+        $this->gradoDAO = new Encuesta_DAO_Grado($dbAdapter);
+        
+        $this->encuestaDAO = new Encuesta_DAO_Encuesta($dbAdapter);
+        $this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
+        $this->materiaDAO = new Encuesta_DAO_Materia($dbAdapter);
+        $this->registroDAO = new Encuesta_DAO_Registro($dbAdapter);
         //$this->docenteDAO = new Encuesta_DAO_Registro($this->identity["adapter"]);
         $this->_helper->layout->setLayout('homeEncuesta');
     }
@@ -193,10 +224,137 @@ class Encuesta_IndexController extends Zend_Controller_Action
 		$this->_helper->redirector->gotoSimple("index", "index", "encuesta");
     }
 
+    public function evalsAction()
+    {
+        // action body
+        $idConjunto = $this->getParam("idConjunto");
+        $idEvaluacion = $this->getParam("idEvaluacion");
+        $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
+        $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
+        $evaluadores = $this->evaluacionDAO->getEvaluadoresByIdConjunto($idConjunto);
+        
+        $this->view->conjunto = $conjunto;
+        $this->view->evaluacion = $encuesta;
+        $this->view->evaluadores = $evaluadores;
+    }
+
+    public function conjuntosAction()
+    {
+        // action body
+        $idGrupoEscolar = $this->getParam("idGrupo");
+        $grupo = $this->grupoDAO->obtenerGrupo($idGrupoEscolar);
+        $conjuntos = $this->evaluacionDAO->getConjuntosByIdGrupoEscolar($idGrupoEscolar);
+        $this->view->grupo = $grupo;
+        $this->view->conjuntos = $conjuntos;
+    }
+
+    public function asignsAction()
+    {
+        // action body
+        $idConjunto = $this->getParam("idConjunto");
+        $idEvaluacion = $this->getParam("idEvaluacion");
+        $idEvaluador = $this->getParam("idEvaluador");
+        
+        $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
+        $evaluador = $this->evaluacionDAO->getEvaluadorById($idEvaluador);
+        $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
+        
+        $this->view->conjunto = $conjunto;
+        $this->view->evaluador = $evaluador;
+        $this->view->encuesta = $encuesta;
+        
+        $asignacionesGrupo =  $this->asignacionDAO->obtenerAsignacionesGrupo($conjunto["idGrupoEscolar"]);
+        $asignacionesConjunto = $this->evaluacionDAO->getAsignacionesByIdConjunto($idConjunto);
+        // disponibles = grupo - conjunto i.e. todas - asignadas.
+        
+        //print_r($asignacionesConjunto);
+        $asignacionesDisponibles = array();
+        //print_r($asignacionesGrupo);
+        
+        foreach ($asignacionesGrupo as $asignacionG) {
+            //print_r($asignacionG);
+            foreach ($asignacionesConjunto as $asignacionC) {
+                if($asignacionC["idAsignacionGrupo"] == $asignacionG["idAsignacionGrupo"]){
+                    //print_r("Relacionada<br />");
+                    
+                }else{
+                    //print_r("No Relacionada<br />");
+                    $asignacionesDisponibles[] = $asignacionG;
+                }
+            }
+        }
+        // 
+        $asignacionesC = array();
+        $asignacionesD = array();
+        
+        foreach ($asignacionesConjunto as $asignacion) {
+            $obj = array();
+            $obj["materia"] = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
+            $obj["docente"] = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+            $asignacionesC[$asignacion["idAsignacionGrupo"]] = $obj;
+        }
+        
+        foreach ($asignacionesDisponibles as $asignacion) {
+            $obj = array();
+            $obj["materia"] = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
+            $obj["docente"] = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+            $asignacionesD[$asignacion["idAsignacionGrupo"]] = $obj;
+        }
+        
+        $this->view->asignacionesDisponibles = $asignacionesD;
+        $this->view->asignacionesConjunto = $asignacionesC;
+    }
+
+    public function evaluarAction()
+    {
+        // action body
+        $request = $this->getRequest();
+        $idConjunto = $this->getParam("conjunto");
+        $idEvaluador = $this->getParam("idEvaluador");
+        $idEncuesta = $this->getParam("evaluacion");
+        $idAsignacion = $this->getParam("asignacion");
+        
+        $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
+        
+        $grupo = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
+        $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
+        $docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"]);
+        
+        $grado = $this->gradoDAO->getGradoById($grupo->getIdGrado());
+        $nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
+        
+        $this->view->grupo = $grupo;
+        $this->view->materia = $materia;
+        $this->view->docente = $docente;
+        
+        $this->view->grado = $grado;
+        $this->view->nivel = $nivel;
+        
+        //print_r($asignacion);
+        //print_r($grupo->getIdGrado());
+        
+        $generador = $this->generador;
+        $form = new Encuesta_Form_TestForm;
+        $this->view->form = $form;
+        
+        $formulario = $generador->generarFormulario($idEncuesta, $idAsignacion);
+        
+        if($request->isGet()){
+            $this->view->formulario = $formulario;
+        }
+        
+        if ($request->isPost()) {
+            $post = $request->getPost();
+            print_r($post);
+            
+            try{
+                //$generador->procesarFormulario($idEncuesta,$idAsignacion,$post);
+                $this->view->messageSuccess = "Encuesta registrada correctamente";
+            }catch(Exception $ex){
+                $this->view->messageFail = "Error al Registrar la encuesta: " . $ex->getMessage();
+            }
+            /**/
+        }
+    }
 
 }
-
-
-
-
-

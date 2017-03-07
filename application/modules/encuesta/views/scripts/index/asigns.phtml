@@ -1,0 +1,66 @@
+<?php 
+    $conjunto = $this->conjunto;
+    $evaluador = $this->evaluador;
+    $evaluacion = $this->encuesta;
+    $estatusEncuestaRealizada = Zend_Registry::get("estatusER");
+    $asignacionesDisponibles = $this->asignacionesDisponibles;
+    $asignacionesConjunto = $this->asignacionesConjunto;
+    $urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,true);
+    $urlAltaEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
+    $urlAltaAsignacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregarasign","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);    
+?>
+<section id="evaluaciones">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Evaluaciones Disponibles</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Materia</th>
+                            <th>Docente</th>
+                            <th>Evaluacion</th>
+                            <th>Estatus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($asignacionesConjunto as $index => $asignacion): 
+                            //Verificamos que esta encuesta ya este evaluada y bloqueamos si ya la ha evaluado
+                            $estatus = "NE";
+                            $params = array(
+                                "module"=>"encuesta",
+                                "controller"=>"index",
+                                "action"=>"evaluar",
+                                "conjunto"=>$conjunto["idConjuntoEvaluador"],
+                                "evaluador"=>$evaluador["idEvaluador"],
+                                "evaluacion"=>$evaluacion->getIdEncuesta(),
+                                "asignacion" => $index
+                                );
+                            $urlEval = $this->url($params,null,TRUE);
+                            ?>
+                        <tr>
+                            <td><?php echo $asignacion["materia"]["materiaEscolar"] ?></td>
+                            <td><?php echo $asignacion["docente"]["apellidos"].", ".$asignacion["docente"]["nombres"] ?></td>
+                            <td><?php echo $evaluacion->getNombre() ?></td>
+                            <td>
+                                <?php if ($estatus == "NE") {  ?>
+                                <a class="btn btn-link" href="<?php echo $urlEval; ?>">
+                                    <i class="fa fa-check-circle-o"></i> No Evaluada
+                                </a>
+                                <?php }else { ?>
+                                   <i class="fa fa-check-circle-o"></i> Evaluada 
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
