@@ -310,10 +310,11 @@ class Encuesta_IndexController extends Zend_Controller_Action
         // action body
         $request = $this->getRequest();
         $idConjunto = $this->getParam("conjunto");
-        $idEvaluador = $this->getParam("idEvaluador");
+        $idEvaluador = $this->getParam("evaluador");
         $idEncuesta = $this->getParam("evaluacion");
         $idAsignacion = $this->getParam("asignacion");
         
+		$evaluador = $this->evaluacionDAO->getEvaluadorById($idEvaluador);
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
         
         $grupo = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
@@ -329,6 +330,9 @@ class Encuesta_IndexController extends Zend_Controller_Action
         
         $this->view->grado = $grado;
         $this->view->nivel = $nivel;
+		
+		$this->view->asignacion = $asignacion;
+		$this->view->evaluador = $evaluador;
         
         //print_r($asignacion);
         //print_r($grupo->getIdGrado());

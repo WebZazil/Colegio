@@ -144,7 +144,7 @@ class Encuesta_Util_Generator {
 		$eSubCabecera->addElements(array($eEncuesta,$eNivel,$eGrado,$eGrupo,$eMateria,$eReferencia));
 		$eSubCabecera->setDecorators($this->decoratorsSeccion);
 		
-		$formulario->addSubForm($eSubCabecera, "referencia");
+		//$formulario->addSubForm($eSubCabecera, "referencia");
 		
 		//============================================= Iteramos a traves de las secciones del grupo
 		foreach ($secciones as $seccion) {

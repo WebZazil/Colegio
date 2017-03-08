@@ -36,6 +36,7 @@
               <actionMethod actionName="reposdocente"/>
               <actionMethod actionName="evaluadores"/>
               <actionMethod actionName="evals"/>
+              <actionMethod actionName="processform"/>
             </controllerFile>
             <controllerFile controllerName="Categoria">
               <actionMethod actionName="index"/>
@@ -707,6 +708,9 @@
               <viewControllerScriptsDirectory forControllerName="Conjunto">
                 <viewScriptFile forActionName="conjuntos"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="processform"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -822,6 +826,7 @@
                 <testApplicationActionMethod forActionName="reposdocente"/>
                 <testApplicationActionMethod forActionName="evaluadores"/>
                 <testApplicationActionMethod forActionName="evals"/>
+                <testApplicationActionMethod forActionName="processform"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Categoria">
                 <testApplicationActionMethod forActionName="index"/>

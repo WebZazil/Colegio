@@ -6,6 +6,7 @@ class Encuesta_Form_TestForm extends Zend_Form
     public function init()
     {
         /* Form Elements & Other Definitions Here ... */
+        $elementDecorators = Zend_Registry::get("zfed");
         
         $eTextOne = new Zend_Form_Element_Text("textOne");
         $eTextOne->setLabel("Campo de texto uno: ");
@@ -18,22 +19,48 @@ class Encuesta_Form_TestForm extends Zend_Form
         $options = array("One","Two","Three","Four","Five","Six","Seven");
         
         $eSelectOne = new Zend_Form_Element_Select("selectOne");
-        $eSelectOne->setLabel("Combo de seleccion uno");
+        $eSelectOne->setLabel("Combo uno");
         $eSelectOne->setAttrib("class", "form-control");
         $eSelectOne->setMultiOptions($options);
         
         $eSelectTwo = new Zend_Form_Element_Select("selectTwo");
-        $eSelectTwo->setLabel("Combo de seleccion dos");
+        $eSelectTwo->setLabel("Combo dos");
         $eSelectTwo->setAttrib("class", "form-control");
         $eSelectTwo->setMultiOptions($options);
+		
+		$eSelectThree = new Zend_Form_Element_Select("selectThree");
+        $eSelectThree->setLabel("Combo tres");
+        $eSelectThree->setAttrib("class", "form-control");
+        $eSelectThree->setMultiOptions($options);
+		
+		$eSelectFour = new Zend_Form_Element_Select("selectFour");
+        $eSelectFour->setLabel("Combo cuatro");
+        $eSelectFour->setAttrib("class", "form-control");
+        $eSelectFour->setMultiOptions($options);
+		
+		$eSelectFive = new Zend_Form_Element_Select("selectFive");
+        $eSelectFive->setLabel("Combo cinco");
+        $eSelectFive->setAttrib("class", "form-control");
+        $eSelectFive->setMultiOptions($options);
+		
+		$eSelectSix = new Zend_Form_Element_Select("selectSix");
+        $eSelectSix->setLabel("Combo seis");
+        $eSelectSix->setAttrib("class", "form-control");
+        $eSelectSix->setMultiOptions($options);
         
         $sOne = new Zend_Form_SubForm("subOne");
-        $sOne->addElements(array($eTextOne,$eSelectOne));
+		$sOne->setLegend("SubForm Uno");
+        $sOne->addElements(array($eTextOne,$eTextTwo,$eSelectOne,$eSelectTwo));
+		$sOne->setElementDecorators($elementDecorators);
         
         $sTwo = new Zend_Form_SubForm("subTwo");
-        $sTwo->addElements(array($eTextTwo,$eSelectTwo));
+		$sTwo->setLegend("SubForm Dos");
+        $sTwo->addElements(array($eSelectThree,$eSelectFour,$eSelectFive,$eSelectSix));
+		$sTwo->setElementDecorators($elementDecorators);
         
         $this->addSubForms(array($sOne,$sTwo)); 
+        
+        
         
     }
 

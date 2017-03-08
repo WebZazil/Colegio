@@ -43,9 +43,11 @@ class MainConfig {
         //Element Decorators
         $elementTextDecorators = array(
             'ViewHelper',
-            'HtmlTag'
+            array(array('wrapperElement'=>'HtmlTag'), array("class"=>"col-xs-10")),
+            array('Label', array("class"=>"col-xs-2 control-label")),
+            array(array('wrapperConjunto'=>'HtmlTag'), array("class"=>"form-group")),
         );
-        
+        Zend_Registry::set("zfed", $elementTextDecorators);
         
         
 	}

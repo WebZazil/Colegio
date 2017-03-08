@@ -204,8 +204,24 @@ class Encuesta_JsonController extends Zend_Controller_Action
 		}
     }
 
+    public function processformAction()
+    {
+        // action body
+        $request = $this->getRequest();
+		$post = $request->getPost();
+		
+		$myData = $post["myData"];
+		$contenedores = json_decode($myData,true);
+		//$datos->
+		$this->evaluacionDAO;
+		
+		//echo Zend_Json::encode($myData);
+    }
+
 
 }
+
+
 
 
 
