@@ -27,6 +27,8 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="login"/>
               <actionMethod actionName="logout"/>
+              <actionMethod actionName="evaluadores"/>
+              <actionMethod actionName="evaluaciones"/>
             </controllerFile>
             <controllerFile controllerName="Json">
               <actionMethod actionName="index"/>
@@ -270,6 +272,7 @@
               <dbTableFile dbTableName="ConjuntoEvaluador"/>
               <dbTableFile dbTableName="Evaluador"/>
               <dbTableFile dbTableName="EvaluacionesConjunto"/>
+              <dbTableFile dbTableName="EvaluacionRealizada"/>
             </dbTableDirectory>
             <modelFile modelName="Registro"/>
             <modelFile modelName="Nivel"/>
@@ -711,6 +714,12 @@
               <viewControllerScriptsDirectory forControllerName="Json">
                 <viewScriptFile forActionName="processform"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="evaluadores"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="evaluaciones"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -817,6 +826,8 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="login"/>
                 <testApplicationActionMethod forActionName="logout"/>
+                <testApplicationActionMethod forActionName="evaluadores"/>
+                <testApplicationActionMethod forActionName="evaluaciones"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Json">
                 <testApplicationActionMethod forActionName="index"/>

@@ -9,6 +9,7 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	private $tablaEvaluacionesConjunto;
 	private $tablaAsignacionGrupo;
 	private $tablaEncuesta;	
+	private $tablaEvaluacionRealizada;
 	
 	function __construct($dbAdapter) {
 		$this->tablaConjuntoEvaluador = new Encuesta_Model_DbTable_ConjuntoEvaluador(array('db'=>$dbAdapter));
@@ -16,6 +17,7 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		$this->tablaEvaluacionesConjunto = new Encuesta_Model_DbTable_EvaluacionesConjunto(array('db'=>$dbAdapter));
 		$this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
 		$this->tablaEncuesta = new Encuesta_Model_DbTable_Encuesta(array('db'=>$dbAdapter));
+		$this->tablaEvaluacionRealizada = new Encuesta_Model_DbTable_EvaluacionRealizada(array('db'=>$dbAdapter));
 	}
 	
 	public function getEvaluadoresByTipo($tipo) {
@@ -230,5 +232,69 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		$rowsEncuestas = $tablaEncuesta->fetchAll($select);
 		
 		return $rowsEncuestas->toArray(); 
+	}
+	
+	/**
+	 * 
+	 */
+	public function saveEncuestaEvaluador($idEvaluador, $idConjunto, $idEvaluacion, $idAsignacion, $jsonEncuesta) {
+		$tablaEvRe = $this->tablaEvaluacionRealizada;
+		$select = $tablaEvRe->select()->from($tablaEvRe)
+					->where("idEvaluador=?",$idEvaluador)
+					->where("idConjuntoEvaluador=?",$idConjunto)
+					->where("idAsignacionGrupo=?",$idAsignacion)
+					->where("idEvaluacion=?",$idEvaluacion);
+		$rowEvaluacion = $tablaEvRe->fetchRow($select);
+		
+		if (is_null($rowEvaluacion)) {
+			$datos = array();
+			$datos["idEvaluador"] = $idEvaluador;
+			$datos["idConjuntoEvaluador"] = $idConjunto;
+			$datos["idAsignacionGrupo"] = $idAsignacion;
+			$datos["idEvaluacion"] = $idEvaluacion;
+			$datos["json"] = $jsonEncuesta;
+			$datos["data"] = "";
+			
+			//print_r($datos);
+			
+			$tablaEvRe->insert($datos);
+			return true;
+		}else{
+			//echo Zend_Json::encode("Encuesta ya realizada");
+			return false;
+		}
+		
+	}
+	
+	public function getEvaluadoresGrupo($idGrupo) {
+		$tablaConjunto = $this->tablaConjuntoEvaluador;
+		$select = $tablaConjunto->select()->from($tablaConjunto)->where("idGrupoEscolar");
+		$rowsConjuntos = $tablaConjunto->fetchAll($select);
+		$idsEvaluadores = array();
+		$tablaEvaluador = $this->tablaEvaluador;
+		
+		
+		if(!is_null($rowsConjuntos)){
+			foreach ($rowsConjuntos as $rowConjunto) {
+				if($rowConjunto->idsEvaluadores != ""){
+					$idConjunto = $rowConjunto->idConjuntoEvaluador;
+					$arrayConjunto = array();
+					$ids = explode(",", $rowConjunto->idsEvaluadores);
+					foreach ($ids as $key => $value) {
+						//$obj = array("idConjunto"=>$idConjunto, "idEvaluador"=>$value);
+						$arrayConjunto[] = $value;
+					}
+					$idsEvaluadores[$idConjunto] = $arrayConjunto;
+				}
+			}
+		}
+		print_r($idsEvaluadores);
+		/*
+		$tablaEvaluador = $this->tablaEvaluador;
+		$select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador IN (?)", $idsEvaluadores);
+		$rowsEvaluadores = $tablaEvaluador->fetchAll($select);
+		
+		return $rowsEvaluadores->toArray();
+		*/
 	}
 }

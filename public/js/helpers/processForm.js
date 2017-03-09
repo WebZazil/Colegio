@@ -13,13 +13,17 @@ $().ready(function(){
 	    //send Ajax request to your web server.
 	    var data = JSON.stringify(survey.data);
 	    //var data = survey.data;
-	    //console.log("The results are:" + JSON.stringify(survey.data));
-	    console.log("The results are:");
-	    console.dir(data);
+	    console.log("The results are:" + JSON.stringify(survey.data));
+	    //console.log("The results are:");
+	    //console.dir(data);
 	    var evaluador = $("#evaluaciones").attr("evaluador");
 	    var asignacion = $("#evaluaciones").attr("asignacion");
+	    var evaluacion = $("#evaluaciones").attr("evaluacion");
+	    var conjunto = $("#evaluaciones").attr("conjunto");
 	    
-	    var urlProcessForm = url + "/json/processform/evaluador/"+evaluador+"/asignacion/"+asignacion;
+	    var urlComplement = "evaluador/"+evaluador+"/conjunto/"+conjunto+"/evaluacion/"+evaluacion+"/asignacion/"+asignacion;
+	    
+	    var urlProcessForm = url + "/json/processform/"+urlComplement;
 	    console.log(urlProcessForm);
 	    $.ajax({
 	    	type: "POST",
@@ -29,9 +33,14 @@ $().ready(function(){
 	    	success: function(datos){
 	    		console.log('Datos recibidos por el server');
 	    		console.dir(datos);
+	    		var urlComp = "/idConjunto/"+conjunto+"/idEvaluador/"+evaluador+"/idEvaluacion/"+evaluacion;
+	    		var urlAsignaciones = url+"/index/asigns"+urlComp;
+	    		var link = $("<a></a>").attr("class","btn btn-success").attr("href",urlAsignaciones).text("Continuar");
+	    		$("#continueEvals").append(link);
 	    	},
 	    	error: function(e){
 	    		console.log(e.message);
+	    		//console.dir(e);
 	    	}
 	    });
 	    

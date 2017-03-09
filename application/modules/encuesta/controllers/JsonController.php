@@ -207,15 +207,26 @@ class Encuesta_JsonController extends Zend_Controller_Action
     public function processformAction()
     {
         // action body
+        $idEvaluador = $this->getParam("evaluador");
+		$idAsignacion = $this->getParam("asignacion");
+		$idConjunto = $this->getParam("conjunto");
+		$idEvaluacion = $this->getParam("evaluacion");
+        
         $request = $this->getRequest();
 		$post = $request->getPost();
 		
 		$myData = $post["myData"];
 		$contenedores = json_decode($myData,true);
-		//$datos->
-		$this->evaluacionDAO;
+		//$jsonEncuesta = $contenedores;
+		//$jsonEncuesta = Zend_Json::encode($myData);
+		$jsonEncuesta = json_encode(utf8_encode($myData));
+		// $registrada = [true | false]
+		$registrada = $this->evaluacionDAO->saveEncuestaEvaluador($idEvaluador, $idConjunto, $idEvaluacion, $idAsignacion, $jsonEncuesta);
 		
-		//echo Zend_Json::encode($myData);
+		$msg = array();
+		$msg["status"] = $registrada;
+		
+		echo Zend_Json::encode($msg);
     }
 
 

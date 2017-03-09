@@ -24,11 +24,11 @@ class Encuesta_IndexController extends Zend_Controller_Action
     private $evaluacionDAO = null;
 
     private $asignacionDAO = null;
-    
+
     private $generador = null;
-    
+
     private $grupoDAO = null;
-    
+
     private $gradoDAO = null;
 
     public function init()
@@ -314,8 +314,10 @@ class Encuesta_IndexController extends Zend_Controller_Action
         $idEncuesta = $this->getParam("evaluacion");
         $idAsignacion = $this->getParam("asignacion");
         
+		$asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
 		$evaluador = $this->evaluacionDAO->getEvaluadorById($idEvaluador);
-        $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
+        $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
+		$evaluacion = $this->encuestaDAO->getEncuestaById($idEncuesta);
         
         $grupo = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
@@ -333,6 +335,8 @@ class Encuesta_IndexController extends Zend_Controller_Action
 		
 		$this->view->asignacion = $asignacion;
 		$this->view->evaluador = $evaluador;
+		$this->view->conjunto = $conjunto;
+		$this->view->evaluacion = $evaluacion;
         
         //print_r($asignacion);
         //print_r($grupo->getIdGrado());
@@ -361,4 +365,24 @@ class Encuesta_IndexController extends Zend_Controller_Action
         }
     }
 
+    public function evaluadoresAction()
+    {
+        // action body
+        $grupo = $this->getParam("grupo");
+		$objGrupo = $this->grupoDAO->obtenerGrupo($grupo);
+		$evaluadores = $this->evaluacionDAO->getEvaluadoresGrupo($grupo);
+		//$this->view->evaluadores = $evaluadores;
+		//$this->view->grupo = $objGrupo;
+    }
+
+    public function evaluacionesAction()
+    {
+        // action body
+    }
+
+
 }
+
+
+
+
