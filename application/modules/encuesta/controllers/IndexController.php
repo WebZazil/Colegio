@@ -227,8 +227,8 @@ class Encuesta_IndexController extends Zend_Controller_Action
     public function evalsAction()
     {
         // action body
-        $idConjunto = $this->getParam("idConjunto");
-        $idEvaluacion = $this->getParam("idEvaluacion");
+        $idConjunto = $this->getParam("conjunto");
+        $idEvaluacion = $this->getParam("evaluacion");
         $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
         $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
         $evaluadores = $this->evaluacionDAO->getEvaluadoresByIdConjunto($idConjunto);
@@ -251,9 +251,9 @@ class Encuesta_IndexController extends Zend_Controller_Action
     public function asignsAction()
     {
         // action body
-        $idConjunto = $this->getParam("idConjunto");
-        $idEvaluacion = $this->getParam("idEvaluacion");
-        $idEvaluador = $this->getParam("idEvaluador");
+        $idConjunto = $this->getParam("conjunto");
+        $idEvaluacion = $this->getParam("evaluacion");
+        $idEvaluador = $this->getParam("evaluador");
         
         $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
         $evaluador = $this->evaluacionDAO->getEvaluadorById($idEvaluador);
@@ -370,14 +370,25 @@ class Encuesta_IndexController extends Zend_Controller_Action
         // action body
         $grupo = $this->getParam("grupo");
 		$objGrupo = $this->grupoDAO->obtenerGrupo($grupo);
-		$evaluadores = $this->evaluacionDAO->getEvaluadoresGrupo($grupo);
-		//$this->view->evaluadores = $evaluadores;
-		//$this->view->grupo = $objGrupo;
+		$conjuntos = $this->evaluacionDAO->getEvaluadoresGrupo($grupo);
+		$this->view->conjuntos = $conjuntos;
+		$this->view->grupo = $objGrupo;
     }
 
     public function evaluacionesAction()
     {
         // action body
+        $conjunto = $this->getParam("conjunto");
+        $evaluador = $this->getParam("evaluador");
+        
+        $evaluaciones = $this->evaluacionDAO->getEvaluacionesByIdConjunto($conjunto);
+        
+        $objConjunto = $this->evaluacionDAO->getConjuntoById($conjunto);
+        $objEvaluador = $this->evaluacionDAO->getEvaluadorById($evaluador);
+        
+        $this->view->evaluaciones = $evaluaciones;
+        $this->view->conjunto = $objConjunto;
+        $this->view->evaluador = $objEvaluador;
     }
 
 

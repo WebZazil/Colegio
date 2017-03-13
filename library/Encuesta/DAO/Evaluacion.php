@@ -270,9 +270,8 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		$tablaConjunto = $this->tablaConjuntoEvaluador;
 		$select = $tablaConjunto->select()->from($tablaConjunto)->where("idGrupoEscolar");
 		$rowsConjuntos = $tablaConjunto->fetchAll($select);
-		$idsEvaluadores = array();
+		$conjuntos = array();
 		$tablaEvaluador = $this->tablaEvaluador;
-		
 		
 		if(!is_null($rowsConjuntos)){
 			foreach ($rowsConjuntos as $rowConjunto) {
@@ -284,11 +283,21 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 						//$obj = array("idConjunto"=>$idConjunto, "idEvaluador"=>$value);
 						$arrayConjunto[] = $value;
 					}
-					$idsEvaluadores[$idConjunto] = $arrayConjunto;
+					$conjuntos[$idConjunto] = $arrayConjunto;
 				}
 			}
 		}
-		print_r($idsEvaluadores);
+		//print_r($conjuntos);
+        $arrayConjuntos = array();
+        foreach ($conjuntos as $index => $conjunto) {
+            $select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador IN (?) ", $conjunto);
+            $rowsEvaluadores = $tablaEvaluador->fetchAll($select);
+            //print_r($rowsEvaluadores->toArray());
+            if(!is_null($rowsEvaluadores)){
+                $arrayConjuntos[$index] = $rowsEvaluadores->toArray();
+            }
+        }
+        
 		/*
 		$tablaEvaluador = $this->tablaEvaluador;
 		$select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador IN (?)", $idsEvaluadores);
@@ -296,5 +305,6 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		
 		return $rowsEvaluadores->toArray();
 		*/
+		return $arrayConjuntos;
 	}
 }
