@@ -1,4 +1,91 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Encuesta</b> and script/action name <b>index</b></p>
+<?php $encuestas = $this->encuestas; ?>
+<div class="row">
+	<div class="col-xs-3">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Encuestas</h5>
+			</div>
+			<div class="panel-body">
+			    <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a type="button" class="btn btn-block btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuestas", "action"=>"alta"), null, true) ?>">
+                                    <span class="icon icon-plus"></span> Nueva
+                                </a>
+                            </td>
+                        </tr>
+                        <?php foreach ($encuestas as $encuesta) : ?>
+                        <tr>
+                            <td>
+                                <button type="button" class="btn btn-block btn-default" tipo="encuesta" claveEncuesta="<?php echo $encuesta->getIdEncuesta(); ?>" 
+                                   data-toggle="modal" data-target="#msgDetails">
+                                    <?php echo $encuesta->getNombreClave(); ?>
+                                </button>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-xs-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <span class="icon">
+                    <i class="icon-reorder"></i>
+                </span>
+                <h5 class="panel-title">Secciones</h5>
+            </div>
+            <div id="contenedorSecciones" class="panel-body">
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <span class="icon">
+                    <i class="icon-th-large"></i>
+                </span>
+                <h5 class="panel-title">Grupos</h5>
+            </div>
+            <div id="contenedorGrupos" class="panel-body">
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <span class="icon">
+                    <i class="icon-question-sign"></i>
+                </span>
+                <h5 class="panel-title">Preguntas</h5>
+            </div>
+            <div id="contenedorPreguntas" class="panel-body">
+                
+            </div>
+        </div>
+    </div>
 </div>
+<hr />
+<div class="row">
+    <div id="contentDet" class="col-xs-12">
+        <div class="panel panel-info">
+        	<div class="panel-heading">
+        	    <span class="icon">
+                    <i class="icon-search"></i>
+                </span>
+                <h5 class="panel-title">Detalles</h5>
+        	</div>
+        	<div id="detalles" class="panel-body" tipo="" claveContenedor="">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/js/helpers/mainEncuesta.js"></script>

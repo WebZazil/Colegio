@@ -1,4 +1,83 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Encuesta</b> and script/action name <b>config</b></p>
+<?php
+    $encuesta = $this->encuesta;
+?>
+<!-- Detalle Encuesta -->
+<div class="row-fluid">
+    <div class="widget-box span12">
+        <div class="widget-title">
+            <span class="icon">
+                <i class="icon-cogs"></i>
+            </span>
+            <h5>Configurando Encuesta:<strong></strong></h5>
+        </div>
+        <div class="widget-content">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Nombre Clave</th>
+                        <th>Descripcion</th>
+                        <th>Estatus</th>
+                        <th>Creación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?php echo $encuesta->getNombre() ?></td>
+                        <td><?php echo $encuesta->getNombreClave() ?></td>
+                        <td><?php echo $encuesta->getDescripcion() ?></td>
+                        <td><?php echo $encuesta->getEstatus() ?></td>
+                        <td><?php echo $encuesta->getFecha() ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Editando Encuesta -->
+<div class="row-fluid">
+    <div class="widget-box span12">
+        <div class="widget-title">
+            <span class="icon">
+                <i class="icon-edit"></i>
+            </span>
+            <h5>Editar Encuesta</h5>
+        </div>
+        <div class="widget-content nopadding">
+            <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded"
+                  action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuestas","action"=>"editar","id"=>$encuesta->getIdEncuesta()),null,true) ?>"  >
+                <div class="control-group">
+                    <label for="nombre" class="control-label">Nombre Encuesta</label>
+                    <div class="controls">
+                        <input class="span11" name="nombre" type="text" autofocus="" value="<?php echo $encuesta->getNombre() ?>" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="nombreClave" class="control-label">Nombre Clave de Encuesta</label>
+                    <div class="controls">
+                        <input class="span11" name="nombreClave" type="text" value="<?php echo $encuesta->getNombreClave() ?>" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="descripcion" class="control-label">Descripcion</label>
+                    <div class="controls">
+                        <input class="span11" name="descripcion" type="text" value="<?php echo $encuesta->getDescripcion() ?>" />
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <div class="pull-left">
+                        <a class="btn btn-danger" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuestas","action"=>"index"),null,true) ?>">
+                            <span class="icon-arrow-left"></span> Regresar a Encuestas
+                        </a>
+                    </div>
+                    <div class="pull-right">
+                        <input class="btn btn-warning" type="submit" value="Actualizar" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

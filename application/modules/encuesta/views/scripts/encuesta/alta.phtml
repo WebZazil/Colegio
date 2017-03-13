@@ -1,4 +1,52 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Encuesta</b> and script/action name <b>alta</b></p>
-</div>
+<?php
+    $messageSuccess = $this->messageSuccess;
+?>
+<section class="row-fluid">
+    <div class="span12">
+        <div class="widget-box">
+            <div class="widget-title">
+                <h5>Nueva Encuesta</h5>
+            </div>
+            <div class="widget-content nopadding">
+                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" >
+                    <div class="control-group">
+                        <label for="nombre" class="control-label">Nombre de la Encuesta</label>
+                        <div class="controls">
+                            <input class="span10" type="text" name="nombre" placeholder="Nombre Encuesta" autofocus="" required="required" />
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Nombre Clave de la encuesta:</label>
+                        <div class="controls">
+                            <input class="span10" type="text" name="nombreClave" placeholder="Nombre clave" required="required" />
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Descripcion de la Encuesta</label>
+                        <div class="controls">
+                            <input class="span10" type="text" name="descripcion" placeholder="Descripcion" required="required" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <div class="pull-left">
+                            <a class="btn btn-danger" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuestas","action"=>"index"),null,true) ?>">
+                                <span class="icon-arrow-left"></span> Regresar a encuestas
+                            </a>
+                        </div>
+                        <div class="pull-right">
+                            <button class="btn btn-success" type="submit">
+                                <i class="icon-save"></i> Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<?php if(!is_null($messageSuccess)){ ?>
+
+<?php } ?>

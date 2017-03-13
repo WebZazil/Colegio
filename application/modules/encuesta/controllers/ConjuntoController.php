@@ -88,7 +88,7 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
 			//print_r($datos);
 			try{
 				$this->evaluacionDAO->asociarEvaluacionAConjunto($idConjunto, $datos["idEncuesta"]);
-				$this->_helper->redirector->gotoSimple("admin", "conjunto", "encuesta", array("idConjunto"=>$idConjunto));
+				$this->_helper->redirector->gotoSimple("evaluaciones", "conjunto", "encuesta", array("idConjunto"=>$idConjunto));
 			}catch(Exception $ex){
 				print_r($ex->getMessage());
 			}

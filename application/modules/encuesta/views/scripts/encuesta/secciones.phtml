@@ -1,4 +1,41 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Encuesta</b> and script/action name <b>secciones</b></p>
+<?php 
+    $encuesta = $this->encuesta;
+    $secciones = $this->secciones;
+?>
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget-box">
+            <div class="widget-title">
+                <h5>Secciones de la Encuesta: <strong><?php echo $encuesta->getNombre() ?></strong></h5>
+            </div>
+            <div class="widget-content">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Orden</th>
+                            <th>Elementos</th>
+                            <th>Creación</th>
+                            <th>Administrar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($secciones as $seccion) : ?>
+                        <tr>
+                            <td><?php echo $seccion->getNombre() ?></td>
+                            <td><?php echo $seccion->getOrden() ?></td>
+                            <td><?php echo $seccion->getElementos() ?></td>
+                            <td><?php echo $seccion->getFecha() ?></td>
+                            <td>
+                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"index","id"=>$seccion->getIdSeccionEncuesta()),null,true) ?>">
+                                    <span class="icon icon-cogs"></span> Configurar
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
