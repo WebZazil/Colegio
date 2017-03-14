@@ -8,7 +8,8 @@
     $asignacionesConjunto = $this->asignacionesConjunto;
     $urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,true);
     $urlAltaEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
-    $urlAltaAsignacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregarasign","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);    
+    $urlAltaAsignacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregarasign","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
+    $urlEvaluaciones = $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"evaluaciones","conjunto"=>$conjunto["idConjuntoEvaluador"],"evaluador"=>$evaluador["idEvaluador"]),null,true);    
 ?>
 <section id="evaluaciones">
     <div class="container">
@@ -21,6 +22,12 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
+                <div>
+                    <a class="btn btn-info" href="<?php echo $urlEvaluaciones; ?>">
+                        <i class="fa fa-arrow-circle-left"></i> Regresar a Evaluaciones
+                    </a>
+                </div>
+                <hr />
                 <table class="table table-striped table-condensed">
                     <thead>
                         <tr>
