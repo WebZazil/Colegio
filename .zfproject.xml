@@ -273,6 +273,7 @@
               <dbTableFile dbTableName="Evaluador"/>
               <dbTableFile dbTableName="EvaluacionesConjunto"/>
               <dbTableFile dbTableName="EvaluacionRealizada"/>
+              <dbTableFile dbTableName="EvaluacionConjunto"/>
             </dbTableDirectory>
             <modelFile modelName="Registro"/>
             <modelFile modelName="Nivel"/>

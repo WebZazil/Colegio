@@ -263,14 +263,14 @@ class Encuesta_IndexController extends Zend_Controller_Action
         $this->view->evaluador = $evaluador;
         $this->view->encuesta = $encuesta;
         
-        $asignacionesGrupo =  $this->asignacionDAO->obtenerAsignacionesGrupo($conjunto["idGrupoEscolar"]);
-        $asignacionesConjunto = $this->evaluacionDAO->getAsignacionesByIdConjunto($idConjunto);
+        //$asignacionesGrupo =  $this->asignacionDAO->obtenerAsignacionesGrupo($conjunto["idGrupoEscolar"]);
+        $asignacionesConjunto = $this->evaluacionDAO->getAsignacionesByIdConjuntoAndIdEvaluacion($idConjunto, $idEvaluacion);
         // disponibles = grupo - conjunto i.e. todas - asignadas.
         
         //print_r($asignacionesConjunto);
-        $asignacionesDisponibles = array();
+        //$asignacionesDisponibles = array();
         //print_r($asignacionesGrupo);
-        
+        /*
         foreach ($asignacionesGrupo as $asignacionG) {
             //print_r($asignacionG);
             foreach ($asignacionesConjunto as $asignacionC) {
@@ -282,10 +282,10 @@ class Encuesta_IndexController extends Zend_Controller_Action
                     $asignacionesDisponibles[] = $asignacionG;
                 }
             }
-        }
+        }*/
         // 
         $asignacionesC = array();
-        $asignacionesD = array();
+        //$asignacionesD = array();
         
         foreach ($asignacionesConjunto as $asignacion) {
             $obj = array();
@@ -293,15 +293,15 @@ class Encuesta_IndexController extends Zend_Controller_Action
             $obj["docente"] = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
             $asignacionesC[$asignacion["idAsignacionGrupo"]] = $obj;
         }
-        
+        /*
         foreach ($asignacionesDisponibles as $asignacion) {
             $obj = array();
             $obj["materia"] = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
             $obj["docente"] = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
             $asignacionesD[$asignacion["idAsignacionGrupo"]] = $obj;
-        }
+        }*/
         
-        $this->view->asignacionesDisponibles = $asignacionesD;
+        //$this->view->asignacionesDisponibles = $asignacionesD;
         $this->view->asignacionesConjunto = $asignacionesC;
     }
 

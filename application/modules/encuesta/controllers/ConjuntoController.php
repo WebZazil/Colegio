@@ -104,10 +104,10 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
         //print_r($datos);
 		if ($request->isPost()) {
 			$datos = $request->getPost();
-			print_r($datos);
+			//print_r($datos);
 			try{
-				$this->evaluacionDAO->asociarAsignacionAConjunto($idConjunto,$datos["idAsignacion"]);
-				$this->_helper->redirector->gotoSimple("admin", "conjunto", "encuesta", array("idConjunto"=>$idConjunto));
+				$this->evaluacionDAO->asociarAsignacionAConjunto($idConjunto, $datos["idEvaluacion"],$datos["idAsignacion"]);
+				$this->_helper->redirector->gotoSimple("asignaciones", "conjunto", "encuesta", array("idConjunto"=>$idConjunto));
 			}catch(Exception $ex){
 				print_r($ex->getMessage());
 			}
@@ -148,9 +148,11 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
         $idConjunto = $this->getParam("idConjunto");
 		
 		$conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
+        $evaluaciones = $this->evaluacionDAO->getEvaluacionesByIdConjunto($idConjunto);
 		$encuestas = $this->encuestaDAO->getAllEncuestas();
 		$this->view->conjunto = $conjunto;
 		$this->view->encuestas = $encuestas;
+        $this->view->evaluaciones = $evaluaciones;
 		
 		$asignacionesGrupo =  $this->asignacionDAO->obtenerAsignacionesGrupo($conjunto["idGrupoEscolar"]);
 		$asignacionesConjunto = $this->evaluacionDAO->getAsignacionesByIdConjunto($idConjunto);
@@ -159,17 +161,23 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
 		//print_r($asignacionesConjunto);
 		$asignacionesDisponibles = array();
 		//print_r($asignacionesGrupo);
+		//print_r($asignacionesConjunto);
+        //print_r(empty($asignacionesConjunto));
 		
 		foreach ($asignacionesGrupo as $asignacionG) {
 			//print_r($asignacionG);
-			foreach ($asignacionesConjunto as $asignacionC) {
-				if($asignacionC["idAsignacionGrupo"] == $asignacionG["idAsignacionGrupo"]){
-					//print_r("Relacionada<br />");
-					
-				}else{
-					//print_r("No Relacionada<br />");
-					$asignacionesDisponibles[] = $asignacionG;
-				}
+			if(empty($asignacionesConjunto)){
+			    $asignacionesDisponibles[] = $asignacionG;
+			}else{
+			    foreach ($asignacionesConjunto as $asignacionC) {
+                    if($asignacionC["idAsignacionGrupo"] == $asignacionG["idAsignacionGrupo"]){
+                        //print_r("Relacionada<br />");
+                        
+                    }else{
+                        //print_r("No Relacionada<br />");
+                        $asignacionesDisponibles[] = $asignacionG;
+                    }
+                }
 			}
 		}
 		// 
