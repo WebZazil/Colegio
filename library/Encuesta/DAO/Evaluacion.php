@@ -328,43 +328,68 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	
 	public function getEvaluadoresGrupo($idGrupo) {
 		$tablaConjunto = $this->tablaConjuntoEvaluador;
-		$select = $tablaConjunto->select()->from($tablaConjunto)->where("idGrupoEscolar");
-		$rowsConjuntos = $tablaConjunto->fetchAll($select);
-		$conjuntos = array();
-		$tablaEvaluador = $this->tablaEvaluador;
-		
-		if(!is_null($rowsConjuntos)){
-			foreach ($rowsConjuntos as $rowConjunto) {
-				if($rowConjunto->idsEvaluadores != ""){
-					$idConjunto = $rowConjunto->idConjuntoEvaluador;
-					$arrayConjunto = array();
-					$ids = explode(",", $rowConjunto->idsEvaluadores);
-					foreach ($ids as $key => $value) {
-						//$obj = array("idConjunto"=>$idConjunto, "idEvaluador"=>$value);
-						$arrayConjunto[] = $value;
-					}
-					$conjuntos[$idConjunto] = $arrayConjunto;
-				}
-			}
-		}
-		//print_r($conjuntos);
-        $arrayConjuntos = array();
-        foreach ($conjuntos as $index => $conjunto) {
-            $select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador IN (?) ", $conjunto);
-            $rowsEvaluadores = $tablaEvaluador->fetchAll($select);
-            //print_r($rowsEvaluadores->toArray());
-            if(!is_null($rowsEvaluadores)){
-                $arrayConjuntos[$index] = $rowsEvaluadores->toArray();
+        $select = $tablaConjunto->select()->from($tablaConjunto)->where("idGrupoEscolar=?",$idGrupo);
+        $rowsConjuntos = $tablaConjunto->fetchAll($select);
+        $ids = array();
+        $conjuntos = array();
+        foreach ($rowsConjuntos as $rowConjunto) {
+            //conjunto $rowConjunto->idConjuntoEvaluador
+            $idConjunto = $rowConjunto->idConjuntoEvaluador;
+            $arrayConjunto = array();
+            $idsEvaluadores = explode(",", $rowConjunto->idsEvaluadores);
+            foreach ($idsEvaluadores as $key => $id) {
+                if ($id != "") {
+                    $arrayConjunto[] = $id;
+                }
+            }
+            $conjuntos[$idConjunto] = $arrayConjunto;
+        }
+        //print_r("Conjuntos y IdsEvaluadores:");
+        //print_r($conjuntos);
+        //print_r("<br />");
+        $tablaEvaluador = $this->tablaEvaluador;
+        foreach ($conjuntos as $idConjunto => $conjunto) {
+            //print_r($conjunto);
+            //print_r("<br />");
+            foreach ($conjunto as $key => $idEvaluador) {
+                $select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador=?",$idEvaluador);
+                $rowEvaluador = $tablaEvaluador->fetchRow($select);
+                $conjuntos[$idConjunto][$key] = $rowEvaluador->toArray();
+            }
+            
+        }
+        //print_r("<br />");
+        //print_r($conjuntos);
+        /*
+        foreach ($conjuntos as $idConjunto => $conjunto) {
+            //print_r($conjunto);
+            print_r("<br />");
+            foreach ($conjunto as $key => $value) {
+                print_r($value);
+                print_r("<br />");
             }
         }
+        */
+        //$select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador IN (?)",$ids);
+        //$rowsEvaluadores = $tablaEvaluador->fetchAll($select);
         
-		/*
-		$tablaEvaluador = $this->tablaEvaluador;
-		$select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador IN (?)", $idsEvaluadores);
-		$rowsEvaluadores = $tablaEvaluador->fetchAll($select);
-		
-		return $rowsEvaluadores->toArray();
-		*/
-		return $arrayConjuntos;
+        //return $rowsEvaluadores->toArray();
+        return $conjuntos;
 	}
+
+    public function IsAsignacionConjuntoEvaluada($idConjunto,$idEvaluador,$idEvaluacion,$idAsignacion) {
+        $tablaEvaluacionR = $this->tablaEvaluacionRealizada;
+        $select = $tablaEvaluacionR->select()
+            ->from($tablaEvaluacionR)
+            ->where("idConjuntoEvaluador=?",$idConjunto)
+            ->where("idEvaluador=?",$idEvaluador)
+            ->where("idEvaluacion=?",$idEvaluacion)
+            ->where("idAsignacionGrupo=?",$idAsignacion);
+        $rowEvaluada = $tablaEvaluacionR->fetchRow($select);
+        if (is_null($rowEvaluada)) {
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

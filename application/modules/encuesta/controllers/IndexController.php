@@ -303,6 +303,7 @@ class Encuesta_IndexController extends Zend_Controller_Action
         
         //$this->view->asignacionesDisponibles = $asignacionesD;
         $this->view->asignacionesConjunto = $asignacionesC;
+        $this->view->evaluacionDAO = $this->evaluacionDAO;
     }
 
     public function evaluarAction()
@@ -370,6 +371,8 @@ class Encuesta_IndexController extends Zend_Controller_Action
         // action body
         $grupo = $this->getParam("grupo");
 		$objGrupo = $this->grupoDAO->obtenerGrupo($grupo);
+        //Obtenemos todos los evaluadores del grupo
+        //print_r($grupo);
 		$conjuntos = $this->evaluacionDAO->getEvaluadoresGrupo($grupo);
 		$this->view->conjuntos = $conjuntos;
 		$this->view->grupo = $objGrupo;

@@ -1,4 +1,5 @@
 <?php 
+    $evaluacionDAO = $this->evaluacionDAO;
     $conjunto = $this->conjunto;
     $evaluador = $this->evaluador;
     $evaluacion = $this->encuesta;
@@ -31,7 +32,8 @@
                     <tbody>
                         <?php foreach ($asignacionesConjunto as $index => $asignacion): 
                             //Verificamos que esta encuesta ya este evaluada y bloqueamos si ya la ha evaluado
-                            $estatus = "NE";
+                            //$estatus = "NE";
+                            $evaluada = $evaluacionDAO->IsAsignacionConjuntoEvaluada($conjunto["idConjuntoEvaluador"], $evaluador["idEvaluador"], $evaluacion->getIdEncuesta(), $index);
                             $params = array(
                                 "module"=>"encuesta",
                                 "controller"=>"index",
@@ -47,9 +49,9 @@
                             <td><?php echo $asignacion["materia"]["materiaEscolar"] ?></td>
                             <td><?php echo $asignacion["docente"]["apellidos"].", ".$asignacion["docente"]["nombres"] ?></td>
                             <td>
-                                <?php if ($estatus == "NE") {  ?>
+                                <?php if (!$evaluada) {  ?>
                                 <a class="btn btn-link" href="<?php echo $urlEval; ?>">
-                                    <i class="fa fa-check-circle-o"></i> No Evaluada
+                                    <i class="fa fa-circle-o"></i> No Evaluada
                                 </a>
                                 <?php }else { ?>
                                    <i class="fa fa-check-circle-o"></i> Evaluada 

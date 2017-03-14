@@ -50,7 +50,7 @@ $().ready(function(){
 	    	success: function(datos){
 	    		console.log('Datos recibidos por el server');
 	    		console.dir(datos);
-	    		var urlComp = "/idConjunto/"+conjunto+"/idEvaluador/"+evaluador+"/idEvaluacion/"+evaluacion;
+	    		var urlComp = "/conjunto/"+conjunto+"/evaluador/"+evaluador+"/evaluacion/"+evaluacion;
 	    		var urlAsignaciones = url+"/index/asigns"+urlComp;
 	    		var link = $("<a></a>").attr("class","btn btn-success").attr("href",urlAsignaciones).text("Continuar");
 	    		$("#continueEvals").append(link);
