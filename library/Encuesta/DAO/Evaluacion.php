@@ -182,33 +182,71 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
      * Obtenemos las relaciones materia-docente del conjunto de evaluacion
      */
 	public function getAsignacionesByIdConjunto($idConjunto) {
-		$tablaEvalsConjunto = $this->tablaEvaluacionConjunto;
-		$where = $tablaEvalsConjunto->getAdapter()->quoteInto("idConjuntoEvaluador=?", $idConjunto);
-		$rowsConjunto = $tablaEvalsConjunto->fetchAll($where);
-		
-        $idsAsignaciones = array();
-        foreach ($rowsConjunto as $rowConjunto) {
-            $ids = explode(",", $rowConjunto->idsAsignacionesGrupo);
-            if (!empty($ids)) {
-                foreach ($ids as $key => $id) {
-                    $idsAsignaciones[] = $id;
+	    $tablaEvalsConjunto = $this->tablaEvaluacionConjunto;
+	    $tablaAsignacion = $this->tablaAsignacionGrupo;
+		// ----
+        $select = $tablaEvalsConjunto->select()->from($tablaEvalsConjunto)->where("idConjuntoEvaluador=?",$idConjunto);
+        $rowsEvalsConjunto = $tablaEvalsConjunto->fetchAll($select);
+        $arrayEvals = array();
+        foreach ($rowsEvalsConjunto as $rowEval) {
+            $idEncuesta = $rowEval->idEvaluacion;
+            $idsAsignaciones = explode(",", $rowEval->idsAsignacionesGrupo);
+            $arrAsignacion = array();
+            foreach ($idsAsignaciones as $index => $idAsignacion) {
+                if($idAsignacion != ""){
+                    $where = $tablaAsignacion->getAdapter()->quoteInto("idAsignacionGrupo=?", $idAsignacion);
+                    $rowAsignacion = $tablaAsignacion->fetchRow($where);
+                    $arrAsignacion[] = $rowAsignacion->toArray();
+                }
+            }
+            $arrayEvals[$idEncuesta] = $arrAsignacion;
+        }
+        
+        //print_r($arrayEvals);
+        //$evaluacionesConjunto = $ta
+        return $arrayEvals;
+	}
+
+    /**
+     * 
+     */
+    public function getAsignacionesByIdGrupo($idGrupo) {
+        $tablaCoEval = $this->tablaConjuntoEvaluador;
+        $select  = $tablaCoEval->select()->from($tablaCoEval)->where("idGrupoEscolar=?",$idGrupo);
+        $rowsConjuntos = $tablaCoEval->fetchAll($select);
+        
+        $idsConjuntos = array();
+        foreach ($rowsConjuntos as $rowConjunto) {
+            $idsConjuntos[] = $rowConjunto->idConjuntoEvaluador;
+        }
+        
+        $tablaEvalCon = $this->tablaEvaluacionConjunto;
+        $select = $tablaEvalCon->select()->from($tablaEvalCon)->where("idConjuntoEvaluador IN (?)", $idsConjuntos);
+        $rowsEvals = $tablaEvalCon->fetchAll($select);
+        
+        $idsAsignacionesGrupo = array();
+        foreach ($rowsEvals as $rowEval) {
+            $idsAsignacionesConjunto = explode(",", $rowEval->idsAsignacionesGrupo);
+            foreach ($idsAsignacionesConjunto as $idAsignacion) {
+                //print_r("idAsignacion: " . $idAsignacion);
+                //print_r("<br />");
+                if ($idAsignacion != "") {
+                    $idsAsignacionesGrupo[] = $idAsignacion;
                 }
             }
         }
         
+        $tablaAsignaciones = $this->tablaAsignacionGrupo;
+        $select = $tablaAsignaciones->select()->from($tablaAsignaciones)->where("idAsignacionGrupo IN (?)", $idsAsignacionesGrupo);
+        $rowAsignaciones = $tablaAsignaciones->fetchAll($select);
         
-		$tablaAsignacion = $this->tablaAsignacionGrupo;
-		
-		if(is_null($rowsConjunto)){
-			return array();
-		}else{
-			//$idsAsignaciones = explode(",", $idsAsignaciones); 
-			$select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idAsignacionGrupo IN (?)", $idsAsignaciones);
-			$rowsAsignaciones = $tablaAsignacion->fetchAll($select);
-			
-			return $rowsAsignaciones->toArray();
-		}
-	}
+        if (is_null($rowAsignaciones)) {
+            return array();
+        }else{
+            return $rowAsignaciones->toArray();
+        }
+        
+    }
     
     /**
      * 

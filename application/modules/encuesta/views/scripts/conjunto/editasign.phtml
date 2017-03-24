@@ -1,0 +1,56 @@
+<?php
+    $conjunto = $this->conjunto;
+    $evaluacion = $this->evaluacion;
+    $evaluacionesConjunto = $this->evaluacionesConjunto;
+    
+    $params = array(
+        "module"=>"encuesta",
+        "controller"=>"conjunto",
+        "action"=>"asignaciones",
+        "idConjunto"=>$conjunto["idConjuntoEvaluador"],
+    );
+    
+    $urlConjunto = $this->url($params,null,true);
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Modificar asignación de evaluación.</h5>
+			</div>
+			<div class="panel-body">
+			    <div>
+			        <a class="btn btn-info" href="<?php echo $urlConjunto; ?>">
+			            <i class="fa fa-arrow-circle-left"></i> Regresar a Conjunto.
+			        </a>
+			    </div>
+			    <hr />
+				<div>
+					<form class="form-horizontal" action="" method="post" enctype="application/x-www-form-urlencoded">
+					    <div class="form-group">
+                            <label for="evaluacion" class="col-xs-2 control-label">Evaluación: </label>
+                            <div class="col-xs-10">
+                                <select class="form-control" name="evaluacion">
+                                    <option value="<?php echo $evaluacion["idEncuesta"]; ?>"><?php echo $evaluacion["nombre"]; ?></option>
+                                    <?php foreach ($evaluacionesConjunto as $evaluacionC) : 
+                                            if($evaluacionC["idEncuesta"] != $evaluacion["idEncuesta"]){
+                                        ?>
+                                    <option value="<?php echo $evaluacionC["idEvaluacion"]; ?>"><?php echo $evaluacionC["nombre"]; ?></option>
+                                    <?php } 
+                                    endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+						<div class="form-group">
+						    <div class="col-xs-offset-2 col-xs-10">
+						        <button id="btnMod" class="btn btn-success" type="submit">
+                                    <i class="fa fa-recycle"></i> Actualizar Asignación
+                                </button>
+						    </div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

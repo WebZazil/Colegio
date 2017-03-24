@@ -6,19 +6,28 @@
 	$evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
 	$urlAsociarEvaluador = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
 	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,TRUE);
-    $urlScriptEvaluadores = $this->baseUrl()."/public/js/helpers/searchEvaluadores.js"; 
+    $urlScriptEvaluadores = $this->baseUrl()."/public/js/helpers/searchEvaluadores.js";
+    
+    $urlPreviousConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","idConjunto"=>$conjunto["conjuntoAnterior"]),null,true);
+    $urlNextConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","idConjunto"=>$conjunto["conjuntoSiguiente"]),null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
 		<div id="searchPanel" class="panel panel-success" conjunto="<?php echo $conjunto["idConjuntoEvaluador"]; ?>">
 			<div class="panel-heading">
-				<h5 class="panel-title">Agregar Evaluador en Conjunto</h5>
+				<h5 class="panel-title">Asociar Evaluador en Conjunto: <strong><?php echo $conjunto["nombre"]; ?></strong>  </h5>
 			</div>
 			<div class="panel-body">
 				<div>
 					<a class="btn btn-info" href="<?php echo $urlConjuntos; ?>">
-						<i class="fa fa-arrow-circle-left"></i> Regresar a los conjuntos
+						<i class="fa fa-cubes"></i> Regresar a los conjuntos
 					</a>
+					<a <?php echo ($conjunto["conjuntoAnterior"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
+                        <i class="fa fa-arrow-circle-o-left"></i> Anterior Conjunto
+                    </a>
+                    <a <?php echo ($conjunto["conjuntoSiguiente"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
+                        <i class="fa fa-arrow-circle-o-right"></i> Siguiente Conjunto
+                    </a>
 				</div>
 				<hr />
 				<div>
@@ -54,7 +63,7 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h5 class="panel-title">Evaluadores del Conjunto: <strong><?php echo $conjunto["nombre"] ?></strong> </h5>
+				<h5 class="panel-title">Evaluadores del Conjunto: <strong><?php echo $conjunto["nombre"]; ?></strong> </h5>
 			</div>
 			<div class="panel-body">
 				<div>

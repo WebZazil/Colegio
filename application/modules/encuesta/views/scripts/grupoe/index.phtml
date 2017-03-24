@@ -6,6 +6,7 @@
 	$profesores = $this->profesores;
 	$docente = null;
 	$materiaD = null;
+    $urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjuntos","idGrupo"=>$grupo->getIdGrupo()),null,true);
 ?>
 <section class="row">
 	<div class="panel panel-success">
@@ -20,6 +21,9 @@
 			</a>
 			<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"aencuesta","idGrupo"=>$grupo->getIdGrupo()), null, true); ?>">
 				<span class="glyphicon glyphicon-plus"></span> Asociar Encuesta con Materia-Docente.
+			</a>
+			<a target="_blank" class="btn btn-link" href="<?php echo $urlConjuntos; ?>">
+			    <i class="fa fa-external-link-square"></i> Ir a Conjuntos
 			</a>
 			<br />
 			<table class="table table-striped table-condensed">

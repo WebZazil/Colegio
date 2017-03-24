@@ -1,12 +1,17 @@
 <?php 
 	$conjunto = $this->conjunto;
+    //print_r($conjunto);
 	$encuestas = $this->encuestas;
     $evaluaciones = $this->evaluaciones;
 	$asignacionesDisponibles = $this->asignacionesDisponibles;
+    $asignacionesGrupo = $this->asignacionesGrupo;
 	$asignacionesConjunto = $this->asignacionesConjunto;
 	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,true);
 	$urlAltaEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
-	$urlAltaAsignacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregarasign","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);	
+	$urlAltaAsignacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregarasign","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
+    $urlPreviousConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","idConjunto"=>$conjunto["conjuntoAnterior"]),null,true);
+    $urlNextConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","idConjunto"=>$conjunto["conjuntoSiguiente"]),null,true);
+    $urlGrupo = $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","idGrupo"=>$conjunto["idGrupoEscolar"],),null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -16,17 +21,26 @@
 			</div>
 			<div class="panel-body">
 				<div>
-					<a class="btn btn-info" href="<?php echo $urlConjuntos; ?>">
-						<i class="fa fa-arrow-circle-left"></i> Regresar a conjuntos
+					<a class="btn btn-link" href="<?php echo $urlConjuntos; ?>">
+						<i class="fa fa-cubes"></i> Regresar a Conjuntos
 					</a>
+					<a <?php echo ($conjunto["conjuntoAnterior"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
+                        <i class="fa fa-arrow-circle-o-left"></i> Anterior Conjunto
+                    </a>
+					<a target="_blank" class="btn btn-link" href="<?php echo $urlGrupo; ?>">
+					    <i class="fa fa-external-link-square"></i> Ir al Grupo
+					</a>
+					<a <?php echo ($conjunto["conjuntoSiguiente"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
+                        <i class="fa fa-arrow-circle-o-right"></i> Siguiente Conjunto
+                    </a>
 				</div>
 				<hr />
 				<div>
-					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" action="<?php echo $urlAltaAsignacion ?>" >
+					<div class="form-horizontal" >
 					    <div class="form-group">
                             <label for="idEvaluacion" class="col-xs-2 control-label">Evaluaciones Disponibles</label>
                             <div class="col-xs-10">
-                                <select class="form-control" name="idEvaluacion">
+                                <select id="idEvaluacion" class="form-control" name="idEvaluacion">
                                     <?php foreach ($evaluaciones as $evaluacion) : ?>
                                     <option value="<?php echo $evaluacion["idEncuesta"]; ?>"><?php echo $evaluacion["nombre"]; ?></option>
                                     <?php endforeach; ?>
@@ -36,23 +50,23 @@
 						<div class="form-group">
 							<label for="idAsignacion" class="col-xs-2 control-label">Asignaciones Disponibles</label>
 							<div class="col-xs-10">
-								<select class="form-control" name="idAsignacion">
-									<?php foreach ($asignacionesDisponibles as $index => $asignacionesD) : 
-										$relacion = $asignacionesD["materia"]["materiaEscolar"]." - " .$asignacionesD["docente"]["apellidos"].", ".$asignacionesD["docente"]["nombres"];
+								<select id="idAsignacion" class="form-control" name="idAsignacion">
+									<?php foreach ($asignacionesGrupo as $asignacionG) : 
+										$relacion = $asignacionG["materia"]["materiaEscolar"]." - " .$asignacionG["docente"]["apellidos"].", ".$asignacionG["docente"]["nombres"];
 										?>
-									<option value="<?php echo $index; ?>"><?php echo $relacion; ?></option>
+									<option value="<?php echo $asignacionG["asignacion"]["idAsignacionGrupo"]; ?>"><?php echo $relacion; ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-xs-offset-2 col-xs-10">
-								<button class="btn btn-success" type="submit">
+								<button id="btnSubmit" class="btn btn-success" type="button">
 									<i class="fa fa-plus-circle"></i> Asociar Asignacion.
 								</button>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -72,13 +86,42 @@
 							<tr>
 								<th>Materia</th>
 								<th>Docente</th>
+								<th>Evaluacion</th>
+								<th>Modificar</th>
+								<th>Eliminar</th>
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($asignacionesConjunto as $asignacion): ?>
+							<?php foreach ($asignacionesConjunto as $asignacion): 
+							    $paramsMod = array(
+                                    "module" => "encuesta",
+                                    "controller" => "conjunto",
+                                    "action" => "editasign",
+                                    "co" => $conjunto["idConjuntoEvaluador"],
+                                    "as" => $asignacion["idAsignacion"],
+                                    "ev" => $asignacion["evaluacion"]->getIdEncuesta()
+                                );
+                                
+                                $urlMod = $this->url($paramsMod,null,true);
+                                
+                                $paramsMod["action"] = "delasign";
+                                
+                                $urlDel = $this->url($paramsMod,null,true);
+							    ?>
 							<tr>
 								<td><?php echo $asignacion["materia"]["materiaEscolar"] ?></td>
 								<td><?php echo $asignacion["docente"]["apellidos"].", ".$asignacion["docente"]["nombres"] ?></td>
+								<td><?php echo $asignacion["evaluacion"]->getNombre() ?></td>
+								<td>
+								    <a class="btn btn-link" href="<?php echo $urlMod; ?>">
+								        <i class="fa fa-pencil"></i> Modificar
+								    </a>
+								</td>
+								<td>
+								    <a class="btn btn-link" href="<?php echo $urlDel; ?>">
+								        <i class="fa fa-remove"></i> Eliminar
+								    </a>
+								</td>
 							</tr>
 							<?php endforeach; ?>
 						</tbody>
@@ -88,3 +131,29 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+    $().ready(function(){
+        var appname = "/colegio/encuesta";
+        var url = window.location.origin + appname;
+        var idConjunto = <?php echo $conjunto["idConjuntoEvaluador"]; ?> ;
+        
+        $("#btnSubmit").click(function(){
+            var idEvaluacion = $("#idEvaluacion").val();
+            var idAsignacion = $("#idAsignacion").val();
+            
+            console.log("idEvaluacion: " + idEvaluacion);
+            console.log("idAsignacion: " + idAsignacion);
+            
+            var urlRelacion = url + "/conjunto/agregarasign/co/"+idConjunto+"/ev/"+idEvaluacion+"/as/"+idAsignacion;
+            console.log("UrlRelacion: "+urlRelacion);
+            
+            $.ajax({
+                url: urlRelacion,
+                success: function(data){
+                    console.log("Recibido por el server!!");
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>

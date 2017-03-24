@@ -146,8 +146,6 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 			$rowsMaterias = $tablaMateria->fetchAll($select);
 			return $rowsMaterias->toArray();
 		}
-		
-		
 	}
 	
 	/**

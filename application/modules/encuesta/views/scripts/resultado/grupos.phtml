@@ -1,0 +1,64 @@
+<?php
+    $grupos = $this->grupos;
+    $params = array(
+        "module"=>"encuesta",
+        "controller"=>"resultado",
+        "action"=>"index"
+    );
+    
+    $urlEvals = $this->url($params,null,true);
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Evaluaciones por Grupos</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+                    <a class="btn btn-info" href="<?php echo $urlEvals; ?>">
+                        <i class="fa fa-arrow-circle-left"></i> Regresar a las Evaluaciones
+                    </a>
+                </div>
+                <hr />
+				<div>
+				    <table id="table" class="table table-striped table-condensed">
+				        <thead>
+				            <tr>
+				                <th>Grupo</th>
+				                <th>Evaluaciones</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				            <?php foreach ($grupos as $grupo) : 
+				                $params = array(
+                                    "module"=>"encuesta",
+                                    "controller"=>"resultado",
+                                    "action"=>"evalsgr",
+                                    "gr"=>$grupo["idGrupoEscolar"],
+                                );
+                                $urlEvals = $this->url($params,null,true);
+				                ?>
+				            <tr>
+				                <td>
+				                    <?php echo $grupo["grupoEscolar"]; ?>
+				                </td>
+				                <td>
+				                    <a class="btn btn-link" href="<?php echo $urlEvals; ?>" >
+				                        <i class="fa fa-external-link"></i> Evaluaciones
+				                    </a>
+				                </td>
+				            </tr>
+				            <?php endforeach; ?>
+				        </tbody>
+				    </table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    $().ready(function(){
+        $("#table").DataTable();
+    });
+</script>
