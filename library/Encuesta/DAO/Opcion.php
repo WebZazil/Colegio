@@ -108,6 +108,21 @@ class Encuesta_DAO_Opcion implements Encuesta_Interfaces_IOpcion {
 	public function obtenerValorOpcionMenor($idGrupo){
 		
 	}
+    
+    public function obtenerOpcionMayorPregunta($idPregunta) {
+        $tablaPregunta = $this->tablaPregunta;
+        $select = $tablaPregunta->select()->from($tablaPregunta)->where("idPregunta=?");
+        $rowPregunta = $tablaPregunta->fetchRow($select);
+        
+        $tablaOpciones = $this->tablaOpcion;
+        $select = $tablaOpciones->select()->from($tablaOpciones)->where("idOpcionCategoria IN (?)", explode(",", $rowPregunta->opciones));
+        
+        
+        $rowsOpciones = $tablaOpciones->fetchAll($select);
+        
+        
+        
+    }
 	// =====================================================================================>>>   Insertar
 	public function crearOpcion($idCategoria, array $opcion){
 		$tablaOpcion = $this->tablaOpcion;

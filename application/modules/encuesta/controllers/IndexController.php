@@ -34,7 +34,7 @@ class Encuesta_IndexController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $this->_helper->layout->setLayout('homeEncuesta');
+        //$this->_helper->layout->setLayout('homeEncuesta');
 		
 		$auth = Zend_Auth::getInstance();
         $dataIdentity = $auth->getIdentity();

@@ -430,4 +430,42 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
             return true;
         }
     }
+    
+    public function getAllResultadosConjunto($idConjunto) {
+        
+        $tablaEvalRel = $this->tablaEvaluacionRealizada;
+        $select = $tablaEvalRel->select()->from($tablaEvalRel)->where("idConjuntoEvaluador=?",$idConjunto);
+        $rowsEvalsReal = $tablaEvalRel->fetchAll($select);
+        
+        //print_r($rowsEvalsReal);
+        /*
+        foreach ($rowsEvalsReal as $rowEval) {
+            print_r($rowEval); print_r("<br />");
+        }
+        */
+        //$rowsResultados =
+        if (!is_null($rowsEvalsReal)) {
+            return $rowsEvalsReal->toArray();
+        }else{
+            return array();
+        }
+    }
+    
+    public function getResultadoEvaluacionAsignacionByIdConjunto($idConjunto,$idEvaluacion, $idAsignacion) {
+        $tablaEvalRel = $this->tablaEvaluacionRealizada;
+        $select = $tablaEvalRel->select()->from($tablaEvalRel)
+            ->where("idConjuntoEvaluador=?",$idConjunto)
+            ->where("idEvaluacion=?",$idEvaluacion)
+            ->where("idAsignacionGrupo=?",$idAsignacion);
+            
+        //print_r($select->__toString()); print_r("<br /><br />");
+        $rowsEvalsRel = $tablaEvalRel->fetchAll($select);
+        
+        //print_r($rowsEvalsRel->toArray());
+        if (!is_null($rowsEvalsRel)) {
+            return $rowsEvalsRel->toArray();
+        } else {
+            return array();
+        }
+    }
 }

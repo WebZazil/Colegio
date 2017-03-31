@@ -9,6 +9,10 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     private $encuestaDAO = null;
     private $materiaDAO = null;
     private $asignacionDAO = null;
+    
+    private $preguntaDAO = null;
+    private $respuestaDAO = null;
+    private $opcionDAO = null;
 
     public function init()
     {
@@ -23,6 +27,11 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $this->materiaDAO = new Encuesta_DAO_Materia($dbAdapter);
         $this->registroDAO = new Encuesta_DAO_Registro($dbAdapter);
         $this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dbAdapter);
+        
+        $this->preguntaDAO = new Encuesta_DAO_Pregunta($dbAdapter);
+        $this->respuestaDAO = new Encuesta_DAO_Respuesta($dbAdapter);
+        
+        $this->opcionDAO = new Encuesta_DAO_Opcion($dbAdapter);
     }
 
     public function indexAction()
@@ -46,11 +55,84 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
         $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
         
+        //$resultados = $this->evaluacionDAO->getAllResultadosConjunto($idConjunto);
+        $resultados = $this->evaluacionDAO->getResultadoEvaluacionAsignacionByIdConjunto($idConjunto, $idEvaluacion, $idAsignacion);
+        //print_r($resultados);
+        $results = array();
+        
+        foreach ($resultados as $resultado) {
+            //print_r($resultado);
+            //$json = $resultado["json"];
+            $obj = str_replace("\\", "", $resultado["json"]);
+            $str = substr($obj, 1, -1);
+            //print_r($str); print_r("<br /><br />");
+            $str = json_decode($str,true);
+            //print_r($str);
+            $results[] = $str;
+            //break;
+        }
+        
+        //print_r($results);
+        $resT = array(); // todas las encuestas
+        
+        foreach ($results as $fases) {
+            $contenedor = array();
+            foreach ($fases as $fase) {
+                //print_r($fase); print_r("<br />");
+                foreach ($fase as $key => $value) {
+                    //print_r($key."-".$value); print_r("<br />");
+                    $contenedor[$key] = $value;
+                }
+                
+            }
+            $resT[] = $contenedor;
+        }
+        
+        //print_r($resT);
+        $rPreferencia = array();
+        foreach ($resT as $rests) {
+            //print_r($rest);
+            
+            foreach ($rests as $idPregunta => $idOpcion) {
+                $opcion = $this->opcionDAO->obtenerOpcion($idOpcion);
+                $valor = null;
+                $obj = array();
+                switch ($opcion->getTipoValor()) {
+                    case 'EN':
+                        $valor = $opcion->getValorEntero();
+                        break;
+                    case 'DC':
+                        $valor = $opcion->getValorDecimal();
+                        break;
+                }
+                
+                if (array_key_exists($idPregunta, $rPreferencia)) {
+                    //$valAnterior = $rPreferencia[$idPregunta];
+                    $rPreferencia[$idPregunta]["preferencia"] = $rPreferencia[$idPregunta]["preferencia"] + $valor;
+                    //$rPreferencia[$idPregunta]["opcion"] + $opcion;
+                }else{
+                    //La primera insercion
+                    $obj["preferencia"] = $valor;
+                    $obj["opcion"] = $opcion;
+                    $rPreferencia[$idPregunta] = $obj;
+                }
+            }
+        }
+        
+        foreach ($rPreferencia as $rPref) {
+            //print_r($rPref); print_r("<br /><br />");
+        }
+        
+        $this->view->preferencias = $rPreferencia;
+        
         $this->view->conjunto = $conjunto;
         $this->view->asignacion = $asignacion;
         $this->view->evaluacion = $evaluacion;
+        $this->view->resultados = $results;
         
-        
+        $this->view->preguntaDAO = $this->preguntaDAO;
+        $this->view->respuestaDAO = $this->respuestaDAO;
+        $this->view->opcionDAO = $this->opcionDAO;
     }
 
     public function evalsAction()
@@ -66,6 +148,8 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
         //$evaluacionesConjunto = $this->evaluacionDAO->getEvaluacionesByIdConjunto($idConjunto);
         $asignacionesConjunto = $this->evaluacionDAO->getAsignacionesByIdConjunto($idConjunto);
+        
+        
         //print_r($asignacionesConjunto);
         $this->view->conjunto = $conjunto;
         $this->view->asignacionesConjunto = $asignacionesConjunto;
