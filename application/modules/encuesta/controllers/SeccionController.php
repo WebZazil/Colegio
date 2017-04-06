@@ -63,13 +63,14 @@ class Encuesta_SeccionController extends Zend_Controller_Action
 			$this->view->seccion = $seccion;
 			$this->view->grupos = $grupos;
 			$this->view->preguntas = $preguntas;
-			
+			/*
 			$formulario = new Encuesta_Form_AltaSeccion;
 			$formulario->getElement("nombre")->setValue($seccion->getNombre());
 			$formulario->getElement("submit")->setLabel("Actualizar seccion");
 			$formulario->getElement("submit")->setAttrib("class", "btn btn-warning");
 			
 			$this->view->formulario = $formulario;
+            */
 		}else{
 			//Redirect
 			$this->_helper->redirector->gotoSimple("index", "encuestas", "encuesta");

@@ -2,40 +2,45 @@
 	$formulario = $this->formulario;
     $tiposPregunta = Zend_Registry::get("tipo");
 ?>
-<div class="row-fluid">
-    <div class="span12">
-        <div class="widget-box">
-            <div class="widget-title">
-                <h5>Alta de Pregunta en <strong><?php echo $this->mensaje; ?></strong></h5>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h5 class="panel-title">Alta de Pregunta en <strong><?php echo $this->mensaje; ?></strong></h5>
             </div>
-            <div class="widget-content">
-                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
-                    <div class="control-group">
-                        <label class="control-label" for="pregunta">Pregunta: </label>
-                        <div class="controls">
-                            <input class="span10" type="text" name="pregunta" />
+            <div class="panel-body">
+                <div>
+                </div>
+                <hr />
+                <div>
+                    <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label" for="pregunta">Pregunta: </label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" name="pregunta" />
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <label class="control-label" for="tipoPregunta">Tipo Pregunta: </label>
-                        <div class="controls">
-                            <select class="span10" name="tipoPregunta">
-                                <?php foreach ($tiposPregunta as $index => $value) : ?>
-                                <option value="<?php echo $index ?>"><?php echo $value ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                        
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label" for="tipoPregunta">Tipo Pregunta: </label>
+                            <div class="col-xs-10">
+                                <select class="form-control" name="tipoPregunta">
+                                    <?php foreach ($tiposPregunta as $index => $value) : ?>
+                                    <option value="<?php echo $index ?>"><?php echo $value ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <div class="pull-right">
-                            <button class="btn btn-success" type="submit">
-                                <span class="icon"><i class="icon-plus"></i></span> Agregar Pregunta
-                            </button>
+                        
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-plus"></i> Agregar Pregunta
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
                 <?php if(!is_null($this->opciones)){ $opciones = $this->opciones; ?>
                 <article class="col-md-3">
                     <header>

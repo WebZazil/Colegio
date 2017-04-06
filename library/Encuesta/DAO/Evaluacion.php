@@ -249,6 +249,35 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
     }
     
     /**
+     * Obtenemos todas las asignaciones de todos lo conjuntos del grupo escolar sin repetir
+     */
+    public function getAsignacionesConjuntosByIdGrupo($idGrupo) {
+        $tablaConjunto = $this->tablaConjuntoEvaluador;
+        $select = $tablaConjunto->select()->from($tablaConjunto)->where("idGrupoEscolar=?",$idGrupo);
+        $rowsConjuntos = $tablaConjunto->fetchAll($select);
+        
+        $idsConjuntos = array();
+        foreach ($rowsConjuntos as $rowConjunto) {
+            if (!in_array($rowConjunto->idConjuntoEvaluador, $idsConjuntos)) {
+                $idsConjuntos[] = $rowConjunto->idConjuntoEvaluador;
+            }
+        }
+        
+        $tablaEvalCo = $this->tablaEvaluacionConjunto;
+        $select = $tablaEvalCo->select()->from($tablaEvalCo)->where("idConjuntoEvaluador IN (?)", $idsConjuntos);
+        $rowsEvaluaciones = $tablaEvalCo->fetchAll($select);
+        
+        print_r($rowsEvaluaciones->toArray());
+        $asignaciones = array();
+        
+        foreach ($evalsConjunto as $evalConjunto) {
+            
+        }
+        
+        
+    }
+    
+    /**
      * 
      */
     public function getAsignacionesByIdConjuntoAndIdEvaluacion($idConjunto,$idEvaluacion) {

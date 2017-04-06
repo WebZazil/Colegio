@@ -240,6 +240,8 @@
             <formFile formName="AltaEvaluador"/>
             <formFile formName="AltaConjunto"/>
             <formFile formName="TestForm"/>
+            <formFile formName="AltaPregunta"/>
+            <formFile formName="AltaGrupo"/>
           </formsDirectory>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>

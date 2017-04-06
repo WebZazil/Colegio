@@ -1,4 +1,137 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Grupo</b> and script/action name <b>admin</b></p>
+<?php 
+    $grupo = $this->grupo;
+    $seccion = $this->seccion;
+    $opciones = $this->opciones;
+    $tipoValor = Zend_Registry::get("tipoValor");
+    $tiposPregunta = Zend_Registry::get("tipo");
+    //$formulario = $this->formulario;
+    //$formulario->setAction($this->url(array("module"=>"encuesta", "controller"=>"grupo", "action" => "edita", "idGrupo"=>$grupo->getIdGrupoSeccion()), null, true));
+    $urlSeccion = $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"admin","id"=>$grupo->getIdSeccionEncuesta()),null,true);
+    $t = Zend_Registry::get("tipo");
+?>
+<div class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h5 class="panel-title">Detalle Grupo</h5>
+        </div>
+        <div class="panel-body">
+            <div>
+                <a class="btn btn-info" href="<?php echo $urlSeccion; ?>">
+                    <i class="fa fa-arrow-circle-left"></i> Regresar a Sección
+                </a>
+            </div>
+            <hr />
+            <div>
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Creación</th>
+                            <th>Orden</th>
+                            <th>Tipo Preguntas</th>
+                            <th>Preguntas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo $grupo->getNombre(); ?></td>
+                            <td><?php echo $grupo->getFecha(); ?></td>
+                            <td><?php echo $grupo->getOrden(); ?></td>
+                            <td><?php echo $t[$grupo->getTipo()]; ?></td>
+                            <td>
+                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller" => "grupo", "action" => "index", "idGrupo" => $grupo->getIdGrupoSeccion()), null, true) ?>" >
+                                    <span class="fa fa-cogs"></span>  Preguntas
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h5 class="panel-title">Editar Grupo</h5>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded"
+                action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupo","action"=>"edita","idGrupo"=>$grupo->getIdGrupoSeccion()),null,true) ?>">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" for="nombre">Nombre del grupo: </label>
+                    <div class="col-xs-10">
+                        <input name="nombre" type="text" class="form-control" value="<?php echo $grupo->getNombre(); ?>" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" for="tipo">Tipo Preguntas del Grupo: </label>
+                    <div class="col-xs-10">
+                        <select name="tipo" class="form-control">
+                            <?php foreach ($tiposPregunta as $key => $value) : ?>
+                            <option value="<?php echo $key; ?>" <?php echo ($grupo->getTipo() == $key) ? "selected='' " : "" ; ?> ><?php echo $value; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-xs-offset-2 col-xs-10">
+                        <button class="btn btn-warning" type="submit">
+                            <span class="fa fa-repeat"></span> Actualizar Grupo Sección
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h5 class="panel-title">Opciones del Grupo</h5>
+        </div>
+        <div class="panel-body">
+            <?php if(is_null($opciones)){ ?>
+                Error en encuesta, este grupo no tiene opciones asociadas, no se podra generar la encuesta.
+            <?php }else{ ?>
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>Opción</th>
+                        <th>Tipo Valor</th>
+                        <th>Valor</th>
+                        <th>Creación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($opciones as $opcion) : ?>
+                        <tr>
+                            <td><?php echo $opcion->getNombreOpcion() ?></td>
+                            <td><?php echo $tipoValor[$opcion->getTipoValor()];  ?></td>
+                            <td><?php
+                                switch ($opcion->getTipoValor()) {
+                                    case 'EN':
+                                        echo $opcion->getValorEntero();
+                                        break;
+                                    case 'TX':
+                                        echo $opcion->getValorTexto();
+                                        break;
+                                    case 'DC':
+                                        echo $opcion->getValorDecimal();
+                                        break;
+                                }
+                            ?>
+                            </td>
+                            <td><?php echo $opcion->getFecha() ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?php } ?>
+        </div>
+    </div>
 </div>

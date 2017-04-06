@@ -23,7 +23,7 @@
 				<td><?php echo $estatus[$encuesta->getEstatus()]; ?></td>
 				<td>
 					<a class="btn btn-warning btn-block" 
-					   href="<?php echo $this->url(array("module"=>"encuesta","controller" => "encuestas", "action" => "config", "id" => $encuesta->getIdEncuesta()), null, true) ?>" >
+					   href="<?php echo $this->url(array("module"=>"encuesta","controller" => "encuesta", "action" => "config", "id" => $encuesta->getIdEncuesta()), null, true) ?>" >
 						<span class="icon icon-cog"></span> Configurar
 					</a>
 				</td>

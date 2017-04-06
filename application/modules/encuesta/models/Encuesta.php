@@ -69,11 +69,11 @@ class Encuesta_Model_Encuesta
     public function __construct(array $datos) {
         
         if(array_key_exists("idEncuesta", $datos)) $this->idEncuesta = $datos["idEncuesta"];
-        $this->nombre = utf8_encode($datos["nombre"]);
-        $this->nombreClave = utf8_encode($datos["nombreClave"]);
-        if(array_key_exists("estatus", $datos)) $this->estatus = utf8_encode($datos["estatus"]);
-        $this->descripcion = utf8_encode($datos["descripcion"]);
-        if(array_key_exists("fecha", $datos)) $this->fecha = utf8_encode($datos["fecha"]);
+        $this->nombre = $datos["nombre"];
+        $this->nombreClave = $datos["nombreClave"];
+        if(array_key_exists("estatus", $datos)) $this->estatus = $datos["estatus"];
+        $this->descripcion = $datos["descripcion"];
+        if(array_key_exists("fecha", $datos)) $this->fecha = $datos["fecha"];
         
     }
     

@@ -1,4 +1,49 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Grupo</b> and script/action name <b>alta</b></p>
+<?php
+    $seccion = $this->seccion;
+    $tiposPregunta = Zend_Registry::get("tipo");
+?>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h5 class="panel-title">Alta de Nuevo Grupo en la Sección: <strong><?php echo $seccion->getNombre(); ?></strong></h5>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"index","id"=>$seccion->getIdSeccionEncuesta()),null,true) ?>">
+                        <span class="fa fa-arrow-circle-left"></span> Regresar a Sección
+                    </a>
+                </div>
+                <hr />
+                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="nombre">Nombre del grupo: </label>
+                        <div class="col-xs-10">
+                            <input class="form-control" name="nombre" autofocus="" placeholder="Nombre de Grupo" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="tipoGrupo">Tipo de Preguntas del grupo: </label>
+                        <div class="col-xs-10">
+                            <select class="form-control" name="tipoGrupo">
+                                <?php foreach ($tiposPregunta as $key => $value) : ?>
+                                <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button class="btn btn-success" type="submit">
+                                <span class="fa fa-plus"></span> Agregar Grupo
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

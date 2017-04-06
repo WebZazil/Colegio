@@ -92,6 +92,20 @@ class Encuesta_DAO_Opcion implements Encuesta_Interfaces_IOpcion {
 		
 		return $modelOpciones;
 	}
+    
+    public function obtenerOpcionMayor($idOpcion) {
+        $tablaOpcion = $this->tablaOpcion;
+        $select = $tablaOpcion->select()->from($tablaOpcion)->where("idOpcionCategoria=?",$idOpcion);
+        $rowOpcion = $tablaOpcion->fetchRow($select);
+        
+        $tablaCategoria = $this->tablaCategoria;
+        $select = $tablaCategoria->select()->from($tablaCategoria)->where("idCategoriasRespuesta=?",$rowOpcion->idCategoriasRespuesta);
+        $rowCategoria = $tablaCategoria->fetchRow($select);
+        
+        $select = $tablaOpcion->select()->from($tablaOpcion)->where("idOpcionCategoria=?",$rowCategoria->idOpcionMayor);
+        $rowOpcion = $tablaOpcion->fetchRow($select);
+        return $rowOpcion->toArray();
+    }
 	
 	public function obtenerValorOpcionMayor($idGrupo){
 		$tablaGrupo = $this->tablaGrupo;

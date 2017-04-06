@@ -46,16 +46,17 @@ class Encuesta_GrupoController extends Zend_Controller_Action
 			//$preguntas = $this->preguntaDAO->obtenerPreguntas($idGrupo, "G");
 			$preguntas = $this->grupoDAO->getPreguntasByIdGrupo($grupo->getIdGrupoSeccion());//->obtenerPreguntas($grupo->getIdGrupoSeccion());
 			$t = Zend_Registry::get("tipo");
+            /*
 			$formulario = new Encuesta_Form_AltaGrupo;
 			$formulario->getElement("nombre")->setValue($grupo->getNombre());
 			//$formulario->getElement("tipo")->setMultiOptions($t);
 			$formulario->getElement("submit")->setLabel("Actualizar Grupo");
 			$formulario->getElement("submit")->setAttrib("class", "btn btn-warning");
-			
+			*/
 			$this->view->grupo = $grupo;
 			$this->view->seccion = $seccion;
 			$this->view->preguntas = $preguntas;
-			$this->view->formulario = $formulario;
+			//$this->view->formulario = $formulario;
 			
 			if($grupo->getTipo() != "AB"){
 				$opcionesGrupo = $this->opcionDAO->obtenerOpcionesGrupo($idGrupo);

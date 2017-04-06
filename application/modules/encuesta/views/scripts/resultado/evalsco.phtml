@@ -18,7 +18,7 @@
 				<div>
 				    <?php foreach ($asignacionesConjunto as $idEncuesta => $asignaciones) : 
 				        $encuesta = $encuestaDAO->getEncuestaById($idEncuesta);
-                        print_r($asignaciones);print_r("<br />");
+                        //print_r($asignaciones);print_r("<br />");
 				        ?>
 				    <div>
 				        <h3>Resultados de la Evaluación: <strong><?php echo $encuesta->getNombre(); ?></strong></h3>
