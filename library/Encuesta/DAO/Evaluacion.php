@@ -255,26 +255,37 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
         $tablaConjunto = $this->tablaConjuntoEvaluador;
         $select = $tablaConjunto->select()->from($tablaConjunto)->where("idGrupoEscolar=?",$idGrupo);
         $rowsConjuntos = $tablaConjunto->fetchAll($select);
+        //print_r($rowsConjuntos->toArray()); print_r("<br /><br />---------------------------------------------<br />");
         
+        //Conjuntos Obtenidos
         $idsConjuntos = array();
         foreach ($rowsConjuntos as $rowConjunto) {
             if (!in_array($rowConjunto->idConjuntoEvaluador, $idsConjuntos)) {
                 $idsConjuntos[] = $rowConjunto->idConjuntoEvaluador;
             }
         }
-        
+        // Ids Conjuntos del Grupo Obtenidos
         $tablaEvalCo = $this->tablaEvaluacionConjunto;
         $select = $tablaEvalCo->select()->from($tablaEvalCo)->where("idConjuntoEvaluador IN (?)", $idsConjuntos);
         $rowsEvaluaciones = $tablaEvalCo->fetchAll($select);
-        
-        print_r($rowsEvaluaciones->toArray());
-        $asignaciones = array();
-        
-        foreach ($evalsConjunto as $evalConjunto) {
-            
+        //evaluaciones de conjuntos obtenidas
+        //print_r($rowsEvaluaciones->toArray());
+        $idsAsignacionesGrupo = array();
+        foreach ($rowsEvaluaciones as $rowEvaluacion) {
+            $idsAsignaciones = explode(",", $rowEvaluacion->idsAsignacionesGrupo);
+            foreach ($idsAsignaciones as $key => $idAsignacionGrupo) {
+                if (!in_array($idAsignacionGrupo, $idsAsignacionesGrupo)) {
+                    if ($idAsignacionGrupo != "") {
+                        $idsAsignacionesGrupo[] = $idAsignacionGrupo;
+                    }
+                }
+            }
         }
         
+        //print_r("IdsAsignacionGrupo sin repetir del grupo: ".$idGrupo);
+        //print_r($idsAsignacionesGrupo);
         
+        return $idsAsignacionesGrupo;
     }
     
     /**
@@ -360,6 +371,14 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
             return array();
         }
 	}
+
+    public function getEvaluacionesByAsignacionAndEvaluacion($idAsignacion, $idEvaluacion) {
+        $tablaEvalReal = $this->tablaEvaluacionRealizada;
+        $select = $tablaEvalReal->select()->from($tablaEvalReal)->where("idAsignacionGrupo=?",$idAsignacion)->where("idEvaluacion=?",$idEvaluacion);
+        $rowsEvalsReal = $tablaEvalReal->fetchAll($select);
+        
+        return $rowsEvalsReal->toArray();
+    }
 	
 	/**
 	 * 
@@ -496,5 +515,18 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
         } else {
             return array();
         }
+    }
+    
+    /**
+     * Obtiene los tipos de evaluacion que tiene relacionada la idAsignacion
+     * Es decir: obtiene idEvaluacion 3,2,4, etc si estan relacionados a esta asignacion
+     */
+    public function getTiposEvaluacionByIdAsignacion($idAsignacion) {
+        $tablaEvalRel = $this->tablaEvaluacionRealizada;
+        $select = $tablaEvalRel->select()->distinct()->from($tablaEvalRel, array('idEvaluacion'))->where("idAsignacionGrupo=?",$idAsignacion);
+        $rowsEvalsReal = $tablaEvalRel->fetchAll($select);
+        
+        //print_r($rowsEvalsReal->toArray());
+        return $rowsEvalsReal->toArray();
     }
 }

@@ -171,8 +171,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $this->view->registroDAO = $this->registroDAO;
         $this->view->materiaDAO = $this->materiaDAO;
     }
-    
-    
+
     public function conjuntosAction()
     {
         // action body
@@ -189,31 +188,136 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $this->view->grupos = $grupos;
     }
     
-    public function evalsgrAction()
+    public function asignsgrAction()
     {
         // action body
         $idGrupo = $this->getParam("gr");
         $grupo = $this->grupoDAO->obtenerGrupo($idGrupo);
         $this->view->grupo = $grupo;
-        //print_r($grupo);
-        //$asignaciones = $this->evaluacionDAO->getAsignacionesByIdGrupo($idGrupo);
-        //print_r($asignaciones);print_r("<br /><br />");
-        $this->evaluacionDAO->getAsignacionesConjuntosByIdGrupo($idGrupo);
-        print_r("<br /><br />");
-        $conjuntos = $this->evaluacionDAO->getConjuntosByIdGrupoEscolar($idGrupo);
         
-        foreach ($conjuntos as $conjunto) {
-            print_r($conjunto);print_r("<br />");
-            $evaluaciones = $this->evaluacionDAO->getEvaluacionesByIdConjunto($conjunto["idConjuntoEvaluador"]);
-            
-            
-            print_r($evaluaciones);print_r("<br /><br />");
+        $idsAsignacionesGrupo = $this->evaluacionDAO->getAsignacionesConjuntosByIdGrupo($idGrupo);
+        //print_r($idsAsignacionesGrupo);print_r("<br /><br />");
+        $evaluaciones = array();
+        
+        foreach ($idsAsignacionesGrupo as $key => $idAsignacion) {
+            $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
+            $contenedor = array();
+            $contenedor["materia"] = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
+            $contenedor["docente"] = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+            //$contenedor["evaluaciones"] = null;
+            //$this->evaluacionDAO->getTiposEvaluacionByIdAsignacion($idAsignacion);
+            //print_r("<br />");
+            $evaluaciones[$idAsignacion] = $contenedor;
         }
         
-        //print_r($conjuntos);
-        //$asignaciones = $this->asignacionDAO->obtenerAsignacionesGrupo($idGrupo);
-        //print_r($asignaciones);
+        //print_r($evaluaciones);
         
+        $this->view->evaluaciones = $evaluaciones;
+    }
+
+    public function evalsasAction()
+    {
+        // action body
+        $idAsignacionGrupo = $this->getParam("as");
+        $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacionGrupo);
+        $this->view->asignacion = $asignacion;
+        
+        $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
+        $docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+        $this->view->materia = $materia;
+        $this->view->docente = $docente;
+        
+        $tiposEvaluacion = $this->evaluacionDAO->getTiposEvaluacionByIdAsignacion($idAsignacionGrupo);
+        $this->view->evaluaciones = $tiposEvaluacion;
+        $this->view->encuestaDAO = $this->encuestaDAO;
+        //$this->view->
+    }
+
+    public function resgrasAction()
+    {
+        // function resultados grupo asignacion: res gr as
+        $idAsignacion = $this->getParam("as");
+        $idEvaluacion = $this->getParam("ev");
+        
+        $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
+        $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
+        
+        $docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"]);
+        $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
+        $this->view->docente = $docente->toArray();
+        $this->view->materia = $materia;
+        
+        $evaluaciones = $this->evaluacionDAO->getEvaluacionesByAsignacionAndEvaluacion($idAsignacion, $idEvaluacion);
+        $numeroEvaluadores = count($evaluaciones);
+        $this->view->totalEvaluadores = $numeroEvaluadores;
+        $results = array();
+        // Transformamos los json obtenidos a arrays
+        foreach ($evaluaciones as $evaluacion) {
+            //print_r($resultado);
+            //$json = $resultado["json"];
+            $obj = str_replace("\\", "", $evaluacion["json"]);
+            $str = substr($obj, 1, -1);
+            //print_r($str); print_r("<br /><br />");
+            $str = json_decode($str,true);
+            //print_r($str);
+            $results[] = $str;
+            //break;
+        }
+        
+        //print_r($results);
+        
+        $resT = array(); // todas las encuestas
+        // Simplificamos solo obteniendo los conjuntos de arrays
+        foreach ($results as $fases) {
+            $contenedor = array();
+            foreach ($fases as $fase) {
+                //print_r($fase); print_r("<br />");
+                foreach ($fase as $key => $value) {
+                    //print_r($key."-".$value); print_r("<br />");
+                    $contenedor[$key] = $value;
+                }
+            }
+            $resT[] = $contenedor;
+        }
+        
+        // Creamos un Array de resultado, solo sumando el total de respuestas
+        //print_r($resT);
+        $rPreferencia = array();
+        foreach ($resT as $rests) {
+            //print_r($rest);
+            
+            foreach ($rests as $idPregunta => $idOpcion) {
+                $opcion = $this->opcionDAO->obtenerOpcion($idOpcion);
+                $opcionMayor = $this->opcionDAO->obtenerOpcionMayor($idOpcion);
+                // Obtener la opcion mayor
+                
+                $valor = null;
+                $obj = array();
+                switch ($opcion->getTipoValor()) {
+                    case 'EN':
+                        $valor = $opcion->getValorEntero();
+                        break;
+                    case 'DC':
+                        $valor = $opcion->getValorDecimal();
+                        break;
+                }
+                
+                if (array_key_exists($idPregunta, $rPreferencia)) {
+                    //$valAnterior = $rPreferencia[$idPregunta];
+                    $rPreferencia[$idPregunta]["preferencia"] = $rPreferencia[$idPregunta]["preferencia"] + $valor;
+                    //$rPreferencia[$idPregunta]["opcion"] + $opcion;
+                }else{
+                    //La primera insercion
+                    $obj["preferencia"] = $valor;
+                    $obj["opcionMayor"] = $opcionMayor;
+                    $rPreferencia[$idPregunta] = $obj;
+                }
+            }
+        }
+        
+        $this->view->preferencias = $rPreferencia;
+        $this->view->preguntaDAO = $this->preguntaDAO;
+        $this->view->respuestaDAO = $this->respuestaDAO;
     }
 
     public function resasignAction()
@@ -226,9 +330,8 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         // action body
     }
 
+    
+
 
 }
-
-
-
 
