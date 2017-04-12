@@ -32,6 +32,8 @@ class Encuesta_ReporteController extends Zend_Controller_Action
     private $materiaDAO = null;
 
     private $reporter = null;
+    
+    private $reporteador = null;
 
     public function init()
     {
@@ -59,6 +61,7 @@ class Encuesta_ReporteController extends Zend_Controller_Action
         $this->generador = new Encuesta_Util_Generator(($dataIdentity["adapter"]));
         $this->materiaDAO = new Encuesta_DAO_Materia($dataIdentity["adapter"]);
         $this->reporter = new Encuesta_Util_Reporter($dataIdentity["adapter"]);
+        $this->reporteador = new Encuesta_Util_Reporteador($dataIdentity["adapter"]);
     }
 
     public function indexAction()
@@ -124,8 +127,20 @@ class Encuesta_ReporteController extends Zend_Controller_Action
         // action body
     }
 
+    public function repgrasAction()
+    {
+        // action body
+        $idGrupo = $this->getParam("gpo");
+        $idEncuesta = $this->getParam("ev");
+        $idAsignacion = $this->getParam("as");
+        
+        $this->reporteador->generarReporteGrupalAsignacion($idGrupo, $idAsignacion, $idEncuesta);
+    }
+
 
 }
+
+
 
 
 

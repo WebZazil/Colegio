@@ -4,22 +4,15 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
 {
 
     private $evaluacionDAO = null;
-
     private $grupoDAO = null;
-
     private $cicloDAO = null;
-
     private $encuestaDAO = null;
-
     private $materiaDAO = null;
-
     private $asignacionDAO = null;
-
     private $preguntaDAO = null;
-
     private $respuestaDAO = null;
-
     private $opcionDAO = null;
+    private $reporter = null;
 
     public function init()
     {
@@ -39,6 +32,8 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $this->respuestaDAO = new Encuesta_DAO_Respuesta($dbAdapter);
         
         $this->opcionDAO = new Encuesta_DAO_Opcion($dbAdapter);
+        
+        $this->reporter = new Encuesta_Util_Reporteador($dbAdapter);
     }
 
     public function indexAction()
@@ -239,16 +234,26 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $idAsignacion = $this->getParam("as");
         $idEvaluacion = $this->getParam("ev");
         
+        $reporteador = $this->reporter;
+        
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
         $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
         
         $docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"]);
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
+        $grupoE = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
+        
+        $idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
+        //print_r("IdReporte: ".$idReporte);
+        $this->view->encuesta = $encuesta;
+        $this->view->asignacion = $asignacion;
         $this->view->docente = $docente->toArray();
         $this->view->materia = $materia;
+        $this->view->idReporte = $idReporte;
         
         $evaluaciones = $this->evaluacionDAO->getEvaluacionesByAsignacionAndEvaluacion($idAsignacion, $idEvaluacion);
         $numeroEvaluadores = count($evaluaciones);
+        
         $this->view->totalEvaluadores = $numeroEvaluadores;
         $results = array();
         // Transformamos los json obtenidos a arrays

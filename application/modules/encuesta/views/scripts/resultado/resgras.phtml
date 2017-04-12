@@ -1,5 +1,7 @@
 <?php
     $asignacion = $this->asignacion;
+    $encuesta = $this->encuesta;
+    
     $docente = $this->docente;
     $materia = $this->materia;
     
@@ -11,6 +13,10 @@
     $sumaTotal = 0.0;
     $promedioTotal = 0.0;
     $totalPreguntas = 0;
+    
+    $idReporte = $this->idReporte;
+    
+    $urlRepGrupal = $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"descarga","idReporte"=>$idReporte),null,TRUE);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -22,6 +28,10 @@
 			    <div>
 			        <h4>Materia: <strong><?php echo $materia["materiaEscolar"]; ?></strong> </h4>
 			        <h4>Docente: <strong><?php echo $docente["apellidos"].", ".$docente["nombres"]  ?></strong> </h4>
+			        <h4>Evaluadores: <strong><?php echo $totalEvaluadores; ?></strong></h4>
+			        <a class="btn btn-success" href="<?php echo $urlRepGrupal; ?>">
+			            <i class="fa fa-file-pdf-o"></i> Reporte Grupal de la Asignacion
+			        </a>
 			    </div>
 			    <hr />
                 <table class="table table-striped table-condensed">

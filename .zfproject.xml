@@ -276,6 +276,8 @@
               <dbTableFile dbTableName="EvaluacionesConjunto"/>
               <dbTableFile dbTableName="EvaluacionRealizada"/>
               <dbTableFile dbTableName="EvaluacionConjunto"/>
+              <dbTableFile dbTableName="ReportesGrupo"/>
+              <dbTableFile dbTableName="ReportesConjunto"/>
             </dbTableDirectory>
             <modelFile modelName="Registro"/>
             <modelFile modelName="Nivel"/>
