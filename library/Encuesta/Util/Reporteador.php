@@ -121,7 +121,9 @@ class Encuesta_Util_Reporteador {
         return $idReporte;
     }
     
-    
+    /**
+     * 
+     */
     public function obtenerReporteBaseGrupalHorizontal($idEncuesta, $idAsignacion) {
         $auth = Zend_Auth::getInstance();
         $identity = $auth->getIdentity();
