@@ -11,6 +11,10 @@ defined('APPLICATION_ENV')
 // Define application pdf directory
 defined('PDF_PATH')
     || define('PDF_PATH', realpath(dirname(__FILE__) .'/public/pdf' ));
+
+// Define application pdf directory
+defined('FONT_PATH')
+    || define('FONT_PATH', realpath(dirname(__FILE__) .'/public/fonts' ));
     
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(

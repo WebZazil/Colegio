@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="author" content="Hector Rodriguez">
+<meta name="description" content="">
+<?php $public = $this->baseUrl()."/public" ?>
+		<title>Colegio Sagrado Corazón México</title>
+		<link rel="stylesheet" href="<?php echo $public; ?>/lib/bootstrap/css/bootstrap.min.css ">
+		<!-- MetisMenu CSS -->
+		<link rel="stylesheet" href="<?php echo $public; ?>/lib/metisMenu/metisMenu.min.css ">
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="<?php echo $public; ?>/lib/dist/css/sb-admin-2.min.css ">
+		<!-- Morris Charts CSS -->
+		<link rel="stylesheet" href="<?php echo $public; ?>/lib/morrisjs/morris.css ">
+		<!-- Custom Fonts -->
+		<link href="<?php echo $public ?>/lib/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="<?php echo $public ?>/public/js/require.js"></script>
+		<!-- jQuery -->
+		<script type="text/javascript" src="<?php echo $public ?>/lib/jquery/jquery.min.js"></script>
+		<!-- jQuery DataTables -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/r-2.1.1/datatables.min.css"/>
+	</head>
+	<body>
+		<div id="wrapper">
+	        <!-- Navigation -->
+	        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+	            <div class="navbar-header">
+	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	                    <span class="sr-only">Menú</span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                </button>
+	                <a class="navbar-brand" href="<?php echo $this->url(array("module"=>"soporte","controller"=>"dashboard","action"=>"index",),null,true) ?>">
+	                    Soporte Dashboard
+	                </a>
+	            </div>
+	            <!-- /.navbar-header -->
+	            <?php echo $this->partial('partials/dashboard/navbar/navbar-links.phtml') ?>
+	            <!-- navbar-links was here -->
+	            <?php echo $this->partial('partials/dashboard/sidemenu/sidebar.phtml') ?>
+	            <!-- /.navbar-top-links -->
+	            <!-- sidebar was here -->
+	            <!-- /.navbar-static-side -->
+	        </nav>
+	        <div id="page-wrapper">
+	            <!-- dashboard title was here -->
+	            <!-- /.row -->
+	            <!-- statistics was here -->
+	            <!-- /.row -->
+	            <br />
+	            <?php echo $this->layout()->content; ?>
+	            <!-- /.row -->
+	        </div>
+	        <!-- /#page-wrapper -->
+	    </div>
+    	<!-- /#wrapper -->
+	</body>
+	
+	<!-- Bootstrap Core JavaScript -->
+	<script type="text/javascript" src="<?php echo $public ?>/lib/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Metis Menu Plugin JavaScript -->
+	<script type="text/javascript" src="<?php echo $public ?>/lib/metisMenu/metisMenu.min.js"></script>
+	<!-- Morris Charts JavaScript -->
+	<script type="text/javascript" src="<?php echo $public ?>/lib/raphael/raphael.min.js"></script>
+	<script type="text/javascript" src="<?php echo $public ?>/lib/morrisjs/morris.min.js"></script>
+	<!-- jQuery DataTables -->
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.13/r-2.1.1/datatables.min.js"></script>
+	<!-- Custom Theme JavaScript -->
+    <script type="text/javascript" src="<?php echo $public ?>/lib/dist/js/sb-admin-2.min.js"></script>
+</html>

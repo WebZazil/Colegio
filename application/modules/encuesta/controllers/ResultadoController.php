@@ -219,8 +219,10 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
         $docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+        $grupoE = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
         $this->view->materia = $materia;
         $this->view->docente = $docente;
+        $this->view->grupoE = $grupoE;
         
         $tiposEvaluacion = $this->evaluacionDAO->getTiposEvaluacionByIdAsignacion($idAsignacionGrupo);
         $this->view->evaluaciones = $tiposEvaluacion;
@@ -245,6 +247,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         
         $idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
         //print_r("IdReporte: ".$idReporte);
+        $this->view->grupoE = $grupoE;
         $this->view->encuesta = $encuesta;
         $this->view->asignacion = $asignacion;
         $this->view->docente = $docente->toArray();

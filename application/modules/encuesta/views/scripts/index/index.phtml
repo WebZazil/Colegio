@@ -3,6 +3,8 @@
 	$nivelesEscolares = $this->nivelesEscolares;
 	//$niveles = array();
 	$evaluaciones = array();
+    $encuestasActivas = false;
+    $consultaActiva = true;
 ?>
 <!-- Navegacion  --> 
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -22,12 +24,16 @@
 				<li class="page-scroll">
 					<a href="#login">Login</a>
 				</li>
+				<?php if ($encuestasActivas) { ?>
 				<li class="page-scroll">
 					<a href="#evaluaciones">Evaluaciones</a>
 				</li>
+				<?php }  ?>
+				<?php if ($consultaActiva) { ?>
 				<li class="page-scroll">
 					<a href="#consulta">Consulta</a>
 				</li>
+				<?php } ?>
 			</ul>
 		</div>
 	</div>
@@ -73,7 +79,7 @@
 		</div>
 	</div>
 </header>
-
+<?php if ($encuestasActivas) { ?>
 <section id="evaluaciones">
 	<div class="container">
 		<div class="row">
@@ -130,7 +136,9 @@
 		</div>
 	</div>
 </section>
+<?php } ?>
 
+<?php if ($consultaActiva) { ?>
 <section id="consulta">
 	<div class="container">
 		<div class="row">
@@ -140,16 +148,54 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-4"></div>
+			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
-				<form action="">
-					
-				</form>
+				<div id="form-eval" class="form-horizontal">
+                    <fieldset>
+                        <legend>Consulta de Resultados:</legend>
+                        <div class="form-group">
+                            <label class="col-xs-2" for="cicloR">Ciclo Escolar: </label>
+                            <div class="col-xs-10">
+                                <select id="cicloR" class="form-control" name="cicloR">
+                                    <?php foreach ($ciclosEscolares as $cicloEscolar) : ?>
+                                    <option <?php echo ($cicloEscolar["vigente"] == '1') ? 'selected="selected"' : '' ; ?> value="<?php echo $cicloEscolar["idCicloEscolar"] ?>"><?php echo $cicloEscolar["ciclo"] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2" for="nivelR">Nivel: </label>
+                            <div class="col-xs-10">
+                                <select id="nivelR" class="form-control" name="nivelR">
+                                    <option value="0">Seleccione Nivel Educativo</option>
+                                    <?php foreach ($nivelesEscolares as $nivelEscolar) : ?>
+                                        <option value="<?php echo $nivelEscolar->getIdNivel() ?>" > <?php echo $nivelEscolar->getNivel() ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2" for="gradoR">Grado: </label>
+                            <div class="col-xs-10">
+                                <select id="gradoR" class="form-control" name="gradoR">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2" for="grupoR">Grupo: </label>
+                            <div class="col-xs-10">
+                                <select id="grupoR" class="form-control" name="grupoR">
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
 			</div>
-			<div class="col-sm-4"></div>
+			<div class="col-sm-2"></div>
 		</div>
 	</div>	
 </section>
+<?php } ?>
 
 <footer class="text-center">
 	<div class="footer-below">

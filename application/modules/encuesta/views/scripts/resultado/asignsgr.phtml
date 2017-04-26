@@ -1,6 +1,7 @@
 <?php
     $grupo = $this->grupo;
     $evaluaciones = $this->evaluaciones;
+    $urlResultadosGrupos = $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"index"),null,true);
 ?>
 <div class="row">
     <div class="col-xs-12">
@@ -10,7 +11,9 @@
             </div>
             <div class="panel-body">
                 <div>
-                    
+                    <a class="btn btn-info" href="<?php echo $urlResultadosGrupos; ?>">
+                        <i class="fa fa-arrow-circle-left"></i> Regresar a Grupos
+                    </a>
                 </div>
                 <hr />
                 <div>

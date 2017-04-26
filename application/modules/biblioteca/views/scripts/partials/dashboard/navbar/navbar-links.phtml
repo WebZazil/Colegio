@@ -3,6 +3,7 @@
     $dataIdentity = $auth->getIdentity();
 	$usuario = $dataIdentity["user"];
 	//print_r($usuario);
+	$modulo = "biblioteca";
 ?>
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown disabled">
@@ -200,13 +201,13 @@
             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-            <li><a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"usuario","action"=>"index",),null,true) ?>"><i class="fa fa-user fa-fw"></i> <?php echo $usuario->nickname ?>'s Profile</a>
+            <li><a href="<?php echo $this->url(array("module"=>$modulo,"controller"=>"usuario","action"=>"index",),null,true) ?>"><i class="fa fa-user fa-fw"></i> <?php echo $usuario->nickname ?>'s Profile</a>
             </li>
-            <li><a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"usuario","action"=>"settings",),null,true) ?>"><i class="fa fa-gear fa-fw"></i> Settings</a>
+            <li><a href="<?php echo $this->url(array("module"=>$modulo,"controller"=>"usuario","action"=>"settings",),null,true) ?>"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
             <li class="divider"></li>
             <li>
-            	<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"logout",),null,true) ?>">
+            	<a href="<?php echo $this->url(array("module"=>$modulo,"controller"=>"index","action"=>"logout",),null,true) ?>">
             		<i class="fa fa-sign-out fa-fw"></i> Logout
             	</a>
             </li>
