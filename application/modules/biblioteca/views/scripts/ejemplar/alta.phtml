@@ -1,0 +1,42 @@
+<?php 
+	$formulario = $this->formulario;
+
+	$messageSuccess = $this->messageSuccess;
+	$messageFail = $this->messageFail;
+?>
+<section class="row">
+	<div class="col-xs-2">
+		
+	</div>
+	<div class="col-xs-10">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h4> Alta Ejemplar</h4>
+			</div>
+			<div class="panel-body">
+				<?php if(!is_null($messageSuccess)){ ?>
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					<?php echo $messageSuccess; ?>
+				</div>
+				<?php }elseif(!is_null($messageFail)){ ?>
+				<div class="alert alert-danger" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					<?php echo $messageFail; ?>
+				</div>
+				<?php } ?>
+				<?php echo $formulario ?>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$().ready(function(){
+	
+	});
+</script>
