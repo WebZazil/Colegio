@@ -43,6 +43,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		Zend_Registry::set('dbmodadmin', $resource->getDb('dbmodadmin'));
 		Zend_Registry::set('dbmodquery', $resource->getDb('dbmodquery'));
+        
+        Zend_Registry::set('dbmodadminb', $resource->getDb('dbmodadminb'));
+        Zend_Registry::set('dbmodqueryb', $resource->getDb('dbmodqueryb'));
+        
+        Zend_Registry::set('dbmodadmins', $resource->getDb('dbmodadmins'));
+        Zend_Registry::set('dbmodquerys', $resource->getDb('dbmodquerys'));
 	}
 	
 	/**

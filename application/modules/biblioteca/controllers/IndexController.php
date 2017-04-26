@@ -13,6 +13,13 @@ class Biblioteca_IndexController extends Zend_Controller_Action
         // action body
     }
 
+    public function logoutAction()
+    {
+        // action body
+    }
+
 
 }
+
+
 

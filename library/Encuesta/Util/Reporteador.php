@@ -112,7 +112,7 @@ class Encuesta_Util_Reporteador {
             $datos["tipoReporte"] = "RGRU";
             $datos["rutaReporte"] = $this->rutaReporte."/";
             $datos["fecha"] = date("Y-m-d H:i:s", time());
-            
+            print_r($datos);
             $idReporte = $tablaReportesEncuesta->insert($datos);
         }else{
             $idReporte = $rowReporte->idReporte;
@@ -484,5 +484,56 @@ class Encuesta_Util_Reporteador {
        $reporte = $tablaReporteGrupo->fetchRow($tablaReporteGrupo);
        
        return $reporte;
+    }
+    
+    /**
+     * 
+     */
+    public function generarReporteDocenteOrientadora($idAsignacion, $idEncuesta) {
+        $auth = Zend_Auth::getInstance();
+        $identity = $auth->getIdentity();
+        $organizacion = $identity["organizacion"];
+        
+        $tablaEncuesta = $this->tablaEncuesta;
+        $tablaAsignacion = $this->tablaAsignacion;
+        $tablaGrupoE = $this->tablaGrupoEscolar;
+        $tablaMateriaE = $this->tablaMateriaEscolar;
+        $tablaRegistro = $this->tablaRegistro;
+        
+        $select = $tablaEncuesta->select()->from($tablaEncuesta)->where("idEncuesta=?",$idEncuesta);
+        $rowEncuesta = $tablaEncuesta->fetchRow($select)->toArray();
+        
+        $select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idAsignacionGrupo=?", $idAsignacion);
+        $rowAsignacion = $tablaAsignacion->fetchRow($select)->toArray();
+        
+        $select = $tablaGrupoE->select()->from($tablaGrupoE)->where("idGrupoEscolar=?",$rowAsignacion["idGrupoEscolar"]);
+        $rowGrupoE = $tablaGrupoE->fetchRow($select)->toArray();
+        
+        $select = $tablaMateriaE->select()->from($tablaMateriaE)->where("idMateriaEscolar=?", $rowAsignacion["idMateriaEscolar"]);
+        $rowMateria = $tablaMateriaE->fetchRow($select)->toArray();
+        
+        $select = $tablaRegistro->select()->from($tablaRegistro)->where("idRegistro=?",$rowAsignacion["idRegistro"]);
+        $rowRegistro = $tablaRegistro->fetchRow($select)->toArray();
+        ##### Creamos un documento con el constructor de la libreria PDF
+        $nombreArchivo = "testOrientadora.pdf";
+        $directorio = $organizacion["directorio"];
+        $rutaReporte = '/reports/Encuesta/grupal/'.$directorio.'/Orientadora/';
+        
+        $pdfReport = new My_Pdf_Document($nombreArchivo, PDF_PATH . $rutaReporte);
+        $pdfReport->setYHeaderOffset(160);
+        
+        $page = $pdfReport->createPage();
+        
+        //$fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+        $fontDefault = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/jura_font_6126/JuraBook.ttf');
+        $styleDefault = new Zend_Pdf_Style;
+        $styleDefault->setFont($fontDefault, 10);
+        
+        $page->setStyle($styleDefault);
+        $page->setFont($fontDefault, 10);
+        $page->addTable($this->generarHeaderGrupalHorizontal($idEncuesta, $idAsignacion), 120, 120);
+        ##### Pagina configurada, generando Header
+        
+        
     }
 }

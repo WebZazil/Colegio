@@ -2,25 +2,23 @@
     $asignacion = $this->asignacion;
     $materia = $this->materia;
     $docente = $this->docente;
+    $grupoE = $this->grupoE;
     $evaluaciones = $this->evaluaciones;
     
     $encuestaDAO = $this->encuestaDAO;
-    
-    print_r($asignacion);
+    //print_r($grupoE);
+    //print_r($asignacion);
 ?>
 <div class="row">
     <div class="col-xs-12">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h5 class="panel-title">Resultados de la asignación en el Grupo: <strong></strong></h5>
+                <h5 class="panel-title">Resultados de la asignación en el Grupo: <strong><?php echo $grupoE->getGrupo() ?></strong></h5>
             </div>
             <div class="panel-body">
                 <div>
                     <h4>Materia: <strong><?php echo $materia["materiaEscolar"]; ?></strong></h4>
                     <h4>Docente: <strong><?php echo $docente["apellidos"].", ".$docente["nombres"]; ?></strong></h4>
-                    <a class="btn btn-success">
-                        <i class="fa fa-file-pdf-o"></i> Reporte
-                    </a>
                 </div>
                 <hr />
                 <div>
