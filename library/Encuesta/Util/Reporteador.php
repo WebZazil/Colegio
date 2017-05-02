@@ -499,6 +499,10 @@ class Encuesta_Util_Reporteador {
         $tablaGrupoE = $this->tablaGrupoEscolar;
         $tablaMateriaE = $this->tablaMateriaEscolar;
         $tablaRegistro = $this->tablaRegistro;
+        $tablaPregunta = $this->tablaPregunta;
+        
+        $tablaGrado = $this->tablaGradoEscolar;
+        $tablaNivel = $this->tablaNivelEducativo;
         
         $select = $tablaEncuesta->select()->from($tablaEncuesta)->where("idEncuesta=?",$idEncuesta);
         $rowEncuesta = $tablaEncuesta->fetchRow($select)->toArray();
@@ -514,26 +518,251 @@ class Encuesta_Util_Reporteador {
         
         $select = $tablaRegistro->select()->from($tablaRegistro)->where("idRegistro=?",$rowAsignacion["idRegistro"]);
         $rowRegistro = $tablaRegistro->fetchRow($select)->toArray();
+        
+        $select = $tablaGrado->select()->from($tablaGrado)->where("idGradoEducativo=?",$rowMateria["idGradoEducativo"]);
+        $rowGrado = $tablaGrado->fetchRow($select)->toArray();
+        
+        $select = $tablaNivel->select()->from($tablaNivel)->where("idNivelEducativo=?",$rowGrado["idNivelEducativo"]);
+        $rowNivelE = $tablaNivel->fetchRow($select)->toArray();
         ##### Creamos un documento con el constructor de la libreria PDF
-        $nombreArchivo = "testOrientadora.pdf";
+        //$nombreArchivo = "testOrientadora.pdf";
+        $nombreArchivo = $rowGrupoE["grupoEscolar"]."-".$idEncuesta."-".str_replace(" ", "", $rowRegistro["apellidos"].$rowRegistro["nombres"])."-".$idAsignacion."-RGPO.pdf";
         $directorio = $organizacion["directorio"];
         $rutaReporte = '/reports/Encuesta/grupal/'.$directorio.'/Orientadora/';
         
         $pdfReport = new My_Pdf_Document($nombreArchivo, PDF_PATH . $rutaReporte);
-        $pdfReport->setYHeaderOffset(160);
+        //$pdfReport->setYHeaderOffset(160);
         
         $page = $pdfReport->createPage();
         
         //$fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
         $fontDefault = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/jura_font_6126/JuraBook.ttf');
+        $fontMinSize = 8;
+        $fontMedSize = 8;
+        $fontBigSize = 12;
+        $fontTitleSize = 16;
+        $fontFooterSize = 10;
+        
         $styleDefault = new Zend_Pdf_Style;
-        $styleDefault->setFont($fontDefault, 10);
+        $styleDefault->setFont($fontDefault, $fontMedSize);
         
         $page->setStyle($styleDefault);
-        $page->setFont($fontDefault, 10);
-        $page->addTable($this->generarHeaderGrupalHorizontal($idEncuesta, $idAsignacion), 120, 120);
+        $page->setFont($fontDefault, $fontMedSize);
+        $page->drawRectangle(0, 0, 555, 785);
+        //$page->addTable($this->generarHeaderGrupalHorizontal($idEncuesta, $idAsignacion), 120, 120);
         ##### Pagina configurada, generando Header
+        $tableHeader = new My_Pdf_Table(2);
+        $cellWidth = 200;
         
+        //$fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
         
+        $rowTable1 = new My_Pdf_Table_Row;
+        $rowTable2 = new My_Pdf_Table_Row;
+        $rowTable3 = new My_Pdf_Table_Row;
+        $rowTable4 = new My_Pdf_Table_Row;
+        //$rowTable1 = new My_Pdf_Table_Row;
+        
+        $colthA1 = new My_Pdf_Table_Column;
+        $colthA2 = new My_Pdf_Table_Column;
+        
+        $colthB1 = new My_Pdf_Table_Column;
+        $colthB2 = new My_Pdf_Table_Column;
+        
+        $colthC1 = new My_Pdf_Table_Column;
+        $colthC2 = new My_Pdf_Table_Column;
+        
+        $colthD1 = new My_Pdf_Table_Column;
+        $colthD2 = new My_Pdf_Table_Column;
+        
+        $colthA1->setText("Evaluacion: ");
+        $colthA1->setWidth($cellWidth);
+        $colthA2->setText(utf8_encode($rowEncuesta['nombre']));
+        
+        $colthB1->setText("Docente: ");
+        $colthB1->setWidth($cellWidth); //utf8_encode($docente['apellidos'].", ".$docente['nombres'])
+        $colthB2->setText($rowRegistro['apellidos'].", ".$rowRegistro['nombres']);
+        
+        $colthC1->setText("Nivel y Grado, Grupo Y Materia: ");
+        $colthC1->setWidth($cellWidth);
+        $colthC2->setText($rowNivelE["nivelEducativo"].", ".$rowGrado["gradoEducativo"]);
+        
+        $colthD1->setText("Grupo y Materia: ");
+        $colthD1->setWidth($cellWidth);
+        $colthD2->setText("Grupo: ".$rowGrupoE["grupoEscolar"].", ".$rowMateria['materiaEscolar']);
+        
+        $rowTable1->setColumns(array($colthA1,$colthA2));
+        $rowTable1->setCellPaddings(array(5,5,5,5));
+        $rowTable1->setFont($fontDefault,$fontMedSize);
+        
+        $rowTable2->setColumns(array($colthB1,$colthB2));
+        $rowTable2->setCellPaddings(array(5,5,5,5));
+        $rowTable2->setFont($fontDefault,$fontMedSize);
+        
+        $rowTable3->setColumns(array($colthC1,$colthC2));
+        $rowTable3->setCellPaddings(array(5,5,5,5));
+        $rowTable3->setFont($fontDefault,$fontMedSize);
+        
+        $rowTable4->setColumns(array($colthD1,$colthD2));
+        $rowTable4->setCellPaddings(array(5,5,5,5));
+        $rowTable4->setFont($fontDefault,$fontMedSize);
+        
+        $tableHeader->addRow($rowTable1);
+        $tableHeader->addRow($rowTable2);
+        $tableHeader->addRow($rowTable3);
+        $tableHeader->addRow($rowTable4);
+        
+        $page->addTable($tableHeader, 150, 0);
+        ##### Agregando Contenido
+        $tablaContenidoR = new My_Pdf_Table(3);
+        
+        $promedioFinal = 0;
+        $sumaFinal = 0;
+        $numCategorias = 0;
+        
+        $select = $tablaPregunta->select()->from($tablaPregunta)->where("idEncuesta=?", $rowEncuesta["idEncuesta"]);
+        $rowsPreguntasEncuesta = $tablaPregunta->fetchAll($select);
+        
+        $tablaEvalReal = $this->tablaEvaluacionRealizada;
+        $select = $tablaEvalReal->select()->from($tablaEvalReal)->where("idEvaluacion=?",$idEncuesta)->where("idAsignacionGrupo=?",$idAsignacion);
+        $rowsEvalReal = $tablaEvalReal->fetchAll($select)->toArray();
+        //print_r(count($rowsEvalReal));
+        $respuestas = array();
+        $jsonObjs = array();
+        foreach ($rowsEvalReal as $rowEvalR) {
+            $jsonObjs[] = $this->utilJson->processJsonEncuestaDos($rowEvalR["json"]);
+        }
+        //print_r($jsonObjs);
+        $preferencias = array();
+        
+        foreach ($jsonObjs as $index => $jsonObj) {
+            //print_r($index);
+            
+            foreach ($jsonObj as $idPregunta => $idOpcion) {
+                
+                $pregunta = $this->preguntaDAO->getPreguntaById($idPregunta)->toArray();
+                //print_r($pregunta);
+                $valorOpcion = null;
+                $preferencia = array();
+                
+                if ($index == 0) {
+                    $preferencia["pregunta"] = $pregunta;
+                    
+                    if ($pregunta["tipo"] == "SS") {
+                        $opcion = $this->opcionDAO->obtenerOpcion($idOpcion);
+                        $valorOpcion = $opcion->getValorEntero();
+                        
+                        $preferencia["puntaje"] = $valorOpcion;
+                    }elseif($pregunta["tipo"] == "AB"){
+                        $valorOpcion = $idOpcion;
+                        $preferencia["pab"][] = $valorOpcion;
+                    }
+                    
+                    $preferencias[$idPregunta] = $preferencia;
+                }else{
+                    
+                    if ($pregunta["tipo"] == "SS") {
+                        $opcion = $this->opcionDAO->obtenerOpcion($idOpcion);
+                        $valorOpcion = $opcion->getValorEntero();
+                        
+                        $preferencias[$idPregunta]["puntaje"] += $valorOpcion;
+                    }elseif($pregunta["tipo"] == "AB"){
+                        $valorOpcion = $idOpcion;
+                        $preferencias[$idPregunta]["pab"][] = $valorOpcion;
+                    }
+                    
+                    //$preferencias[$idPregunta] = $preferencia;
+                }
+                
+            }
+        }
+
+        // Iniciamos la insercion de las preguntas
+        $tableContent = new My_Pdf_Table(3);
+        
+        $rowHeaderTable = new My_Pdf_Table_Row;
+        $colHeaderPregunta = new My_Pdf_Table_Column;
+        $colHeaderPuntaje = new My_Pdf_Table_Column;
+        $colHeaderCalificacion = new My_Pdf_Table_Column;
+        
+        $colHeaderPregunta->setText("Pregunta");
+        $colHeaderPregunta->setWidth(400);
+        $colHeaderPuntaje->setText("Puntaje");
+        $colHeaderPuntaje->setWidth(50);
+        $colHeaderCalificacion->setText("Calificacion");
+        $colHeaderCalificacion->setWidth(50);
+        
+        $rowHeaderTable->setColumns(array($colHeaderPregunta,$colHeaderPuntaje,$colHeaderCalificacion));
+        $rowHeaderTable->setCellPaddings(array(5,5,5,5));
+        $rowHeaderTable->setFont($fontDefault,$fontMinSize);
+        $tableContent->addRow($rowHeaderTable);
+        
+        foreach ($preferencias as $idPregunta => $container) {
+            $rowTable = new My_Pdf_Table_Row;
+            $colPregunta = new My_Pdf_Table_Column;
+            $colPuntaje = new My_Pdf_Table_Column;
+            $colCalificacion = new My_Pdf_Table_Column;
+            
+            $colPregunta->setText($container["pregunta"]["nombre"]);
+            $colPregunta->setWidth(400);
+            //$colPregunta;
+            
+            $colPuntaje->setText($container["puntaje"]);
+            $colPuntaje->setWidth(50);
+            //$colPuntaje;
+            
+            $colCalificacion->setText("");
+            $colCalificacion->setWidth(50);
+            //$colCalificacion;
+            $rowTable->setColumns(array($colPregunta,$colPuntaje,$colCalificacion));
+            $rowTable->setCellPaddings(array(5,5,5,5));
+            $rowTable->setFont($fontDefault, $fontMinSize);
+            $tableContent->addRow($rowTable);
+        }
+        
+        $page->addTable($tableContent, 10, 80);
+        ##### Respuestas de preguntas abiertas
+        $respuestasPA = $preferencias[32]["pab"];
+        
+        $tableRPAB = new My_Pdf_Table(1);
+        
+        foreach ($respuestasPA as $key => $value) {
+            $row = new My_Pdf_Table_Row;
+            $colRes = new My_Pdf_Table_Column;
+            $colRes->setText(utf8_decode($value));
+            $colRes->setText(mb_convert_encoding($value, 'UTF-8'));
+            $colRes->setWidth(400);
+            
+            $row->setColumns(array($colRes));
+            $row->setCellPaddings(array(5,5,5,5));
+            $row->setFont($fontDefault, $fontMinSize);
+            $tableRPAB->addRow($row);
+        }
+        
+        $page->addTable($tableRPAB, 50, 350);
+        
+        $pdfReport->addPage($page);
+        $pdfReport->saveDocument();
+        
+        $tablaReportesEncuesta = $this->tablaReportesEncuesta;
+        $idReporte = 0;
+        $select = $tablaReportesEncuesta->select()->from($tablaReportesEncuesta)->where("idAsignacionGrupo=?",$idAsignacion)->where("idEncuesta=?",$idEncuesta);
+        $rowReporte = $tablaReportesEncuesta->fetchRow($select);
+        if (is_null($rowReporte)) {
+            $datos = array();
+            //$datos["idGrupoEscolar"] = $idGrupo;
+            $datos["idEncuesta"] = $idEncuesta;
+            $datos["idAsignacionGrupo"] = $idAsignacion;
+            //$datos["idsEvaluadores"]="";
+            $datos["nombreReporte"] = $nombreArchivo;
+            $datos["tipoReporte"] = "RPAB";
+            $datos["rutaReporte"] = $rutaReporte;
+            $datos["fecha"] = date("Y-m-d H:i:s", time());
+            print_r($datos);
+            $idReporte = $tablaReportesEncuesta->insert($datos);
+        }else{
+            $idReporte = $rowReporte->idReporte;
+        }
+        //print_r("idReporte: ".$idReporte);
+        return $idReporte;
     }
 }

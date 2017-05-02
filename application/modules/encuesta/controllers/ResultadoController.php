@@ -245,7 +245,8 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
         $grupoE = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
         
-        $idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
+        //$idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
+        $idReporte = $reporteador->generarReporteDocenteOrientadora($idAsignacion, $idEvaluacion);
         //print_r("IdReporte: ".$idReporte);
         $this->view->grupoE = $grupoE;
         $this->view->encuesta = $encuesta;
@@ -259,6 +260,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         
         $this->view->totalEvaluadores = $numeroEvaluadores;
         $results = array();
+        //print_r($evaluaciones);
         // Transformamos los json obtenidos a arrays
         foreach ($evaluaciones as $evaluacion) {
             //print_r($resultado);
