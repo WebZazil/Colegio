@@ -536,7 +536,12 @@ class Encuesta_Util_Reporteador {
         $page = $pdfReport->createPage();
         
         //$fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
-        $fontDefault = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/jura_font_6126/JuraBook.ttf');
+        //$fontDefault = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/jura_font_6126/JuraBook.ttf');
+        $fontDefault = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/CenturyGothic/GOTHIC.TTF');
+        $fontDefaultBold = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/CenturyGothic/GOTHICB.TTF');
+        $fontDefaultItalic = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/CenturyGothic/GOTHICI.TTF');
+        $fontDefaultItalicBold = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/CenturyGothic/GOTHICI.TTF');
+        
         $fontMinSize = 8;
         $fontMedSize = 8;
         $fontBigSize = 12;
@@ -549,6 +554,9 @@ class Encuesta_Util_Reporteador {
         $page->setStyle($styleDefault);
         $page->setFont($fontDefault, $fontMedSize);
         $page->drawRectangle(0, 0, 555, 785);
+        
+        $imgEncabezado = Zend_Pdf_Image::imageWithPath(IMAGES_PATH . '/Logo.png');
+        $page->drawImage($imgEncabezado, 35, 20, 96, 58);
         //$page->addTable($this->generarHeaderGrupalHorizontal($idEncuesta, $idAsignacion), 120, 120);
         ##### Pagina configurada, generando Header
         $tableHeader = new My_Pdf_Table(2);
@@ -576,18 +584,22 @@ class Encuesta_Util_Reporteador {
         
         $colthA1->setText("Evaluacion: ");
         $colthA1->setWidth($cellWidth);
+        $colthA1->setFont($fontDefaultBold,$fontMedSize);
         $colthA2->setText(utf8_encode($rowEncuesta['nombre']));
         
         $colthB1->setText("Docente: ");
         $colthB1->setWidth($cellWidth); //utf8_encode($docente['apellidos'].", ".$docente['nombres'])
+        $colthB1->setFont($fontDefaultBold,$fontMedSize);
         $colthB2->setText($rowRegistro['apellidos'].", ".$rowRegistro['nombres']);
         
-        $colthC1->setText("Nivel y Grado, Grupo Y Materia: ");
+        $colthC1->setText("Nivel y Grado: ");
         $colthC1->setWidth($cellWidth);
+        $colthC1->setFont($fontDefaultBold,$fontMedSize);
         $colthC2->setText($rowNivelE["nivelEducativo"].", ".$rowGrado["gradoEducativo"]);
         
         $colthD1->setText("Grupo y Materia: ");
         $colthD1->setWidth($cellWidth);
+        $colthD1->setFont($fontDefaultBold,$fontMedSize);
         $colthD2->setText("Grupo: ".$rowGrupoE["grupoEscolar"].", ".$rowMateria['materiaEscolar']);
         
         $rowTable1->setColumns(array($colthA1,$colthA2));
@@ -598,7 +610,7 @@ class Encuesta_Util_Reporteador {
         $rowTable2->setCellPaddings(array(5,5,5,5));
         $rowTable2->setFont($fontDefault,$fontMedSize);
         
-        $rowTable3->setColumns(array($colthC1,$colthC2));
+        $rowTable3->setColumns(array($colthC1,$colthC2));   
         $rowTable3->setCellPaddings(array(5,5,5,5));
         $rowTable3->setFont($fontDefault,$fontMedSize);
         
@@ -611,7 +623,7 @@ class Encuesta_Util_Reporteador {
         $tableHeader->addRow($rowTable3);
         $tableHeader->addRow($rowTable4);
         
-        $page->addTable($tableHeader, 150, 0);
+        $page->addTable($tableHeader, 150, -10);
         ##### Agregando Contenido
         $tablaContenidoR = new My_Pdf_Table(3);
         
@@ -626,6 +638,10 @@ class Encuesta_Util_Reporteador {
         $select = $tablaEvalReal->select()->from($tablaEvalReal)->where("idEvaluacion=?",$idEncuesta)->where("idAsignacionGrupo=?",$idAsignacion);
         $rowsEvalReal = $tablaEvalReal->fetchAll($select)->toArray();
         //print_r(count($rowsEvalReal));
+        $numeroAlumnas = count($rowsEvalReal);
+        $maxOpcion = 5;
+        $maxPuntaje = $numeroAlumnas * $maxOpcion;
+        
         $respuestas = array();
         $jsonObjs = array();
         foreach ($rowsEvalReal as $rowEvalR) {
@@ -643,7 +659,7 @@ class Encuesta_Util_Reporteador {
                 //print_r($pregunta);
                 $valorOpcion = null;
                 $preferencia = array();
-                
+                // Si es la primera insercion
                 if ($index == 0) {
                     $preferencia["pregunta"] = $pregunta;
                     
@@ -652,12 +668,14 @@ class Encuesta_Util_Reporteador {
                         $valorOpcion = $opcion->getValorEntero();
                         
                         $preferencia["puntaje"] = $valorOpcion;
+                        //$preferencia["maxPuntaje"] = $maxPuntaje;
                     }elseif($pregunta["tipo"] == "AB"){
                         $valorOpcion = $idOpcion;
                         $preferencia["pab"][] = $valorOpcion;
                     }
                     
                     $preferencias[$idPregunta] = $preferencia;
+                // Si es la segunda insercion
                 }else{
                     
                     if ($pregunta["tipo"] == "SS") {
@@ -686,15 +704,21 @@ class Encuesta_Util_Reporteador {
         
         $colHeaderPregunta->setText("Pregunta");
         $colHeaderPregunta->setWidth(400);
+        $colHeaderPregunta->setFont($fontDefaultBold,$fontMedSize);
         $colHeaderPuntaje->setText("Puntaje");
         $colHeaderPuntaje->setWidth(50);
+        $colHeaderPuntaje->setFont($fontDefaultBold,$fontMedSize);
         $colHeaderCalificacion->setText("Calificacion");
         $colHeaderCalificacion->setWidth(50);
+        $colHeaderCalificacion->setFont($fontDefaultBold,$fontMedSize);
         
         $rowHeaderTable->setColumns(array($colHeaderPregunta,$colHeaderPuntaje,$colHeaderCalificacion));
         $rowHeaderTable->setCellPaddings(array(5,5,5,5));
         $rowHeaderTable->setFont($fontDefault,$fontMinSize);
+        //$rowHeaderTable->setBorder(BOTTOM, null);
         $tableContent->addRow($rowHeaderTable);
+        // Solo las preguntas que se pueden calcular, es decir de tipo SS
+        $numeroPreguntas = 0;
         
         foreach ($preferencias as $idPregunta => $container) {
             $rowTable = new My_Pdf_Table_Row;
@@ -709,15 +733,48 @@ class Encuesta_Util_Reporteador {
             $colPuntaje->setText($container["puntaje"]);
             $colPuntaje->setWidth(50);
             //$colPuntaje;
+            $calificacion = ($container["puntaje"] * 10) / $maxPuntaje;
             
-            $colCalificacion->setText("");
+            if ($container["pregunta"]["tipo"] == "SS") {
+                $sumaFinal += $calificacion;
+                $numeroPreguntas++;
+                $colCalificacion->setText(sprintf('%.2f', $calificacion));
+            }else{
+                $colCalificacion->setText("");
+            }
             $colCalificacion->setWidth(50);
+            
+            
+            
             //$colCalificacion;
             $rowTable->setColumns(array($colPregunta,$colPuntaje,$colCalificacion));
             $rowTable->setCellPaddings(array(5,5,5,5));
             $rowTable->setFont($fontDefault, $fontMinSize);
             $tableContent->addRow($rowTable);
         }
+        
+        //print_r("SumaFinal :" .$sumaFinal);
+        //print_r("NumeroPreguntas: ".$numeroPreguntas);
+        
+        //print_r("TotalEncuesta :".$sumaFinal/$numeroPreguntas);
+        
+        $promedioFinal = $sumaFinal/$numeroPreguntas;
+        $resultado = "";
+        
+        if($promedioFinal >= 8.5){
+            $resultado = "EXCELENTE";
+        }elseif($promedioFinal > 7.0){
+            $resultado = "ADECUADO";
+        }elseif($promedioFinal > 5.0){
+            $resultado = "INSUFICIENTE";
+        }elseif($promedioFinal > 4.0){
+            $resultado = "DEFICIENTE";
+        }elseif($promedioFinal < 4.0){
+            $resultado = "MARGINAL";
+        }
+        
+        $page->drawText("Calificación: ".sprintf('%.2f', $sumaFinal/$numeroPreguntas) . " - " . $resultado, 175, 110);
+        $page->drawText("Reporte generado por Zazil Consultores para: Colegio Sagrado Corazón México", 100, 800);
         
         $page->addTable($tableContent, 10, 80);
         ##### Respuestas de preguntas abiertas
@@ -729,7 +786,7 @@ class Encuesta_Util_Reporteador {
             $row = new My_Pdf_Table_Row;
             $colRes = new My_Pdf_Table_Column;
             $colRes->setText(utf8_decode($value));
-            $colRes->setText(mb_convert_encoding($value, 'UTF-8'));
+            $colRes->setText($this->utilText->replaceHTMLSpecialChars($value));
             $colRes->setWidth(400);
             
             $row->setColumns(array($colRes));
