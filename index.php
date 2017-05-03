@@ -12,9 +12,13 @@ defined('APPLICATION_ENV')
 defined('PDF_PATH')
     || define('PDF_PATH', realpath(dirname(__FILE__) .'/public/pdf' ));
 
-// Define application pdf directory
+// Define application font directory
 defined('FONT_PATH')
     || define('FONT_PATH', realpath(dirname(__FILE__) .'/public/fonts' ));
+
+// Define application images directory
+defined('IMAGES_PATH')
+    || define('IMAGES_PATH', realpath(dirname(__FILE__) .'/public/images' ));
     
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
