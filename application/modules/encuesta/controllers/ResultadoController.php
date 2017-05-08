@@ -13,6 +13,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     private $respuestaDAO = null;
     private $opcionDAO = null;
     private $reporter = null;
+    private $utilJSON = null;
 
     public function init()
     {
@@ -34,6 +35,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $this->opcionDAO = new Encuesta_DAO_Opcion($dbAdapter);
         
         $this->reporter = new Encuesta_Util_Reporteador($dbAdapter);
+        $this->utilJSON = new Encuesta_Util_Json;
     }
 
     public function indexAction()
@@ -246,84 +248,63 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $grupoE = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
         
         //$idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
-        $idReporte = $reporteador->generarReporteDocenteOrientadora($idAsignacion, $idEvaluacion);
+        
+        
         //print_r("IdReporte: ".$idReporte);
+        
+        
+        $evaluaciones = $this->evaluacionDAO->getEvaluacionesByAsignacionAndEvaluacion($idAsignacion, $idEvaluacion);
+        $numeroEvaluadores = count($evaluaciones);
+        
+        $this->view->totalEvaluadores = $numeroEvaluadores;
+        $jsonArrays = array();
+        //print_r($evaluaciones);
+        //$this->utilJSON->processJsonEncuestaDos($json);
+        // #############################################################################################
+        
+        // #############################################################################################
+        $resT = array();
+        
+        switch ($idEvaluacion) {
+            case '1':
+                
+                break;
+            case '2':
+                $idReporte = $reporteador->generarReporteDocenteOrientadora($idAsignacion, $idEvaluacion);
+                foreach ($evaluaciones as $evaluacion) {
+                    //print_r($evaluacion["json"]); print_r("<br /><br />");
+                    //print_r($this->utilJSON->processJsonEncuestaDos($evaluacion["json"])); print_r("<br /><br />");
+                    $jsonArrays[] = $this->utilJSON->processJsonEncuestaDos($evaluacion["json"]);
+                }
+                break;
+            case '3':
+                $idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
+                foreach ($evaluaciones as $evaluacion) {
+                    $jsonArrays[] = $this->utilJSON->processJsonEncuestaTres($evaluacion["json"]);
+                }
+                break;
+        }
+        
+        // Creamos un Array de resultado, solo sumando el total de respuestas
+        //print_r($results);
+        $preferencias = array();
+        foreach ($jsonArrays as $jsonArray) {
+            //print_r($rest);
+            foreach ($jsonArray as $idPregunta => $idOpcion) {
+                $pregunta = $this->preguntaDAO->getPreguntaById($idPregunta);
+                
+                
+                
+                
+            }
+        }
+
         $this->view->grupoE = $grupoE;
         $this->view->encuesta = $encuesta;
         $this->view->asignacion = $asignacion;
         $this->view->docente = $docente->toArray();
         $this->view->materia = $materia;
         $this->view->idReporte = $idReporte;
-        
-        $evaluaciones = $this->evaluacionDAO->getEvaluacionesByAsignacionAndEvaluacion($idAsignacion, $idEvaluacion);
-        $numeroEvaluadores = count($evaluaciones);
-        
-        $this->view->totalEvaluadores = $numeroEvaluadores;
-        $results = array();
-        //print_r($evaluaciones);
-        // Transformamos los json obtenidos a arrays
-        foreach ($evaluaciones as $evaluacion) {
-            //print_r($resultado);
-            //$json = $resultado["json"];
-            $obj = str_replace("\\", "", $evaluacion["json"]);
-            $str = substr($obj, 1, -1);
-            //print_r($str); print_r("<br /><br />");
-            $str = json_decode($str,true);
-            //print_r($str);
-            $results[] = $str;
-            //break;
-        }
-        
-        //print_r($results);
-        
-        $resT = array(); // todas las encuestas
-        // Simplificamos solo obteniendo los conjuntos de arrays
-        foreach ($results as $fases) {
-            $contenedor = array();
-            foreach ($fases as $fase) {
-                //print_r($fase); print_r("<br />");
-                foreach ($fase as $key => $value) {
-                    //print_r($key."-".$value); print_r("<br />");
-                    $contenedor[$key] = $value;
-                }
-            }
-            $resT[] = $contenedor;
-        }
-        
-        // Creamos un Array de resultado, solo sumando el total de respuestas
-        //print_r($resT);
-        $rPreferencia = array();
-        foreach ($resT as $rests) {
-            //print_r($rest);
-            
-            foreach ($rests as $idPregunta => $idOpcion) {
-                $opcion = $this->opcionDAO->obtenerOpcion($idOpcion);
-                $opcionMayor = $this->opcionDAO->obtenerOpcionMayor($idOpcion);
-                // Obtener la opcion mayor
-                
-                $valor = null;
-                $obj = array();
-                switch ($opcion->getTipoValor()) {
-                    case 'EN':
-                        $valor = $opcion->getValorEntero();
-                        break;
-                    case 'DC':
-                        $valor = $opcion->getValorDecimal();
-                        break;
-                }
-                
-                if (array_key_exists($idPregunta, $rPreferencia)) {
-                    //$valAnterior = $rPreferencia[$idPregunta];
-                    $rPreferencia[$idPregunta]["preferencia"] = $rPreferencia[$idPregunta]["preferencia"] + $valor;
-                    //$rPreferencia[$idPregunta]["opcion"] + $opcion;
-                }else{
-                    //La primera insercion
-                    $obj["preferencia"] = $valor;
-                    $obj["opcionMayor"] = $opcionMayor;
-                    $rPreferencia[$idPregunta] = $obj;
-                }
-            }
-        }
         
         $this->view->preferencias = $rPreferencia;
         $this->view->preguntaDAO = $this->preguntaDAO;

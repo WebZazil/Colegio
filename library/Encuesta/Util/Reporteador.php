@@ -730,20 +730,20 @@ class Encuesta_Util_Reporteador {
             $colPregunta->setWidth(400);
             //$colPregunta;
             
-            $colPuntaje->setText($container["puntaje"]);
-            $colPuntaje->setWidth(50);
-            //$colPuntaje;
-            $calificacion = ($container["puntaje"] * 10) / $maxPuntaje;
-            
             if ($container["pregunta"]["tipo"] == "SS") {
+                $calificacion = ($container["puntaje"] * 10) / $maxPuntaje;
+                
+                $colPuntaje->setText($container["puntaje"]);
                 $sumaFinal += $calificacion;
                 $numeroPreguntas++;
                 $colCalificacion->setText(sprintf('%.2f', $calificacion));
+                
             }else{
                 $colCalificacion->setText("");
+                $colPuntaje->setText("");
             }
             $colCalificacion->setWidth(50);
-            
+            $colPuntaje->setWidth(50);
             
             
             //$colCalificacion;
