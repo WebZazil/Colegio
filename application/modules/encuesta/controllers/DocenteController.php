@@ -30,6 +30,18 @@ class Encuesta_DocenteController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        $request = $this->getRequest();
+        
+        if ($request->isPost()) {
+            $datos = $request->getPost();
+            //print_r($datos);
+            $this->registroDAO->editarRegistro($idDocente, $datos);
+        }
+        
+        $idDocente = $this->getParam("do");
+        $docente = $this->registroDAO->obtenerRegistro($idDocente);
+        $this->view->docente = $docente;
+        
     }
 
     public function altaAction()
@@ -48,7 +60,7 @@ class Encuesta_DocenteController extends Zend_Controller_Action
             }catch(Exception $ex){
                 $this->view->messageFail = $ex->getMessage();
             }
-            
+            /**/
         }
     }
 
