@@ -74,6 +74,11 @@ class Encuesta_DAO_Registro implements Encuesta_Interfaces_IRegistro {
 	}
 	
 	// =====================================================================================>>>   Actualizar
+	/**
+     * funcion editarRegistro
+     * @param $idRegistro - el Id del registro a actualizar
+     * @param $registro - el registro a actualizar
+     */
 	public function editarRegistro($idRegistro, array $registro){
 		$tablaRegistro = $this->tablaRegistro;
 		$where = $tablaRegistro->getAdapter()->quoteInto("idRegistro=?", $idRegistro);
