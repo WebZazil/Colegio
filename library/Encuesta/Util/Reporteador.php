@@ -20,6 +20,7 @@ class Encuesta_Util_Reporteador {
     private $tablaConjunto;
     private $tablaEvaluacionConjunto;
     private $tablaEvaluacionRealizada;
+    private $tablaEvaluador;
     
     private $reportTemplateHorizontal = null;
     private $reporteActiveHorizontal = null;
@@ -65,6 +66,8 @@ class Encuesta_Util_Reporteador {
         $this->tablaReportesConjunto = new Encuesta_Model_DbTable_ReportesConjunto(array("db"=>$dbAdapter));
         $this->tablaReportesGrupo = new Encuesta_Model_DbTable_ReportesGrupo(array("db"=>$dbAdapter));
         $this->tablaReportesEncuesta = new Encuesta_Model_DbTable_ReportesEncuesta(array("db"=>$dbAdapter));
+        
+        $this->tablaEvaluador = new Encuesta_Model_DbTable_Evaluador(array("db"=>$dbAdapter));
 	}
     
     /**
@@ -821,5 +824,265 @@ class Encuesta_Util_Reporteador {
         }
         //print_r("idReporte: ".$idReporte);
         return $idReporte;
+    }
+
+    /**
+     * 
+     */
+    public function obtenerReporteDocenteAutoevaluacion($idAsignacion, $idEvaluacion, $idEvaluador) {
+        $auth = Zend_Auth::getInstance();
+        $identity = $auth->getIdentity();
+        $organizacion = $identity["organizacion"];
+        
+        $tablaEncuesta = $this->tablaEncuesta;
+        $select = $tablaEncuesta->select()->from($tablaEncuesta)->where("idEncuesta=?",$idEvaluacion);
+        $rowEncuesta = $tablaEncuesta->fetchRow($select)->toArray();
+        
+        // Obtenemos Evaluador
+        $tablaEvaluador = $this->tablaEvaluador;
+        $select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador=?",$idEvaluador);
+        $rowEvaluador = $tablaEvaluador->fetchRow($select)->toArray();
+        
+        // Obtenemos Evaluacion
+        $tablaEvaluacion = $this->tablaEvaluacionRealizada;
+        $select = $tablaEvaluacion->select()->from($tablaEvaluacion)->where("idAsignacionGrupo=?", $idAsignacion)
+            ->where("idEvaluacion=?", $idEvaluacion)->where("idEvaluador=?", $idEvaluador);
+        
+        $rowEvaluacion = $tablaEvaluacion->fetchRow($select);
+        
+        $resultado = $this->utilJson->processJsonEncuestaCuatro($rowEvaluacion->json);
+        
+        $preguntas = array();
+        
+        foreach ($resultado as $idPregunta => $idOpcion) {
+            $pregunta = $this->preguntaDAO->getPreguntaById($idPregunta);
+            $preguntas[] = $pregunta->toArray();
+        }
+        
+        //print_r($resultado);
+        
+        ##### Creamos un documento con el constructor de la libreria PDF
+        //$nombreArchivo = "testAutoeval.pdf";
+        $nombreArchivo = "AutoEval-".$idEvaluacion."-".str_replace(" ", "", $rowEvaluador["apellidos"].$rowEvaluador["nombres"])."-".$idAsignacion."-RAUTO.pdf";
+        $directorio = $organizacion["directorio"];
+        $rutaReporte = '/reports/Encuesta/grupal/'.$directorio.'/Autoevaluacion/';
+        
+        $pdfReport = new My_Pdf_Document($nombreArchivo, PDF_PATH . $rutaReporte);
+        //$pdfReport->setYHeaderOffset(160);
+        
+        $page = $pdfReport->createPage();
+        
+        $fontDefault = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/CenturyGothic/GOTHIC.TTF');
+        $fontDefaultBold = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/CenturyGothic/GOTHICB.TTF');
+        $fontDefaultItalic = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/CenturyGothic/GOTHICI.TTF');
+        $fontDefaultItalicBold = Zend_Pdf_Font::fontWithPath(FONT_PATH.'/CenturyGothic/GOTHICI.TTF');
+        
+        $fontMinSize = 8;
+        $fontMedSize = 8;
+        $fontBigSize = 12;
+        $fontTitleSize = 16;
+        $fontFooterSize = 10;
+        
+        $styleDefault = new Zend_Pdf_Style;
+        $styleDefault->setFont($fontDefault, $fontMedSize);
+        
+        $page->setStyle($styleDefault);
+        $page->setFont($fontDefault, $fontMedSize);
+        $page->drawRectangle(0, 0, 555, 785);
+        
+        $imgEncabezado = Zend_Pdf_Image::imageWithPath(IMAGES_PATH . '/Logo.png');
+        $page->drawImage($imgEncabezado, 35, 20, 96, 58);
+        //$page->addTable($this->generarHeaderGrupalHorizontal($idEncuesta, $idAsignacion), 120, 120);
+        ##### Pagina configurada, generando Header
+        $tableHeader = new My_Pdf_Table(2);
+        $cellWidth = 200;
+        
+        $rowTable1 = new My_Pdf_Table_Row;
+        $rowTable2 = new My_Pdf_Table_Row;
+        
+        $colthA1 = new My_Pdf_Table_Column;
+        $colthA2 = new My_Pdf_Table_Column;
+        
+        $colthB1 = new My_Pdf_Table_Column;
+        $colthB2 = new My_Pdf_Table_Column;
+        
+        $colthA1->setText("Evaluacion: ");
+        $colthA1->setWidth(100);
+        $colthA1->setFont($fontDefaultBold,$fontMedSize);
+        $colthA2->setText($rowEncuesta['nombre']);
+        
+        $colthB1->setText("Evaluador: ");
+        $colthB1->setWidth(100); //utf8_encode($docente['apellidos'].", ".$docente['nombres'])
+        $colthB1->setFont($fontDefaultBold,$fontMedSize);
+        $colthB2->setText($rowEvaluador['apellidos'].", ".$rowEvaluador['nombres']);
+        
+        $rowTable1->setColumns(array($colthA1,$colthA2));
+        $rowTable1->setCellPaddings(array(5,5,5,5));
+        $rowTable1->setFont($fontDefault,$fontMedSize);
+        
+        $rowTable2->setColumns(array($colthB1,$colthB2));
+        $rowTable2->setCellPaddings(array(5,5,5,5));
+        $rowTable2->setFont($fontDefault,$fontMedSize);
+        
+        $tableHeader->addRow($rowTable1);
+        $tableHeader->addRow($rowTable2);
+        //$tableHeader->addRow($rowTable3);
+        //$tableHeader->addRow($rowTable4);
+        
+        $page->addTable($tableHeader, 150, 10);
+        ##### Header generado y agregado, Generando información para Content
+        // Traemos las secciones de la encuesta
+        $tablaSeccion = $this->tablaSeccionEncuesta;
+        $select = $tablaSeccion->select()->from($tablaSeccion)->where("idEncuesta=?", $idEvaluacion);
+        $rowSecciones = $tablaSeccion->fetchAll($select)->toArray();
+        
+        $tablaGrupoS = $this->tablaGrupoSeccion;
+        
+        $container = array();
+        
+        foreach ($rowSecciones as $rowSeccion) {
+            $select = $tablaGrupoS->select()->from($tablaGrupoS)->where("idSeccionEncuesta=?", $rowSeccion["idSeccionEncuesta"]);
+            $rowsGrupos = $tablaGrupoS->fetchAll($select)->toArray();
+            
+            foreach ($rowsGrupos as $rowGrupo) {
+                // Pregunta
+                //$container[$rowGrupo["idGrupoSeccion"]][] =   
+                
+                foreach ($preguntas as $pregunta) {
+                    if ($pregunta["origen"] == 'G' AND $pregunta["idOrigen"] == $rowGrupo["idGrupoSeccion"]) {
+                        
+                        $opcion = $this->opcionDAO->obtenerOpcion($resultado[$pregunta["idPregunta"]])->toArray();
+                        $maxOpcion = $this->opcionDAO->obtenerOpcionMayor($opcion["idOpcionCategoria"]);
+                        
+                        $container[$rowGrupo["idGrupoSeccion"]][] = array("pregunta"=>$pregunta,"opcion"=>$opcion,"maxOpcion"=>$maxOpcion);
+                    }
+                }
+            }
+            
+        }
+        //print_r("<br /><br />");
+        //print_r($container);
+        
+        ##### Información generada, creando content
+        $tableContent = new My_Pdf_Table(3);
+        
+        $rowHeaderTable = new My_Pdf_Table_Row;
+        $colHeaderGrupo = new My_Pdf_Table_Column;
+        $colHeaderPuntaje = new My_Pdf_Table_Column;
+        $colHeaderCalificacion = new My_Pdf_Table_Column;
+        
+        $colHeaderGrupo->setText("Área: ");
+        $colHeaderGrupo->setWidth(400);
+        $colHeaderGrupo->setFont($fontDefaultBold,$fontMedSize);
+        $colHeaderPuntaje->setText("Puntaje");
+        $colHeaderPuntaje->setWidth(50);
+        $colHeaderPuntaje->setFont($fontDefaultBold,$fontMedSize);
+        $colHeaderCalificacion->setText("Calificación");
+        $colHeaderCalificacion->setWidth(50);
+        $colHeaderCalificacion->setFont($fontDefaultBold,$fontMedSize);
+        
+        $rowHeaderTable->setColumns(array($colHeaderGrupo,$colHeaderPuntaje,$colHeaderCalificacion));
+        $rowHeaderTable->setCellPaddings(array(5,5,5,5));
+        $rowHeaderTable->setFont($fontDefault,$fontMinSize);
+        //$rowHeaderTable->setBorder(BOTTOM, null);
+        $tableContent->addRow($rowHeaderTable);
+        
+        $numeroGrupos = count($container);
+        $sumaFinal = 0;
+        
+        foreach ($container as $idGrupo => $preguntas) {
+            $rowTable = new My_Pdf_Table_Row;
+            $colGrupo = new My_Pdf_Table_Column;
+            $colPuntaje = new My_Pdf_Table_Column;
+            $colCalificacion = new My_Pdf_Table_Column;
+            
+            $grupo = $this->grupoDAO->getGrupoById($idGrupo);
+            
+            $colGrupo->setText($grupo->getNombre());
+            $colGrupo->setWidth(300);
+            //$colPregunta;
+            $puntaje = 0;
+            $numeroPreguntas = count($preguntas);
+            $valorMaximo = 5 * $numeroPreguntas; // cambiar!!! por valor en base
+            
+            foreach ($preguntas as $obj) {
+                $puntaje += $obj["opcion"]["valorEntero"]; 
+            }
+            
+            /**
+            if ($container["pregunta"]["tipo"] == "SS") {
+                $calificacion = ($container["puntaje"] * 10) / $maxPuntaje;
+                
+                $colPuntaje->setText($container["puntaje"]);
+                $sumaFinal += $calificacion;
+                $numeroPreguntas++;
+                $colCalificacion->setText(sprintf('%.2f', $calificacion));
+                
+            }else{
+                $colCalificacion->setText("");
+                $colPuntaje->setText("");
+            }
+            */
+            $calificacion = (10 * $puntaje) / $valorMaximo;
+            $sumaFinal += $calificacion;
+            $colCalificacion->setText(sprintf('%.2f', $calificacion));
+            $colPuntaje->setText($puntaje);
+            $colCalificacion->setWidth(50);
+            $colPuntaje->setWidth(50);
+            
+            
+            //$colCalificacion;
+            $rowTable->setColumns(array($colGrupo,$colPuntaje,$colCalificacion));
+            $rowTable->setCellPaddings(array(5,5,5,5));
+            $rowTable->setFont($fontDefault, $fontMinSize);
+            $tableContent->addRow($rowTable);
+        }
+        
+        $page->addTable($tableContent, 30, 100);
+        
+        $promedioFinal = $sumaFinal/$numeroGrupos;
+        $resultado = "";
+        
+        if($promedioFinal >= 8.5){
+            $resultado = "EXCELENTE";
+        }elseif($promedioFinal > 7.0){
+            $resultado = "ADECUADO";
+        }elseif($promedioFinal > 5.0){
+            $resultado = "INSUFICIENTE";
+        }elseif($promedioFinal > 4.0){
+            $resultado = "DEFICIENTE";
+        }elseif($promedioFinal < 4.0){
+            $resultado = "MARGINAL";
+        }
+        
+        $page->drawText("Calificación: ".sprintf('%.2f', $promedioFinal) . " - " . $resultado, 175, 110);
+        $page->drawText("Reporte generado por Zazil Consultores para: Colegio Sagrado Corazón México", 100, 800);
+        
+        $pdfReport->addPage($page);
+        $pdfReport->saveDocument();
+        
+        $tablaReportesEncuesta = $this->tablaReportesEncuesta;
+        $idReporte = 0;
+        $select = $tablaReportesEncuesta->select()->from($tablaReportesEncuesta)->where("idAsignacionGrupo=?",$idAsignacion)->where("idEncuesta=?",$idEvaluacion)
+            ->where("nombreReporte=?", $nombreArchivo);
+        $rowReporte = $tablaReportesEncuesta->fetchRow($select);
+        if (is_null($rowReporte)) {
+            $datos = array();
+            //$datos["idGrupoEscolar"] = $idGrupo;
+            $datos["idEncuesta"] = $idEvaluacion;
+            $datos["idAsignacionGrupo"] = $idAsignacion;
+            //$datos["idsEvaluadores"]="";
+            $datos["nombreReporte"] = $nombreArchivo;
+            $datos["tipoReporte"] = "RAUT";
+            $datos["rutaReporte"] = $rutaReporte;
+            $datos["fecha"] = date("Y-m-d H:i:s", time());
+            print_r($datos);
+            $idReporte = $tablaReportesEncuesta->insert($datos);
+        }else{
+            $idReporte = $rowReporte->idReporte;
+        }
+        //print_r("idReporte: ".$idReporte);
+        return $idReporte;
+        
     }
 }

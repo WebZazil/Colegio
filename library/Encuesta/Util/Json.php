@@ -60,7 +60,19 @@ class Encuesta_Util_Json {
      * Obtenemos un array unidimensional asociativo con idPregunta - idRespuesta como claves valor
      */
     public function processJsonEncuestaCuatro($json) {
-        
+        $obj = str_replace("\\", "", $json);
+        $str = substr($obj, 1, -1);
+        $jsonArray = json_decode($str,true);
+        $arrUni = array();
+        foreach ($jsonArray as $fase) {
+            //print_r($fase); print_r("<br />---- <br />");
+            foreach ($fase as $idPregunta => $opcion) {
+                $arrUni[$idPregunta] = $opcion;
+            }
+            //break;
+        }
+        //print_r($arrUni);
+        return $arrUni;
     }
     
 }

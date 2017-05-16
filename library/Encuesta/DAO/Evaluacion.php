@@ -529,4 +529,18 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
         //print_r($rowsEvalsReal->toArray());
         return $rowsEvalsReal->toArray();
     }
+    
+    /**
+     * Cuando estamos pro
+     */
+    public function getResultadoIndividual($idAsignacion, $idEvaluacion, $idEvaluador) {
+        $tablaEvalRel = $this->tablaEvaluacionRealizada;
+        $select = $tablaEvalRel->select()->from($tablaEvalRel)->where("idAsignacionGrupo=?", $idAsignacion)
+            ->where("idEvaluacion=?", $idEvaluacion)
+            ->where("idEvaluador=?", $idEvaluador);
+        
+        $rowEvaluacion = $tablaEvalRel->fetchRow($select);
+        
+        return $rowEvaluacion->toArray();
+    }
 }

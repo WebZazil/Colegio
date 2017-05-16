@@ -1,4 +1,5 @@
 <?php
+    $utilText = new Encuesta_Util_Text;
     $asignacion = $this->asignacion;
     $encuesta = $this->encuesta;
     
@@ -16,6 +17,7 @@
     $totalPreguntas = 0;
     
     $idReporte = $this->idReporte;
+    $respuestas = null;
     //print_r($encuesta);
     //print_r($grupoE);
     
@@ -49,31 +51,43 @@
                         <?php foreach ($preferencias as $idPregunta => $contenedor) : 
                             //print_r($resultado);print_r("<br /><br />");
                             $pregunta = $preguntaDAO->getPreguntaById($idPregunta);
-                            $totalPreguntas++;
-                            //$opcionMayor = $op
-                            $opcionMayor = $contenedor["opcionMayor"];
-                            $preferencia = $contenedor["preferencia"];
-                            $valorMayor = null;
-                            switch ($opcionMayor["tipoValor"]) {
-                                case 'EN':
-                                    $valorMayor = $opcionMayor["valorEntero"];
-                                    break;
-                                case 'DC':
-                                    $valorMayor = $opcionMayor["valorDecimal"];
-                                    break;
-                                case 'TX':
-                                    $valorMayor = $opcionMayor["valorTexto"];
-                                    break;
+                            $preferencia = null;
+                            $calificacion = null;
+                            
+                            
+                            if ($pregunta->getTipo() == "SS") {
+                                $totalPreguntas++;
+                                //$opcionMayor = $op
+                                $opcionMayor = $contenedor["opcionMayor"];
+                                $preferencia = $contenedor["preferencia"];
+                                $valorMayor = null;
+                                switch ($opcionMayor["tipoValor"]) {
+                                    case 'EN':
+                                        $valorMayor = $opcionMayor["valorEntero"];
+                                        break;
+                                    case 'DC':
+                                        $valorMayor = $opcionMayor["valorDecimal"];
+                                        break;
+                                    case 'TX':
+                                        $valorMayor = $opcionMayor["valorTexto"];
+                                        break;
+                                }
+                                $puntajeMayor = $valorMayor * $totalEvaluadores;
+                                $puntajeObtenido = $preferencia;
+                                $calificacion = (10*$puntajeObtenido) / $puntajeMayor;
+                                $sumaTotal += $calificacion;
+                            }elseif($pregunta->getTipo() == "AB"){
+                                $respuestas = $contenedor["abiertas"];
                             }
-                            $puntajeMayor = $valorMayor * $totalEvaluadores;
-                            $puntajeObtenido = $preferencia;
-                            $calificacion = (10*$puntajeObtenido) / $puntajeMayor;
-                            $sumaTotal += $calificacion;
                             ?>
                         <tr>
                             <td><?php echo $pregunta->getNombre(); ?></td>
-                            <td><?php echo $preferencia; ?></td>
-                            <td><?php echo sprintf('%.2f', $calificacion); ?></td>
+                            <td><?php if ($pregunta->getTipo() == "SS") {
+                                echo $preferencia;
+                            } ?></td>
+                            <td><?php if ($pregunta->getTipo() == "SS") {
+                                echo sprintf('%.2f', $calificacion);
+                            } ?></td>
                             <td>
                                 <a class="btn btn-link" target="_blank" href="<?php ?>">
                                     <i class="fa fa-area-chart"></i> 
@@ -83,6 +97,25 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <?php if(!is_null($respuestas)){ ?>
+                <hr />
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Respuesta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($respuestas as $index => $respuesta) { ?>
+                        <tr>
+                            <td><?php echo $index; ?></td>
+                            <td><?php echo $utilText->replaceHTMLSpecialChars($respuesta); ?></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <?php } ?>
             </div>
             <div class="panel-footer">
                 <?php echo "Promedio General: <strong>". sprintf('%.2f', $sumaTotal/$totalPreguntas. "</strong>"); ?>

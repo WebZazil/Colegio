@@ -1,0 +1,73 @@
+<?php
+    $evaluador = $this->evaluador;
+    $evaluacion = $this->evaluacion;
+    $resultado = $this->resultado;
+    $asignacion = $this->asignacion;
+    $idReporte = $this->idReporte;
+    // conteo de resultado
+    $maxValue =  0;
+    $numPreguntas = count($resultado);
+    $sumaTotal = 0;
+    
+    $urlReporte = $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"descarga","idReporte"=>$idReporte),null,true);
+    $urlAutoEvaluaciones = $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"resautoev","as"=>$asignacion["idAsignacionGrupo"],"ev"=>$evaluacion["idEncuesta"]),null,TRUE);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Resultado Autoevaluación de Docente</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+				    <a class="btn btn-info" href="<?php echo $urlAutoEvaluaciones; ?>">
+                        <i class="fa fa-arrow-circle-left"></i> Regresar a Autoevaluaciones
+                    </a>
+                    <br /><br />
+				    <table class="table table-striped table-condensed">
+				        <tbody>
+				            <tr>
+				                <td><strong>Docente:</strong></td> 
+				                <td><?php echo $evaluador["apellidos"].", ". $evaluador["nombres"] ?></td>
+				            </tr>
+				            <tr>
+				                <td><strong>Evaluación:</strong></td>
+				                <td><?php echo $evaluacion["nombre"] ?></td>
+				            </tr>
+				        </tbody>
+				    </table>
+				    <br /><br />
+				    <a class="btn btn-success" href="<?php echo $urlReporte; ?>">
+				        <i class="fa fa-file-pdf-o"></i> Reporte
+				    </a>
+				</div>
+				<hr />
+				<div>
+				    <table class="table table-striped table-condensed">
+				    	<thead>
+				    		<tr>
+				    			<th>Pregunta</th>
+				    			<th>Respuesta</th>
+				    			<th>Valor Entero</th>
+				    		</tr>
+				    	</thead>
+				    	<tbody>
+				    	    <?php foreach ($resultado as $idPregunta => $container) : 
+				    	        $sumaTotal += $container["opcion"]["valorEntero"];
+                                $maxValue += $container["maxOpcion"]["valorEntero"];
+				    	        ?>
+				    		<tr>
+				    			<td><?php echo $container["pregunta"]["nombre"] ?></td>
+				    			<td><?php echo $container["opcion"]["nombreOpcion"] ?></td>
+				    			<td><?php echo $container["opcion"]["valorEntero"] ?></td>
+				    		</tr>
+				    		<?php endforeach; ?>
+				    	</tbody>
+				    </table>
+				    <?php print_r("Resultado: "); ?>
+				    <?php print_r(sprintf('%.2f', (10*$sumaTotal) / $maxValue) ); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
