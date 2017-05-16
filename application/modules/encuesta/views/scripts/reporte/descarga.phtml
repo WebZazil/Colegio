@@ -14,7 +14,7 @@
             $ruta .= "/public/pdf".$reporte["rutaReporte"]. $reporte["nombreReporte"];
             break;
         case 'RAUT':
-            $ruta .= "/public/pdf".$reporte["rutaReporte"]. $reporte["nombreReporte"];
+            $ruta .= "/public/pdf".$reporte["rutaReporte"]."/". $reporte["nombreReporte"];
             break;
     }
     //print_r($ruta);
