@@ -865,7 +865,7 @@ class Encuesta_Util_Reporteador {
         //$nombreArchivo = "testAutoeval.pdf";
         $nombreArchivo = "AutoEval-".$idEvaluacion."-".str_replace(" ", "", $rowEvaluador["apellidos"].$rowEvaluador["nombres"])."-".$idAsignacion."-RAUTO.pdf";
         $directorio = $organizacion["directorio"];
-        $rutaReporte = '/reports/Encuesta/grupal/'.$directorio.'/Autoevaluacion/';
+        $rutaReporte = '/reports/Encuesta/grupal/'.$directorio.'/Autoevaluacion';
         
         $pdfReport = new My_Pdf_Document($nombreArchivo, PDF_PATH . $rutaReporte);
         //$pdfReport->setYHeaderOffset(160);
