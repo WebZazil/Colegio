@@ -27,7 +27,23 @@
                         $encuesta = $encuestaDAO->getEncuestaById($evaluacion["idEvaluacion"])->toArray();
                         //print_r($encuesta->toArray());
                         
-                        $urlResultado = $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"resgras","as"=>$asignacion["idAsignacionGrupo"],"ev"=>$encuesta["idEncuesta"]),null,true);
+                        //$url = $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"resgras","as"=>$asignacion["idAsignacionGrupo"],"ev"=>$encuesta["idEncuesta"]),null,true);
+                        
+                        switch ($encuesta["idEncuesta"]) {
+                            case '1':
+                                
+                                break;
+                            case '2':
+                                
+                                break;
+                            case '3':
+                                $url = $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"resgras","as"=>$asignacion["idAsignacionGrupo"],"ev"=>$encuesta["idEncuesta"]),null,true);
+                                break;
+                            case '4':
+                                $url = $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"resautoev","as"=>$asignacion["idAsignacionGrupo"],"ev"=>$encuesta["idEncuesta"]),null,true);
+                                break;
+                        }
+                        
                         ?>
                     <table class="table table-striped table-condensed">
                         <thead>
@@ -42,7 +58,7 @@
                                     <?php echo $encuesta["nombre"]; ?>
                                 </td>
                                 <td>
-                                    <a class="btn btn-link" href="<?php echo $urlResultado; ?>">
+                                    <a class="btn btn-link" href="<?php echo $url; ?>">
                                         <i class="fa fa-bar-chart"></i> Resultado
                                     </a>
                                 </td>
