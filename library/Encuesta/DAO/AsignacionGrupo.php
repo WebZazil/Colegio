@@ -113,5 +113,36 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 		
 		return $row->toArray();
 	}
+    
+    /**
+     * Comprueba si ya hay un docente asignado en un conjunto (grupo-materia-docente) en T.AsignacionGrupo
+     */
+    public function existeDocenteEnAsignacion($idGrupoEscolar, $idMateriaEscolar) {
+        $tablaAsignacion = $this->tablaAsignacionGrupo;
+        $select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idGrupoEscolar=?",$idGrupoEscolar)
+            ->where("idMateriaEscolar=?",$idMateriaEscolar);
+        $rowAsignacion = $tablaAsignacion->fetchRow($select);
+        
+        if(is_null($rowAsignacion)){
+            return false;
+        }else{
+            return true;
+        }
+        //return $rowAsignacion->toArray();
+    }
+    
+    /**
+     * Retorna una asignacion para obtener el docente, proporcionamos:
+     * @param idGrupoEscolar
+     * @param idMateriaEscolar
+     */
+    public function obtenerDocenteEnAsignacion($idGrupoEscolar, $idMateriaEscolar) {
+        $tablaAsignacion = $this->tablaAsignacionGrupo;
+        $select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idGrupoEscolar=?",$idGrupoEscolar)
+            ->where("idMateriaEscolar=?",$idMateriaEscolar);
+        $rowAsignacion = $tablaAsignacion->fetchRow($select);
+        
+        return $rowAsignacion->toArray();
+    }
 	
 }

@@ -208,44 +208,14 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	}
 
     /**
-     * 
+     * Obtenemos las asignaciones del grupo proporcionado
      */
     public function getAsignacionesByIdGrupo($idGrupo) {
-        $tablaCoEval = $this->tablaConjuntoEvaluador;
-        $select  = $tablaCoEval->select()->from($tablaCoEval)->where("idGrupoEscolar=?",$idGrupo);
-        $rowsConjuntos = $tablaCoEval->fetchAll($select);
+        $tablaAsignacion = $this->tablaAsignacionGrupo;
+        $select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idGrupoEscolar=?",$idGrupo);
+        $rowsAsignaciones = $tablaAsignacion->fetchAll($select)->toArray();
         
-        $idsConjuntos = array();
-        foreach ($rowsConjuntos as $rowConjunto) {
-            $idsConjuntos[] = $rowConjunto->idConjuntoEvaluador;
-        }
-        
-        $tablaEvalCon = $this->tablaEvaluacionConjunto;
-        $select = $tablaEvalCon->select()->from($tablaEvalCon)->where("idConjuntoEvaluador IN (?)", $idsConjuntos);
-        $rowsEvals = $tablaEvalCon->fetchAll($select);
-        
-        $idsAsignacionesGrupo = array();
-        foreach ($rowsEvals as $rowEval) {
-            $idsAsignacionesConjunto = explode(",", $rowEval->idsAsignacionesGrupo);
-            foreach ($idsAsignacionesConjunto as $idAsignacion) {
-                //print_r("idAsignacion: " . $idAsignacion);
-                //print_r("<br />");
-                if ($idAsignacion != "") {
-                    $idsAsignacionesGrupo[] = $idAsignacion;
-                }
-            }
-        }
-        
-        $tablaAsignaciones = $this->tablaAsignacionGrupo;
-        $select = $tablaAsignaciones->select()->from($tablaAsignaciones)->where("idAsignacionGrupo IN (?)", $idsAsignacionesGrupo);
-        $rowAsignaciones = $tablaAsignaciones->fetchAll($select);
-        
-        if (is_null($rowAsignaciones)) {
-            return array();
-        }else{
-            return $rowAsignaciones->toArray();
-        }
-        
+        return $rowsAsignaciones;
     }
     
     /**

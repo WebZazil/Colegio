@@ -117,5 +117,15 @@ class Encuesta_DAO_Registro implements Encuesta_Interfaces_IRegistro {
         
         return $docentes;
     }
+
+    public function getDocentesByParam($param) {
+    	$tablaRegistro = $this->tablaRegistro;
+        $select = $tablaRegistro->select()->from($tablaRegistro)->where("nombres LIKE ?", "%{$param}%")->orWhere("apellidos LIKE ?", "%{$param}%");
+        $rowsRegistros = $tablaRegistro->fetchAll($select);
+        //print_r($select->__toString());
+        //print_r($rowsRegistros->toArray());
+        
+        return $rowsRegistros->toArray();
+    }
 	
 }
