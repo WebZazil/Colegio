@@ -4,13 +4,23 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 {
 
     private $gradoDAO = null;
+
     private $cicloDAO = null;
+
     private $gruposDAO = null;
+
     private $nivelDAO = null;
+
     private $materiaDAO = null;
+
     private $encuestaDAO = null;
+
     private $registroDAO = null;
+
     private $preferenciaDAO = null;
+
+    private $asignacionDAO = null;
+
     private $planDAO = null;
 
     public function init()
@@ -28,6 +38,8 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		$this->registroDAO = new Encuesta_DAO_Registro($dataIdentity["adapter"]);
 		$this->preferenciaDAO = new Encuesta_DAO_Preferencia($dataIdentity["adapter"]);
 		$this->planDAO = new Encuesta_DAO_Plan($dataIdentity["adapter"]);
+        
+        $this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dataIdentity["adapter"]);
     }
 
     public function indexAction()
@@ -88,6 +100,10 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		//print_r($materiasDisponibles);
 		$this->view->materiasDisponibles = $materiasDisponibles;
 		$this->view->materiasAsociadas = $materiasRelacionadas;
+        //$this->asignacionDAO->getAsignacionById($id);
+        $this->view->asignacionDAO = $this->asignacionDAO;
+        $this->view->registroDAO = $this->registroDAO;
+        
 		/*
 		$idsMateriaGrado = array();
 		
@@ -213,6 +229,9 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		
 		$grupo = $this->gruposDAO->obtenerGrupo($idGrupo);
 		$materia = $this->materiaDAO->obtenerMateria($idMateria);
+		
+		$this->view->grupo = $grupo;
+        $this->view->materia = $materia;
 		
 		$formulario = new Encuesta_Form_MateriasProfesor;
 		$formulario->getElement("idMateriaEscolar")->clearMultiOptions();
@@ -343,5 +362,23 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		}
     }
 
+    public function asociarmdAction()
+    {
+        // action body
+        $idGrupo = $this->getParam("gpo");
+        $idMateria = $this->getParam("mat");
+        $idDocente = $this->getParam("doc");
+        
+        $registro = array();
+        $registro["idGrupoEscolar"] = $idGrupo;
+        $registro["idRegistro"] = $idDocente;
+        $registro["idMateriaEscolar"] = $idMateria;
+        $this->gruposDAO->agregarDocenteGrupo($registro);
+        
+        $this->_helper->redirector->gotoSimple("admin", "grupoe", "encuesta", array("idGrupo"=>$idGrupo));
+    }
+
 
 }
+
+

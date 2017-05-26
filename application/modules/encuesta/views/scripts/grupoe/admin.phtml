@@ -4,13 +4,16 @@
 	$nivel = $this->nivel;
 	$materiasAsociadas = $this->materiasAsociadas;
 	$materiasDisponibles = $this->materiasDisponibles;
-	
+    
+	$asignacionDAO = $this->asignacionDAO;
+    $registroDAO = $this->registroDAO;
+    
 ?>
 <div class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-warning">
 			<div class="panel-heading">
-				<h5 class="panel-title">Agregar Materias al Grupo <strong></strong></h5>
+				<h5 class="panel-title">Grado: <strong><?php echo $grado->getGradoEducativo(); ?></strong> >> Grupo: <strong><?php echo $grupo->getGrupo(); ?></strong></h5>
 			</div>
 			<div class="panel-body">
 				<div>
@@ -65,16 +68,26 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($materiasAsociadas as $materiaAsociada) : ?>
+							<?php foreach ($materiasAsociadas as $materiaAsociada) : 
+							    print_r($materiaAsociada["idMateriaEscolar"]);
+							    ?>
 							<tr>
 								<td><?php echo $nivel->getNivel() ?></td>
 								<td><?php echo $grado->getGradoEducativo() ?></td>
 								<td><?php echo $grupo->getGrupo() ?></td>
 								<td><?php echo $materiaAsociada["materiaEscolar"] ?></td>
 								<td>
-								    <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarp","idGrupo"=>$grupo->getIdGrupo(),"idMateria"=>$materiaAsociada["idMateriaEscolar"],),null,true) ?>">
-								        <i class="fa fa-plus-circle"></i> Asociar Docente
-								    </a>
+								    
+                                    
+								    <?php if ($asignacionDAO->existeDocenteEnAsignacion($grupo->getIdGrupo(), $materiaAsociada["idMateriaEscolar"]) ) {
+								        $asignacion = $asignacionDAO->obtenerDocenteEnAsignacion($grupo->getIdGrupo(), $materiaAsociada["idMateriaEscolar"]);
+                                        $registro = $registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+                                        echo $registro["apellidos"]." ".$registro["nombres"];
+									}else{ ?>
+								        <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarp","idGrupo"=>$grupo->getIdGrupo(),"idMateria"=>$materiaAsociada["idMateriaEscolar"],),null,true) ?>">
+                                            <i class="fa fa-plus-circle"></i> Asociar Docente
+                                        </a>
+								    <?php } ?>
 								</td>
 							</tr>
 							<?php endforeach; ?>

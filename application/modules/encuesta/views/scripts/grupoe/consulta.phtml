@@ -22,14 +22,22 @@
 					<th>Ciclo</th>
 					<th>Nivel</th>
 					<th>Grado</th>
+					<th>Configurar</th>
 					<th>Consulta</th>
 				</thead>
 				<tbody>
-					<?php foreach ($grupos as $grupo) : ?>
+					<?php foreach ($grupos as $grupo) : 
+					    $urlGrupo = $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","idGrupo"=>$grupo->getIdGrupo()),null,true);
+					    ?>
 					<tr>
 						<td><?php echo $ciclo->getCiclo(); ?></td>
 						<td><?php echo $nivel->getNivel(); ?></td>
 						<td><?php echo $grado->getGradoEducativo(); ?></td>
+						<td>
+						    <a class="btn btn-link" href="<?php echo $urlGrupo; ?>">
+						        <i class="fa fa-cog"></i> Configurar
+						    </a>
+						</td>
 						<td>
 							<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"admin","idGrupo"=>$grupo->getIdGrupo()),null,true) ?>">
 								<span class="glyphicon glyphicon-search"></span> Grupo: <strong><?php echo $grupo->getGrupo(); ?></strong>

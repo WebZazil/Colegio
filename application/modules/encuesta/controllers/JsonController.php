@@ -229,8 +229,43 @@ class Encuesta_JsonController extends Zend_Controller_Action
 		echo Zend_Json::encode($msg);
     }
 
+    public function reportesAction()
+    {
+        // action body
+        $idCicloEscolar = $this->getParam("ce");
+        $idGrupo = $this->getParam("ge");
+        
+        $ciclo = $this->cicloDAO->getCicloById($idCicloEscolar);
+        $asignaciones = $this->asignacionDAO->obtenerAsignacionesGrupo($idGrupo);
+        
+        //print_r($asignaciones);
+        
+        
+        
+    }
+
+    public function docentesAction()
+    {
+        // action body
+        $param = $this->getParam("param");
+        $docentes = $this->registroDAO->getDocentesByParam($param);
+        
+        echo Zend_Json::encode($docentes);
+        /*
+        if (!empty($docentes)) {
+            
+        }else{
+            echo Zend_Json::encode(array());
+        }
+        */
+    }
+
 
 }
+
+
+
+
 
 
 

@@ -148,8 +148,9 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
         $this->view->conjunto = $conjunto;
         $evaluaciones = $this->evaluacionDAO->getEvaluacionesByIdConjunto($idConjunto);
         
-        $evaluacionesGrupo = $this->evaluacionDAO->getAsignacionesByIdGrupo($conjunto["idGrupoEscolar"]);
+        $asignacionesGrupo = $this->evaluacionDAO->getAsignacionesByIdGrupo($conjunto["idGrupoEscolar"]);
         $evaluacionesConjunto = $this->evaluacionDAO->getAsignacionesByIdConjunto($idConjunto);
+        
         $evaluacionesC = array();
         foreach ($evaluacionesConjunto as $idEncuesta => $asignaciones) {
             $arrAsignacionConjunto = array();
@@ -163,14 +164,15 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
                 $evaluacionesC[] = $arrAsignacionConjunto;
             }
         }
+        
         $evaluacionesG = array();
-        foreach ($evaluacionesGrupo as $asignacion) {
+        foreach ($asignacionesGrupo as $asignacionGrupo) {
             $arrAsignacionGrupo = array();
-            //print_r($asignacion);
-            //print_r("<br />");
-            $arrAsignacionGrupo["asignacion"] = $asignacion;
-            $arrAsignacionGrupo["materia"] = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
-            $arrAsignacionGrupo["docente"] = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+            //print_r($asignacionGrupo); print_r("<br /><br />");
+            
+            $arrAsignacionGrupo["asignacion"] = $asignacionGrupo;
+            $arrAsignacionGrupo["materia"] = $this->materiaDAO->getMateriaById($asignacionGrupo["idMateriaEscolar"]);
+            $arrAsignacionGrupo["docente"] = $this->registroDAO->obtenerRegistro($asignacionGrupo["idRegistro"])->toArray();
             $evaluacionesG[] = $arrAsignacionGrupo;
             
         }
