@@ -3,6 +3,8 @@
 class Encuesta_EvaluadorController extends Zend_Controller_Action
 {
 
+    private $registroDAO = null;
+
     private $evaluacionDAO = null;
 
     public function init()
@@ -11,12 +13,13 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
         $dbAdapter = Zend_Registry::get("dbmodquery");
         
         $this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
+        $this->registroDAO = new Encuesta_DAO_Registro($dbAdapter);
     }
 
     public function indexAction()
     {
         // action body
-        $evaluadores = $this->evaluacionDAO->getEvaluadoresByTipo("ALUM"); 
+        $evaluadores = $this->evaluacionDAO->getEvaluadoresByTipo("ALUM");
         $this->view->evaluadores = $evaluadores;
     }
 
@@ -42,22 +45,33 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        $request = $this->getRequest();
         $idEvaluador = $this->getParam("idEvaluador");
-		$evaluacionDAO = $this->evaluacionDAO;
-		$evaluador = $evaluacionDAO->getEvaluadorById($idEvaluador);
 		
-		$formulario = new Encuesta_Form_AltaEvaluador();
-		$formulario->getElement("nombres")->setValue($evaluador["nombres"]);
-		$formulario->getElement("apellidos")->setValue($evaluador["apellidos"]);
-		$formulario->getElement("submit")->setLabel("Actualizar Evaluador")->setAttrib("class",	"btn btn-warning");
 		
-		$this->view->evaluador = $evaluador;
-		$this->view->formulario = $formulario;
+		//$formulario = new Encuesta_Form_AltaEvaluador();
+		//$formulario->getElement("nombres")->setValue($evaluador["nombres"]);
+		//$formulario->getElement("apellidos")->setValue($evaluador["apellidos"]);
+		//$formulario->getElement("submit")->setLabel("Actualizar Evaluador")->setAttrib("class",	"btn btn-warning");
 		
+		
+		//$this->view->formulario = $formulario;
+		
+        if ($request->isPost()) {
+            $datos = $request->getPost();
+            //print_r($datos);
+            
+            $this->evaluacionDAO->editaEvaluador($idEvaluador, $datos);
+            $this->_helper->redirector->gotoSimple("index", "evaluador", "encuesta");
+        }
+        
+        $evaluacionDAO = $this->evaluacionDAO;
+        $evaluador = $evaluacionDAO->getEvaluadorById($idEvaluador);
+        
+        $this->view->evaluador = $evaluador;
     }
 
-    public function asociarAction()
-    {
+    public function asociarAction() {
         // action body
         $idConjunto = $this->getParam("idConjunto");
 		$idEvaluador = $this->getParam("idEvaluador");
@@ -69,8 +83,16 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
 		}
     }
 
+    public function normalizenAction() {
+        // action body
+        $this->evaluacionDAO->normalizarEvaluadores();
+        $this->_helper->redirector->gotoSimple("index", "evaluador", "encuesta");
+    }
+
 
 }
+
+
 
 
 

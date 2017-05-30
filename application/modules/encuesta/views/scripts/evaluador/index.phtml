@@ -2,6 +2,7 @@
 	$evaluadores = $this->evaluadores;
 	$tiposEvaluador = Zend_Registry::get("tiposEvaluador");
 	$urlAlta = $this->url(array("module"=>"encuesta","controller"=>"evaluador","action"=>"alta"),null,true);
+    $urlNormalize = $this->url(array("module"=>"encuesta","controller"=>"evaluador","action"=>"normalizen"),null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -13,6 +14,10 @@
 				<div>
 					<a class="btn btn-success" href="<?php echo $urlAlta ?>">
 						<i class="fa fa-plus-circle"></i> Agregar Evaluador
+					</a>
+					
+					<a class="btn btn-warning" href="<?php echo $urlNormalize ?>">
+					    <i class="fa fa-refresh"></i> Normalizar Evaluadores
 					</a>
 				</div>
 				<hr />

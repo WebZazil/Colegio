@@ -513,4 +513,32 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
         
         return $rowEvaluacion->toArray();
     }
+    
+    /**
+     * Edita un evaluador
+     */
+    public function editaEvaluador($idEvaluador, $datos) {
+        $tablaEvaluador = $this->tablaEvaluador;
+        //$select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador=?",$idEvaluador);
+        //$rowEvaluador = $tablaEvaluador->fetchRow($select);
+        $where = $tablaEvaluador->getAdapter()->quoteInto("idEvaluador=?", $idEvaluador);
+        
+        $tablaEvaluador->update($datos, $where);
+    }
+    
+    /**
+     * Normaliza los nombres de los evaluadores
+     */
+    public function normalizarEvaluadores() {
+        $tablaEvaluador = $this->tablaEvaluador;
+        $rowsEvaluadores = $tablaEvaluador->fetchAll();
+        
+        foreach ($rowsEvaluadores as $key => $rowEvaluador) {
+            print_r($rowEvaluador->nombres." ". $rowEvaluador->apellidos);
+            $rowEvaluador->nombres = ucwords(strtolower($rowEvaluador->nombres));
+            $rowEvaluador->apellidos = ucwords(strtolower($rowEvaluador->apellidos));
+            $rowEvaluador->save();
+        }
+        
+    }
 }
