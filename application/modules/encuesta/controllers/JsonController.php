@@ -235,12 +235,13 @@ class Encuesta_JsonController extends Zend_Controller_Action
         $idCicloEscolar = $this->getParam("ce");
         $idGrupo = $this->getParam("ge");
         
-        $ciclo = $this->cicloDAO->getCicloById($idCicloEscolar);
-        $asignaciones = $this->asignacionDAO->obtenerAsignacionesGrupo($idGrupo);
+        //$ciclo = $this->cicloDAO->getCicloById($idCicloEscolar);
+        //$asignaciones = $this->asignacionDAO->obtenerAsignacionesGrupo($idGrupo);
         
         //print_r($asignaciones);
+        $reportes = $this->reporteDAO->getReportesGrupo($idGrupo);
         
-        
+        echo Zend_Json::encode($reportes);
         
     }
 

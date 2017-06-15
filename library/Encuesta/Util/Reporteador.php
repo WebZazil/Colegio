@@ -111,7 +111,7 @@ class Encuesta_Util_Reporteador {
             $datos["idEncuesta"] = $idEncuesta;
             $datos["idAsignacionGrupo"] = $idAsignacion;
             //$datos["idsEvaluadores"]="";
-            $datos["nombreReporte"] = $this->nombreReporte;
+            $datos["nombreReporte"] = $this->utilText->cleanString(str_replace(" ", "", $this->nombreReporte));
             $datos["tipoReporte"] = "RGRU";
             $datos["rutaReporte"] = $this->rutaReporte."/";
             $datos["fecha"] = date("Y-m-d H:i:s", time());
@@ -530,6 +530,7 @@ class Encuesta_Util_Reporteador {
         ##### Creamos un documento con el constructor de la libreria PDF
         //$nombreArchivo = "testOrientadora.pdf";
         $nombreArchivo = $rowGrupoE["grupoEscolar"]."-".$idEncuesta."-".str_replace(" ", "", $rowRegistro["apellidos"].$rowRegistro["nombres"])."-".$idAsignacion."-RGPO.pdf";
+        $nombreArchivo = $this->utilText->cleanString(str_replace(" ", "", $nombreArchivo));
         $directorio = $organizacion["directorio"];
         $rutaReporte = '/reports/Encuesta/grupal/'.$directorio.'/Orientadora/';
         
@@ -813,7 +814,7 @@ class Encuesta_Util_Reporteador {
             $datos["idEncuesta"] = $idEncuesta;
             $datos["idAsignacionGrupo"] = $idAsignacion;
             //$datos["idsEvaluadores"]="";
-            $datos["nombreReporte"] = $nombreArchivo;
+            $datos["nombreReporte"] = str_replace(" ", "", $nombreArchivo);
             $datos["tipoReporte"] = "RPAB";
             $datos["rutaReporte"] = $rutaReporte;
             $datos["fecha"] = date("Y-m-d H:i:s", time());
