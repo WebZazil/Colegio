@@ -201,6 +201,24 @@
 			</div>
 			<div class="col-sm-2"></div>
 		</div>
+		<div class="row">
+		    <div class="col-sm-2"></div>
+		    <div class="col-sm-8">
+		        <div>
+		            <table id="reports" class="table table-condensed table-striped">
+		                <thead>
+		                    <tr>
+		                        <th>Reporte</th>
+		                        <th>Tipo Reporte</th>
+		                        <th>Descarga Archivo</th>
+		                    </tr>
+		                </thead>
+		                <tbody></tbody>
+		            </table>
+		        </div>
+		    </div>
+		    <div class="col-sm-2"></div>
+		</div>
 	</div>	
 </section>
 <?php } ?>
@@ -217,102 +235,7 @@
 	</div>
 </footer>
 <script src="<?php echo $this->baseUrl()."/public" ?>/js/helpers/homepage.js"></script>
+<script src="<?php echo $this->baseUrl()."/public" ?>/js/helpers/consulta.js"></script>
 <script>
-    $().ready(function(){
-        var appname = "/colegio/encuesta";
-        var url = window.location.origin + appname;
-        
-        $("#cicloR").on('change', function(){
-            console.log("combo ciclo-reporte ha cambiado");
-        });
-        
-        $("#nivelR").on('change', function(){
-            var idNivel = $(this).val();
-            var urlQueryEvaluaciones = url+"/json/grados/idNivel/"+idNivel;
-            
-            $.ajax({
-                url: urlQueryEvaluaciones,
-                dataType: "json",
-                success: function(data){
-                    console.dir(data);
-                    $("#gradoR").empty();
-                    $("#gradoR").append($("<option></option>").attr("value","0").text("Seleccione Grado Educativo"));
-                    $.each(data, function(i,item){//function(key,value)
-                        $("#gradoR").append($("<option></option>").attr("value",data[i].idGradoEducativo).text(data[i].gradoEducativo));
-                    });
-                    $("#grupo").empty();
-                }
-            });
-        });
-        
-        $("#gradoR").on('change', function(){
-            //console.log("combo grado ha cambiado");
-            var idGrado = $(this).val();
-            //La primera opcion no es valida para hacer consulta
-            if(idGrado != "0"){
-                console.log("IdGrado:"+idGrado);
-                //Ciclo
-                var idCiclo = $("#cicloR").val();
-                console.log("IdCiclo:"+idCiclo);
-                var urlQueryEvaluaciones = url+"/json/grupos/idCiclo/"+idCiclo+"/idGrado/"+idGrado;
-                
-                console.log("Url: " + urlQueryEvaluaciones);
-                $.ajax({
-                    url: urlQueryEvaluaciones,
-                    dataType: "json",
-                    success: function(data){
-                        console.dir(data);
-                        $("#grupoR").empty();
-                        $("#grupoR").append($("<option></option>").attr("value","0").text("Seleccione Grupo"));
-                        $.each(data, function(i,item){//function(key,value)
-                            $("#grupoR").append($("<option></option>").attr("value",data[i].idGrupo).text(data[i].grupo));
-                        });
-                        //$("#grupo").empty();
-                        
-                    }
-                });
-                
-            }
-        });
-        
-        $("#grupoR").on('change', function(){
-            console.log("combo grupo ha cambiado");
-            var idGrupo = $(this).val();
-            if(idGrupo != "0"){
-                //var urlEncuesta = url+"/index/evaluadores/grupo/"+idGrupo;
-                //var urlEncuesta = url+"/index/conjuntos/idGrupo/"+idGrupo;
-                //var urlEncuesta = url+"/evaluacion/grupo/idGrupo/"+idGrupo;
-                
-                var idCiclo = $("#cicloR").val();
-                var idNivel = $("#nivelR").val();
-                var idGrado = $("#gradoR").val();
-                var idGrupo = $("#grupoR").val();
-                
-                var urlReportes = url+"/json/reportes/ge/"+idGrupo+"/ce/"+idCiclo;
-                
-                console.log(urlReportes);
-                
-                $("#btnQueryReports").attr("idCiclo", idCiclo);
-                $("#btnQueryReports").attr("idNivel", idNivel);
-                $("#btnQueryReports").attr("idGrado", idGrado);
-                $("#btnQueryReports").attr("idGrupo", idGrupo);
-                
-                $("#btnQueryReports").removeClass("hidden");
-                
-                
-                
-                /*
-                var form = $("#form-eval");
-                var link = $("<a></a>").attr("class","btn btn-success").attr("href",urlEncuesta).text("Buscar Evaluaciones");
-                var linkContainer = $("<div></div>").attr("class","col-xs-offset-2 col-xs-10");
-                linkContainer.append(link);
-                var container = $("<div></div>").attr("class","form-group");
-                container.append(linkContainer); 
-                form.append(container);
-                */
-                //form.append($("<option></option>").attr("value",data[i].idGrupo).text(data[i].grupo));
-            }
-        });
-        
-    });
+    
 </script>
