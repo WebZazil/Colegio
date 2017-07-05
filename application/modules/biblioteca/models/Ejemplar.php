@@ -134,16 +134,16 @@ class Biblioteca_Model_Ejemplar
 		$this->noEdicion = $noEdicion;
 	}
 	
-	private $idPaisPub;
+	private $idSubDivGeo;
 	
-	public function getIdPaisPub ()
+	public function getIdSubDivGeo ()
 	{
-		return $this->idPaisPub;
+		return $this->idSubDivGeo;
 	}
 	
 	public function setIdPaisPub($idPaisPub)
 	{
-		$this->idPaisPub = $idPaisPub;
+		$this->idSubDivGeo = $idSubDivGeo;
 	}
 	
 	private $dimension;
@@ -226,7 +226,7 @@ class Biblioteca_Model_Ejemplar
 		$this->noClasif= $datos["noClasif"];
 		$this->noItem = $datos["noItem"];
 		$this->noEdicion = $datos["noEdicion"];
-		$this->idPaisPub = $datos["idPaisPub"];
+		$this->idSubDivGeo = $datos["idSubDivGeo"];
 		$this->dimension = $datos["dimension"];
 		$this->serie = $datos["serie"];
 		$this->asientoPrin = $datos["asientoPrin"];
@@ -249,7 +249,7 @@ class Biblioteca_Model_Ejemplar
 		$datos["noClasif"] = $this->noClasif;
 		$datos["noItem"] = $this->noItem;
 		$datos["noEdicion"] = $this->noEdicion;
-		$datos["idPaisPub"] = $this->idPaisPub;
+		$datos["idSubDivGeo"] = $this->idSubDivGeo;
 		$datos["dimension"] = $this->dimension;
 		$datos["serie"] = $this->serie;
 		$datos["asientoPrin"] = $this->asientoPrin;

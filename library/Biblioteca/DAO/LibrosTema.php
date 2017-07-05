@@ -7,43 +7,43 @@
  class Biblioteca_DAO_LibrosTema implements Biblioteca_Interfaces_ILibrosTema {
  	
 	private $tableLibrosTema;
-	private $tableLibro;
+	private $tableRecurso;
 	private $tableTema;
 	
 	
 	function __construct()
 	{
-		$dbAdapter = Zend_Registry::get("dbgenerale");
+		$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
-		$this->tableLibrosTema = new Biblioteca_Model_DbTable_LibroTema(array('db'=>$dbAdapter));
-		$this->tableLibro = new Biblioteca_Model_DbTable_Libro(array('db'=>$dbAdapter));
-		$this->tableTema = new Biblioteca_Model_DbTable_Tema(array('db'=>$dbAdapter));
+		$this->tableLibrosTema = new Biblioteca_Model_DbTable_LibrosTema(array('db'=>$dbAdapter));
+		$this->tableRecurso = new Biblioteca_Model_DbTable_Recurso(array('db'=>$dbAdapter));
+		$this->tableTema = new Biblioteca_Data_DbTable_Tema(array('db'=>$dbAdapter));
 	}
 	
-	public function agregarLibrosTema($idTema,$idLibro)
+	public function agregarLibrosTema($idTema,$idRecurso)
 	{
 		$tablaLibrosTema = $this->tableLibrosTema;
 		$select = $tablaLibrosTema->select()->from($tablaLibrosTema)->where("idTema=?",$idTema);
 		$rowLibrosTema = $tablaLibrosTema->fetchRow($select);
 		
 		if (is_null($rowLibrosTema)) {
-			//No existe lamateria en la tabla
+			//No existe el tema en la tabla
 			
 			$data = array();
 			$data["idTema"] = $idTema;
-			$data["idsLibro"] = $idLibro;
+			$data["idsRecurso"] = $idRecurso;
 			$tablaLibrosTema->insert($data);
 		}else{// Si ya existe el registro de lamateria con id: $idTema
 			
-			$idsLibro = $rowLibrosTema->idsLibro;
-			$arrayIdsLibro = explode(",", $idsLibro);
-			if (in_array($idLibro, $arrayIdsLibro)) {
+			$idsRecurso = $rowLibrosTema->idsRecurso;
+			$arrayIdsRecurso = explode(",", $idsRecurso);
+			if (in_array($idRecurso, $arrayIdsRecurso)) {
 				// esta en los ids
 			}else{
 				//no esta en los ids
-				$arrayIdsLibro[] =  $idLibro;
-				$idsLibro = implode(",", $arrayIdsLibro);
-				$rowLibrosTema->idsLibro = $idsLibro;
+				$arrayIdsRecurso[] =  $idRecurso;
+				$idsRecurso = implode(",", $arrayIdsRecurso);
+				$rowLibrosTema->idsRecurso = $idsRecurso;
 				$rowLibrosTema->save();
 				/*
 				$data = array("idsLibro"=>$idsLibro);
@@ -53,6 +53,7 @@
 				}catch(Exception $ex){
 					print_r($ex->getMessage());
 				}
+				 * 
 				*/
 			}
 			

@@ -1,14 +1,21 @@
 <?php
 
-class Biblioteca_DAO_Subdivision{
+class Biblioteca_Data_DAO_Subdivision{
 	
 	private $tableSubDivision;
 	
 	function __construct(){
 		
-		$dbAdapter = Zend_Registry::get("dbgenerale");
+		$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		$this->tableSubDivision = new Biblioteca_Data_DbTable_SubDivision(array('db'=>$dbAdapter));
+	}
+	
+	
+	public function addSubdivision($data)
+	{
 		
-		$this->tableSubDivision = new Biblioteca_Model_DbTable_SubDivision(array('db'=>$dbAdapter));
+		$this->tableSubDivision->insert($data);
+		
 	}
 	
 	
@@ -23,4 +30,6 @@ class Biblioteca_DAO_Subdivision{
 			return $rowSubdivisiones->toArray();
 		}
 	}
+	
+	
 }

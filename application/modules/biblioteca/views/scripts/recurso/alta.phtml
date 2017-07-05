@@ -5,10 +5,7 @@
 	$messageFail = $this->messageFail;
 ?>
 <section class="row">
-	<div class="col-xs-2">
-		
-	</div>
-	<div class="col-xs-10">
+	<div class="col-xs-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
 				<h4> Alta de Recurso</h4>
@@ -38,6 +35,59 @@
 <script>
 	$().ready(function(){
 		
+		var appname = "/colegio/biblioteca";
+		var url = window.location.origin + appname;
+		
+		$('#tipoAutor').on('change', function () {
+		  var valor = $(this).val();
+		  console.log(valor);
+		  
+		  var urlAutor = url + '/json/';
+		  
+		  if(valor != 'PEN'){
+		  	
+		  	switch(valor) {
+		  		case 'IND' : 
+		  			urlAutor += "autoresi";
+		  		break;
+		  		case 'VAR' : 
+		  			urlAutor += "autoresv";
+		  		break;
+		  	}
+		  	
+		  	console.log(urlAutor);
+		  	
+		  	$.ajax({
+				url: urlAutor,
+				dataType: "json",
+				success: function(data){
+					console.dir(data);
+					$("#idsAutores").empty();
+					//$("#grado").append($("<option></option>").attr("value","0").text("Seleccione Grado Educativo"));
+					
+					$.each(data, function(i,item){//function(key,value)
+						
+						var nombre = "";
+						
+						switch(valor) {
+					  		case 'IND' : 
+					  			nombre = item.apellidos + " " + item.nombres;
+					  		break;
+					  		case 'VAR' : 
+					  			nombre = item.autores;
+					  		break;
+					  	}
+						
+						
+						$("#idsAutores").append($("<option></option>").attr("value",item.idAutor).text(nombre));
+					});
+					//$("#grupo").empty();
+				}
+			});
+		  }else {
+		  	$("#idsAutores").empty();
+		  }
+		});
 	
 	});
 </script>

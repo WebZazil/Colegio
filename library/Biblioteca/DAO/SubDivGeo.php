@@ -6,9 +6,9 @@
  	
 	private $tableSubDivGeo;
 	
-	function __construct($dbAdapter) 
+	function __construct() 
 	{
-		$dbAdapter = Zend_Registry::get("dbgenerale");
+		$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		$this->tableSubDivGeo = new Biblioteca_Model_DbTable_SubDivGeo(array("db"=>$dbAdapter));
 	}
 	

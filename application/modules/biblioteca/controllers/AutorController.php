@@ -9,9 +9,7 @@ class Biblioteca_AutorController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $dbAdapter = Zend_Registry::get("dbmodqueryb");
-        //$identity = $auth->getIdentity();
-        //$dbAdapter = $this
-        
+                
         $this->autorDAO = new Biblioteca_Data_DAO_Autor($dbAdapter);
     }
 

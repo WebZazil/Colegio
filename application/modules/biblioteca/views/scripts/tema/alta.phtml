@@ -1,4 +1,45 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Tema</b> and script/action name <b>alta</b></p>
+<?php
+    $formulario = $this->formulario;
+    $messageSuccess = $this->messageSuccess;
+    $messageFail = $this->messageFail;
+    
+    $params = array("module"=>"biblioteca","controller"=>"tema","action"=>"index");
+    $urlTemas = $this->url($params,null,TRUE);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Alta de Tema en Biblioteca.</h5>
+			</div>
+			<div class="panel-body">
+			    <div>
+                    <a class="btn btn-info" href="<?php echo $urlTemas; ?>">
+                        <i class="fa fa-arrow-circle-left"></i> Regresar a Temas
+                    </a><br />
+                    <?php if(!is_null($messageSuccess)){ ?>
+                    <br />
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <?php echo $messageSuccess; ?>
+                    </div>
+                    <?php }elseif(!is_null($messageFail)){ ?>
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <?php echo $messageFail; ?>
+                    </div>
+                    <br />
+                    <?php } ?>
+                </div>
+                <hr />
+                <div>
+                    <?php echo $formulario; ?>
+                </div>
+			</div>
+		</div>
+	</div>
 </div>

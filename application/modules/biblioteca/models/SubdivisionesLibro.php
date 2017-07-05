@@ -4,16 +4,16 @@ class Biblioteca_Model_SubdivisionesLibro
 {
 	
 	
-	private $idLibro;
+	private $idRecurso;
 	
-	public function getIdLibro()
+	public function getIdRecurso()
 	{
-		return $this->idLibro;
+		return $this->idRecurso;
 	}
 	
-	public function setIdLibro($idLibro)
+	public function setIdRecurso($idRecurso)
 	{
-		$this->idLibro = $idLibro;
+		$this->idRecurso = $idRecurso;
 	}
 	
 	private $idsSubdivision;
@@ -30,7 +30,7 @@ class Biblioteca_Model_SubdivisionesLibro
 	
 	public function  __construct($datos)
 	{
-		$this->idLibro = $datos["idLibro"];
+		$this->idRecurso = $datos["idRecurso"];
 		$this->idsSubdivision = $datos["idsSubdivision"];
 	}
 	
@@ -38,7 +38,7 @@ class Biblioteca_Model_SubdivisionesLibro
 	{
 		$datos = array();
 		
-		$datos["idLibro"] = $this->idLibro;
+		$datos["idRecurso"] = $this->idRecurso;
 		$datos["idsSubdivision"] = $this->idsSubdivision;
 		
 		return $datos;

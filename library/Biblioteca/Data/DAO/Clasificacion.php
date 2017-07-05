@@ -2,12 +2,14 @@
 /**
  * 
  */
-class Biblioteca_DAO_Clasificacion {
+class Biblioteca_Data_DAO_Clasificacion {
 	
     private $tableClasificacion;
     
-	function __construct($dbAdapter) {
-		$this->tableClasificacion = new Biblioteca_Model_DbTable_Clasificacion(array("db"=>$dbAdapter));
+	function __construct() {
+		
+		$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		$this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion(array("db"=>$dbAdapter));
 	}
     
     public function getAllClasificaciones() {
@@ -36,6 +38,11 @@ class Biblioteca_DAO_Clasificacion {
         
     }
     
+	
+	public function addClasificacion($data)
+	{
+		$this->tableClasificacion->insert($data);
+	}
     
     
 }

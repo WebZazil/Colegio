@@ -7,22 +7,22 @@ class Biblioteca_Form_AltaLibrosTema extends Zend_Form
     {
         /* Form Elements & Other Definitions Here ... */
         
-        $this->setAttrib("id", "altaLibroTema");
+        $this->setAttrib("id", "altaLibrosTema");
 		
-		$libroDAO = new Biblioteca_DAO_Libro;
-		$libros = $libroDAO->getAllLibros();
+		$recursoDAO = new Biblioteca_DAO_Recurso;
+		$recursos = $recursoDAO->getAllRecursos();
         
-		$eLibro = new Zend_Form_Element_Select("idsLibro");
-		$eLibro->setLabel("Selecciona un libro");
-		$eLibro->setAttrib("class", "form-control");
-		$eLibro->setRegisterInArrayValidator(FALSE);
+		$eRecurso = new Zend_Form_Element_Select("idsRecurso");
+		$eRecurso->setLabel("Selecciona un recurso");
+		$eRecurso->setAttrib("class", "form-control");
+		$eRecurso->setRegisterInArrayValidator(FALSE);
 		
-		foreach($libros as $libro){
-			$eLibro->addMultiOption($libro->getIdLibro(), $libro->getTitulo());
+		foreach($recursos as $recurso){
+			$eRecurso->addMultiOption($recurso->getIdRecurso(), $recurso->getTitulo());
 		}
 		
 		
-		$temaDAO = new Biblioteca_DAO_Tema;
+		$temaDAO = new Biblioteca_Data_DAO_Tema;
 		$temas = $temaDAO->getAllTemas();
 		
 		$eTema = new Zend_Form_Element_Select("idTema");
@@ -31,7 +31,7 @@ class Biblioteca_Form_AltaLibrosTema extends Zend_Form
 		$eTema->setRegisterInArrayValidator(FALSE);
 		
 		foreach ($temas as $tema) {
-			$eTema->addMultiOption($tema["idTema"], $tema['Tema']);
+			$eTema->addMultiOption($tema["idTema"], $tema['tema']);
 		}
 		
 		
@@ -39,11 +39,8 @@ class Biblioteca_Form_AltaLibrosTema extends Zend_Form
 		$eSubmit->setLabel("Guardar");
 		$eSubmit->setAttrib("class", "btn btn-success");
 		
-		$this->addElement($eLibro);
+		$this->addElements(array($eRecurso,$eTema,$eSubmit));
 		
-		$this->addElement($eTema);
-		
-		$this->addElement($eSubmit);
     }
 
 

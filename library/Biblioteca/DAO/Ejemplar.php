@@ -10,7 +10,7 @@
 	
 	function __construct(){
 		
-		$dbAdapter = Zend_Registry::get("dbgenerale");
+		$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
 		$this->tableEjemplar = new Biblioteca_Model_DbTable_Ejemplar(array('db'=>$dbAdapter));
 	}

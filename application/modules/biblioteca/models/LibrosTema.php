@@ -15,23 +15,23 @@ class Biblioteca_Model_LibrosTema
 		$this->idTema = $idTema;
 	}
 	
-	private $idsLibro;
+	private $idsRecurso;
 	
-	public function getIdsLibro()
+	public function getIdsRecurso()
 	{
-		return $this->idsLibro;
+		return $this->idsRecurso;
 	}
 	
-	public function setIdsLibro($idsLibro)
+	public function setIdsRecurso($idsRecurso)
 	{
-		$this->idsLibro = $idsLibro;
+		$this->idsRecurso = $idsRecurso;
 	}
 	
 	
 	public function __construct($datos)
 	{
 		$this->idTema = $datos["idTema"];
-		$this->idsLibro = $datos["idsLibro"];
+		$this->idsRecurso = $datos["idsRecurso"];
 	}
 	
 	public function toArray()
@@ -39,7 +39,7 @@ class Biblioteca_Model_LibrosTema
 		$datos = array();
 		
 		$datos["idTema"] = $this->idTema;
-		$datos["idsLibro"] = $this->idsLibro;
+		$datos["idsRecurso"] = $this->idsRecurso;
 		
 		return $datos;
 	}

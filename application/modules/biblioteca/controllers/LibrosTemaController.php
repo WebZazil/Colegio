@@ -20,9 +20,8 @@ class Biblioteca_LibrosTemaController extends Zend_Controller_Action
     {
         // action body
         
-        	$request = $this->getRequest();
-		
-		$formulario = new Biblioteca_Form_AltaLibroTema();
+        $request = $this->getRequest();
+		$formulario = new Biblioteca_Form_AltaLibrosTema();
 		
 		if ($request->isGet()) {
 			$this->view->formulario = $formulario;
@@ -34,7 +33,7 @@ class Biblioteca_LibrosTemaController extends Zend_Controller_Action
 				
 				try{
 					//$this->libroTemaDAO->agregarLibrosTema($librosTema);
-					$this->librosTemaDAO->agregarLibrosTema($librosTema->getIdTema(), $librosTema->getIdsLibro());
+					$this->librosTemaDAO->agregarLibrosTema($librosTema->getIdTema(), $librosTema->getIdsRecurso());
 					$this->view->messageSuccess = "Exito en la inserción";
 				}catch(Exception $ex){
 					$this->view->messageFail = "Fallo al insertar en la BD Error:".$ex->getMessage()."<strong>";

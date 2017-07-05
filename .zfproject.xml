@@ -11,6 +11,10 @@
           <actionMethod actionName="index"/>
         </controllerFile>
         <controllerFile controllerName="Error"/>
+        <controllerFile controllerName="Editorial">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="alta"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
@@ -18,7 +22,11 @@
           <layoutScriptFile layoutName="layout"/>
         </layoutScriptsDirectory>
       </layoutsDirectory>
-      <modelsDirectory/>
+      <modelsDirectory>
+        <dbTableDirectory>
+          <dbTableFile dbTableName="Editorial"/>
+        </dbTableDirectory>
+      </modelsDirectory>
       <modulesDirectory>
         <moduleDirectory moduleName="encuesta">
           <configsDirectory enabled="false"/>
@@ -857,8 +865,10 @@
               <actionMethod actionName="alta"/>
               <actionMethod actionName="consultalibro"/>
             </controllerFile>
-          	<controllerFile controllerName="Json">
+            <controllerFile controllerName="Json">
               <actionMethod actionName="index"/>
+              <actionMethod actionName="autoresi"/>
+              <actionMethod actionName="autoresv"/>
             </controllerFile>
             <controllerFile controllerName="Usuario">
               <actionMethod actionName="index"/>
@@ -866,6 +876,10 @@
             </controllerFile>
             <controllerFile controllerName="Dashboard">
               <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Editorial">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -877,6 +891,13 @@
             <formFile formName="LibrosTema"/>
             <formFile formName="AltaLibrosTema"/>
             <formFile formName="AltaMateria"/>
+            <formFile formName="ConsultaLibroPorMateria"/>
+            <formFile formName="AltaEditorial"/>
+            <formFile formName="AltaSubdivision"/>
+            <formFile formName="AltaIdioma"/>
+            <formFile formName="AltaColeccion"/>
+            <formFile formName="AltaClasificacion"/>
+            <formFile formName="AltaTema"/>
           </formsDirectory>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>
@@ -904,6 +925,7 @@
               <dbTableFile dbTableName="Clasificacion"/>
               <dbTableFile dbTableName="Coleccion"/>
               <dbTableFile dbTableName="Material"/>
+              <dbTableFile dbTableName="LibrosTema"/>
             </dbTableDirectory>
           </modelsDirectory>
           <servicesDirectory enabled="false"/>
@@ -1050,6 +1072,18 @@
               <viewControllerScriptsDirectory forControllerName="Dashboard">
                 <viewScriptFile forActionName="index"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Editorial">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Editorial">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="autoresi"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="autoresv"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -1064,6 +1098,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Error">
             <viewScriptFile forActionName="error"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Editorial">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Editorial">
+            <viewScriptFile forActionName="alta"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -1101,6 +1141,10 @@
         <testApplicationControllerDirectory>
           <testApplicationControllerFile forControllerName="Index">
             <testApplicationActionMethod forActionName="index"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Editorial">
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="alta"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
         <testApplicationModulesDirectory>
@@ -1403,8 +1447,10 @@
                 <testApplicationActionMethod forActionName="alta"/>
                 <testApplicationActionMethod forActionName="consultalibro"/>
               </testApplicationControllerFile>
-			  <testApplicationControllerFile forControllerName="Json">
+              <testApplicationControllerFile forControllerName="Json">
                 <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="autoresi"/>
+                <testApplicationActionMethod forActionName="autoresv"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1412,6 +1458,10 @@
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Dashboard">
                 <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Editorial">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

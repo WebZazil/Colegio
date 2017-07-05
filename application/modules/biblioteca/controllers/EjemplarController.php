@@ -2,10 +2,13 @@
 
 class Biblioteca_EjemplarController extends Zend_Controller_Action
 {
-
+	
+	private $ejemplarDAO;
     public function init()
     {
         /* Initialize action controller here */
+        
+        $this->ejemplarDAO = new Biblioteca_DAO_Ejemplar();
     }
 
     public function indexAction()
@@ -33,7 +36,7 @@ class Biblioteca_EjemplarController extends Zend_Controller_Action
 					$this->ejemplarDAO->agregarEjemplar($ejemplar);
 					$this->view->messageSuccess ="El ejemplar: <strong>".$ejemplar->getIdRecurso()."</strong> ha sido agregado";
 				}catch(Exception $ex){
-					$this->view->messageFail = "El recurso: <strong>".$ejemplar->getIdRecurso()."</strong> no ha sido agregado. Error: <strong>".$ex->getMessage()."<strong>";
+					$this->view->messageFail = "El ejempalr: <strong>".$ejemplar->getIdRecurso()."</strong> no ha sido agregado. Error: <strong>".$ex->getMessage()."<strong>";
 				}
 			}
 		}

@@ -2,10 +2,13 @@
 
 class Biblioteca_SubdivisionesLibroController extends Zend_Controller_Action
 {
-
+	
+	private $subdivisionesLibroDAO;
+	
     public function init()
     {
         /* Initialize action controller here */
+        $this->subdivisionesLibroDAO = new Biblioteca_DAO_SubdivisionesLibro();
     }
 
     public function indexAction()
@@ -31,7 +34,7 @@ class Biblioteca_SubdivisionesLibroController extends Zend_Controller_Action
 				$subdivisionesLibro = new Biblioteca_Model_SubdivisionesLibro($datos);
 				
 				try{
-					$this->subdivisionesLibroDAO->agregarSubdivisionesLibro($subdivisionesLibro->getIdLibro(),$subdivisionesLibro->getIdsSubdivision());
+					$this->subdivisionesLibroDAO->agregarSubdivisionesLibro($subdivisionesLibro->getIdRecurso(),$subdivisionesLibro->getIdsSubdivision());
 					$this->view->messageSuccess = "Exito en la inserción";
 				}catch(Exception $ex){
 					$this->view->messageFail = "Fallo al insertar en la BD Error:".$ex->getMessage()."<strong>";
