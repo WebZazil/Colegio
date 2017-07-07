@@ -1,9 +1,9 @@
-<?php
+    <?php
 	$ciclosEscolares = $this->ciclosEscolares;
 	$nivelesEscolares = $this->nivelesEscolares;
 	//$niveles = array();
 	$evaluaciones = array();
-    $encuestasActivas = false;
+    $encuestasActivas = true;
     $consultaActiva = true;
 ?>
 <!-- Navegacion  --> 
@@ -188,10 +188,36 @@
                                 </select>
                             </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button id="btnQueryReports" class="btn btn-success hidden">
+                                    <i class="fa fa-file-pdf-o"></i> Consultar Reportes
+                                </button>
+                            </div>
+                        </div>
                     </fieldset>
                 </div>
 			</div>
 			<div class="col-sm-2"></div>
+		</div>
+		<div class="row">
+		    <div class="col-sm-2"></div>
+		    <div class="col-sm-8">
+		        <div>
+		            <table id="reports" class="table table-condensed table-striped">
+		                <thead>
+		                    <tr>
+		                        <th>Reporte</th>
+		                        <th>Tipo Reporte</th>
+		                        <th>Descarga Archivo</th>
+		                    </tr>
+		                </thead>
+		                <tbody></tbody>
+		            </table>
+		        </div>
+		    </div>
+		    <div class="col-sm-2"></div>
 		</div>
 	</div>	
 </section>
@@ -209,3 +235,7 @@
 	</div>
 </footer>
 <script src="<?php echo $this->baseUrl()."/public" ?>/js/helpers/homepage.js"></script>
+<script src="<?php echo $this->baseUrl()."/public" ?>/js/helpers/consulta.js"></script>
+<script>
+    
+</script>

@@ -1,52 +1,58 @@
 <?php
     $messageSuccess = $this->messageSuccess;
+    $messageFail = $this->messageFail;
+    
+    $urlEncuestas = $this->url(array("module"=>"encuesta","controller"=>"encuesta","action"=>"index"),null,true);
 ?>
-<section class="row-fluid">
-    <div class="span12">
-        <div class="widget-box">
-            <div class="widget-title">
-                <h5>Nueva Encuesta</h5>
-            </div>
-            <div class="widget-content nopadding">
-                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" >
-                    <div class="control-group">
-                        <label for="nombre" class="control-label">Nombre de la Encuesta</label>
-                        <div class="controls">
-                            <input class="span10" type="text" name="nombre" placeholder="Nombre Encuesta" autofocus="" required="required" />
-                        </div>
-                    </div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Alta de nueva encuesta</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+				    <a class="btn btn-info" href="<?php echo $urlEncuestas; ?>">
+				        <i class="fa fa-arrow-circle-left"></i> Regresar a encuestas
+				    </a>
+				    <?php if(!is_null($messageSuccess)){ ?>
                     
-                    <div class="control-group">
-                        <label class="control-label">Nombre Clave de la encuesta:</label>
-                        <div class="controls">
-                            <input class="span10" type="text" name="nombreClave" placeholder="Nombre clave" required="required" />
+                    <?php } ?>
+				</div>
+				<hr />
+				<div>
+				    <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" >
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Nombre de la Encuesta</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="nombre" placeholder="Nombre Encuesta" autofocus="" required="required" />
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <label class="control-label">Descripcion de la Encuesta</label>
-                        <div class="controls">
-                            <input class="span10" type="text" name="descripcion" placeholder="Descripcion" required="required" />
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Nombre Clave de la encuesta:</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="nombreClave" placeholder="Nombre clave" required="required" />
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <div class="pull-left">
-                            <a class="btn btn-danger" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuestas","action"=>"index"),null,true) ?>">
-                                <span class="icon-arrow-left"></span> Regresar a encuestas
-                            </a>
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Descripcion de la Encuesta</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="descripcion" placeholder="Descripcion" required="required" />
+                            </div>
                         </div>
-                        <div class="pull-right">
-                            <button class="btn btn-success" type="submit">
-                                <i class="icon-save"></i> Guardar
-                            </button>
+                        
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-save"></i> Guardar
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-<?php if(!is_null($messageSuccess)){ ?>
-
-<?php } ?>
+                    </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

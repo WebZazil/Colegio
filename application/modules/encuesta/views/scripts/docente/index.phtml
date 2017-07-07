@@ -1,5 +1,6 @@
 <?php
     $docentes = $this->docentes;
+    
 ?>
 <div class="row">
     <div class="col-xs-12">
@@ -21,15 +22,23 @@
 	                            <th>Nombre</th>
 	                            <th>Apellidos</th>
 	                            <th>Creación</th>
+	                            <th>Configurar</th>
 	                            <th>Evaluaciones</th>
 	                        </tr>
 	                    </thead>
 	                    <tbody>
-	                        <?php foreach ($docentes as $docente) : ?>
+	                        <?php foreach ($docentes as $docente) : 
+	                            $urlConfig = $this->url(array("module"=>"encuesta","controller"=>"docente","action"=>"admin","do" =>$docente->getIdRegistro()),null,true);
+	                            ?>
 	                        <tr>
 	                            <td><?php echo $docente->getNombres() ?></td>
 	                            <td><?php echo $docente->getApellidos() ?></td>
 	                            <td><?php echo $docente->getFecha() ?></td>
+	                            <td>
+	                                <a class="btn btn-link" href="<?php echo $urlConfig; ?>">
+	                                    <i class="fa fa-cog"></i> Configurar
+	                                </a>
+	                            </td>
 	                            <td>
 	                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"docente","action"=>"evaluaciones","idDocente"=>$docente->getIdRegistro()),null,true); ?>">
 	                                    <span class="fa fa-search"></span> Evaluaciones

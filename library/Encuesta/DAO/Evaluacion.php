@@ -208,44 +208,14 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	}
 
     /**
-     * 
+     * Obtenemos las asignaciones del grupo proporcionado
      */
     public function getAsignacionesByIdGrupo($idGrupo) {
-        $tablaCoEval = $this->tablaConjuntoEvaluador;
-        $select  = $tablaCoEval->select()->from($tablaCoEval)->where("idGrupoEscolar=?",$idGrupo);
-        $rowsConjuntos = $tablaCoEval->fetchAll($select);
+        $tablaAsignacion = $this->tablaAsignacionGrupo;
+        $select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idGrupoEscolar=?",$idGrupo);
+        $rowsAsignaciones = $tablaAsignacion->fetchAll($select)->toArray();
         
-        $idsConjuntos = array();
-        foreach ($rowsConjuntos as $rowConjunto) {
-            $idsConjuntos[] = $rowConjunto->idConjuntoEvaluador;
-        }
-        
-        $tablaEvalCon = $this->tablaEvaluacionConjunto;
-        $select = $tablaEvalCon->select()->from($tablaEvalCon)->where("idConjuntoEvaluador IN (?)", $idsConjuntos);
-        $rowsEvals = $tablaEvalCon->fetchAll($select);
-        
-        $idsAsignacionesGrupo = array();
-        foreach ($rowsEvals as $rowEval) {
-            $idsAsignacionesConjunto = explode(",", $rowEval->idsAsignacionesGrupo);
-            foreach ($idsAsignacionesConjunto as $idAsignacion) {
-                //print_r("idAsignacion: " . $idAsignacion);
-                //print_r("<br />");
-                if ($idAsignacion != "") {
-                    $idsAsignacionesGrupo[] = $idAsignacion;
-                }
-            }
-        }
-        
-        $tablaAsignaciones = $this->tablaAsignacionGrupo;
-        $select = $tablaAsignaciones->select()->from($tablaAsignaciones)->where("idAsignacionGrupo IN (?)", $idsAsignacionesGrupo);
-        $rowAsignaciones = $tablaAsignaciones->fetchAll($select);
-        
-        if (is_null($rowAsignaciones)) {
-            return array();
-        }else{
-            return $rowAsignaciones->toArray();
-        }
-        
+        return $rowsAsignaciones;
     }
     
     /**
@@ -528,5 +498,47 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
         
         //print_r($rowsEvalsReal->toArray());
         return $rowsEvalsReal->toArray();
+    }
+    
+    /**
+     * Cuando estamos pro
+     */
+    public function getResultadoIndividual($idAsignacion, $idEvaluacion, $idEvaluador) {
+        $tablaEvalRel = $this->tablaEvaluacionRealizada;
+        $select = $tablaEvalRel->select()->from($tablaEvalRel)->where("idAsignacionGrupo=?", $idAsignacion)
+            ->where("idEvaluacion=?", $idEvaluacion)
+            ->where("idEvaluador=?", $idEvaluador);
+        
+        $rowEvaluacion = $tablaEvalRel->fetchRow($select);
+        
+        return $rowEvaluacion->toArray();
+    }
+    
+    /**
+     * Edita un evaluador
+     */
+    public function editaEvaluador($idEvaluador, $datos) {
+        $tablaEvaluador = $this->tablaEvaluador;
+        //$select = $tablaEvaluador->select()->from($tablaEvaluador)->where("idEvaluador=?",$idEvaluador);
+        //$rowEvaluador = $tablaEvaluador->fetchRow($select);
+        $where = $tablaEvaluador->getAdapter()->quoteInto("idEvaluador=?", $idEvaluador);
+        
+        $tablaEvaluador->update($datos, $where);
+    }
+    
+    /**
+     * Normaliza los nombres de los evaluadores
+     */
+    public function normalizarEvaluadores() {
+        $tablaEvaluador = $this->tablaEvaluador;
+        $rowsEvaluadores = $tablaEvaluador->fetchAll();
+        
+        foreach ($rowsEvaluadores as $key => $rowEvaluador) {
+            print_r($rowEvaluador->nombres." ". $rowEvaluador->apellidos);
+            $rowEvaluador->nombres = ucwords(strtolower($rowEvaluador->nombres));
+            $rowEvaluador->apellidos = ucwords(strtolower($rowEvaluador->apellidos));
+            $rowEvaluador->save();
+        }
+        
     }
 }

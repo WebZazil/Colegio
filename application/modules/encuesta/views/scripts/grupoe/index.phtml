@@ -16,8 +16,8 @@
 			</h3>
 		</div>
 		<div class="panel-body">
-			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grupo->getIdGrado()), null, true); ?>">
-				<span class="glyphicon glyphicon-chevron-left"></span> Regresar al Grado: <strong><?php echo $grado->getGradoEducativo() ?></strong>
+			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"admin","idGrupo"=>$grupo->getIdGrupo()), null, true); ?>">
+				<span class="glyphicon glyphicon-chevron-left"></span> Regresar a Grupo: <strong><?php echo $grupo->getGrupo() ?></strong>
 			</a>
 			<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"aencuesta","idGrupo"=>$grupo->getIdGrupo()), null, true); ?>">
 				<span class="glyphicon glyphicon-plus"></span> Asociar Encuesta con Materia-Docente.

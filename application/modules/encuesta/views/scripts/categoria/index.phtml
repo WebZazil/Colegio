@@ -26,9 +26,9 @@
 	                <tbody>
 	                    <?php foreach ($categorias as $categoria) : ?>
 	                    <tr>
-	                        <td><?php echo utf8_encode($categoria["categoria"]) ?></td>
+	                        <td><?php echo $categoria["categoria"] ?></td>
 	                        <td><?php echo $categoria["fecha"] ?></td>
-	                        <td><?php echo utf8_encode($categoria["descripcion"]) ?></td>
+	                        <td><?php echo $categoria["descripcion"] ?></td>
 	                        <td>
 	                            <a class="btn btn-warning btn-block" 
 	                                href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"admin","idCategoria"=>$categoria["idCategoriasRespuesta"] ), null, true) ?>">

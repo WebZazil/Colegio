@@ -4,31 +4,18 @@ class Encuesta_IndexController extends Zend_Controller_Action
 {
 
     private $service = null;
-
     private $loginDAO = null;
-
     private $identity = null;
-
     private $cicloDAO = null;
-
     private $docenteDAO = null;
-
     private $nivelDAO = null;
-
     private $encuestaDAO = null;
-
     private $materiaDAO = null;
-
     private $registroDAO = null;
-
     private $evaluacionDAO = null;
-
     private $asignacionDAO = null;
-
     private $generador = null;
-
     private $grupoDAO = null;
-
     private $gradoDAO = null;
 
     public function init()

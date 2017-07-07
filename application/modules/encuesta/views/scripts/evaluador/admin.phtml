@@ -1,6 +1,7 @@
 <?php 
-	$formulario = $this->formulario;
 	$evaluador = $this->evaluador;
+    $tiposEvaluador = Zend_Registry::get("tiposEvaluador");
+	
 	$urlEdit = $this->url(array("module"=>"encuesta","controller"=>"evaluador","action"=>"edit","idEvaluador"=>$evaluador["idEvaluador"]),null,true);
 	$urlEvaluadores = $this->url(array("module"=>"encuesta","controller"=>"evaluador","action"=>"index"),null,true);
 ?>
@@ -18,7 +19,41 @@
 				</div>
 				<hr />
 				<div>
-					<?php echo $formulario; ?>
+					<?php //echo $formulario; ?>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+					    <div class="form-group">
+					        <label for="apellidos" class="col-md-2 control-label">Apellidos: </label>
+					        <div class="col-md-10">
+					            <input name="apellidos" class="form-control" value="<?php echo ucwords(strtolower($evaluador["apellidos"])); ?>" />
+					        </div>
+					    </div>
+					    
+					    <div class="form-group">
+					        <label for="nombres" class="col-md-2 control-label">Nombres: </label>
+					        <div class="col-md-10">
+					            <input name="nombres" class="form-control" value="<?php echo ucwords(strtolower($evaluador["nombres"])); ?>" />
+					        </div>
+					    </div>
+					    
+					    <div class="form-group">
+                            <label for="tipo" class="col-md-2 control-label">Tipos Evaluador: </label>
+                            <div class="col-md-10">
+                                <select name="tipo" class="form-control">
+                                    <?php foreach ($tiposEvaluador as $index => $value) : ?>
+                                    <option value="<?php echo $index ?>"><?php echo $value; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+					    
+					    <div class="form-group">
+					        <div class="col-md-offset-2 col-md-10">
+					            <button class="btn btn-success" type="submit">
+					                <i class="fa fa-refresh"></i> Actualizar
+					            </button>
+					        </div>
+					    </div>
+					</form>
 				</div>
 			</div>
 		</div>

@@ -1,4 +1,54 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Docente</b> and script/action name <b>alta</b></p>
+<?php
+    $urlAlta = $this->url(array("module"=>"encuesta","controller"=>"docente","action"=>"index"),null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Alta de Docente</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+				    <a class="btn btn-info" href="<?php echo $urlAlta; ?>">
+				        <i class="fa fa-arrow-circle-left"></i> Regresar a Docentes
+				    </a>
+				</div>
+				<hr />
+				<div>
+				    <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+				        <!-- Nombres -->
+				        <div class="form-group">
+				            <label for="nombres" class="control-label col-md-2">Nombres</label>
+				            <div class="col-md-10">
+				                <input class="form-control" name="nombres" type="text" autofocus="" placeholder="Nombres Docente..." />
+				            </div>
+				        </div>
+				        <!-- Apellidos -->
+				        <div class="form-group">
+                            <label for="apellidos" class="control-label col-md-2">Apellidos</label>
+                            <div class="col-md-10">
+                                <input class="form-control" name="apellidos" type="text" placeholder="Apellidos Docente..." />
+                            </div>
+                        </div>
+                        <!-- Referencia -->
+                        <div class="form-group">
+                            <label for="referencia" class="control-label col-md-2">Referencia</label>
+                            <div class="col-md-10">
+                                <input class="form-control" name="referencia" type="text" placeholder="(Opcional)" />
+                            </div>
+                        </div>
+                        
+                        <!-- Guardar docente -->
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-save"></i> Guardar Docente
+                                </button>
+                            </div>
+                        </div>
+				    </form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

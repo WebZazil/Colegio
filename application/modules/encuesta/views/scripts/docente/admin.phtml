@@ -1,4 +1,55 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Docente</b> and script/action name <b>admin</b></p>
+<?php
+    $docente = $this->docente;
+    $urlDocentes = $this->url(array("module"=>"encuesta","controller"=>"docente","action"=>"index"),null,TRUE);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Actualización de Docente</h5>
+			</div>
+			<div class="panel-body">
+			    <div>
+			        <a class="btn btn-info" href="<?php echo $urlDocentes; ?>">
+			            <i class="fa fa-arrow-circle-left"></i> Regresar a Docentes
+			        </a>
+			    </div>
+			    <hr />
+			    <div>
+			        <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+			            <!-- Nombres -->
+                        <div class="form-group">
+                            <label for="nombres" class="control-label col-md-2">Nombres</label>
+                            <div class="col-md-10">
+                                <input class="form-control" name="nombres" type="text" value="<?php echo $docente->getNombres() ?>" />
+                            </div>
+                        </div>
+                        <!-- Apellidos -->
+                        <div class="form-group">
+                            <label for="apellidos" class="control-label col-md-2">Apellidos</label>
+                            <div class="col-md-10">
+                                <input class="form-control" name="apellidos" type="text" value="<?php echo $docente->getApellidos() ?>" />
+                            </div>
+                        </div>
+                        <!-- Referencia -->
+                        <div class="form-group">
+                            <label for="referencia" class="control-label col-md-2">Referencia</label>
+                            <div class="col-md-10">
+                                <input class="form-control" name="referencia" type="text" value="<?php echo $docente->getReferencia() ?>" />
+                            </div>
+                        </div>
+                        
+                        <!-- Guardar docente -->
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button class="btn btn-warning" type="submit">
+                                    <i class="fa fa-refresh"></i> Actualizar Docente
+                                </button>
+                            </div>
+                        </div>
+			        </form>
+			    </div>
+			</div>
+		</div>
+	</div>
 </div>
