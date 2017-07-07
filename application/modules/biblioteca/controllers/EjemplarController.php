@@ -4,10 +4,11 @@ class Biblioteca_EjemplarController extends Zend_Controller_Action
 {
 	
 	private $ejemplarDAO;
+	
     public function init()
     {
         /* Initialize action controller here */
-        
+        $dbAdapter = Zend_Registry::get("dbmodqueryb");
         $this->ejemplarDAO = new Biblioteca_DAO_Ejemplar();
     }
 

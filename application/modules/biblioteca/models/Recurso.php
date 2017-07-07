@@ -42,16 +42,16 @@ class Biblioteca_Model_Recurso
 	}
 	
 	
-	private $idsAutor;
+	private $idsAutores;
 	
-	public function getIdsAutor()
+	public function getIdsAutores()
 	{
-		return $this->idsAutor;
+		return $this->idsAutores;
 	}
 	
-	public function setIdsAutor($idsAutor)
+	public function setIdsAutores($idsAutores)
 	{
-		$this->idsAutor = $idsAutor;
+		$this->idsAutores = $idsAutores;
 	}
 	
 	private $idMaterial;
@@ -91,18 +91,19 @@ class Biblioteca_Model_Recurso
 		$this->idClasificacion = $idClasificacion;
 	}
 	
-	private $fechaAlta;
+	private $extra;
 	
-	public function getFechaAlta()
+	public function getExtra()
 	{
-		return $this->fechaAlta;
+		return $this->extra;
 	}
 	
-	public function setFechaAlta($fechaAlta)
+	public function setExtra($extra)
 	{
-		$this->fechaAlta = $fechaAlta;
+		$this->extra = $extra;
 	}
 	
+
 	public function __construct($datos)
 	{
 		if (array_key_exists("idRecurso", $datos)) $this->idRecurso = $datos["idRecurso"];
@@ -110,16 +111,12 @@ class Biblioteca_Model_Recurso
 		
 		$this->titulo = $datos["titulo"];
 		$this->subtitulo = $datos["subtitulo"];
-		$this->idsAutor = $datos["idsAutores"];
+		$this->idsAutores = $datos["idsAutores"];
 		$this->idMaterial = $datos["idMaterial"];
 		$this->idColeccion = $datos["idColeccion"];
 		$this->idClasificacion = $datos["idClasificacion"];
+		$this->extra = $datos["extra"];
 		
-		if (! array_key_exists('fechaAlta', $datos)){
-			$this->codigoBarras = "";
-		}else{
-			$this->fechaAlta= $datos["fechaAlta"];
-		} 
 		
 	}
 	
@@ -131,10 +128,12 @@ class Biblioteca_Model_Recurso
 		$datos["idRecurso"] = $this->idRecurso;
 		$datos["titulo"] = $this->titulo;
 		$datos["subtitulo"] = $this->subtitulo;
-		$datos["idsAutor"] = $this->idsAutor;
+		$datos["idsAutores"] = $this->idsAutores;
 		$datos["idMaterial"] = $this->idMaterial;
 		$datos["idColeccion"] = $this->idColeccion;
-		$datos["idClasificación"] = $this->idClasificacion;
+		$datos["idClasificacion"] = $this->idClasificacion;
+		$datos["extra"] = $this->extra;
+		$datos["creacion"] = date("Y-m-d h:i:s",time());
 		
 		return $datos;
 	}

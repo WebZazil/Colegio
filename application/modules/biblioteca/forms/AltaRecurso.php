@@ -35,20 +35,11 @@ class Biblioteca_Form_AltaRecurso extends Zend_Form
 		$autorDAO = new Biblioteca_Data_DAO_Autor();
 		$autores = $autorDAO->getAllAutores();
 		
-		 
-		
 		$eIdAutor = new Zend_Form_Element_Select('idsAutores');
 		$eIdAutor->setLabel("Seleccione autor ");
 		$eIdAutor->setAttrib("class", "form-control");
 		$eIdAutor->setAttrib("required", "required");
-		/*
-		foreach ($autores as $autor) {
-			$eIdAutor->addMultiOption($autor['idAutor'],$autor['nombres']);
-		}*/
-		
-	  /*  foreach ($autores as $autor) {
-			$eIdAutor->addMultiOption($autor['idAutor'],$autor['autores']);
-	    }*/
+		$eIdAutor->setRegisterInArrayValidator(FALSE);
 		
 		//===================================================
 		$materialDAO = new Biblioteca_Data_DAO_Material($identity["adapter"]);

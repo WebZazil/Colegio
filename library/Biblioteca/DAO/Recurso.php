@@ -19,34 +19,9 @@
 	 
 	 public function agregarRecurso(Biblioteca_Model_Recurso $recurso)
 	 {
-	 	$tablaRecurso = $this->tableRecurso;
-		$select = $tablaRecurso->select()->from($tablaRecurso)->where("idRecurso=?",$idRecurso);
-		$rowRecursos = $tablaRecurso->fetchRow($select);
 		
-		if(is_null($rowRecursos)){
-			
-			$data = array();
-			$tableRecurso->insert($data);
-			
-		}else{
-			$idsAutor = $rowRecursos->idsAutor;
-			$arrayIdsAutor =  explode(",", $idsAutor);
-			if (in_array($idAutor, $arrayIdsAutor)){
-				
-			}else{
-				
-				$arrayIdsAutor[] = $idAutor;
-				$idsAutor = implode(",",$arrayIdsAutor);
-				if (in_array($idsAutor, $arrayIdsAutor));
-				$rowRecursos->idsRecurso = $idsAutor;
-				$rowRecursos->save();
-			}
-		}
-		
-
-		
-		/** $tablaRecurso = $this->tableRecurso;
-		 $tablaRecurso->insert($recurso->toArray());**/
+		 $tablaRecurso = $this->tableRecurso;
+		 $tablaRecurso->insert($recurso->toArray());
 	 }
 	 
 	 	public function getAllRecursos(){

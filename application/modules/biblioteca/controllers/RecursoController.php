@@ -28,9 +28,11 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
 		
 		
 		if($request->isPost()){
+			
 			if($formulario->isValid($request->getPost())){
 				$datos = $formulario->getValues();
-				$datos["creacion"] = date("Y-m-d h:i:s",time());
+				
+				print_r($datos);
 
 				$recurso = new Biblioteca_Model_Recurso($datos);
 				
