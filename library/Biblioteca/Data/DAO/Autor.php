@@ -6,7 +6,9 @@ class Biblioteca_Data_DAO_Autor {
     
     private $tableAutor;
 	
-	function __construct($dbAdapter) {
+	function __construct() {
+		$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		
 		$this->tableAutor = new Biblioteca_Data_DbTable_Autor(array("db" => $dbAdapter));
 	}
     
@@ -33,5 +35,21 @@ class Biblioteca_Data_DAO_Autor {
         $select = $tablaAutor->select()->from($tablaAutor)->where("idAutor=?",$idAutor);
         $rowAutor = $tablaAutor->fetchRow($select);
     }
+	
+	public function getAutoresIndividuales() {
+		$tablaAutor = $this->tableAutor;
+		$select = $tablaAutor->select()->from($tablaAutor)->where("tipo=?", 'UN');
+		$rowsAutores = $tablaAutor->fetchAll($select);
+		
+		return $rowsAutores->toArray();
+	}
+	
+	public function getAutoresVarios() {
+		$tablaAutor = $this->tableAutor;
+		$select = $tablaAutor->select()->from($tablaAutor)->where("tipo=?", 'VR');
+		$rowsAutores = $tablaAutor->fetchAll($select);
+		
+		return $rowsAutores->toArray();
+	}
     
 }

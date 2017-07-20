@@ -1,0 +1,53 @@
+<?php 
+    $reporte = $this->reporte;
+    // We'll be outputting a PDF
+    header('Content-type: application/pdf');
+    // It will be called downloaded.pdf
+    header('Content-Disposition: attachment; filename="'.str_replace(" ", "", $reporte["nombreReporte"]));
+    // The PDF source is in original.pdf
+    //readfile('original.pdf');
+    //$ruta = $this->baseUrl();
+    //$file_name = $_SERVER['PATH_INFO'];
+    //$file = '../../../../../../public/pdf' . $reporte["rutaReporte"];
+    //print_r($file);
+    //$file = "public/pdf/reports/Encuesta/grupal/1775418046/6010-3-ArcosLozanoSandraErika-807-RGPH.pdf";
+    
+    //$actualDir = getcwd();
+    //print_r($actualDir);
+    /*
+    if(file_exists($file)){
+        print_r("Archivo Existe!");
+    }else{
+        print_r("Archivo no Existe!");
+    }
+    print_r("<br /><br />");
+    */
+    $ruta = "public/pdf";
+    
+    switch ($reporte["tipoReporte"]) {
+        case 'RGRU':
+            $ruta .= $reporte["rutaReporte"]. str_replace(" ", "", $reporte["nombreReporte"]);
+            break;
+        case 'RGRA':
+            $ruta .= $reporte["rutaReporte"]."/" . str_replace(" ", "", $reporte["nombreReporte"]);
+            break;
+        case 'RPAB':
+            $ruta .= $reporte["rutaReporte"]. str_replace(" ", "", $reporte["nombreReporte"]);
+            break;
+        case 'RAUT':
+            $ruta .= $reporte["rutaReporte"]."/". str_replace(" ", "", $reporte["nombreReporte"]);
+            break;
+    }
+    //print_r($ruta);
+    //fopen('', "r");
+    
+    //print_r("<br /><br />");
+    /*
+    if(file_exists($ruta)){
+        print_r("Archivo Existe!");
+    }else{
+        print_r("Archivo no Existe!");
+    }
+    */
+    readfile($ruta);
+?>

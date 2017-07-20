@@ -29,7 +29,7 @@ class Biblioteca_Form_AltaAutor extends Zend_Form
         $eAutores->setAttrib("placeholder", "Autores...");
         
         $eSubmit = new Zend_Form_Element_Submit("submit");
-        $eSubmit->setLabel("Enviar");
+        $eSubmit->setLabel("Guardar");
         $eSubmit->setAttrib("class", "btn btn-success");
         
         $this->addElements(array($eTipoAutor,$eNombres,$eApellidos,$eAutores, $eSubmit));

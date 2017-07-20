@@ -10,7 +10,7 @@ class Encuesta_DAO_Reporte implements Encuesta_Interfaces_IReporte {
     
     private $tablaGrupoEscolar;
     private $tablaAsignacionGrupo;
-    
+    private $tablaReportesGenerales;
     
 	
 	public function __construct($dbAdapter) {
@@ -23,6 +23,7 @@ class Encuesta_DAO_Reporte implements Encuesta_Interfaces_IReporte {
         
         $this->tablaGrupoEscolar = new Encuesta_Model_DbTable_GrupoEscolar(array('db'=>$dbAdapter));
         $this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
+        $this->tablaReportesGenerales = new Encuesta_Model_DbTable_ReportesGenerales(array('db'=>$dbAdapter));
 	}
 	
 	/**
@@ -100,6 +101,14 @@ class Encuesta_DAO_Reporte implements Encuesta_Interfaces_IReporte {
 		//return $rowReporte->nombreReporte;
 	}
     
+    public function obtenerReporteGeneral($idReporte) {
+        $tablaReporteGral = $this->tablaReportesGenerales;
+        $select = $tablaReporteGral->select()->from($tablaReporteGral)->where("idReportesGenerales=?",$idReporte);
+        $rowReporte = $tablaReporteGral->fetchRow($select)->toArray();
+        
+        return $rowReporte;
+    }
+    
 	/**
      * Obtiene los reportes de evaluacion obtenidos por un docente en el ciclo escolar especificado.
      */
@@ -139,6 +148,25 @@ class Encuesta_DAO_Reporte implements Encuesta_Interfaces_IReporte {
         $rowsRepos = $tablaRE->fetchAll($select)->toArray();
         //print_r($rowsRepos);
         return $rowsRepos;
+    }
+    
+    /**
+     * Obtenemos los tipos de reportes que hay en el grado especificado
+     */
+    public function getTiposReportesGenerales($idGrado) {
+        $tablaRG = $this->tablaReportesGenerales;
+        $select = $tablaRG->select()->distinct()->from($tablaRG,'tipoReporte')->where("idGradoEscolar=?",$idGrado);
+        $rowsTiposR = $tablaRG->fetchAll($select);
+        
+        return $rowsTiposR->toArray();
+    }
+    
+    public function getReportesGenerales($idGrado) {
+        $tablaRG = $this->tablaReportesGenerales;
+        $select = $tablaRG->select()->from($tablaRG)->where("idGradoEscolar=?",$idGrado);
+        $rowsReportesGenerales = $tablaRG->fetchAll($select)->toArray();
+        
+        return $rowsReportesGenerales;
     }
     
 }

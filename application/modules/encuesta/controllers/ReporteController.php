@@ -4,21 +4,35 @@ class Encuesta_ReporteController extends Zend_Controller_Action
 {
 
     private $gruposDAO = null;
+
     private $grupoDAO = null;
+
     private $gradoDAO = null;
+
     private $cicloDAO = null;
+
     private $nivelDAO = null;
+
     private $encuestaDAO = null;
+
     private $seccionDAO = null;
+
     private $generador = null;
+
     private $preguntaDAO = null;
+
     private $registroDAO = null;
+
     private $respuestaDAO = null;
+
     private $preferenciaDAO = null;
+
     private $reporteDAO = null;
+
     private $materiaDAO = null;
-    
+
     private $reporter = null;
+
     private $reporteador = null;
 
     public function init()
@@ -123,8 +137,36 @@ class Encuesta_ReporteController extends Zend_Controller_Action
         $this->reporteador->generarReporteGrupalAsignacion($idGrupo, $idAsignacion, $idEncuesta);
     }
 
+    public function desrAction()
+    {
+        // action body
+        $this->_helper->layout->disableLayout();
+        
+        $idReporte = $this->getParam("idReporte");
+        $reporteDAO = $this->reporteDAO;
+        $reporte = $reporteDAO->obtenerReporte($idReporte);
+        
+        $this->view->reporte = $reporte;
+    }
+
+    public function desrgAction()
+    {
+        // action body
+        $this->_helper->layout->disableLayout();
+        
+        $idReporte = $this->getParam("idReporte");
+        $reporteDAO = $this->reporteDAO;
+        $reporte = $reporteDAO->obtenerReporteGeneral($idReporte);
+        
+        $this->view->reporte = $reporte;
+    }
+
 
 }
+
+
+
+
 
 
 

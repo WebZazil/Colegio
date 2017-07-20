@@ -261,23 +261,28 @@ class Encuesta_JsonController extends Zend_Controller_Action
         */
     }
 
+    public function tiposrepAction()
+    {
+        // action body
+        $idGrado = $this->getParam("gr");
+        $tipos = $this->reporteDAO->getReportesGenerales($idGrado);
+        //print_r($tipos);
+        
+        echo Zend_Json::encode($tipos);
+    }
+
+    public function reportesgralsAction()
+    {
+        // action body
+        $idGrado = $this->getParam("gr");
+        $reportes = $this->reporteDAO->getReportesGenerales($idGrado);
+        //print_r($tipos);
+        
+        echo Zend_Json::encode($reportes);
+    }
+
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

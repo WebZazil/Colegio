@@ -1,0 +1,41 @@
+<?php
+	$editoriales = $this->editoriales;
+	
+	$params = array("module"=>"biblioteca","controller"=>"editorial","action"=>"alta");
+	$urlAltaEditorial = $this->url($params,null,TRUE);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class"panel-title">Autores Registrados en Biblioteca</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a class="btn btn-success" href="<?php echo $urlAltaEditorial; ?>">
+						<i class="fa fa-plus"></i> Nueva Editorial
+					</a>
+				</div>
+				<hr />
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Editorial</th>
+								<th>Creación</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($editoriales as $editorial) : ?>
+								<tr>
+									<td><?php echo $editorial["editorial"]; ?></td>
+									<td><?php echo $editorial["creacion"]; ?></td>
+								</tr>
+							<?php endforeach; ?>	
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

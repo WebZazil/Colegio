@@ -57,7 +57,29 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
 
     public function adminAction()
     {
-        // action body
+        // configuramos conjunto
+        $request = $this->getRequest();
+        $idConjunto = $this->getParam("co");
+        $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
+        
+        $evaluaciones = $this->evaluacionDAO->getEvaluacionesByIdConjunto($idConjunto);
+        
+        //print_r($conjunto); print_r("<br />");
+        //print_r($evaluaciones);
+        
+        
+        
+        // Evaluaciones del conjunto
+        $this->view->conjunto = $conjunto;
+        $this->view->conjuntos = $this->evaluacionDAO->getConjuntosByIdGrupoEscolar($conjunto["idGrupoEscolar"]);
+        
+        if($request->isPost()){
+            $datos = $request->getpost();
+            print_r($datos);
+            
+            
+        }
+        
         
     }
 
