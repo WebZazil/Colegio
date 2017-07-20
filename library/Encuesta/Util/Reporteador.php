@@ -889,7 +889,7 @@ class Encuesta_Util_Reporteador {
         
         $page->setStyle($styleDefault);
         $page->setFont($fontDefault, $fontMedSize);
-        $page->drawRectangle(0, 0, 555, 785);
+        //$page->drawRectangle(0, 0, 555, 785);
         
         $imgEncabezado = Zend_Pdf_Image::imageWithPath(IMAGES_PATH . '/Logo.png');
         $page->drawImage($imgEncabezado, 35, 20, 96, 58);
@@ -1084,6 +1084,5 @@ class Encuesta_Util_Reporteador {
         }
         //print_r("idReporte: ".$idReporte);
         return $idReporte;
-        
     }
 }

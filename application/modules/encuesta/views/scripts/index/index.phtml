@@ -148,11 +148,10 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-2"></div>
-			<div class="col-sm-8">
+			<div class="col-sm-6">
 				<div id="form-eval" class="form-horizontal">
                     <fieldset>
-                        <legend>Consulta de Resultados:</legend>
+                        <legend>Resultados por Grupo:</legend>
                         <div class="form-group">
                             <label class="col-xs-2" for="cicloR">Ciclo Escolar: </label>
                             <div class="col-xs-10">
@@ -199,7 +198,50 @@
                     </fieldset>
                 </div>
 			</div>
-			<div class="col-sm-2"></div>
+			
+			<div class="col-sm-6">
+			    <div id="form-eval" class="form-horizontal">
+                    <fieldset>
+                        <legend>Resultados por Docente-Materia:</legend>
+                        <div class="form-group">
+                            <label class="col-xs-2" for="cicloTwo">Ciclo Escolar: </label>
+                            <div class="col-xs-10">
+                                <select id="cicloR" class="form-control" name="cicloTwo">
+                                    <?php foreach ($ciclosEscolares as $cicloEscolar) : ?>
+                                    <option <?php echo ($cicloEscolar["vigente"] == '1') ? 'selected="selected"' : '' ; ?> value="<?php echo $cicloEscolar["idCicloEscolar"] ?>"><?php echo $cicloEscolar["ciclo"] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2" for="nivelTwo">Nivel: </label>
+                            <div class="col-xs-10">
+                                <select id="nivelTwo" class="form-control" name="nivelTwo">
+                                    <option value="0">Seleccione Nivel Educativo</option>
+                                    <?php foreach ($nivelesEscolares as $nivelEscolar) : ?>
+                                        <option value="<?php echo $nivelEscolar->getIdNivel() ?>" > <?php echo $nivelEscolar->getNivel() ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2" for="gradoTwo">Grado: </label>
+                            <div class="col-xs-10">
+                                <select id="gradoTwo" class="form-control" name="gradoTwo">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button id="btnQueryReportsTwo" class="btn btn-success hidden">
+                                    <i class="fa fa-file-pdf-o"></i> Consultar Reportes
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+			</div>
 		</div>
 		<div class="row">
 		    <div class="col-sm-2"></div>
@@ -236,6 +278,7 @@
 </footer>
 <script src="<?php echo $this->baseUrl()."/public" ?>/js/helpers/homepage.js"></script>
 <script src="<?php echo $this->baseUrl()."/public" ?>/js/helpers/consulta.js"></script>
+<script src="<?php echo $this->baseUrl()."/public" ?>/js/helpers/consultaGenerales.js"></script>
 <script>
     
 </script>

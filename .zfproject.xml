@@ -39,6 +39,8 @@
               <actionMethod actionName="evaluadores"/>
               <actionMethod actionName="evals"/>
               <actionMethod actionName="processform"/>
+              <actionMethod actionName="tiposrep"/>
+              <actionMethod actionName="reportesgrals"/>
             </controllerFile>
             <controllerFile controllerName="Categoria">
               <actionMethod actionName="index"/>
@@ -278,6 +280,7 @@
               <dbTableFile dbTableName="EvaluacionConjunto"/>
               <dbTableFile dbTableName="ReportesGrupo"/>
               <dbTableFile dbTableName="ReportesConjunto"/>
+              <dbTableFile dbTableName="ReportesGenerales"/>
             </dbTableDirectory>
             <modelFile modelName="Registro"/>
             <modelFile modelName="Nivel"/>
@@ -725,6 +728,12 @@
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="evaluaciones"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="tiposrep"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="reportesgrals"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -1027,6 +1036,8 @@
                 <testApplicationActionMethod forActionName="evaluadores"/>
                 <testApplicationActionMethod forActionName="evals"/>
                 <testApplicationActionMethod forActionName="processform"/>
+                <testApplicationActionMethod forActionName="tiposrep"/>
+                <testApplicationActionMethod forActionName="reportesgrals"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Categoria">
                 <testApplicationActionMethod forActionName="index"/>

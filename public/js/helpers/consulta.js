@@ -112,7 +112,7 @@ $().ready(function(){
                 url: urlReportes,
                 dataType: "json",
                 success: function(data){
-                   //console.dir(data);
+                   console.dir(data);
                     
                    var tbody = $("#reports").find('tbody'); 
                    tbody.empty();
@@ -130,7 +130,7 @@ $().ready(function(){
                                tipoReporte = "Reporte Autoevaluación";
                                break;
                        }
-                       var urlReporte = "";
+                       var urlReporte = url + "/reporte/desr/idReporte/"+item.idReporte;
                        
                        var link = $("<a></a>")
                             .attr("class","btn btn-link")

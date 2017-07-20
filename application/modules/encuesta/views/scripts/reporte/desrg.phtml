@@ -1,0 +1,41 @@
+<?php 
+    $reporte = $this->reporte;
+    // We'll be outputting a PDF
+    header('Content-type: application/pdf');
+    // It will be called downloaded.pdf
+    header('Content-Disposition: attachment; filename="'.str_replace(" ", "", $reporte["nombreReporte"]));
+    //header('Content-Disposition: attachment; filename="'.str_replace(" ", "", $reporte["nombreReporte"]));
+    // The PDF source is in original.pdf
+    $ruta = "public/pdf/";
+    
+    $ruta .= $reporte["rutaReporte"]. str_replace(" ", "", $reporte["nombreReporte"]);
+    
+    /*
+    switch ($reporte["tipoReporte"]) {
+        case 'GRAL':
+            $ruta .= $reporte["rutaReporte"]. str_replace(" ", "", $reporte["nombreReporte"]);
+            break;
+        case 'AUTO':
+            $ruta .= $reporte["rutaReporte"]."/" . str_replace(" ", "", $reporte["nombreReporte"]);
+            break;
+        case 'ORED':
+            $ruta .= $reporte["rutaReporte"]. str_replace(" ", "", $reporte["nombreReporte"]);
+            break;
+    }
+    
+    
+    print_r($ruta);
+    print_r("<br />");
+    if(file_exists($ruta)){
+        print_r("Archivo Existe!");
+    }else{
+        print_r("Archivo no Existe!");
+    }
+    print_r("<br />");
+    */
+    
+    //$data = file_get_contents($ruta);
+    //readfile($data);
+    readfile($ruta);
+    //echo $data;
+?>
