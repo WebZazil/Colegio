@@ -2,12 +2,13 @@
 /**
  * 
  */
-class Biblioteca_DAO_Tema {
+class Biblioteca_Data_DAO_Tema {
     
     private $tableTema;
 	
-	function __construct($dbAdapter) {
-		$this->tableTema = new Biblioteca_Model_DbTable_Tema(array("db"=>$dbAdapter));
+	function __construct() {
+		$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		$this->tableTema = new Biblioteca_Data_DbTable_Tema(array("db"=>$dbAdapter));
 	}
     
     public function getTemaById($idTema) {
@@ -33,5 +34,9 @@ class Biblioteca_DAO_Tema {
             return $rowsTemas->toArray();
         }
         
+    }
+	
+	public function addTema($data) {
+        $this->tableTema->insert($data);
     }
 }

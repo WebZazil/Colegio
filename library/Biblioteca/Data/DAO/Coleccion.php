@@ -2,13 +2,13 @@
 /**
  * 
  */
-class Biblioteca_DAO_Coleccion {
+class Biblioteca_Data_DAO_Coleccion {
 	
     private $tableColeccion;
     
-	function __construct($dbAdapter) {
-		
-        $this->tableColeccion = new Biblioteca_Model_DbTable_Coleccion(array("db"=>$dbAdapter));
+	function __construct() {
+		$dbAdapter = Zend_Registry::get("dbmodqueryb");
+        $this->tableColeccion = new Biblioteca_Data_DbTable_Coleccion(array("db"=>$dbAdapter));
 	}
     
     public function getAllColecciones() {
@@ -32,6 +32,10 @@ class Biblioteca_DAO_Coleccion {
         } else {
             return $rowColeccion->toArray();
         }
-    
+    }
+	
+	
+	public function addColeccion($data) {
+        $this->tableAutor->insert($data);
     }
 }

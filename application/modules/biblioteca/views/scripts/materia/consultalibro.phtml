@@ -1,0 +1,93 @@
+<?php 
+	$formulario = $this->formulario;
+	$libros = $this->libros;
+?>
+
+<section class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title"><strong>Consulta por Materia</strong></h3>
+	</div>
+	<div class="panel-body">
+		<?php echo $formulario; ?>
+	</div>
+</section>
+<?php if(!is_null($libros)){ ?>
+<section class="panel panel-success">
+	<div class="panel-heading">
+		<h3 class="panel-title">Libros encontrados</h3>
+	</div>
+	<div class"panel-body">
+		<table id="resultadoLibros" class="table table-striped table-condensed">
+			<thead>
+				<th>Titulo</th>
+				<th>Autor</th>
+				<th>Editorial</th>
+				<th>Detalles</th>
+			</thead>
+			<tbody>
+				<?php foreach ($libros as $libro) : ?>
+				<tr>
+					<td><?php echo $libro->getTitulo(); ?></td>
+					<td><?php echo $libro->getAutor(); ?></td>
+					<td><?php echo $libro->getEditorial(); ?></td>
+					<td><button   type="button" class="btn btn-info btnBusqueda" idLibro="<?php echo $libro->getIdLibro(); ?>" data-toggle="modal" data-target="#msgDetalle">
+						<span class="glyphicon glyphicon-book"></span> Detalle Libro
+					</button></td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	</div>
+</section>
+<?php } ?>
+<section>
+	<div class="modal fade" id="msgDetalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label"Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-tittle">Detalles de Libro</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-striped table-condensed" id="detalleLibro">
+						<tr><td>Autor:</td><td><strong><span id="autor"></span></strong>  </td></tr>
+						<tr><td>Editorial:</td><td><strong><span id="editorial"></span></strong> </td></tr>
+						<tr><td>Paginas:</td><td><strong><span id="paginas"></span></strong></td></tr>
+						<tr><td>Año-Publicación:</td><td><strong><span id="publicacion"></span></strong> </td></tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<a id="aConfigLibro" class="btn btn-info" href="">
+						<span class="glyphicon glyphicon-cog"></span> Configurar
+					</a>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">
+						<span class="glyphicon glyphicon-close"></span> Cerrar
+					</button>
+			</div> 
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$().ready(function(){
+		console.log("JvaScript");
+		var librosJSON; 
+		
+		$("button.btnBusqueda").on("click", function(){
+			console.log("Boton activado!");
+			
+		});
+		
+			$("button.btnBusqueda").on("click", function(){
+			console.log("Boton activado!");
+			
+		});
+		
+		
+	});
+	
+</script>
