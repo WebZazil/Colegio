@@ -11,6 +11,7 @@ class Biblioteca_IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+        $this->_helper->layout->setLayout('homeBiblioteca');
     }
 
     public function logoutAction()

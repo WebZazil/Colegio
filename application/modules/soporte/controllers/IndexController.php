@@ -8,7 +8,7 @@ class Soporte_IndexController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $this->_helper->layout->setLayout('homeBiblioteca');
+        $this->_helper->layout->setLayout('homeSoporte');
         $this->equipoDAO = new Soporte_Data_DAO_Equipo();
     }
 
