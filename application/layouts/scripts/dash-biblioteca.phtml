@@ -23,7 +23,7 @@
 		<link rel="stylesheet" href="<?php echo $sbadmin2; ?>/dist/css/sb-admin-2.min.css ">
 		
 		<!-- Custom Fonts -->
-		<link rel="stylesheet" href="<?php echo $sbadmin2; ?>/dist/css/sb-admin-2.min.css ">
+		<link rel="stylesheet" href="<?php echo $sbadmin2; ?>/vendor/font-awesome/css/font-awesome.min.css" type="text/css">
 		
 		<!-- jQuery -->
 		<script type="text/javascript" src="<?php echo $public ?>/lib/jquery/jquery.min.js"></script>
@@ -36,25 +36,13 @@
 		<div id="wrapper">
 	        <!-- Navigation -->
 	        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-	            <div class="navbar-header">
-	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	                    <span class="sr-only">Menú</span>
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                </button>
-	                <a class="navbar-brand" href="<?php echo $this->url(array("module"=>"biblioteca","controller"=>"dashboard","action"=>"index",),null,true) ?>">
-	                    Biblioteca Dashboard
-	                </a>
-	            </div>
-	            <!-- /.navbar-header -->
-	            <?php echo $this->partial('partials/dashboard/navbar/navbar-links.phtml') ?>
-	            <!-- navbar-links was here -->
-	            <?php echo $this->partial('partials/dashboard/sidemenu/sidebar.phtml') ?>
-	            <!-- /.navbar-top-links -->
-	            <!-- sidebar was here -->
-	            <!-- /.navbar-static-side -->
-	        </nav>
+                <!-- .navbar-header -->
+                <?php echo $this->partial('partials/dashboard/navbar/navbar-header.phtml') ?>
+                <!-- .navbar-top-links -->
+                <?php echo $this->partial('partials/dashboard/navbar/navbar-toplinks.phtml') ?>
+                <!-- .navbar-static-side -->
+                <?php echo $this->partial('partials/dashboard/navbar/navbar-static-side.phtml') ?>
+            </nav>
 	        <div id="page-wrapper">
 	            <!-- dashboard title was here -->
 	            <!-- /.row -->
