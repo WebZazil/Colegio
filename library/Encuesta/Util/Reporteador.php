@@ -69,6 +69,30 @@ class Encuesta_Util_Reporteador {
         
         $this->tablaEvaluador = new Encuesta_Model_DbTable_Evaluador(array("db"=>$dbAdapter));
 	}
+
+    /**
+     * Genera reporte PDF grupal
+     * 
+     * 
+     */
+    public function generarReporteGrupal($idAsignacion, $idEncuesta) {
+        $tablaEncuesta = $this->tablaEncuesta;
+        $tablaAsignacion = $this->tablaAsignacion;
+        $tablaConjunto = $this->tablaConjunto;
+        $tablaEvalReal = $this->tablaEvaluacionRealizada;
+        
+        $select = $tablaEncuesta->select()->from($tablaEncuesta)->where("idEncuesta=?",$idEncuesta);
+        $rowEncuesta = $tablaEncuesta->fetchRow($select);
+        $arrEncuesta = $rowEncuesta->toArray();
+        
+        $select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idAsignacionGrupo=?",$idAsignacion);
+        $rowAsignacion = $tablaAsignacion->fetchRow($select);
+        $arrAsignacion = $rowAsignacion->toArray();
+        
+        $select = $tablaEvalReal->select()->from($tablaEvalReal)->where("idAsignacionGrupo=?",$idAsignacion);
+        $rowsEvalsReal = $tablaEvalReal->fetchAll($select);
+        $arrEvalsReal = $rowsEvalsReal->toArray();
+    }
     
     /**
      * 
