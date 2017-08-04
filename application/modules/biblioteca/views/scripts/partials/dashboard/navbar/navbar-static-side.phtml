@@ -1,3 +1,18 @@
+<?php
+   $modulo = "biblioteca";
+   $urlDashboard = $this->url(array("module"=>$modulo,"controller"=>"dashboard","action"=>"index"),null,true);
+   
+   
+   
+   $urlSClasificacion = $this->url(array("module"=>$modulo,"controller"=>"clasificacion","action"=>"index"),null,true);
+   $urlSColeccion = $this->url(array("module"=>$modulo,"controller"=>"coleccion","action"=>"index"),null,true);
+   $urlSTema = $this->url(array("module"=>$modulo,"controller"=>"tema","action"=>"index"),null,true);
+   $urlSIdioma = $this->url(array("module"=>$modulo,"controller"=>"idioma","action"=>"index"),null,true);
+   
+   $urlResources = $this->url(array("module"=>$modulo,"controller"=>"recurso","action"=>"index"),null,true);
+   $urlRLibro = $this->url(array("module"=>$modulo,"controller"=>"libro","action"=>"index"),null,true);
+   $urlRMultiMedia = $this->url(array("module"=>$modulo,"controller"=>"multimedia","action"=>"index"),null,true); 
+?>
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
@@ -13,91 +28,36 @@
                 <!-- /input-group -->
             </li>
             <li>
-                <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                <a href="<?php echo $urlDashboard; ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-archive fa-fw"></i> Recursos<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">Flot Charts</a>
+                        <a href="<?php echo $urlResources; ?>"><i class="fa fa-book"></i> Libros</a>
                     </li>
                     <li>
-                        <a href="#">Morris.js Charts</a>
+                        <a href="<?php echo $urlRMultiMedia; ?>"><i class="fa fa-video-camera"></i> Multimedia</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
             <li>
-                <a href="#"><i class="fa fa-table fa-fw"></i> Tables</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-edit fa-fw"></i> Forms</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-cogs fa-fw"></i> Configuración<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">Panels and Wells</a>
+                        <a href="<?php echo $urlSClasificacion; ?>"><i class="fa fa-sort-alpha-asc"></i> Clasificación</a>
                     </li>
                     <li>
-                        <a href="#">Buttons</a>
+                        <a href="<?php echo $urlSColeccion; ?>"><i class="fa fa-dropbox"></i> Colección</a>
                     </li>
                     <li>
-                        <a href="#">Notifications</a>
+                        <a href="<?php echo $urlSIdioma; ?>"><i class="fa fa-globe"></i> Idioma</a>
                     </li>
                     <li>
-                        <a href="#">Typography</a>
-                    </li>
-                    <li>
-                        <a href="#"> Icons</a>
-                    </li>
-                    <li>
-                        <a href="#">Grid</a>
+                        <a href="<?php echo $urlSTema; ?>"><i class="fa fa-info-circle"></i> Tema</a>
                     </li>
                 </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="#">Second Level Item</a>
-                    </li>
-                    <li>
-                        <a href="#">Second Level Item</a>
-                    </li>
-                    <li>
-                        <a href="#">Third Level <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level">
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="#">Blank Page</a>
-                    </li>
-                    <li>
-                        <a href="#">Login Page</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
             </li>
         </ul>
     </div>
