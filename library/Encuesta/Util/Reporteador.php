@@ -169,7 +169,7 @@ class Encuesta_Util_Reporteador {
         $select = $tablaRegistro->select()->from($tablaRegistro)->where("idRegistro=?",$rowAsignacion->idRegistro);
         $rowRegistro = $tablaRegistro->fetchRow($select);
         
-        $nombreArchivo = $rowGrupoE->grupoEscolar."-".$idEncuesta."-".str_replace(" ", "", $rowRegistro->apellidos.$rowRegistro->nombres)."-".$idAsignacion."-RGPH.pdf";
+        $nombreArchivo = $this->utilText->cleanString(str_replace(" ", "", $rowGrupoE->grupoEscolar."-".$idEncuesta."-".$rowRegistro->apellidos.$rowRegistro->nombres."-".$idAsignacion."-RGPH.pdf")) ;
         //print_r("Nombre Archivo Antes: ");
         //print_r($nombreArchivo); print_r("<br /><br />");
         //print_r("Nombre Archivo Despues: ");
