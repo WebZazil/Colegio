@@ -1,0 +1,44 @@
+<?php 
+    $modulo = "evento";
+    
+    $urlDashboardIndex = $this->url(array('module'=>$modulo,'controller'=>'dashboard','action'=>'index'),null,true);
+    
+    $urlConsultaIndex = $this->url(array('module'=>$modulo,'controller'=>'consulta','action'=>'index'),null,true);
+    
+    $urlDashboardAltas = $this->url(array('module'=>$modulo,'controller'=>'dashboard','action'=>'alta'),null,true);
+?>
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Busqueda...">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+                </div>
+                <!-- /input-group -->
+            </li>
+            <li>
+                <a href="<?php echo $urlDashboardIndex; ?>">
+                	<i class="fa fa-dashboard fa-fw"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $urlConsultaIndex ?>">
+                	<i class="fa fa-search fa-fw"></i>
+                	Consulta
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $urlDashboardAltas; ?>">
+                	<i class="fa fa-plus fa-fw"></i> Altas
+               	</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+<!-- /.navbar-static-side -->

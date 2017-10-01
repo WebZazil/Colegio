@@ -7,7 +7,7 @@
  */
 interface Biblioteca_Interfaces_ILibro {
 	
-	public function agregarLibro(Biblioteca_Model_Libro $libro);
+	public function agregarLibro(Biblioteca_Models_Libro $libro);
 	public function obtenerLibro($idLibro);
 	public function prestamoLibro($libro,$registro);
 	public function devolverLibro($libro,$registro);

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Hector Rodriguez">
+        
+        <?php $public = $this->baseUrl()."/public" ?>
+        <?php $sbadmin2 = $this->baseUrl()."/public/lib/sbadmin2" ?>
+        
+        <link rel="shortcut icon" href="<?php echo $public; ?>/images/favicon.ico">
+        <link rel="apple-touch-icon" href="<?php echo $public; ?>/images/icono.png">
+        
+		<title>Colegio Sagrado Corazón México</title>
+		
+		<!-- Bootstrap Core CSS -->
+		<link rel="stylesheet" href="<?php echo $sbadmin2; ?>/vendor/bootstrap/css/bootstrap.min.css ">
+		<!-- MetisMenu CSS -->
+		<link rel="stylesheet" href="<?php echo $sbadmin2; ?>/vendor/metisMenu/metisMenu.min.css ">
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="<?php echo $sbadmin2; ?>/dist/css/sb-admin-2.min.css ">
+		
+		<!-- Custom Fonts -->
+		<link rel="stylesheet" href="<?php echo $sbadmin2; ?>/vendor/font-awesome/css/font-awesome.min.css" type="text/css">
+		
+		<!-- jQuery & jQueryUI -->
+        <link rel="stylesheet" href="<?php echo $public; ?>/lib/jquery-ui/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="<?php echo $public; ?>/lib/jquery-ui/jquery-ui.theme.css" type="text/css">
+        
+        <script type="text/javascript" src="<?php echo $sbadmin2 ?>/vendor/jquery/jquery.min.js"></script>
+        <script src="<?php echo $public; ?>/lib/jquery-ui/jquery-ui.min.js"></script>
+		<script src="<?php echo $public; ?>/lib/jquery-ui/datepicker-es.js"></script>
+	</head>
+	<body>
+		<div id="wrapper">
+	        <!-- Navigation -->
+	        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+	            <!-- .navbar-header -->
+	            <?php echo $this->partial('partials/dashboard/navbar/navbar-header.phtml') ?>
+	            <!-- .navbar-top-links -->
+	            <?php echo $this->partial('partials/dashboard/navbar/navbar-toplinks.phtml') ?>
+	            <!-- .navbar-static-side -->
+	            <?php echo $this->partial('partials/dashboard/navbar/navbar-static-side.phtml') ?>
+	        </nav>
+	        <div id="page-wrapper">
+	            <!-- dashboard title was here -->
+	            <!-- /.row -->
+	            <!-- statistics was here -->
+	            <!-- /.row -->
+	            <br />
+	            <?php echo $this->layout()->content; ?>
+	            <!-- /.row -->
+	        </div>
+	        <!-- /#page-wrapper -->
+	    </div>
+    	<!-- /#wrapper -->
+	</body>
+	
+	<!-- Bootstrap Core JavaScript -->
+	<script type="text/javascript" src="<?php echo $sbadmin2 ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
+	
+	<!-- Metis Menu Plugin JavaScript -->
+	<script type="text/javascript" src="<?php echo $sbadmin2 ?>/vendor/metisMenu/metisMenu.min.js"></script>
+	
+	<!-- Custom Theme JavaScript -->
+    <script type="text/javascript" src="<?php echo $sbadmin2 ?>/dist/js/sb-admin-2.min.js"></script>
+    
+</html>
