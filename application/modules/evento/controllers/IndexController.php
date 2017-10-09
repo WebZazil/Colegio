@@ -33,9 +33,9 @@ class Evento_IndexController extends Zend_Controller_Action
             
             $claveOrganizacion = 'colsagcor16';
             $organizacion = $this->eventoDAO->getOrganizacionByClave($claveOrganizacion);
-            print_r($organizacion); print_r("<br /><br />");
+            //print_r($organizacion); print_r("<br /><br />");
             $subscripciones = $this->eventoDAO->getSubscripcionesByIds($organizacion['idOrganizacion']);
-            print_r($subscripciones); print_r("<br /><br />");
+            //print_r($subscripciones); print_r("<br /><br />");
             $subscripcion = $subscripciones[0];
             
             $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('zbase'),"Usuario","nickname","password",'SHA1(?)');
@@ -74,12 +74,6 @@ class Evento_IndexController extends Zend_Controller_Action
     public function logoutAction()
     {
         // action body
-        $auth = Zend_Auth::getInstance();
-        if (!is_null($auth)) {
-            $auth->clearIdentity();
-        }
-        
-        $this->_helper->redirector->gotoSimple("index", "index", "evento");
     }
 
 

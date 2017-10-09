@@ -1,0 +1,31 @@
+<?php $public = $this->baseUrl()."/public" ?>
+<link rel="stylesheet" href="<?php echo $public; ?>/lib/qr-reader/style.css ">
+<script src="<?php echo $public; ?>/lib/qr-reader/main.js"></script>
+<script src="<?php echo $public; ?>/lib/qr-reader/llqrcode.js"></script>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Confirmar asistencia a evento: <strong></strong></h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<button class="btn btn-info">
+						<i class="fa fa-qrcode"></i> Escanear QR
+					</button>
+				</div>
+				<div>
+					<div style="display:none" id="result"></div>
+					<div class="selector" id="webcamimg" onclick="setwebcam()" align="left" ></div>
+					<div class="selector" id="qrimg" onclick="setimg()" align="right" ></div>
+					<center id="mainbody">
+						<div id="outdiv"></div>
+					</center>
+					<canvas id="qr-canvas" width="800" height="600"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">load();</script>

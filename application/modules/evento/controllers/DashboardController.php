@@ -2,8 +2,9 @@
 
 class Evento_DashboardController extends Zend_Controller_Action
 {
+
     private $eventoDAO = null;
-    
+
     public function init()
     {
         /* Initialize action controller here */
@@ -25,6 +26,12 @@ class Evento_DashboardController extends Zend_Controller_Action
     public function altaAction()
     {
         // action body
+        
+    }
+
+    public function actionsAction()
+    {
+        // action body
         $eventoDAO = $this->eventoDAO;
         
         $eventos = $this->eventoDAO->getAllEventos();
@@ -33,6 +40,8 @@ class Evento_DashboardController extends Zend_Controller_Action
 
 
 }
+
+
 
 
 

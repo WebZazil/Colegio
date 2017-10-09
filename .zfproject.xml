@@ -1128,10 +1128,12 @@
             <controllerFile controllerName="Registro">
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
+              <actionMethod actionName="confirm"/>
             </controllerFile>
             <controllerFile controllerName="Dashboard">
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
+              <actionMethod actionName="actions"/>
             </controllerFile>
             <controllerFile controllerName="Index">
               <actionMethod actionName="index"/>
@@ -1144,6 +1146,7 @@
             <controllerFile controllerName="Usuario">
               <actionMethod actionName="index"/>
               <actionMethod actionName="settings"/>
+              <actionMethod actionName="logout"/>
             </controllerFile>
             <controllerFile controllerName="Json">
               <actionMethod actionName="index"/>
@@ -1205,6 +1208,15 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Dashboard">
                 <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuario">
+                <viewScriptFile forActionName="logout"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Dashboard">
+                <viewScriptFile forActionName="actions"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Registro">
+                <viewScriptFile forActionName="confirm"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1603,10 +1615,12 @@
               <testApplicationControllerFile forControllerName="Registro">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="confirm"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Dashboard">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="actions"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Index">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1619,6 +1633,7 @@
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="settings"/>
+                <testApplicationActionMethod forActionName="logout"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Json">
                 <testApplicationActionMethod forActionName="index"/>

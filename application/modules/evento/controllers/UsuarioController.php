@@ -18,8 +18,22 @@ class Evento_UsuarioController extends Zend_Controller_Action
         // action body
     }
 
+    public function logoutAction()
+    {
+        // action body
+        $auth = Zend_Auth::getInstance();
+        if (!is_null($auth)) {
+            $auth->clearIdentity();
+        }
+        
+        $this->_helper->redirector->gotoSimple("index", "index", "evento");
+        
+    }
+
 
 }
+
+
 
 
 

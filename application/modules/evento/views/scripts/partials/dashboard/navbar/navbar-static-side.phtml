@@ -5,7 +5,7 @@
     
     $urlConsultaIndex = $this->url(array('module'=>$modulo,'controller'=>'consulta','action'=>'index'),null,true);
     
-    $urlDashboardAltas = $this->url(array('module'=>$modulo,'controller'=>'dashboard','action'=>'alta'),null,true);
+    $urlDashboardActions = $this->url(array('module'=>$modulo,'controller'=>'dashboard','action'=>'actions'),null,true);
 ?>
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
@@ -27,14 +27,8 @@
                 </a>
             </li>
             <li>
-                <a href="<?php echo $urlConsultaIndex ?>">
-                	<i class="fa fa-search fa-fw"></i>
-                	Consulta
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo $urlDashboardAltas; ?>">
-                	<i class="fa fa-plus fa-fw"></i> Altas
+                <a href="<?php echo $urlDashboardActions; ?>">
+                	<i class="fa fa-cubes fa-fw"></i> Acciones
                	</a>
             </li>
         </ul>

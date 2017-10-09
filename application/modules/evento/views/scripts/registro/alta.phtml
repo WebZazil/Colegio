@@ -3,7 +3,7 @@
 ?>
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-info">
+		<div class="panel panel-success">
 			<div class="panel-heading">
 				<h5 class="panel-title">Registro de Asistente a Evento: <strong><?php echo $evento['nombre'] ?></strong> </h5>
 			</div>
@@ -56,7 +56,7 @@
 				</div>
 				<div>
 					
-					<table id="table" class="table table-striped table-condensed">
+					<table id="tResults" class="table table-striped table-condensed">
 						<thead>
 							<tr>
 								<th>Nombres</th>
@@ -77,41 +77,63 @@
 	$().ready(function(){
 		var appname = "/colegio/evento";
         var url = window.location.origin + appname;
+        var evento = <?php echo $evento["id"] ?>;
+        
+
+        $("#nombres").on('blur', function(){
+			constructQuery();
+        });
+
+        $("#apaterno").on('blur', function(){
+			constructQuery();
+        });
+
+        $("#amaterno").on('blur', function(){
+			constructQuery();
+        });
 		
-		
-		$("input#nombres").on('blur', function(){
-			var nombres = $(this).val();
-			console.log(nombres);
+		function constructQuery() {
+
 			
-			var urlQuery = encodeURI(url + "/json/findreg/ns/"+nombres);
+			var nombres = $("#nombres").val();
+			var apaterno = $("#apaterno").val();
+			var amaterno = $("#amaterno").val();
+
+			var params = "/ev/"+evento;
 			
+			if(nombres != ""){
+				params += "/ns/"+nombres;
+			}
+			if(apaterno != ""){
+				params += "/ap/"+apaterno;
+			}
+			if(amaterno != ""){
+				params += "/am/"+amaterno;
+			}
+			//console.log(params);
+
+			var urlQuery = encodeURI(url + "/json/findreg" + params);
 			console.log(urlQuery);
 			$.ajax({
                 url: urlQuery,
                 dataType: "json",
                 success: function(data){
                     console.dir(data);
-                    //$("#gradoR").empty();
-                    //$("#gradoR").append($("<option></option>").attr("value","0").text("Seleccione Grado Educativo"));
-                    //$.each(data, function(i,item){//function(key,value)
-                    //    $("#gradoR").append($("<option></option>").attr("value",data[i].idGradoEducativo).text(data[i].gradoEducativo));
-                    //});
-                    //$("#grupo").empty();
+
+                    var tbody = $("#tResults").find('tbody');
+                    tbody.empty();
+                    $.each(data, function(i,item){
+                    	tbody.append($('<tr>').
+                        	append($('<td>').append(item.nombres)).
+                            append($('<td>').append(item.apaterno)).
+                            append($('<td>').append(item.amaterno)).
+                            append($('<td>').append(item.email)).
+                            append($('<td>').append(item.email))
+                        );
+                    });
+                    
                 }
             });
-			
-		});
-
-		$("input#apaterno").on('blur', function(){
-			var apaterno = $(this).val();
-			console.log(apaterno);
-			
-		});
-
-		$("input#amaterno").on('blur', function(){
-			var amaterno = $(this).val();
-			console.log(amaterno);
-			
-		});
+		}
 	});
 </script>

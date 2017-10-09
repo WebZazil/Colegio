@@ -67,6 +67,26 @@
 									</button>
 								</td>
 							</tr>
+							
+							<tr>
+								<td>
+									<p>
+										Confirmacion Asistencia
+									</p>
+								</td>
+								<td>
+									<select id="asisEvento" class="form-control">
+										<?php foreach ($eventos as $evento): ?>
+										<option value="<?php echo $evento['id'] ?>"><?php echo $evento['nombre'] ?></option>
+										<?php endforeach; ?>
+									</select>
+								</td>
+								<td>
+									<button id="btnRAsis" class="btn <?php echo $btnAssocClass;  ?>" >
+										<i></i> Registro Asistencias
+									</button>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -85,6 +105,13 @@
 			// console.log("IdEvento = "+idEvento);
 			var urlRegAsis = url + "/registro/alta/ev/"+idEvento;
 			// console.log("UrlRegAsisEvento = "+urlRegAsis);
+			window.location.href = urlRegAsis;
+		});
+
+		$("#btnRegister").on('click',function(){
+			var idEvento = $("#asisEvento").val();
+
+			var urlRegAsis = url + "/registro/alta/ev/"+idEvento;
 			window.location.href = urlRegAsis;
 		});
 	});
