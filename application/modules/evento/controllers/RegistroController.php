@@ -11,7 +11,10 @@ class Evento_RegistroController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $identity = Zend_Auth::getInstance()->getIdentity();
-        
+        if (is_null($identity)) {
+            // Redirect to login page
+            $this->_helper->redirector->gotoSimple("index", "index", "evento");
+        }
         
         $this->registroDAO = new Evento_Model_DAO_Registro($identity['adapter']);
         $this->eventoDAO = new Evento_Model_DAO_Evento($identity['adapter']);
