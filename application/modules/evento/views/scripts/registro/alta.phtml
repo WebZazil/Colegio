@@ -1,0 +1,139 @@
+<?php
+    $evento = $this->evento;
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Registro de Asistente a Evento: <strong><?php echo $evento['nombre'] ?></strong> </h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" >
+						<div class="form-group">
+							<label for="nombres" class="control-label col-md-2">Nombres: </label>
+							<div class="col-md-6">
+								<input id="nombres" type="text" name="nombres" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="apaterno" class="control-label col-md-2">Apellido Paterno: </label>
+							<div class="col-md-6">
+								<input id="apaterno" type="text" name="apaterno" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="amaterno" class="control-label col-md-2">Apellido Materno: </label>
+							<div class="col-md-6">
+								<input id="amaterno" type="text" name="amaterno" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="email" class="control-label col-md-2">E-Mail: </label>
+							<div class="col-md-6">
+								<input id="email" type="text" name="email" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="mailist" class="control-label col-md-2">Suscribirse?: </label>
+							<div class="col-md-1">
+								<input id="mailist" type="checkbox" name="mailist" checked="checked" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-6">
+								<button type="submit" class="btn btn-success">
+									<i class="fa fa-save"></i> Registrar Usuario
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div>
+					
+					<table id="tResults" class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Nombres</th>
+								<th>Apellido Paterno</th>
+								<th>Apellido Materno</th>
+								<th>E-Mail</th>
+								<th>Estatus</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$().ready(function(){
+		var appname = "/colegio/evento";
+        var url = window.location.origin + appname;
+        var evento = <?php echo $evento["id"] ?>;
+        
+
+        $("#nombres").on('blur', function(){
+			constructQuery();
+        });
+
+        $("#apaterno").on('blur', function(){
+			constructQuery();
+        });
+
+        $("#amaterno").on('blur', function(){
+			constructQuery();
+        });
+		
+		function constructQuery() {
+
+			
+			var nombres = $("#nombres").val();
+			var apaterno = $("#apaterno").val();
+			var amaterno = $("#amaterno").val();
+
+			var params = "/ev/"+evento;
+			
+			if(nombres != ""){
+				params += "/ns/"+nombres;
+			}
+			if(apaterno != ""){
+				params += "/ap/"+apaterno;
+			}
+			if(amaterno != ""){
+				params += "/am/"+amaterno;
+			}
+			//console.log(params);
+
+			var urlQuery = encodeURI(url + "/json/findreg" + params);
+			console.log(urlQuery);
+			$.ajax({
+                url: urlQuery,
+                dataType: "json",
+                success: function(data){
+                    console.dir(data);
+
+                    var tbody = $("#tResults").find('tbody');
+                    tbody.empty();
+                    $.each(data, function(i,item){
+                    	tbody.append($('<tr>').
+                        	append($('<td>').append(item.nombres)).
+                            append($('<td>').append(item.apaterno)).
+                            append($('<td>').append(item.amaterno)).
+                            append($('<td>').append(item.email)).
+                            append($('<td>').append(item.email))
+                        );
+                    });
+                    
+                }
+            });
+		}
+	});
+</script>
