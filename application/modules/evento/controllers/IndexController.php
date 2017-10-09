@@ -62,9 +62,9 @@ class Evento_IndexController extends Zend_Controller_Action
                 
                 $auth->getStorage()->write($userObj);
                 
-                $this->_helper->redirector->gotoSimple("index", "registro", "evento");
+                $this->_helper->redirector->gotoSimple("index", "dashboard", "evento");
             }else{
-                
+                print_r($resultado->getMessages());
             }
         }else{
             $this->_helper->redirector->gotoSimple("index", "registro", "evento");
