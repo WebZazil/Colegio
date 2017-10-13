@@ -19,6 +19,10 @@ defined('FONT_PATH')
 // Define application images directory
 defined('IMAGES_PATH')
     || define('IMAGES_PATH', realpath(dirname(__FILE__) .'/public/images' ));
+
+// Define qrcode images root directory
+defined('QR_PATH')
+    || define('QR_PATH', realpath(dirname(__FILE__) .'/public/qr/modules' ));
     
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(

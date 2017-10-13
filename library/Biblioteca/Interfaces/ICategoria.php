@@ -8,7 +8,7 @@
     
 interface Biblioteca_Interfaces_ICategoria{
 	
-	public function agregarCategoria(Biblioteca_Model_Categoria $categoria);
+	public function agregarCategoria(Biblioteca_Models_Categoria $categoria);
 	
 	
 	

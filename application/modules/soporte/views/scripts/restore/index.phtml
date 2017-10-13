@@ -1,0 +1,49 @@
+<?php
+    $modulo = "soporte";
+    $urlRestoreBaseInfo = $this->url(array("module"=>$modulo,"controller"=>"restore","action"=>"rbi"),null,true);
+    $urlRestoreAsign = $this->url(array("module"=>$modulo,"controller"=>"restore","action"=>"asign"),null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Restaurar datos de tabla base</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					
+				</div>
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Descripcion</th>
+								<th>Accion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Restaura de tabla equipo2 a tablas Usuario, Ubicacion, SistemaOperativo y Office</td>
+								<td>
+									<a class="btn btn-success" href="<?php echo $urlRestoreBaseInfo; ?>">
+                						<i class="fa fa-refresh"></i> Restaurar Tablas
+                					</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Reasignar Equipos</td>
+								<td>
+									<a class="btn btn-success" href="<?php echo $urlRestoreAsign; ?>">
+										<i class="fa fa-edit"></i> ReAsignar Equipos
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

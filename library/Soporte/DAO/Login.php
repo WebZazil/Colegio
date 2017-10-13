@@ -1,6 +1,8 @@
 <?php
 /**
  * 
+ * @author EnginnerRodriguez
+ *
  */
 class Soporte_DAO_Login {
     
@@ -12,16 +14,18 @@ class Soporte_DAO_Login {
 	function __construct() {
 		$dbBaseAdapter = Zend_Registry::get("dbbasesoporte");
         
-        $this->tableOrganizacion = new Soporte_Model_DbTable_Organizacion(array('db'=>$dbBaseAdapter));
-        $this->tableRol = new Soporte_Model_DbTable_Rol(array('db'=>$dbBaseAdapter));
-        $this->tableUsuario = new Soporte_Model_DbTable_Usuario(array('db'=>$dbBaseAdapter));
-        $this->tableSubscripcion = new Soporte_Model_DbTable_Subscripcion(array('db'=>$dbBaseAdapter));
+        $this->tableOrganizacion = new Soporte_Models_DbTable_Organizacion(array('db'=>$dbBaseAdapter));
+        $this->tableRol = new Soporte_Models_DbTable_Rol(array('db'=>$dbBaseAdapter));
+        $this->tableUsuario = new Soporte_Models_DbTable_Usuario(array('db'=>$dbBaseAdapter));
+        $this->tableSubscripcion = new Soporte_Models_DbTable_Subscripcion(array('db'=>$dbBaseAdapter));
+        
+        //print_r("Dao creado!!");
 	}
     
     /**
      * 
      */
-    public function getSubscripcionByIdorganizacion($idOrganizacion) {
+    public function getSubscripcionByIdOrganizacion($idOrganizacion) {
         $tableSubscription = $this->tableSubscripcion;
         $where = $tableSubscription->getAdapter()->quoteInto("idOrganizacion=?", $idOrganizacion);
         $rowSubscripcion = $tableSubscription->fetchRow($where);
@@ -56,7 +60,7 @@ class Soporte_DAO_Login {
         
     }
     
-    public function loginByClaveorganizacion($claveOrganizacion) {
+    public function loginByClaveOrganizacion($claveOrganizacion) {
         if (!is_null($claveOrganizacion)) {
             $organizacion = $this->getOrganizacionByClaveOrganizacion($claveOrganizacion);
             // Creamos un Adapter para loguearnos con un usuario por defecto con el rol necesario para ejecutar consultas
