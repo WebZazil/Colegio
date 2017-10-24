@@ -12,18 +12,21 @@ class Soporte_DAO_Login {
     private $tableRol;
 	
 	function __construct() {
-		$dbBaseAdapter = Zend_Registry::get("dbbasesoporte");
+		//$dbBaseAdapter = Zend_Registry::get("zbase");
+		
+		$config = array('db'=> Zend_Registry::get("zbase"));
         
-        $this->tableOrganizacion = new Soporte_Models_DbTable_Organizacion(array('db'=>$dbBaseAdapter));
-        $this->tableRol = new Soporte_Models_DbTable_Rol(array('db'=>$dbBaseAdapter));
-        $this->tableUsuario = new Soporte_Models_DbTable_Usuario(array('db'=>$dbBaseAdapter));
-        $this->tableSubscripcion = new Soporte_Models_DbTable_Subscripcion(array('db'=>$dbBaseAdapter));
+        $this->tableOrganizacion = new Soporte_Models_DbTable_Organizacion($config);
+        $this->tableRol = new Soporte_Models_DbTable_Rol($config);
+        $this->tableUsuario = new Soporte_Models_DbTable_Usuario($config);
+        $this->tableSubscripcion = new Soporte_Models_DbTable_Subscripcion($config);
         
-        //print_r("Dao creado!!");
 	}
     
     /**
      * 
+     * @param Integer $idOrganizacion
+     * @return array|NULL
      */
     public function getSubscripcionByIdOrganizacion($idOrganizacion) {
         $tableSubscription = $this->tableSubscripcion;
@@ -31,6 +34,21 @@ class Soporte_DAO_Login {
         $rowSubscripcion = $tableSubscription->fetchRow($where);
         if (!is_null($rowSubscripcion)) return $rowSubscripcion->toArray();
         else return null;
+    }
+    
+    /**
+     * 
+     * @param unknown $idOrganizacion
+     * @return array
+     */
+    public function getQuerySubscripcionByOrganizacion($idOrganizacion) {
+        $tSubs = $this->tableSubscripcion;
+        $select = $tSubs->select()->from($tSubs)->where("idModulo=?", MOD_SOPORTE)
+            ->where("idOrganizacion=?",$idOrganizacion)
+            ->where("tipo=?","Q");
+        
+        $rowSubs = $tSubs->fetchRow($select);
+        return $rowSubs->toArray();
     }
     
     /**
@@ -60,20 +78,24 @@ class Soporte_DAO_Login {
         
     }
     
+    /**
+     * 
+     * @param String $claveOrganizacion
+     */
     public function loginByClaveOrganizacion($claveOrganizacion) {
         if (!is_null($claveOrganizacion)) {
             $organizacion = $this->getOrganizacionByClaveOrganizacion($claveOrganizacion);
             // Creamos un Adapter para loguearnos con un usuario por defecto con el rol necesario para ejecutar consultas
-            $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('dbbasesoporte'),"Usuario","nickname","password",'SHA1(?)');
+            $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('zbase'),"Usuario","nickname","password",'SHA1(?)');
             $authAdapter->setIdentity("test")->setCredential("zazil");
             
             $auth = Zend_Auth::getInstance();
             $resultado = $auth->authenticate($authAdapter);
             
-            if($resultado->isValid()){
+            if($resultado->isValid()) {
                 //print_r("<br />Autentificado con clave <br />");
                 $data = $authAdapter->getResultRowObject(null,'password');
-                $subscripcion = $this->getSubscripcionByIdorganizacion($organizacion["idOrganizacion"]);
+                $subscripcion = $this->getSubscripcionByIdOrganizacion($organizacion["idOrganizacion"]);
                 $n_adapter = $subscripcion["adapter"];
                 $currentDbConnection = array();
                 $currentDbConnection["host"] = $subscripcion["host"];

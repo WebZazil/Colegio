@@ -8,7 +8,6 @@
 class Soporte_DAO_Usuario {
     
     private $tableUsuario = null;
-    private $tableUsuario = null;
     
     function __construct($dbAdapter) {
         

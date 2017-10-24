@@ -2,6 +2,19 @@
 
 require_once 'Zend/Registry.php';
 require_once('./phpqrcode/qrlib.php');
+
+defined('MOD_ENCUESTA')
+|| define('MOD_ENCUESTA', 2);
+
+defined('MOD_BIBLIOTECA')
+|| define('MOD_BIBLIOTECA', 1);
+
+defined('MOD_SOPORTE')
+|| define('MOD_SOPORTE', 4);
+
+defined('MOD_EVENTO')
+|| define('MOD_EVENTO', 3);
+
 /**
  *
  */

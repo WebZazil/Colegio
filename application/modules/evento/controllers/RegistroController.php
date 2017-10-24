@@ -60,7 +60,7 @@ class Evento_RegistroController extends Zend_Controller_Action
                 $filename = md5($contents).".png";
                 
                 //$urlPath = $this->view->baseUrl()."/colegio/evento/registro/ev/".$idEvento."/ky/".md5($contents);
-                $urlPath = $_SERVER["SERVER_NAME"].$this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>md5($contents)),null,true);
+                $urlPath = "http://".$_SERVER["SERVER_NAME"].$this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>md5($contents)),null,true);
                 
                 $absolutePath = $imgPath.$filename;
                 if (! file_exists($absolutePath)) {
@@ -122,8 +122,8 @@ class Evento_RegistroController extends Zend_Controller_Action
                  //fclose($arch);
                  
                  $mail->addAttachment($attachment);
-                 //$protocol->rset();
-                 //$mail->send($transport);
+                 $protocol->rset();
+                 $mail->send($transport);
                  $protocol->quit();
                  $protocol->disconnect();
                  fclose($arch);
@@ -137,6 +137,10 @@ class Evento_RegistroController extends Zend_Controller_Action
     public function confirmAction()
     {
         // action body
+        $idEvento = $this->getParam("ev");
+        $clave = $this->getParam("ky");
+        
+        $this->eventoDAO->confirmAsistEvento($idEvento, $idAsistente);
     }
 
 

@@ -9,6 +9,10 @@ class Soporte_IndexController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
+        $auth = Zend_Auth::getInstance();
+        if (is_null($auth)) {
+            $this->_helper->redirector->gotoSimple("index", "index", "soporte");
+        }
         $this->loginDAO = new Soporte_DAO_Login();
         //$this->equipoDAO = new Soporte_Data_DAO_Equipo();
     }
@@ -25,17 +29,6 @@ class Soporte_IndexController extends Zend_Controller_Action
         //$this->view->ubicaciones = $ubicaciones;
     }
 
-    public function logoutAction()
-    {
-        // action body
-        $auth = Zend_Auth::getInstance();
-        $auth->clearIdentity();
-        
-        
-        
-        $this->_helper->redirector->gotoSimple("index", "index", "soporte");
-    }
-
     public function loginAction()
     {
         // action body
@@ -44,7 +37,7 @@ class Soporte_IndexController extends Zend_Controller_Action
         if($request->isPost()){
             $datos = $request->getPost();
             //print_r($request->getPost());
-            $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('dbmodadmin'),"Usuario","nickname","password",'SHA1(?)');
+            $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('zbase'),"Usuario","nickname","password",'SHA1(?)');
             if ($datos["usuario"] != '' && $datos["password"] != '') {
                 $claveOrganizacion = 'colsagcor16';
                 
@@ -52,10 +45,7 @@ class Soporte_IndexController extends Zend_Controller_Action
                 $auth = Zend_Auth::getInstance();
                 
                 $organizacion = $this->loginDAO->getOrganizacionByClaveOrganizacion($claveOrganizacion);
-                $subscripcion = $this->loginDAO->getSubscripcionByIdOrganizacion($organizacion["idOrganizacion"]);
-                
-                //print_r($organizacion); print_r("<br />");
-                //print_r($subscripcion);
+                $subscripcion = $this->loginDAO->getQuerySubscripcionByOrganizacion($organizacion["idOrganizacion"]);
                 
                 $resultado = $auth->authenticate($authAdapter);
                 if ($resultado->isValid()) {
@@ -84,6 +74,7 @@ class Soporte_IndexController extends Zend_Controller_Action
                     
                     $auth->getStorage()->write($dc);
                     
+                    $this->_helper->redirector->gotoSimple("index", "usuario", "soporte");
                 }else{
                     // print_r('resultado invalido');
                     $this->view->message = 'Error on Login!!';

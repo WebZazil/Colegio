@@ -218,6 +218,7 @@
             <controllerFile controllerName="Usuario">
               <actionMethod actionName="index"/>
               <actionMethod actionName="settings"/>
+              <actionMethod actionName="actions"/>
             </controllerFile>
             <controllerFile controllerName="Evaluador">
               <actionMethod actionName="index"/>
@@ -742,6 +743,9 @@
               <viewControllerScriptsDirectory forControllerName="Json">
                 <viewScriptFile forActionName="reportesgrals"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuario">
+                <viewScriptFile forActionName="actions"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -761,6 +765,7 @@
             <controllerFile controllerName="Usuario">
               <actionMethod actionName="index"/>
               <actionMethod actionName="settings"/>
+              <actionMethod actionName="logout"/>
             </controllerFile>
             <controllerFile controllerName="Dashboard">
               <actionMethod actionName="index"/>
@@ -814,6 +819,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Restore">
                 <viewScriptFile forActionName="asign"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuario">
+                <viewScriptFile forActionName="logout"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1471,6 +1479,7 @@
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="settings"/>
+                <testApplicationActionMethod forActionName="actions"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Evaluador">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1504,6 +1513,7 @@
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="settings"/>
+                <testApplicationActionMethod forActionName="logout"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Dashboard">
                 <testApplicationActionMethod forActionName="index"/>
