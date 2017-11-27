@@ -9,17 +9,20 @@
     $eventosVacios = false;
     $classSuccess = 'btn-success';
     $classDanger = 'btn-danger';
+    $statusBtn = 'disabled';
     
     
     $btnAssocClass = 'btn-success';
     $btnConfirmClass = 'btn-success';
     
     if (empty($eventos)) {
-        print_r('Eventos vacios');
+        // print_r('Eventos vacios');
         $eventosVacios = true;
+        
     }
     
     $classHasEvents = $eventosVacios == false ? $classSuccess : $classDanger;
+    $statusBtn = $eventosVacios == false ? '' : 'disabled=true';
     
     $btnAssocClass = $eventosVacios == false ? $classSuccess : $classDanger;
     $urlRegistroAlta = $eventosVacios == false ? $this->url(array("module"=>$module,"controller"=>"registro", "action"=>"alta"),null,true) : '#';
@@ -70,7 +73,7 @@
 									</select>
 								</td>
 								<td>
-									<button id="btnQuery" class="btn btn-success" href="<?php echo $urlEventoQuery; ?>">
+									<button id="btnQuery" class="btn <?php echo $classHasEvents ?>" <?php echo $statusBtn ?> >
 										<i class="fa fa-search"></i> Consulta Asistentes
 									</button>
 								</td>
@@ -90,8 +93,26 @@
 									</select>
 								</td>
 								<td>
-									<button id="btnRegister" class="btn <?php echo $classHasEvents;  ?>" >
+									<button id="btnRegister" class="btn <?php echo $classHasEvents;  ?>" <?php echo $statusBtn; ?> >
 										<i class="fa fa-user-plus"></i> Registro Asistentes
+									</button>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<p>Consulta de Asistencias en Evento</p>
+								</td>
+								<td>
+									<select id="confirmAsistEvento" class="form-control">
+										<?php foreach ($eventos as $evento): ?>
+										<option value="<?php echo $evento['id'] ?>"><?php echo $evento['nombre'] ?></option>
+										<?php endforeach; ?>
+									</select>
+								</td>
+								<td>
+									<button id="btnConfirmAsis" class="btn <?php echo $classHasEvents;  ?>" <?php echo $statusBtn; ?> >
+										<i class="fa fa-search"></i> Consulta de Asistentes Confirmados
 									</button>
 								</td>
 							</tr>
@@ -124,15 +145,12 @@
 			window.location.href = urlRegAsis;
 		});
 
-		$("#btnRAsis").on('click',function(){
-			var idEvento = $("#asisEvento").val();
+		$("#btnConfirmAsis").on('click',function(){
+			var idEvento = $("select#confirmAsistEvento").val();
 
-			var urlRegAsis = url + "/registro/confirm/ev/"+idEvento;
+			var urlRegAsis = url + "/registro/confirmados/ev/"+idEvento;
 			window.location.href = urlRegAsis;
 		});
-
-
-		
 	});
 
 </script>

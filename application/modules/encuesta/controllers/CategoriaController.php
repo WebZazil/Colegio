@@ -10,25 +10,33 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $dataIdentity = $auth->getIdentity();
+        $identity = $auth->getIdentity();
         
         
-        $this->categoriaDAO = new Encuesta_DAO_Categoria($dataIdentity["adapter"]);
-		$this->opcionDAO = new Encuesta_DAO_Opcion($dataIdentity["adapter"]);
+        // $this->categoriaDAO = new Encuesta_DAO_Categoria($dataIdentity["adapter"]);
+		//$this->opcionDAO = new Encuesta_DAO_Opcion($dataIdentity["adapter"]);
+		
+		if ($auth->hasIdentity()) {
+		    ;
+		}
+		
+		$this->categoriaDAO = new Encuesta_Data_DAO_Categoria($identity['adapter']);
     }
 
     public function indexAction()
     {
         // action body
-        $this->view->categorias = $this->categoriaDAO->obtenerCategorias();
+        $this->view->categorias = $this->categoriaDAO->getAllCategorias();
     }
 
     public function adminAction()
     {
         // action body
         $idCategoria = $this->getParam("idCategoria");
-		$categoria = $this->categoriaDAO->obtenerCategoria($idCategoria);
-		$opciones = $this->categoriaDAO->obtenerOpciones($idCategoria);
+		//$categoria = $this->categoriaDAO->obtenerCategoria($idCategoria);
+		$categoria = $this->categoriaDAO->getCategoriaById($idCategoria);
+		//$opciones = $this->categoriaDAO->obtenerOpciones($idCategoria);
+		$opciones = $this->categoriaDAO->getOpcionesCategoria($idCategoria);
 		
 		$formulario = new Encuesta_Form_AltaCategoria();
 		
@@ -77,8 +85,11 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
     {
         // action body
         $idCategoria = $this->getParam("idCategoria");
-		$categoria = $this->categoriaDAO->obtenerCategoria($idCategoria);
-		$opciones = $this->categoriaDAO->obtenerOpciones($idCategoria);
+		// $categoria = $this->categoriaDAO->obtenerCategoria($idCategoria);
+		$categoria = $this->categoriaDAO->getCategoriaById($idCategoria);
+		
+		// $opciones = $this->categoriaDAO->obtenerOpciones($idCategoria);
+		$opciones = $this->categoriaDAO->getOpcionesCategoria($idCategoria);
 		
 		$this->view->categoria = $categoria;
 		$this->view->opciones = $opciones;

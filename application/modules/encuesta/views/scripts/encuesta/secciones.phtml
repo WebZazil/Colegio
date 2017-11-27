@@ -6,7 +6,7 @@
     <div class="col-xs-12">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h5 class="panel-title">Secciones de la Encuesta: <strong><?php echo $encuesta->getNombre() ?></strong></h5>
+                <h5 class="panel-title">Secciones de la Encuesta: <strong><?php echo $encuesta['nombre'] ?></strong></h5>
             </div>
             <div class="panel-body">
                 <table class="table table-striped table-condensed">
@@ -22,17 +22,17 @@
                     <tbody>
                         <?php foreach ($secciones as $seccion) : ?>
                         <tr>
-                            <td><?php echo $seccion->getNombre() ?></td>
-                            <td><?php echo $seccion->getOrden() ?></td>
-                            <td><?php echo $seccion->getFecha() ?></td>
+                            <td><?php echo $seccion['nombre'] ?></td>
+                            <td><?php echo $seccion['orden'] ?></td>
+                            <td><?php echo $seccion['fecha'] ?></td>
                             <td>
-                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"admin","id"=>$seccion->getIdSeccionEncuesta()),null,true) ?>">
+                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"admin","id"=>$seccion['idSeccionEncuesta']),null,true) ?>">
                                     <span class="fa fa-cog"></span> Configurar
                                 </a>
                             </td>
                             <td>
-                                <a class="btn btn-success btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"index","id"=>$seccion->getIdSeccionEncuesta()),null,true) ?>">
-                                    <i class="badge"><?php echo $seccion->getElementos(); ?></i> x <span class="fa fa-cubes"></span> Elementos
+                                <a class="btn btn-success btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"seccion","action"=>"index","id"=>$seccion['idSeccionEncuesta']),null,true) ?>">
+                                    <i class="badge"><?php echo $seccion['elementos']; ?></i> x <span class="fa fa-cubes"></span> Elementos
                                 </a>
                             </td>
                         </tr>

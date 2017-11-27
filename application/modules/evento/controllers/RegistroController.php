@@ -30,12 +30,6 @@ class Evento_RegistroController extends Zend_Controller_Action
     {
         // action body
         $idEvento = $this->getParam("ev");
-        //print_r($_SERVER["SERVER_ADDR"]);
-        //print_r($_SERVER["SERVER_NAME"]);
-        //print_r(gethostbyname());
-        //print_r($_SERVER["SERVER_PROTOCOL"]);
-        //print_r(gethostname());
-        //if (is_null($idEvento)) $this->_helper->redirector->gotoSimple("alta", "dashboard", "evento");
         
         $evento = $this->eventoDAO->getEventoById($idEvento);
         $this->view->evento = $evento;
@@ -106,8 +100,8 @@ class Evento_RegistroController extends Zend_Controller_Action
                  
                  
                  $mail = new Zend_Mail();
-                 $mail->addTo($datos["email"], "Giovanni Rodriguez");
-                 $mail->setFrom("dev.bugzilla@zazil.net", "Dev Bugzilla");
+                 $mail->addTo($datos["email"], $datos["nombres"]);
+                 $mail->setFrom("dev.bugzilla@zazil.net", "Eventos - Colegio Sagrado Corazón");
                  $mail->setSubject("CSC Mexico Aviso de Registro a Evento");
                  $mail->setBodyText($txt);
                  
@@ -143,8 +137,26 @@ class Evento_RegistroController extends Zend_Controller_Action
         $this->eventoDAO->confirmAsistEvento($idEvento, $idAsistente);
     }
 
+    public function confirmadosAction()
+    {
+        // action body
+        $idEvento = $this->getParam("ev");
+        
+        $evento = $this->eventoDAO->getEventoById($idEvento);
+        
+        $asistentesConfirmados = $this->eventoDAO->getAsistentesConfirmados($idEvento);
+        $idsAsistentes = array();
+        
+        //print_r($asistentesConfirmados);
+        
+        $this->view->asistentesConfirmados = $asistentesConfirmados;
+        $this->view->evento = $evento;
+    }
+
 
 }
+
+
 
 
 

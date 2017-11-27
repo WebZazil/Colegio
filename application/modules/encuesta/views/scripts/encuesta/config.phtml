@@ -2,7 +2,7 @@
     $encuesta = $this->encuesta;
     $estatusEncuesta = Zend_Registry::get("estatus");
     
-    $urlSecciones = $this->url(array("module"=>"encuesta","controller"=>"encuesta","action"=>"secciones", "id"=>$encuesta->getIdEncuesta()),null,true);
+    $urlSecciones = $this->url(array("module"=>"encuesta","controller"=>"encuesta","action"=>"secciones", "id"=>$encuesta['idEncuesta']),null,true);
 ?>
 <!-- Detalle Encuesta -->
 <div class="row">
@@ -36,11 +36,11 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><?php echo $encuesta->getNombre() ?></td>
-                            <td><?php echo $encuesta->getNombreClave() ?></td>
-                            <td><?php echo $encuesta->getDescripcion() ?></td>
-                            <td><?php echo $estatusEncuesta[$encuesta->getEstatus()] ?></td>
-                            <td><?php echo $encuesta->getFecha() ?></td>
+                            <td><?php echo $encuesta['nombre'] ?></td>
+                            <td><?php echo $encuesta['nombreClave'] ?></td>
+                            <td><?php echo $encuesta['descripcion'] ?></td>
+                            <td><?php echo $estatusEncuesta[$encuesta['estatus']] ?></td>
+                            <td><?php echo $encuesta['fecha'] ?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -59,25 +59,25 @@
         </div>
         <div class="panel-body">
             <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded"
-                  action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuestas","action"=>"editar","id"=>$encuesta->getIdEncuesta()),null,true) ?>"  >
+                  action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuestas","action"=>"editar","id"=>$encuesta['idEncuesta']),null,true) ?>"  >
                 <div class="form-group">
                     <label for="nombre" class="col-xs-2 control-label">Nombre Encuesta</label>
                     <div class="col-xs-10">
-                        <input class="form-control" name="nombre" type="text" autofocus="" value="<?php echo $encuesta->getNombre() ?>" />
+                        <input class="form-control" name="nombre" type="text" autofocus="" value="<?php echo $encuesta['nombre'] ?>" />
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="nombreClave" class="col-xs-2 control-label">Nombre Clave de Encuesta</label>
                     <div class="col-xs-10">
-                        <input class="form-control" name="nombreClave" type="text" value="<?php echo $encuesta->getNombreClave() ?>" />
+                        <input class="form-control" name="nombreClave" type="text" value="<?php echo $encuesta['nombreClave'] ?>" />
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="descripcion" class="col-xs-2 control-label">Descripcion</label>
                     <div class="col-xs-10">
-                        <input class="form-control" name="descripcion" type="text" value="<?php echo $encuesta->getDescripcion() ?>" />
+                        <input class="form-control" name="descripcion" type="text" value="<?php echo $encuesta['descripcion'] ?>" />
                     </div>
                 </div>
                 

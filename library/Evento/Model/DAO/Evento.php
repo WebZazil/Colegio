@@ -113,4 +113,41 @@ class Evento_Model_DAO_Evento {
         $tAC->insert($data);
     }
     
+    /**
+     * 
+     * @param int $idEvento
+     * @return array
+     */
+    public function getAsistentesConfirmados($idEvento) {
+        $tAs = $this->tableAsistente;
+        $tAC = $this->tableAsistentesConfirmados;
+        
+        $select = $tAC->select()->from($tAC)->where("idEvento=?", $idEvento);
+        $rowsAsistC = $tAC->fetchAll($select);
+        
+        $contenedor = array();
+        
+        foreach ($rowsAsistC as $rowAsistC) {
+            // print_r($rowAsistC->toArray());
+            // print_r("<br />");
+            $obj = array();
+            
+            $select = $tAs->select()->from($tAs)->where("id=?",$rowAsistC->idAsistente);
+            $rowAsis = $tAs->fetchRow($select)->toArray();
+            
+            $obj['id'] = $rowAsis['id'];
+            $obj['nombres'] = $rowAsis['nombres'];
+            $obj['apaterno'] = $rowAsis['apaterno'];
+            $obj['amaterno'] = $rowAsis['amaterno'];
+            $obj['email'] = $rowAsis['email'];
+            $obj['clave'] = $rowAsis['clave'];
+            $obj["entrada"] = $rowAsistC->entrada;
+            $obj["creacion"] = $rowAsis['creacion'];
+            
+            $contenedor[] = $obj;
+        }
+        
+        return $contenedor;
+    }
+    
 }

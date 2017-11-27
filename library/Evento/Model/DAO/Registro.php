@@ -42,22 +42,20 @@ class Evento_Model_DAO_Registro {
     
     public function saveAsistenteEvento($idAsistente, $idEvento) {
         $tAE = $this->tableAsistentesEvento;
-        $select = $tAE->select()->from($tAE)->where("idEvento=?",$idEvento)->where($idAsistente);
+        $select = $tAE->select()->from($tAE)->where("idEvento=?",$idEvento)->where("idAsistente=?",$idAsistente);
         $rowsAE = $tAE->fetchRow($select);
         
         $tAsis = $this->tableAsistente;
         $select = $tAsis->select()->from($tAsis)->where("id=?",$idAsistente);
         $rowAsistente = $tAsis->fetchRow($select);
         
-        if (is_null($rowsAE)) {   // Insertamos el primer registro
-            $data = array();
-            $data['idEvento'] = $idEvento;
-            $data['idAsistente'] = $idAsistente;
-            $data['clave'] = $rowAsistente->clave;
-            $data['creacion'] = date('Y-m-d H:i:s', time());
-            
-            $tAE->insert($data);
-        }
+        $data = array();
+        $data['idEvento'] = $idEvento;
+        $data['idAsistente'] = $idAsistente;
+        $data['clave'] = $rowAsistente->clave;
+        $data['creacion'] = date('Y-m-d H:i:s', time());
+        
+        $tAE->insert($data);
     }
     
 }

@@ -1,4 +1,115 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Dashboard</b> and script/action name <b>index</b></p>
+<?php
+    $auth = Zend_Auth::getInstance();
+    $identity = $auth->getIdentity();
+    
+    $aDisponibles;
+    $aPendientes;
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title"><strong>Connection Info</strong></h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>IdUsuario</th>
+								<th>IdRol</th>
+								<th>IdOrganizacion</th>
+								<th>nickname</th>
+								<th>password</th>
+								<th>creacion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><?php echo $identity['user']->idUsuario; ?></td>
+								<td><?php echo $identity['user']->idRol; ?></td>
+								<td><?php echo $identity['user']->idOrganizacion; ?></td>
+								<td><?php echo $identity['user']->nickname; ?></td>
+								<td><?php echo $identity['user']->password; ?></td>
+								<td><?php echo $identity['user']->creacion; ?></td>
+							</tr>
+						</tbody>
+					</table>
+					<?php //print_r($identity['user']) ?>
+					<hr />
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>IdRol</th>
+								<th>rol</th>
+								<th>creacion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><?php echo $identity['rol']['idRol']; ?></td>
+								<td><?php echo $identity['rol']['rol'] ?></td>
+								<td><?php echo $identity['rol']['creacion']; ?></td>
+							</tr>
+						</tbody>
+					</table>
+					<?php //print_r($identity['rol']) ?>
+					<hr />
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>IdOrganizacion</th>
+								<th>nombre</th>
+								<th>claveOrganizacion</th>
+								<th>idsModulos</th>
+								<th>directorio</th>
+								<th>creacion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><?php echo $identity['organizacion']['idOrganizacion']; ?></td>
+								<td><?php echo $identity['organizacion']['nombre'] ?></td>
+								<td><?php echo $identity['organizacion']['claveOrganizacion'] ?></td>
+								<td><?php echo $identity['organizacion']['idsModulos'] ?></td>
+								<td><?php echo $identity['organizacion']['directorio'] ?></td>
+								<td><?php echo $identity['organizacion']['creacion']; ?></td>
+							</tr>
+						</tbody>
+					</table>
+					<?php //print_r($identity['organizacion']); ?>
+					<hr />
+					<?php print_r($identity['adapter']) ?>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title"><strong>Acciones Pendientes</strong></h5>
+			</div>
+			<div class="panel-body">
+				<div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title"><strong>Acciones Disponibles</strong></h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
