@@ -123,12 +123,20 @@
                     var tbody = $("#tResults").find('tbody');
                     tbody.empty();
                     $.each(data, function(i,item){
+                    	var urlDetails = url + "/asistente/detalle/as/"+item.id;
+
+                    	var alink = $("<a></a>")
+                        .attr("class","btn btn-link")
+                        .attr("href",urlDetails)
+                        .attr("target","_blank")
+                        .text("Detalle");
+                        
                     	tbody.append($('<tr>').
                         	append($('<td>').append(item.nombres)).
                             append($('<td>').append(item.apaterno)).
                             append($('<td>').append(item.amaterno)).
                             append($('<td>').append(item.email)).
-                            append($('<td>').append(item.email))
+                            append($('<td>').append(alink))
                         );
                     });
                     

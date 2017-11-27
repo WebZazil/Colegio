@@ -1,4 +1,18 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Usuario</b> and script/action name <b>index</b></p>
+<?php
+    $identity = Zend_Auth::getInstance()->getIdentity();
+    // $usuario = $identity['user'];
+    $usuario = get_object_vars($identity['user']);
+    // print_r($usuario);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h5 class="panel-title">Detalle de la cuenta: <strong><?php echo $usuario['nickname'] ?></strong> </h5>
+			</div>
+			<div class="panel-body">
+				
+			</div>
+		</div>
+	</div>
 </div>

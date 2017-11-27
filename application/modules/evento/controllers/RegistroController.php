@@ -30,12 +30,6 @@ class Evento_RegistroController extends Zend_Controller_Action
     {
         // action body
         $idEvento = $this->getParam("ev");
-        //print_r($_SERVER["SERVER_ADDR"]);
-        //print_r($_SERVER["SERVER_NAME"]);
-        //print_r(gethostbyname());
-        //print_r($_SERVER["SERVER_PROTOCOL"]);
-        //print_r(gethostname());
-        //if (is_null($idEvento)) $this->_helper->redirector->gotoSimple("alta", "dashboard", "evento");
         
         $evento = $this->eventoDAO->getEventoById($idEvento);
         $this->view->evento = $evento;
@@ -60,7 +54,7 @@ class Evento_RegistroController extends Zend_Controller_Action
                 $filename = md5($contents).".png";
                 
                 //$urlPath = $this->view->baseUrl()."/colegio/evento/registro/ev/".$idEvento."/ky/".md5($contents);
-                $urlPath = $_SERVER["SERVER_NAME"].$this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>md5($contents)),null,true);
+                $urlPath = "http://".$_SERVER["SERVER_NAME"].$this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>md5($contents)),null,true);
                 
                 $absolutePath = $imgPath.$filename;
                 if (! file_exists($absolutePath)) {
@@ -106,8 +100,8 @@ class Evento_RegistroController extends Zend_Controller_Action
                  
                  
                  $mail = new Zend_Mail();
-                 $mail->addTo($datos["email"], "Giovanni Rodriguez");
-                 $mail->setFrom("dev.bugzilla@zazil.net", "Dev Bugzilla");
+                 $mail->addTo($datos["email"], $datos["nombres"]);
+                 $mail->setFrom("dev.bugzilla@zazil.net", "Eventos - Colegio Sagrado Corazón");
                  $mail->setSubject("CSC Mexico Aviso de Registro a Evento");
                  $mail->setBodyText($txt);
                  
@@ -122,8 +116,8 @@ class Evento_RegistroController extends Zend_Controller_Action
                  //fclose($arch);
                  
                  $mail->addAttachment($attachment);
-                 //$protocol->rset();
-                 //$mail->send($transport);
+                 $protocol->rset();
+                 $mail->send($transport);
                  $protocol->quit();
                  $protocol->disconnect();
                  fclose($arch);
@@ -137,10 +131,32 @@ class Evento_RegistroController extends Zend_Controller_Action
     public function confirmAction()
     {
         // action body
+        $idEvento = $this->getParam("ev");
+        $clave = $this->getParam("ky");
+        
+        $this->eventoDAO->confirmAsistEvento($idEvento, $idAsistente);
+    }
+
+    public function confirmadosAction()
+    {
+        // action body
+        $idEvento = $this->getParam("ev");
+        
+        $evento = $this->eventoDAO->getEventoById($idEvento);
+        
+        $asistentesConfirmados = $this->eventoDAO->getAsistentesConfirmados($idEvento);
+        $idsAsistentes = array();
+        
+        //print_r($asistentesConfirmados);
+        
+        $this->view->asistentesConfirmados = $asistentesConfirmados;
+        $this->view->evento = $evento;
     }
 
 
 }
+
+
 
 
 

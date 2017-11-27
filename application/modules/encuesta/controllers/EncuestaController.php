@@ -3,24 +3,26 @@
 class Encuesta_EncuestaController extends Zend_Controller_Action
 {
 	private $encuestaDAO = null;
-    private $identity = null;
+    // private $identity = null;
 
     public function init()
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $this->identity = $auth->getIdentity();
-        $this->encuestaDAO = new Encuesta_DAO_Encuesta($this->identity["adapter"]);
+        if (!$auth->hasIdentity()) {
+            ;
+        }
+        
+        $identity = $auth->getIdentity();
+        $this->encuestaDAO = new Encuesta_Data_DAO_Encuesta($identity['adapter']);
+        
+        //$this->encuestaDAO = new Encuesta_DAO_Encuesta($this->identity["adapter"]);
     }
 
     public function indexAction()
     {
         // action body
-        $auth = Zend_Auth::getInstance();
-        $dataIdentity = $this->identity;
-        //print_r($dataIdentity);
-        //$encuestas = $this->encuestaDAO->getAllEncuestasByIdOrganizacion($dataIdentity["rol"]["idOrganizacion"]);
-        $encuestas = $this->encuestaDAO->getAllEncuestas();
+        $encuestas = $this->encuestaDAO->getAllEncuesta();
         $this->view->encuestas = $encuestas;
     }
 
@@ -39,16 +41,13 @@ class Encuesta_EncuestaController extends Zend_Controller_Action
     public function altaAction()
     {
         // action body
-        if (is_null($this->identity)) {
-            throw new Exception("No hay identidad asociada", 1);
-        }
         $request = $this->getRequest();
         $post = $request->getPost();
         //print_r($post);
         if ($request->isPost()) {
-            $encuesta = new Encuesta_Models_Encuesta($post);
-            $this->encuestaDAO->addEncuesta($encuesta);
-            //$this->encuestaDAO->asociarEncuestaAorganizacion($id, $this->identity["rol"]["idOrganizacion"]);
+            $data = $request->getPost();
+            
+            $this->encuestaDAO->addEncuesta($data);
             $this->view->messageSuccess = "Encuesta dada de alta exitosamente!!";
         }
     }
@@ -77,12 +76,8 @@ class Encuesta_EncuestaController extends Zend_Controller_Action
     {
         // action body
         $idEncuesta = $this->getParam("id");
-        if($this->encuestaDAO->existeEncuesta($idEncuesta)){
-            //$encuesta = $this->encuestaDAO->getEncuestaById($idEncuesta);
-            $this->view->encuesta = $this->encuestaDAO->getEncuestaById($idEncuesta);
-        }else{
-            throw new Exception("No existe la encuesta", 1);
-        }
+        $encuesta = $this->encuestaDAO->getEncuestaById($idEncuesta);
+        $this->view->encuesta = $encuesta;
     }
 
     public function seccionesAction()
@@ -91,7 +86,7 @@ class Encuesta_EncuestaController extends Zend_Controller_Action
         $idEncuesta = $this->getParam("id");
         if (!is_null($idEncuesta)) {
             $this->view->encuesta = $this->encuestaDAO->getEncuestaById($idEncuesta);
-            $this->view->secciones = $this->encuestaDAO->obtenerSecciones($idEncuesta);
+            $this->view->secciones = $this->encuestaDAO->getSeccionesByIdEncuesta($idEncuesta);
         }else{
             $this->_helper->redirector->gotoSimple("index", "encuestas", "encuesta");
         }
@@ -99,14 +94,3 @@ class Encuesta_EncuestaController extends Zend_Controller_Action
 
 
 }
-
-
-
-
-
-
-
-
-
-
-

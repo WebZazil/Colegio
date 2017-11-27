@@ -11,11 +11,12 @@ class Soporte_ConsultaController extends Zend_Controller_Action
         $identity = Zend_Auth::getInstance()->getIdentity();
         if (is_null($identity)) {
             // Redirect to login page
-        }else{
-            // Continue execution
-            $dbAdapter = $identity["adapter"];
-            $this->equipoDAO = new Soporte_DAO_Equipo($dbAdapter);
+            $this->_helper->redirector->gotoSimple("index", "index", "soporte");
         }
+        
+        $dbAdapter = $identity["adapter"];
+        $this->equipoDAO = new Soporte_DAO_Equipo($dbAdapter);
+        //print_r($dbAdapter);
     }
 
     public function indexAction()
@@ -28,6 +29,7 @@ class Soporte_ConsultaController extends Zend_Controller_Action
         $this->view->ubicaciones = $ubicaciones;
         $this->view->usuarios = $usuarios;
         $this->view->tipos = $tipos;
+        
     }
 
 

@@ -2,6 +2,7 @@
 
 require_once 'Zend/Registry.php';
 require_once('./phpqrcode/qrlib.php');
+
 /**
  *
  */

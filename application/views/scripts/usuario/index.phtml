@@ -1,0 +1,59 @@
+<?php
+    $usuarios = $this->usuarios;
+    $urlDashboard = $this->url(array('controller'=>'dashboard', 'action' => 'index'));
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h5 class="panel-title">Usuarios en la Organización</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a class="btn btn-info" href="<?php echo $urlDashboard; ?>">
+						<i class="fa fa-chevron-left"></i>  Dashboard
+					</a>
+				</div>
+				<hr />
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Nickname</th>
+								<th>Editar Nickname</th>
+								<th>Rol</th>
+								<th>Editar Rol</th>
+								<th>Creacion</th>
+							</tr>
+						</thead>
+						<?php foreach ($usuarios as $usuario) :
+						  $rol = $usuario['rol'];
+						  // print_r($usuario); print_r("<br />");
+						  $urlEditUser = $this->url(array('controller'=>'usuario', 'action'=>'edit', 'us'=>$usuario['idUsuario']),null,true);
+						  $urlEditRol = $this->url(array('controller'=>'usuario', 'action'=>'editr', 'us'=>$usuario['idUsuario']),null,true);
+						?>
+						<tbody>
+							<td><?php echo $usuario['nickname']; ?></td>
+							<td>
+								<a class="btn btn-link" href="<?php echo $urlEditUser; ?>">
+									<i class="fa fa-pencil"></i> Editar
+								</a>
+							</td>
+							<td><?php echo $rol['rol']; ?></td>
+							<td>
+								<a class="btn btn-link" href="<?php echo $urlEditRol; ?>">
+									<i class="fa fa-pencil"></i> Editar
+								</a>
+							</td>
+							<td><?php echo $usuario['creacion']; ?></td>
+						</tbody>
+						<?php endforeach; ?>
+					</table>
+				</div>
+				<div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

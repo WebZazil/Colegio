@@ -1,11 +1,6 @@
 <?php 
     $auth = Zend_Auth::getInstance();
 ?>
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Index</b> and script/action name <b>login</b></p>
-</div>
-
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-info">
@@ -15,9 +10,11 @@
 			<div class="panel-body">
 				<div>Zend Auth nos proporciona:</div>
 				<div>
-					<?php 
-					   $datos = $auth->getStorage();
-					   print_r($datos->read());
+					<?php
+					   $identity = $auth->getIdentity();
+					   //$datos = $auth->getStorage();
+					   // print_r($datos->read());
+					   //print_r($identity['user']);
 					?>
 				</div>
 			</div>
