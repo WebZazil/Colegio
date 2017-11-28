@@ -139,9 +139,14 @@ class Evento_RegistroController extends Zend_Controller_Action
         // action body
         $idEvento = $this->getParam("ev");
         $clave = $this->getParam("ky");
-        $asistente = $this->eventoDAO->getAsistenteByClave($clave);
-        
-        $this->eventoDAO->confirmAsistEvento($idEvento, $asistente['idAsistente']);
+        //print_r($asistente);
+        try{
+            $asistente = $this->eventoDAO->getAsistenteByClave($clave);
+            $this->eventoDAO->confirmAsistEvento($idEvento, $asistente['id']);
+            $this->_helper->redirector->gotoSimple("index", "registro", "evento");
+        }catch (Exception $ex){
+            print_r($ex->getMessage());
+        }
     }
 
     public function confirmadosAction()
