@@ -6,6 +6,7 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
     private $evaluacionDAO = null;
     private $materiaDAO = null;
     private $grupoDAO = null;
+    private $asignacionDAO = null;
 
     public function init()
     {
@@ -21,6 +22,7 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
         $this->evaluacionDAO = new Encuesta_Data_DAO_Evaluacion($identity['adapter']);
         $this->materiaDAO = new Encuesta_Data_DAO_Materia($identity['adapter']);
         $this->grupoDAO = new Encuesta_Data_DAO_Grupo($identity['adapter']);
+        $this->asignacionDAO = new Encuesta_Data_DAO_Asignacion($identity['adapter']);
         
         $this->_helper->layout->setLayout('homeEncuesta');
     }
@@ -35,17 +37,20 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
         // action body
         $idAsignacion = $this->getParam('as');
         $idConjunto = $this->getParam('co');
-        $idEvaluacion = $this->getParam('ev');
+        $idEncuesta = $this->getParam('ev');
         // Test con as=
         if ($this->isValidParam($idAsignacion) &&
                 $this->isValidParam($idConjunto) &&
-                    $this->isValidParam($idEvaluacion) ) {
-            print_r('Parametros Validos');
-            //$idAsignacion
+                    $this->isValidParam($idEncuesta) ) {
+            //print_r('Parametros Validos');
+            
+            $en = $this->evaluacionDAO->getEncuestaById($idEncuesta);
+            $obj = $this->asignacionDAO->getObjByIdAsignacion($idAsignacion);
             
             
+            $this->view->en = $en;
+            $this->view->obj = $obj;
             
-            // 
         }else{
             print_r('Parametros Invalidos');
         }

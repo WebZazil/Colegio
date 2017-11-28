@@ -86,12 +86,15 @@ class Evento_Model_DAO_Evento {
     public function getAsistentesEventoByParams($idEvento,array $params) {
         $tAE = $this->tableAsistentesEvento;
         $select = $tAE->select()->from($tAE)->where("idEvento=?",$idEvento);
-        $rowEvento = $tAE->fetchRow($select);
-        
-        $idsAsistentes = explode(",", $rowEvento->idsAsistentes);
+        $rowsAsistentes = $tAE->fetchAll($select);
+        $idAsistentes = array();
+        //$idsAsistentes = explode(",", $rowEvento->idsAsistentes);
+        foreach ($rowsAsistentes as $rowAsis) {
+            $idAsistentes[] = $rowAsis->idAsistente;
+        }
         
         $tA = $this->tableAsistente;
-        $select = $tA->select()->from($tA)->where("id IN (?)",$idsAsistentes);
+        $select = $tA->select()->from($tA)->where("id IN (?)",$idAsistentes);
         //$select = $tAE->select()->from($tAE);
         foreach ($params as $col => $val) :
             $select->orWhere($col." like ?", "%".$val."%");
