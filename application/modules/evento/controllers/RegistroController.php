@@ -52,9 +52,10 @@ class Evento_RegistroController extends Zend_Controller_Action
                 $imgPath = QR_PATH . "/evento/1775418046/evts/usr/";
                 $contents = implode(",", $datos);
                 $filename = md5($contents).".png";
-                
+                $clave = md5($contents);
                 //$urlPath = $this->view->baseUrl()."/colegio/evento/registro/ev/".$idEvento."/ky/".md5($contents);
-                $urlPath = "http://".$_SERVER["SERVER_NAME"].$this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>md5($contents)),null,true);
+                $urlDir = $this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>md5($contents)),null,true);
+                $urlPath = "http://".$_SERVER["SERVER_NAME"].$urlDir;
                 
                 $absolutePath = $imgPath.$filename;
                 if (! file_exists($absolutePath)) {
@@ -64,7 +65,7 @@ class Evento_RegistroController extends Zend_Controller_Action
                     print_r("Archivo existe!");
                 }
                 
-                $datos['clave'] = $filename;
+                $datos['clave'] = $clave;
                 $datos['archivo'] = $absolutePath;
                 
                 $txt = "Registro a Evento: <strong>".$evento['nombre']."</strong><br />".
