@@ -106,11 +106,24 @@ class Evento_Model_DAO_Evento {
         return $rowsAsistentes->toArray();
     }
     
+    /**
+     * 
+     * @param string $clave
+     * @return array
+     */
+    public function getAsistenteByClave($clave) {
+        $tAs = $this->tableAsistente;
+        $select = $tAs->select()->from($tAs)->where('clave = ?',$clave);
+        $rowAsistente = $tAs->fetchRow($select);
+        
+        return $rowAsistente->toArray();
+    }
+    
     public function confirmAsistEvento($idEvento, $idAsistente) {
         $tAC = $this->tableAsistentesConfirmados;
         $data = array();
         $data["idEvento"] = $idEvento;
-        $data["idAsistente"] = $idEvento;
+        $data["idAsistente"] = $idAsistente;
         $data["entrada"] = date('Y-m-d H:i:s',time());
         
         $tAC->insert($data);

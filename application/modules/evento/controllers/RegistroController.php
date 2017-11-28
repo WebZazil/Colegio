@@ -104,8 +104,8 @@ class Evento_RegistroController extends Zend_Controller_Action
                  
                  
                  $mail = new Zend_Mail();
-                 $mail->addTo($datos["email"], $datos["nombres"]);
-                 $mail->setFrom("dev.bugzilla@zazil.net", "Eventos - Colegio Sagrado Corazón");
+                 $mail->addTo($datos["email"], $datos["nombres"]." ". $datos['apaterno']);
+                 $mail->setFrom("dev.bugzilla@zazil.net", "Eventos - Colegio Sagrado Corazon");
                  $mail->setSubject("CSC Mexico Aviso de Registro a Evento");
                  //$mail->setBodyText($txt);
                  $mail->setBodyHtml($txt);
@@ -138,8 +138,9 @@ class Evento_RegistroController extends Zend_Controller_Action
         // action body
         $idEvento = $this->getParam("ev");
         $clave = $this->getParam("ky");
+        $asistente = $this->eventoDAO->getAsistenteByClave($clave);
         
-        $this->eventoDAO->confirmAsistEvento($idEvento, $idAsistente);
+        $this->eventoDAO->confirmAsistEvento($idEvento, $asistente['idAsistente']);
     }
 
     public function confirmadosAction()
