@@ -27,7 +27,7 @@ class Encuesta_Data_DAO_Evaluacion {
     
     public function getEncuestaById($idEncuesta) {
         $tE = $this->tableEncuesta;
-        $select = $tE->select()->from($tE)->where('idEncuesta=?',$idEvaluacion);
+        $select = $tE->select()->from($tE)->where('idEncuesta=?',$idEncuesta);
         $rowEncuesta = $tE->fetchRow($select);
         
         return $rowEncuesta->toArray();

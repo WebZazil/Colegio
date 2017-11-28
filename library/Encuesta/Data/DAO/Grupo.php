@@ -7,11 +7,13 @@
 class Encuesta_Data_DAO_Grupo {
     
     private $tableGrupoEscolar;
+    private $tableConjuntoEvaluador;
     
     public function __construct($dbAdapter) {
         $config = array('db' => $dbAdapter);
         
         $this->tableGrupoEscolar = new Encuesta_Data_DbTable_GrupoEscolar($config);
+        $this->tableConjuntoEvaluador = new Encuesta_Data_DbTable_ConjuntoEvaluador($config);
     }
     
     /**
@@ -34,5 +36,32 @@ class Encuesta_Data_DAO_Grupo {
     public function getAllGrupos() {
         return $this->tableGrupoEscolar->fetchAll()->toArray();
     }
+    
+    /**
+     * 
+     * @param int $idConjunto
+     * @return array
+     */
+    public function getConjuntoById($idConjunto) {
+        $tC = $this->tableConjuntoEvaluador;
+        $select = $tC->select()->from($tC)->where('idConjuntoEvaluador=?',$idConjunto);
+        $rowCE = $tC->fetchRow($select);
+        
+        return $rowCE->toArray();
+    }
+    
+    /**
+     * 
+     * @param int $idGrupoEscolar
+     * @return array
+     */
+    public function getConjuntosByIdGrupoEscolar($idGrupoEscolar) {
+        $tC = $this->tableConjuntoEvaluador;
+        $select = $tC->select()->from($tC)->where('idGrupoEscolar=?',$idGrupoEscolar);
+        $rowsC = $tC->fetchRow($select);
+        
+        return $rowsC->toArray();
+    }
+    
     
 }

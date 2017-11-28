@@ -67,9 +67,13 @@ class Evento_RegistroController extends Zend_Controller_Action
                 $datos['clave'] = $filename;
                 $datos['archivo'] = $absolutePath;
                 
-                $txt = "Detalle de registro:"."\r\n".
-                    "Asistente: ".$datos["nombres"]." ".$datos["apaterno"]." ". $datos["amaterno"]."\r\n".
-                    "email: ".$datos["email"];
+                $txt = "Registro a Evento: <strong>".$evento['nombre']."</strong><br />".
+                    "Que se llevara a cabo en: <strong>".$evento['lugar']."</strong><br />".
+                    "El cual dara inicio a las: <strong>".$evento['feInicio']."</strong> y terminara: <strong>".$evento['feTermino']."</strong><br /><br />".
+                    "Asistente: <strong>".$datos["nombres"]."</strong> <strong>".$datos["apaterno"]."</strong> <strong>". $datos["amaterno"]."</strong><br />".
+                    "email: <strong>".$datos["email"]."</strong>";
+                
+                //$txt = "";
                 
                 $idAsistente = $this->registroDAO->saveAsistente($datos);
                 
@@ -103,7 +107,8 @@ class Evento_RegistroController extends Zend_Controller_Action
                  $mail->addTo($datos["email"], $datos["nombres"]);
                  $mail->setFrom("dev.bugzilla@zazil.net", "Eventos - Colegio Sagrado Corazón");
                  $mail->setSubject("CSC Mexico Aviso de Registro a Evento");
-                 $mail->setBodyText($txt);
+                 //$mail->setBodyText($txt);
+                 $mail->setBodyHtml($txt);
                  
                  $arch = fopen($absolutePath, 'rb');
                  
