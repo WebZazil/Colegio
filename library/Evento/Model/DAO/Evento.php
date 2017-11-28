@@ -113,7 +113,7 @@ class Evento_Model_DAO_Evento {
      */
     public function getAsistenteByClave($clave) {
         $tAs = $this->tableAsistente;
-        $select = $tAs->select()->from($tAs)->where('clave = ?',$clave.'.png');
+        $select = $tAs->select()->from($tAs)->where('clave = ?',$clave);
         $rowAsistente = $tAs->fetchRow($select);
         
         return $rowAsistente->toArray();
