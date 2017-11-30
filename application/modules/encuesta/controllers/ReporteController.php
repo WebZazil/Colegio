@@ -38,30 +38,38 @@ class Encuesta_ReporteController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
+        $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
+        
+        $this->serviceLogin = new Encuesta_Service_Login();
+        $testConnector = $this->serviceLogin->getTestConnection($testData);
+        
         $auth = Zend_Auth::getInstance();
         $dataIdentity = $auth->getIdentity();
         //print_r($dataIdentity);
         
-        $this->encuestaDAO = new Encuesta_DAO_Encuesta($dataIdentity["adapter"]);
-        $this->seccionDAO = new Encuesta_DAO_Seccion($dataIdentity["adapter"]);
-        $this->grupoDAO = new Encuesta_DAO_Grupo($dataIdentity["adapter"]);
-        $this->preguntaDAO = new Encuesta_DAO_Pregunta($dataIdentity["adapter"]);
+        $this->encuestaDAO = new Encuesta_DAO_Encuesta($testConnector);
+        $this->seccionDAO = new Encuesta_DAO_Seccion($testConnector);
+        $this->grupoDAO = new Encuesta_DAO_Grupo($testConnector);
+        $this->preguntaDAO = new Encuesta_DAO_Pregunta($testConnector);
         
-        $this->registroDAO = new Encuesta_DAO_Registro($dataIdentity["adapter"]);
+        $this->registroDAO = new Encuesta_DAO_Registro($testConnector);
         
-        $this->gradoDAO = new Encuesta_DAO_Grado($dataIdentity["adapter"]);
-        $this->nivelDAO = new Encuesta_DAO_Nivel($dataIdentity["adapter"]);
-        $this->cicloDAO = new Encuesta_DAO_Ciclo($dataIdentity["adapter"]);
-        $this->gruposDAO = new Encuesta_DAO_Grupos($dataIdentity["adapter"]);
+        $this->gradoDAO = new Encuesta_DAO_Grado($testConnector);
+        $this->nivelDAO = new Encuesta_DAO_Nivel($testConnector);
+        $this->cicloDAO = new Encuesta_DAO_Ciclo($testConnector);
+        $this->gruposDAO = new Encuesta_DAO_Grupos($testConnector);
         
-        $this->respuestaDAO = new Encuesta_DAO_Respuesta($dataIdentity["adapter"]);
-        $this->preferenciaDAO = new Encuesta_DAO_Preferencia($dataIdentity["adapter"]);
+        $this->respuestaDAO = new Encuesta_DAO_Respuesta($testConnector);
+        $this->preferenciaDAO = new Encuesta_DAO_Preferencia($testConnector);
         
-        $this->reporteDAO = new Encuesta_DAO_Reporte($dataIdentity["adapter"]);
-        $this->generador = new Encuesta_Util_Generator(($dataIdentity["adapter"]));
-        $this->materiaDAO = new Encuesta_DAO_Materia($dataIdentity["adapter"]);
-        $this->reporter = new Encuesta_Util_Reporter($dataIdentity["adapter"]);
-        $this->reporteador = new Encuesta_Util_Reporteador($dataIdentity["adapter"]);
+        
+        $this->generador = new Encuesta_Util_Generator($testConnector);
+        $this->materiaDAO = new Encuesta_DAO_Materia($testConnector);
+        $this->reporter = new Encuesta_Util_Reporter($testConnector);
+        $this->reporteador = new Encuesta_Util_Reporteador($testConnector);
+        
+        
+        $this->reporteDAO = new Encuesta_DAO_Reporte($testConnector);
     }
 
     public function indexAction()

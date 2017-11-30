@@ -7,6 +7,9 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
     private $materiaDAO = null;
     private $grupoDAO = null;
     private $asignacionDAO = null;
+    
+    private $serviceLogin = null;
+    private $testConnector = null;
 
     public function init()
     {
@@ -19,10 +22,14 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
         
         $identity = $auth->getIdentity();
         
-        $this->evaluacionDAO = new Encuesta_Data_DAO_Evaluacion($identity['adapter']);
-        $this->materiaDAO = new Encuesta_Data_DAO_Materia($identity['adapter']);
-        $this->grupoDAO = new Encuesta_Data_DAO_Grupo($identity['adapter']);
-        $this->asignacionDAO = new Encuesta_Data_DAO_Asignacion($identity['adapter']);
+        $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
+        $this->serviceLogin = new Encuesta_Service_Login();
+        $this->testConnector = $this->serviceLogin->getTestConnection($testData);
+        
+        $this->evaluacionDAO = new Encuesta_Data_DAO_Evaluacion($this->testConnector);
+        $this->materiaDAO = new Encuesta_Data_DAO_Materia($this->testConnector);
+        $this->grupoDAO = new Encuesta_Data_DAO_Grupo($this->testConnector);
+        $this->asignacionDAO = new Encuesta_Data_DAO_Asignacion($this->testConnector);
         
         $this->_helper->layout->setLayout('homeEncuesta');
     }
@@ -54,6 +61,19 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
         }else{
             print_r('Parametros Invalidos');
         }
+    }
+    
+    public function evaluadoresAction() {
+        $idGrupo = $this->getParam("grupo");
+        $grupo = $this->grupoDAO->getGrupoById($idGrupo);
+        $conjuntos = $this->grupoDAO->getConjuntosByIdGrupoEscolar($idGrupo);
+        //$objGrupo = $this->grupoDAO->obtenerGrupo($grupo);
+        //Obtenemos todos los evaluadores del grupo
+        //print_r($grupo);
+        //$conjuntos = $this->evaluacionDAO->getEvaluadoresGrupo($grupo);
+        $this->view->conjuntos = $conjuntos;
+        $this->view->grupo = $grupo;
+        $this->view->evaluacionDAO = $this->evaluacionDAO;
     }
     
     
