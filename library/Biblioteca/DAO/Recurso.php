@@ -68,7 +68,7 @@ class Biblioteca_DAO_Recurso implements Biblioteca_Interfaces_IRecurso {
 		//->join('Coleccion', 'Recurso.idColeccion = Coleccion.idColeccion', ('Coleccion.coleccion'))
 		//->join('Clasificacion', 'Recurso.idClasificacion = Clasificacion.idClasificacion', ('Clasificacion.clasificacion'));
 		//$rowRecursos = $tablaRecurso->fetchAll();
-		print_r("$select");
+	//	print_r("$select");
 		return $tablaRecurso->fetchAll();
 		
 	}
@@ -116,11 +116,15 @@ class Biblioteca_DAO_Recurso implements Biblioteca_Interfaces_IRecurso {
 		
 		if(!empty($params)){
 			foreach ($params as $key => $value) {
-				$select->where($key."=?", $value);
+			    if($key == 'titulo'){
+			        $select->where($key.' LIKE ?',"%{$value}%");
+			    }else{
+			        $select->where($key."=?", $value);
+			    }
 			}
 		}
 		
-		print_r($select->__toString());
+	   //  print_r($select->__toString());
 		
 		$recursos = $tRecurso->fetchAll($select);
 		return $recursos->toArray();

@@ -13,7 +13,8 @@ class Biblioteca_Data_DAO_Coleccion {
     
     public function getAllColecciones() {
         $tablaColeccion = $this->tableColeccion;
-        $rowsColecciones = $tablaColeccion->fetchAll();
+        $select = $tablaColeccion->select()->from($tablaColeccion)->order("coleccion ASC");
+        $rowsColecciones = $tablaColeccion->fetchAll($select);
         
         if (is_null($rowsColecciones)) {
             return null;
@@ -37,5 +38,23 @@ class Biblioteca_Data_DAO_Coleccion {
 	
 	public function addColeccion($data) {
         $this->tableAutor->insert($data);
+    }
+    
+    public function getEditorialByParamas(array $params){
+        $tablaColeccion = $this->tableColeccion;
+        $select = $tablaColeccion->select()->from($tablaColeccion);
+        
+        if(!empty($params)){
+            foreach ($params as $key => $value) {
+                $select->where($key."=?", $value);
+            }
+        }
+        
+        //print_r($select->__toString());
+        
+        $colecciones = $tablaColeccion->fetchAll($select);
+        return $colecciones->toArray();
+        
+        
     }
 }

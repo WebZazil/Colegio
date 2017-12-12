@@ -26,17 +26,38 @@ class Biblioteca_Data_DAO_Tema {
     
     public function getAllTemas() {
         $tablaTema = $this->tableTema;
-        $rowsTemas = $tablaTema->fetchAll();
+        $select = $tablaTema->select()->from($tablaTema)->order("tema ASC");
+        //$statement = $select->query();
+        $rowsTema = $tablaTema->fetchAll($select);
         
-        if (is_null($rowsTemas)) {
+        
+        if (is_null($rowsTema)) {
             return null;
         } else {
-            return $rowsTemas->toArray();
+            return $rowsTema->toArray();
         }
         
     }
 	
 	public function addTema($data) {
         $this->tableTema->insert($data);
+    }
+    
+    public function getEditorialByParamas(array $params){
+        $tablaTema = $this->tableTema;
+        $select = $tablaTema->select()->from($tablaTema);
+        
+        if(!empty($params)){
+            foreach ($params as $key => $value) {
+                $select->where($key."=?", $value);
+            }
+        }
+        
+        //print_r($select->__toString());
+        
+        $temas = $tablaTema->fetchAll($select);
+        return $temas->toArray();
+        
+        
     }
 }

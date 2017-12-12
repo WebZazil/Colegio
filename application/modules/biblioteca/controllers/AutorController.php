@@ -16,8 +16,44 @@ class Biblioteca_AutorController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+       // $autores = $this->autorDAO->getAllAutores();
+        //$this->view->autores = $autores;
+        
         $autores = $this->autorDAO->getAllAutores();
+        
         $this->view->autores = $autores;
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            $autores = $request->getPost();
+            print_r($autores); print_r("<br />");
+            
+            foreach ($autores as $key => $value){
+                if($value == "0"){
+                    unset($editorial[$key]);
+                }
+            }
+            
+            $resources = $this->autorDAO->getEditorialByParamas($autores);
+            if(!empty($resources)){
+                
+                $container = array();
+                
+                $container = $resources;
+                $this->view->resources = $container;
+                
+            }else{
+                $this->view->resources = $array;
+            }
+            
+            
+        }else{
+            $this->view->resources = array();
+        }
+        
+        $autorDAO   = $this->autorDAO;
+        
+        
     }
 
     public function altaAction() {

@@ -39,8 +39,8 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
 		$colecciones = $this->coleccionDAO->getAllColecciones();
 		$this->view->colecciones = $colecciones;
 		
-		$clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
-		$this->view->clasificaciones = $clasificaciones;
+		$autores = $this->autorDAO->getAllAutores();
+		$this->view->autores = $autores;
 		
 		$clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
 		$this->view->clasificaciones = $clasificaciones;
@@ -60,7 +60,7 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
 			$contenedor["material"] = $materialDAO->getMaterialById($recurso["idMaterial"]);
 			$contenedor["coleccion"] = $coleccionDAO->getColeccionById($recurso["idColeccion"]);
 			$contenedor["clasificacion"] = $clasificacionDAO->getClasificacionById($recurso["idClasificacion"]);
-			$contenedor["autor"] = $autorDAO->getAutorById($recurso["idAutor"]);
+			//$contenedor["autor"] = $autorDAO->getAutorById($recurso["idAutor"]);
 			
 			
 			$obj[] = $contenedor;
@@ -85,15 +85,16 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
 		
 		if($request->isPost()){
 			$datos = $request->getPost();
-			//print_r($datos); print_r("<br />");
+			print_r($datos); print_r("<br />");
 			
 			foreach ($datos as $key => $value) {
 				if ($value == "0") {
 					unset($datos[$key]);
 				}
 			}
-			
+			print_r($datos);
 			$resources = $this->recursoDAO->getRecursoByParams($datos);
+			//$resources = array();
 			if(!empty($resources)){
 				$container = array();
 				

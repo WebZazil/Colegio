@@ -17,8 +17,43 @@ class Biblioteca_TemaController extends Zend_Controller_Action
     {
         // action body
         
+       // $temas = $this->temaDAO->getAllTemas();
+		//$this->view->temas = $temas;
         $temas = $this->temaDAO->getAllTemas();
-		$this->view->temas = $temas;
+        
+        $this->view->temas = $temas;
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            $temas =$request->getPost();
+            print_r($temas); print_r("<br />");
+            
+            
+            foreach ($temas as $key => $value){
+                if($value == "0"){
+                    unset($tema[$key]);
+                }
+            }
+            
+            $resources = $this->temaDAO->getEditorialByParamas($temas);
+            if(!empty($resources)){
+                
+                $container = array();
+                
+                $container = $resources;
+                $this->view->resources = $container;
+                
+            }else{
+                $this->view->resources = $array;
+            }
+            
+            
+            
+        }else{
+            $this->view->resources = array();
+        }
+        
+        $temaDAO   = $this->temaDAO;
     }
 
     public function altaAction()

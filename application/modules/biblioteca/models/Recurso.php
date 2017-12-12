@@ -42,16 +42,16 @@ class Biblioteca_Model_Recurso
 	}
 	
 	
-	private $idsAutores;
+	private $idAutor;
 	
-	public function getIdsAutores()
+	public function getIdAutor()
 	{
-		return $this->idsAutores;
+		return $this->idAutor;
 	}
 	
-	public function setIdsAutores($idsAutores)
+	public function setIdsAutores($idAutor)
 	{
-		$this->idsAutores = $idsAutores;
+		$this->idsAutores = $idAutor;
 	}
 	
 	private $idMaterial;
@@ -111,7 +111,7 @@ class Biblioteca_Model_Recurso
 		
 		$this->titulo = $datos["titulo"];
 		$this->subtitulo = $datos["subtitulo"];
-		$this->idsAutores = $datos["idsAutores"];
+		$this->idAutor = $datos["idAutor"];
 		$this->idMaterial = $datos["idMaterial"];
 		$this->idColeccion = $datos["idColeccion"];
 		$this->idClasificacion = $datos["idClasificacion"];
@@ -128,7 +128,7 @@ class Biblioteca_Model_Recurso
 		$datos["idRecurso"] = $this->idRecurso;
 		$datos["titulo"] = $this->titulo;
 		$datos["subtitulo"] = $this->subtitulo;
-		$datos["idsAutores"] = $this->idsAutores;
+		$datos["idAutor"] = $this->idAutor;
 		$datos["idMaterial"] = $this->idMaterial;
 		$datos["idColeccion"] = $this->idColeccion;
 		$datos["idClasificacion"] = $this->idClasificacion;

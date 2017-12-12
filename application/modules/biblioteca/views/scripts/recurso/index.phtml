@@ -177,7 +177,7 @@
 			                <tr>
 			                   <td><?php echo $recurso["recurso"]["titulo"]; ?></td>
 			             	   <td><?php echo $recurso["recurso"]["subtitulo"]; ?></td>
-			                   <td><?php echo $recurso["autor"]["nombre"]; ?></td>
+			                   <td><?php echo $recurso["autor"]["nombres"]; ?></td>
 			                   <td><?php echo $recurso["material"]["descripcion"]; ?></td>
 			                   <td><?php echo $recurso["coleccion"]["coleccion"]; ?></td>
 			                   <td><?php echo $recurso["clasificacion"]["clasificacion"]; ?></td>
@@ -188,10 +188,8 @@
 			                 <?php endforeach; ?>
 			               <!--  <?php
 			                 $buscar = $_POST["palabra"];
-							 
 			                 ?>-->
-			                 
-			            </tbody>
+			            </tbody> 
 			        </table>
 			        <?php } ?>
 			    </div>
