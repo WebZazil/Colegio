@@ -1,4 +1,20 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Index</b> and script/action name <b>login</b></p>
+<?php
+    $auth = Zend_Auth::getInstance();
+    
+?>
+<div class="row col-md-12">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h5 class="panel-title">Detalle de Login</h5>
+		</div>
+		<div class="panel-body">
+			<div>
+				<?php echo '<br />'; ?>
+				<?php //print_r($auth->getStorage()->read()); ?>
+				<?php echo '<br /><br />'; ?>
+				<?php print_r($auth->getIdentity()); ?>
+			</div>
+			<div></div>
+		</div>
+	</div>
 </div>

@@ -11,7 +11,7 @@ class Evento_ConsultaController extends Zend_Controller_Action
         $identity = Zend_Auth::getInstance()->getIdentity();
         if (is_null($identity)) {
             // Redirect to login page
-            
+            $this->_helper->redirector->gotoSimple("index", "index", "evento");
         }
         
         $this->eventoDAO = new Evento_Model_DAO_Evento($identity['adapter']);
@@ -20,9 +20,10 @@ class Evento_ConsultaController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-        $eventos = $this->eventoDAO->getAllEventos();
+        $idEvento = $this->_getParam("ev");
+        $evento = $this->eventoDAO->getEventoById($idEvento);
         
-        $this->view->eventos = $eventos;
+        $this->view->evento = $evento;
     }
 
 

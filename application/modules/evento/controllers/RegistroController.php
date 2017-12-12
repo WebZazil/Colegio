@@ -30,12 +30,6 @@ class Evento_RegistroController extends Zend_Controller_Action
     {
         // action body
         $idEvento = $this->getParam("ev");
-        //print_r($_SERVER["SERVER_ADDR"]);
-        //print_r($_SERVER["SERVER_NAME"]);
-        //print_r(gethostbyname());
-        //print_r($_SERVER["SERVER_PROTOCOL"]);
-        //print_r(gethostname());
-        //if (is_null($idEvento)) $this->_helper->redirector->gotoSimple("alta", "dashboard", "evento");
         
         $evento = $this->eventoDAO->getEventoById($idEvento);
         $this->view->evento = $evento;
@@ -58,9 +52,10 @@ class Evento_RegistroController extends Zend_Controller_Action
                 $imgPath = QR_PATH . "/evento/1775418046/evts/usr/";
                 $contents = implode(",", $datos);
                 $filename = md5($contents).".png";
-                
+                $clave = md5($contents);
                 //$urlPath = $this->view->baseUrl()."/colegio/evento/registro/ev/".$idEvento."/ky/".md5($contents);
-                $urlPath = $_SERVER["SERVER_NAME"].$this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>md5($contents)),null,true);
+                $urlDir = $this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>md5($contents)),null,true);
+                $urlPath = "http://".$_SERVER["SERVER_NAME"].$urlDir;
                 
                 $absolutePath = $imgPath.$filename;
                 if (! file_exists($absolutePath)) {
@@ -70,12 +65,16 @@ class Evento_RegistroController extends Zend_Controller_Action
                     print_r("Archivo existe!");
                 }
                 
-                $datos['clave'] = $filename;
+                $datos['clave'] = $clave;
                 $datos['archivo'] = $absolutePath;
                 
-                $txt = "Detalle de registro:"."\r\n".
-                    "Asistente: ".$datos["nombres"]." ".$datos["apaterno"]." ". $datos["amaterno"]."\r\n".
-                    "email: ".$datos["email"];
+                $txt = "Registro a Evento: <strong>".$evento['nombre']."</strong><br />".
+                    "Que se llevara a cabo en: <strong>".$evento['lugar']."</strong><br />".
+                    "El cual dara inicio a las: <strong>".$evento['feInicio']."</strong> y terminara: <strong>".$evento['feTermino']."</strong><br /><br />".
+                    "Asistente: <strong>".$datos["nombres"]."</strong> <strong>".$datos["apaterno"]."</strong> <strong>". $datos["amaterno"]."</strong><br />".
+                    "email: <strong>".$datos["email"]."</strong>";
+                
+                //$txt = "";
                 
                 $idAsistente = $this->registroDAO->saveAsistente($datos);
                 
@@ -106,10 +105,11 @@ class Evento_RegistroController extends Zend_Controller_Action
                  
                  
                  $mail = new Zend_Mail();
-                 $mail->addTo($datos["email"], "Giovanni Rodriguez");
-                 $mail->setFrom("dev.bugzilla@zazil.net", "Dev Bugzilla");
+                 $mail->addTo($datos["email"], $datos["nombres"]." ". $datos['apaterno']);
+                 $mail->setFrom("dev.bugzilla@zazil.net", "Eventos - Colegio Sagrado Corazon");
                  $mail->setSubject("CSC Mexico Aviso de Registro a Evento");
-                 $mail->setBodyText($txt);
+                 //$mail->setBodyText($txt);
+                 $mail->setBodyHtml($txt);
                  
                  $arch = fopen($absolutePath, 'rb');
                  
@@ -122,8 +122,8 @@ class Evento_RegistroController extends Zend_Controller_Action
                  //fclose($arch);
                  
                  $mail->addAttachment($attachment);
-                 //$protocol->rset();
-                 //$mail->send($transport);
+                 $protocol->rset();
+                 $mail->send($transport);
                  $protocol->quit();
                  $protocol->disconnect();
                  fclose($arch);
@@ -137,10 +137,38 @@ class Evento_RegistroController extends Zend_Controller_Action
     public function confirmAction()
     {
         // action body
+        $idEvento = $this->getParam("ev");
+        $clave = $this->getParam("ky");
+        //print_r($asistente);
+        try{
+            $asistente = $this->eventoDAO->getAsistenteByClave($clave);
+            $this->eventoDAO->confirmAsistEvento($idEvento, $asistente['id']);
+            $this->_helper->redirector->gotoSimple("index", "registro", "evento");
+        }catch (Exception $ex){
+            print_r($ex->getMessage());
+        }
+    }
+
+    public function confirmadosAction()
+    {
+        // action body
+        $idEvento = $this->getParam("ev");
+        
+        $evento = $this->eventoDAO->getEventoById($idEvento);
+        
+        $asistentesConfirmados = $this->eventoDAO->getAsistentesConfirmados($idEvento);
+        $idsAsistentes = array();
+        
+        //print_r($asistentesConfirmados);
+        
+        $this->view->asistentesConfirmados = $asistentesConfirmados;
+        $this->view->evento = $evento;
     }
 
 
 }
+
+
 
 
 

@@ -7,15 +7,24 @@
     
     $eventos = $this->eventos;
     $eventosVacios = false;
+    $classSuccess = 'btn-success';
+    $classDanger = 'btn-danger';
+    $statusBtn = 'disabled';
+    
+    
     $btnAssocClass = 'btn-success';
     $btnConfirmClass = 'btn-success';
     
     if (empty($eventos)) {
-        print_r('Eventos vacios');
+        // print_r('Eventos vacios');
         $eventosVacios = true;
+        
     }
     
-    $btnAssocClass = $eventosVacios == false ? 'btn-success' : 'btn-danger';
+    $classHasEvents = $eventosVacios == false ? $classSuccess : $classDanger;
+    $statusBtn = $eventosVacios == false ? '' : 'disabled=true';
+    
+    $btnAssocClass = $eventosVacios == false ? $classSuccess : $classDanger;
     $urlRegistroAlta = $eventosVacios == false ? $this->url(array("module"=>$module,"controller"=>"registro", "action"=>"alta"),null,true) : '#';
     $urlRegistroConfirm = $eventosVacios == false ? $this->url(array("module"=>$module,"controller"=>"registro", "action"=>"index"),null,true) : '#';
 ?>
@@ -56,11 +65,17 @@
 										Consulta asistentes en evento
 									</p>
 								</td>
-								<td></td>
 								<td>
-									<a class="btn btn-success" href="<?php echo $urlEventoQuery; ?>">
+									<select id="queryEvento" class="form-control">
+										<?php foreach ($eventos as $evento): ?>
+										<option value="<?php echo $evento['id'] ?>"><?php echo $evento['nombre'] ?></option>
+										<?php endforeach; ?>
+									</select>
+								</td>
+								<td>
+									<button id="btnQuery" class="btn <?php echo $classHasEvents ?>" <?php echo $statusBtn ?> >
 										<i class="fa fa-search"></i> Consulta Asistentes
-									</a>
+									</button>
 								</td>
 							</tr>
 							
@@ -78,7 +93,7 @@
 									</select>
 								</td>
 								<td>
-									<button id="btnRegister" class="btn <?php echo $btnAssocClass;  ?>" >
+									<button id="btnRegister" class="btn <?php echo $classHasEvents;  ?>" <?php echo $statusBtn; ?> >
 										<i class="fa fa-user-plus"></i> Registro Asistentes
 									</button>
 								</td>
@@ -86,20 +101,18 @@
 							
 							<tr>
 								<td>
-									<p>
-										Confirmacion Asistencia
-									</p>
+									<p>Consulta de Asistencias en Evento</p>
 								</td>
 								<td>
-									<select id="asisEvento" class="form-control">
+									<select id="confirmAsistEvento" class="form-control">
 										<?php foreach ($eventos as $evento): ?>
 										<option value="<?php echo $evento['id'] ?>"><?php echo $evento['nombre'] ?></option>
 										<?php endforeach; ?>
 									</select>
 								</td>
 								<td>
-									<button id="btnRAsis" class="btn <?php echo $btnConfirmClass;  ?>" >
-										<i class="fa fa-check-square-o"></i> Registro Asistencias
+									<button id="btnConfirmAsis" class="btn <?php echo $classHasEvents;  ?>" <?php echo $statusBtn; ?> >
+										<i class="fa fa-search"></i> Consulta de Asistentes Confirmados
 									</button>
 								</td>
 							</tr>
@@ -115,6 +128,14 @@
 	$().ready(function(){
 		var appname = "/colegio/evento";
 		var url = window.location.origin + appname;
+
+		$("#btnQuery").on('click',function(){
+			var idEvento = $("#queryEvento").val();
+			// console.log("IdEvento = "+idEvento);
+			var urlRegAsis = url + "/consulta/index/ev/"+idEvento;
+			// console.log("UrlRegAsisEvento = "+urlRegAsis);
+			window.location.href = urlRegAsis;
+		});
 		
 		$("#btnRegister").on('click',function(){
 			var idEvento = $("#sEvento").val();
@@ -124,10 +145,10 @@
 			window.location.href = urlRegAsis;
 		});
 
-		$("#btnRAsis").on('click',function(){
-			var idEvento = $("#asisEvento").val();
+		$("#btnConfirmAsis").on('click',function(){
+			var idEvento = $("select#confirmAsistEvento").val();
 
-			var urlRegAsis = url + "/registro/confirm/ev/"+idEvento;
+			var urlRegAsis = url + "/registro/confirmados/ev/"+idEvento;
 			window.location.href = urlRegAsis;
 		});
 	});

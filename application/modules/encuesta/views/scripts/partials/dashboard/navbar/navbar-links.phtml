@@ -1,8 +1,13 @@
 <?php
 	$auth = Zend_Auth::getInstance();
-    $dataIdentity = $auth->getIdentity();
-	$usuario = $dataIdentity["user"];
-	//print_r($usuario);
+	$identity = $auth->getIdentity();
+	//$storage = $auth->getStorage();
+	//print_r($auth);
+	//$usuario = $identity;
+	$usuario = $identity["user"];
+	//$usuario = '';
+	//print_r('Hola ');
+	//print_r($identity); 
 ?>
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown disabled">
@@ -200,7 +205,10 @@
             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-            <li><a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"usuario","action"=>"index",),null,true) ?>"><i class="fa fa-user fa-fw"></i> <?php echo $usuario->nickname ?>'s Profile</a>
+            <li>
+            	<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"usuario","action"=>"index",),null,true) ?>">
+            		<i class="fa fa-user fa-fw"></i> <?php echo $usuario->nickname ?>'s Profile
+            	</a>
             </li>
             <li><a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"usuario","action"=>"settings",),null,true) ?>"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>

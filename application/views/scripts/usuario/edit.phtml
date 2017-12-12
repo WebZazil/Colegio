@@ -1,0 +1,76 @@
+<?php
+    $usuario = $this->usuario;
+    $roles = $this->roles;
+    $rolUsuario = $this->rolUsuario;
+    $cifrados = array();
+    $cifrados[] = 'SHA1';
+    $cifrados[] = 'MD5';
+    
+    $urlUsrs = $this->url(array('controller'=>'usuario','action'=>'index'),null,true);
+    
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Actualizar Usuario</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a class="btn btn-info" href="<?php echo $urlUsrs ?>">
+						<i class="fa fa-chevron-left"></i> Usuarios
+					</a>
+				</div>
+				<hr />
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						
+						<div class="form-group">
+							<label class="col-md-2 control-label">Nickname: </label>
+							<div class="col-md-10">
+								<input name="nickname" type="text" class="form-control" value="<?php echo $usuario['nickname']; ?>" autofocus="autofocus" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-2 control-label">Password: </label>
+							<div class="col-md-10">
+								<input name="password" type="text" class="form-control" placeholder="Entre nueva contraseña" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="rol" class="col-md-2 control-label">Cifrado: </label>
+							<div class="col-md-10">
+								<select name="rol" class="form-control" >
+									<?php foreach ($cifrados as $k => $v) : ?>
+									<option value="<?php echo $k ?>"><?php echo $v; ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="rol" class="col-md-2 control-label">Rol: </label>
+							<div class="col-md-10">
+								<select name="rol" class="form-control" >
+									<?php foreach ($roles as $rol) : ?>
+									<option value="<?php echo $rol['idRol'] ?>"><?php echo $rol['rol']; ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<button class="btn btn-warning" type="submit">
+									<i class="fa fa-refresh"></i> Actualizar
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

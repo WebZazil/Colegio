@@ -67,7 +67,7 @@ class Encuesta_CicloController extends Zend_Controller_Action
             try{
                 $this->cicloDAO->addCiclo($ciclo);//crearCiclo($datos);
                 $this->view->messageSuccess = "Ciclo Escolar: <strong>".$datos["ciclo"]. "</strong> dato de alta correctamente." ;
-            }catch(Util_Exception_BussinessException $ex){
+            }catch(Exception $ex){
                 $this->view->messageFail = $ex->getMessage();
             }
             /*

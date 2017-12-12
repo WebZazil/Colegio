@@ -1,4 +1,6 @@
-<?php $encuestas = $this->encuestas; ?>
+<?php 
+    $encuestas = $this->encuestas;
+?>
 <div class="row">
 	<div class="col-xs-3">
 		<div class="panel panel-info">
@@ -18,9 +20,9 @@
                         <?php foreach ($encuestas as $encuesta) : ?>
                         <tr>
                             <td>
-                                <button type="button" class="btn btn-block btn-default" tipo="encuesta" claveEncuesta="<?php echo $encuesta->getIdEncuesta(); ?>" 
+                                <button type="button" class="btn btn-block btn-default" tipo="encuesta" claveEncuesta="<?php echo $encuesta['idEncuesta']; ?>" 
                                    data-toggle="modal" data-target="#msgDetails">
-                                    <?php echo $encuesta->getNombreClave(); ?>
+                                    <?php echo $encuesta['nombreClave']; ?>
                                 </button>
                             </td>
                         </tr>

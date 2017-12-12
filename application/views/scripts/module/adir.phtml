@@ -1,0 +1,41 @@
+<?php
+    $organizacion = $this->organizacion;
+    $modulo = $this->modulo;
+    $tipoDirectorio = $this->tipoDirectorio;
+    
+    $pieceOrganizacion = 'org_'.$organizacion['directorio'];
+    $pieceModulo = 'mod_'.$modulo['modulo'];
+    $pieceTipo = 't_'.$tipoDirectorio;
+    
+    $tiposDirectorio = array(
+        'pdf' => '/org_/mod_/t_',
+        'img' => '/org_/mod_/t_',
+        'img' => '/org_/mod_/t_',
+    );
+    
+    
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Agregar directorio</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					
+				</div>
+				<div>
+					<form class="form-vertical" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="tipoDir" class="control-label col-md-2">Tipo Directorio: </label>
+							<div class="col-md-10">
+								<input type="text" name="tipoDir" value="" />
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,36 @@
+<?php
+    $urlUsuarios = $this->url(array('controller'=>'usuario', 'action' => 'index'),null,true);
+    $urlRoles = $this->url(array('controller'=>'rol', 'action' => 'index'),null,true);
+    $urlModulos = $this->url(array('controller'=>'module', 'action' => 'index'),null,true);
+    $urlSubscripcion = $this->url(array('controller'=>'subscripcion', 'action' => 'index'),null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h5 class="panel-title">Dashboard Page</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<h4>Actividades</h4>
+					<hr />
+					<a class="btn btn-success" href="<?php echo $urlUsuarios; ?>">
+						<i class="fa fa-users"></i> Usuarios
+					</a>
+					<a class="btn btn-success" href="<?php echo $urlRoles; ?>">
+						<i class="fa fa-cubes"></i> Roles
+					</a>
+					<a class="btn btn-success" href="<?php echo $urlModulos; ?>">
+						<i class="fa fa-th-large"></i> Modulos
+					</a>
+					<a class="btn btn-success" href="<?php echo $urlSubscripcion; ?>">
+						<i class="fa fa-plus"></i> Subscripciones
+					</a>
+				</div>
+				<div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

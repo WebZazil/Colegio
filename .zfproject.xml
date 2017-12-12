@@ -9,14 +9,35 @@
       <controllersDirectory>
         <controllerFile controllerName="Index">
           <actionMethod actionName="index"/>
+          <actionMethod actionName="login"/>
         </controllerFile>
         <controllerFile controllerName="Error"/>
         <controllerFile controllerName="Editorial">
           <actionMethod actionName="index"/>
           <actionMethod actionName="alta"/>
         </controllerFile>
+        <controllerFile controllerName="Dashboard">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Module">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="adir"/>
+        </controllerFile>
+        <controllerFile controllerName="Subscripcion">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="acodif"/>
+        </controllerFile>
+        <controllerFile controllerName="Usuario">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="edit"/>
+          <actionMethod actionName="editr"/>
+        </controllerFile>
+        <controllerFile controllerName="Rol">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="edit"/>
+        </controllerFile>
       </controllersDirectory>
-      <formsDirectory enabled="false"/>
+      <formsDirectory/>
       <layoutsDirectory>
         <layoutScriptsDirectory>
           <layoutScriptFile layoutName="layout"/>
@@ -218,6 +239,7 @@
             <controllerFile controllerName="Usuario">
               <actionMethod actionName="index"/>
               <actionMethod actionName="settings"/>
+              <actionMethod actionName="actions"/>
             </controllerFile>
             <controllerFile controllerName="Evaluador">
               <actionMethod actionName="index"/>
@@ -742,6 +764,9 @@
               <viewControllerScriptsDirectory forControllerName="Json">
                 <viewScriptFile forActionName="reportesgrals"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuario">
+                <viewScriptFile forActionName="actions"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -761,6 +786,7 @@
             <controllerFile controllerName="Usuario">
               <actionMethod actionName="index"/>
               <actionMethod actionName="settings"/>
+              <actionMethod actionName="logout"/>
             </controllerFile>
             <controllerFile controllerName="Dashboard">
               <actionMethod actionName="index"/>
@@ -814,6 +840,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Restore">
                 <viewScriptFile forActionName="asign"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuario">
+                <viewScriptFile forActionName="logout"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1129,6 +1158,7 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
               <actionMethod actionName="confirm"/>
+              <actionMethod actionName="confirmados"/>
             </controllerFile>
             <controllerFile controllerName="Dashboard">
               <actionMethod actionName="index"/>
@@ -1218,6 +1248,9 @@
               <viewControllerScriptsDirectory forControllerName="Registro">
                 <viewScriptFile forActionName="confirm"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Registro">
+                <viewScriptFile forActionName="confirmados"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -1238,6 +1271,39 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Editorial">
             <viewScriptFile forActionName="alta"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="login"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Dashboard">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Module">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Subscripcion">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Rol">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="edit"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Rol">
+            <viewScriptFile forActionName="edit"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="editr"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Module">
+            <viewScriptFile forActionName="adir"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Subscripcion">
+            <viewScriptFile forActionName="acodif"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -1275,10 +1341,31 @@
         <testApplicationControllerDirectory>
           <testApplicationControllerFile forControllerName="Index">
             <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="login"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Editorial">
             <testApplicationActionMethod forActionName="index"/>
             <testApplicationActionMethod forActionName="alta"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Dashboard">
+            <testApplicationActionMethod forActionName="index"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Module">
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="adir"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Subscripcion">
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="acodif"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Usuario">
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="edit"/>
+            <testApplicationActionMethod forActionName="editr"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Rol">
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="edit"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
         <testApplicationModulesDirectory>
@@ -1471,6 +1558,7 @@
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="settings"/>
+                <testApplicationActionMethod forActionName="actions"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Evaluador">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1504,6 +1592,7 @@
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="settings"/>
+                <testApplicationActionMethod forActionName="logout"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Dashboard">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1616,6 +1705,7 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
                 <testApplicationActionMethod forActionName="confirm"/>
+                <testApplicationActionMethod forActionName="confirmados"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Dashboard">
                 <testApplicationActionMethod forActionName="index"/>

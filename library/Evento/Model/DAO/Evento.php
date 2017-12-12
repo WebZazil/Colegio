@@ -15,6 +15,7 @@ class Evento_Model_DAO_Evento {
     private $tableAsistente;
     private $tableEvento;
     private $tableAsistentesEvento;
+    private $tableAsistentesConfirmados;
     
     
     public function __construct($dbAdapter) {
@@ -27,6 +28,7 @@ class Evento_Model_DAO_Evento {
         $this->tableAsistente = new Evento_Model_DbTable_Asistente(array("db"=>$dbAdapter));
         $this->tableEvento = new Evento_Model_DbTable_Evento(array("db"=>$dbAdapter));
         $this->tableAsistentesEvento = new Evento_Model_DbTable_AsistentesEvento(array("db"=>$dbAdapter));
+        $this->tableAsistentesConfirmados = new Evento_Model_DbTable_AsistentesConfirmados(array("db"=>$dbAdapter));
     }
     
     /**
@@ -84,12 +86,15 @@ class Evento_Model_DAO_Evento {
     public function getAsistentesEventoByParams($idEvento,array $params) {
         $tAE = $this->tableAsistentesEvento;
         $select = $tAE->select()->from($tAE)->where("idEvento=?",$idEvento);
-        $rowEvento = $tAE->fetchRow($select);
-        
-        $idsAsistentes = explode(",", $rowEvento->idsAsistentes);
+        $rowsAsistentes = $tAE->fetchAll($select);
+        $idAsistentes = array();
+        //$idsAsistentes = explode(",", $rowEvento->idsAsistentes);
+        foreach ($rowsAsistentes as $rowAsis) {
+            $idAsistentes[] = $rowAsis->idAsistente;
+        }
         
         $tA = $this->tableAsistente;
-        $select = $tA->select()->from($tA)->where("id IN (?)",$idsAsistentes);
+        $select = $tA->select()->from($tA)->where("id IN (?)",$idAsistentes);
         //$select = $tAE->select()->from($tAE);
         foreach ($params as $col => $val) :
             $select->orWhere($col." like ?", "%".$val."%");
@@ -99,6 +104,66 @@ class Evento_Model_DAO_Evento {
         
         // print_r($select->__toString());
         return $rowsAsistentes->toArray();
+    }
+    
+    /**
+     * 
+     * @param string $clave
+     * @return array
+     */
+    public function getAsistenteByClave($clave) {
+        $tAs = $this->tableAsistente;
+        $select = $tAs->select()->from($tAs)->where('clave = ?',$clave);
+        $rowAsistente = $tAs->fetchRow($select);
+        
+        return $rowAsistente->toArray();
+    }
+    
+    public function confirmAsistEvento($idEvento, $idAsistente) {
+        $tAC = $this->tableAsistentesConfirmados;
+        $data = array();
+        $data["idEvento"] = $idEvento;
+        $data["idAsistente"] = $idAsistente;
+        $data["entrada"] = date('Y-m-d H:i:s',time());
+        
+        $tAC->insert($data);
+    }
+    
+    /**
+     * 
+     * @param int $idEvento
+     * @return array
+     */
+    public function getAsistentesConfirmados($idEvento) {
+        $tAs = $this->tableAsistente;
+        $tAC = $this->tableAsistentesConfirmados;
+        
+        $select = $tAC->select()->from($tAC)->where("idEvento=?", $idEvento);
+        $rowsAsistC = $tAC->fetchAll($select);
+        
+        $contenedor = array();
+        
+        foreach ($rowsAsistC as $rowAsistC) {
+            // print_r($rowAsistC->toArray());
+            // print_r("<br />");
+            $obj = array();
+            
+            $select = $tAs->select()->from($tAs)->where("id=?",$rowAsistC->idAsistente);
+            $rowAsis = $tAs->fetchRow($select)->toArray();
+            
+            $obj['id'] = $rowAsis['id'];
+            $obj['nombres'] = $rowAsis['nombres'];
+            $obj['apaterno'] = $rowAsis['apaterno'];
+            $obj['amaterno'] = $rowAsis['amaterno'];
+            $obj['email'] = $rowAsis['email'];
+            $obj['clave'] = $rowAsis['clave'];
+            $obj["entrada"] = $rowAsistC->entrada;
+            $obj["creacion"] = $rowAsis['creacion'];
+            
+            $contenedor[] = $obj;
+        }
+        
+        return $contenedor;
     }
     
 }
