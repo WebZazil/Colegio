@@ -206,6 +206,20 @@ class Biblioteca_Model_Ejemplar
 		$this->idIdioma = $idIdioma;
 	}
 	
+	private $nota;
+	
+	public function getNota()
+	{
+	    return $this->nota;
+	}
+	
+	public function setNota($nota)
+	{
+	    $this->nota = $nota;
+	}
+            	
+
+
 	public function __construct($datos)
 	{
 		if(array_key_exists("idEjemplar", $datos)) $this->idEjemplar = $datos["idEjemplar"];
@@ -232,6 +246,8 @@ class Biblioteca_Model_Ejemplar
 		$this->asientoPrin = $datos["asientoPrin"];
 		$this->volumen = $datos["volumen"];
 		$this->idIdioma = $datos["idIdioma"];
+		$this->nota = $datos["nota"];
+		
 	}
 	
 	public function toArray()
@@ -255,10 +271,11 @@ class Biblioteca_Model_Ejemplar
 		$datos["asientoPrin"] = $this->asientoPrin;
 		$datos["volumen"] = $this->volumen;
 		$datos["idIdioma"] = $this->idIdioma;
+		$datos["nota"] = $this->nota;
 		
 		return $datos;
 		
 	}
-
 }
+
 

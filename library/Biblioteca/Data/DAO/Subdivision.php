@@ -22,7 +22,8 @@ class Biblioteca_Data_DAO_Subdivision{
 	public function getAllSubdivisiones()
 	{
 		$tablaSubDivision = $this->tableSubDivision;
-		$rowSubdivisiones = $tablaSubDivision->fetchAll();
+		$select = $tablaSubDivision->select()->from($tablaSubDivision)->order("subdivision ASC");
+		$rowSubdivisiones = $tablaSubDivision->fetchAll($select);
 		
 		if (is_null ($rowSubdivisiones)) {
 			return null;

@@ -10,6 +10,10 @@
 	
 	public function getAllRecursos();
 	
+	public function getAllTableRecursos();
+	
+	//public function buscar($consulta);
+	
 		
 	
  }

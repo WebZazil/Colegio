@@ -14,8 +14,44 @@ class Biblioteca_ClasificacionController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+      //  $clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
+		//$this->view->clasificaciones = $clasificaciones;
+		
         $clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
-		$this->view->clasificaciones = $clasificaciones;
+        
+        $this->view->clasificaciones = $clasificaciones;
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            $clasificaciones =$request->getPost();
+            print_r($clasificaciones); print_r("<br />");
+            
+            
+            foreach ($clasificaciones as $key => $value){
+                if($value == "0"){
+                    unset($clasificacion[$key]);
+                }
+            }
+            
+            $resources = $this->clasificacionDAO->getEditorialByParamas($clasificaciones);
+            if(!empty($resources)){
+                
+                $container = array();
+                
+                $container = $resources;
+                $this->view->resources = $container;
+                
+            }else{
+                $this->view->resources = $array;
+            }
+            
+            
+            
+        }else{
+            $this->view->resources = array();
+        }
+        
+        $clasificacionDAO   = $this->clasificacionDAO;
     }
 
     public function altaAction()

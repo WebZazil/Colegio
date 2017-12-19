@@ -16,8 +16,44 @@ class Biblioteca_ColeccionController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+        //$colecciones = $this->coleccionDAO->getAllColecciones();
+		//$this->view->colecciones = $colecciones;
+		
         $colecciones = $this->coleccionDAO->getAllColecciones();
-		$this->view->colecciones = $colecciones;
+        
+        $this->view->colecciones = $colecciones;
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            $colecciones =$request->getPost();
+            print_r($colecciones); print_r("<br />");
+            
+            
+            foreach ($colecciones as $key => $value){
+                if($value == "0"){
+                    unset($coleccion[$key]);
+                }
+            }
+            
+            $resources = $this->coleccionDAO->getEditorialByParamas($colecciones);
+            if(!empty($resources)){
+                
+                $container = array();
+                
+                $container = $resources;
+                $this->view->resources = $container;
+                
+            }else{
+                $this->view->resources = $array;
+            }
+            
+            
+            
+        }else{
+            $this->view->resources = array();
+        }
+        
+        $coleccionDAO   = $this->coleccionDAO;
     }
 
     public function altaAction()

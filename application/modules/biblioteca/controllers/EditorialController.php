@@ -20,7 +20,43 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
         // action body
         
         $editoriales = $this->editorialDAO->getAllEditoriales();
+        
         $this->view->editoriales = $editoriales;
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            $editoriales =$request->getPost();
+            print_r($editoriales); print_r("<br />");
+            
+            
+            foreach ($editoriales as $key => $value){
+                if($value == "0"){
+                    unset($editorial[$key]);
+                }
+            }
+            
+            $resources = $this->editorialDAO->getEditorialByParamas($editoriales);
+             if(!empty($resources)){
+                 
+                 $container = array();
+                 
+                 $container = $resources;
+                 $this->view->resources = $container;
+                
+             }else{
+                 $this->view->resources = $array;
+             }
+             
+            
+            
+        }else{
+            $this->view->resources = array();
+        }
+        
+        $editorialDAO   = $this->editorialDAO;
+        
+        
+        
     }
 
     public function altaAction()

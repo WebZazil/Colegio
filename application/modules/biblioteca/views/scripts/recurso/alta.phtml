@@ -62,7 +62,7 @@
 				dataType: "json",
 				success: function(data){
 					console.dir(data);
-					$("#idsAutores").empty();
+					$("#idAutor").empty();
 					//$("#grado").append($("<option></option>").attr("value","0").text("Seleccione Grado Educativo"));
 					
 					$.each(data, function(i,item){//function(key,value)
@@ -79,13 +79,16 @@
 					  	}
 						
 						
-						$("#idsAutores").append($("<option></option>").attr("value",item.idAutor).text(nombre));
+						$("#idAutor").append($("<option></option>").attr("value",item.idAutor).text(nombre));
 					});
 					//$("#grupo").empty();
 				}
 			});
 		  }else {
-		  	$("#idsAutores").empty();
+		  	$("#idAutor").empty();
+		  	$('#idAutor')
+		 
+		  	
 		  }
 		});
 	

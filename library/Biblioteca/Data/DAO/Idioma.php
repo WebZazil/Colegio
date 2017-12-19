@@ -20,7 +20,8 @@
 	public function getAllIdiomas()
 	{
 		$tablaidioma = $this->tableIdioma;
-		$rowsidiomas = $tablaidioma->fetchAll();
+		$select = $tablaidioma->select()->from($tablaidioma)->order("idioma ASC");
+		$rowsidiomas = $tablaidioma->fetchAll($select);
 		
 		if(!is_null($rowsidiomas)){
 			

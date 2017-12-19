@@ -124,18 +124,23 @@ class Biblioteca_Form_AltaEjemplar extends Zend_Form
 		$ePaginas->setAttrib("class", "form-control");
 		$ePaginas->setAttrib("required", "required");
 		//=================================================
+		
 
 		$eAsientoPrin = new Zend_Form_Element_Text('asientoPrin');
 		$eAsientoPrin->setLabel("Asiento Print");
 		$eAsientoPrin->setAttrib("class", "form-control");
-
+		//=================================================
+		$eNota = new Zend_Form_Element_Text('nota');
+		$eNota->setLabel("Nota(s)");
+		$eNota->setAttrib("class","form-control");
+		//=================================================
 
 		$eSubmit = new Zend_Form_Element_Submit('submit');
 		$eSubmit->setLabel("Guardar");
 		$eSubmit->setAttrib("class", "btn btn-success");
 		
 		$this->addElements(array($eIdRecurso,$eIdEditorial,$ePublicado,$eIdIdiomas,$eNoClasif,$eNoItem,$eNoEdicion,
-		$eIdPais,$eIsbn,$eIssn,$eVolumen,$eDimension,$eSerie,$ePaginas,$eAsientoPrin,$eSubmit));
+		$eIdPais,$eIsbn,$eIssn,$eVolumen,$eDimension,$eSerie,$ePaginas,$eAsientoPrin,$eNota,$eSubmit));
 	
     }
 
