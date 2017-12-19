@@ -46,7 +46,7 @@ class App_Data_DAO_Login {
     
     /**
      *
-     * @param unknown $params
+     * @param array $params
      */
     private function getUsuarioByParams($params) {
         $tUs = $this->tUsuario;
@@ -176,6 +176,8 @@ class App_Data_DAO_Login {
                 $select = $tSub->select()->from($tSub)
                 ->where('idModulo=?',$modulo['idModulo'])
                 ->where('idRol=?',$rol['idRol']);
+                
+                //print_r($select->__toString());
                 //    ->where('clave=?', '');
                 $rowSub = $tSub->fetchRow($select)->toArray();
                 
@@ -208,7 +210,7 @@ class App_Data_DAO_Login {
     
     /**
      * 
-     * @param unknown $credentials
+     * @param array $credentials
      * @param string $claveOrg
      * @param string $tipoModulo
      * @return Zend_Db_Adapter_Abstract

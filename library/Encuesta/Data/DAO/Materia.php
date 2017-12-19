@@ -11,7 +11,7 @@ class Encuesta_Data_DAO_Materia {
     
     public function getMateriaById($idMateria) {
         $tM = $this->tableMateria;
-        $select = $tM->select()->from($tM)->where('idMateria=?',$idMateria);
+        $select = $tM->select()->from($tM)->where('idMateriaEscolar=?',$idMateria);
         $rowMat = $tM->fetchRow($select);
         
         return $rowMat->toArray();
@@ -19,6 +19,18 @@ class Encuesta_Data_DAO_Materia {
     
     public function getAllMaterias() {
         return $this->tableMateria->fetchAll()->toArray();
+    }
+    
+    public function getMateriasByIdGradoEducativoAndIdCicloEscolar($idGradoEducativo, $idCicloEscolar) {
+        $tME = $this->tableMateria;
+        $select = $tME->select()->from($tME)
+            ->where('idGradoEducativo=?',$idGradoEducativo)
+            ->where('idCicloEscolar=?',$idCicloEscolar)
+            ->order('materiaEscolar ASC');
+        
+        $rowsME = $tME->fetchAll($select);
+        
+        return $rowsME->toArray();
     }
     
 }

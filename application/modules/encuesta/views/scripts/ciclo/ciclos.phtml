@@ -33,13 +33,13 @@
 	                    <tbody>
 	                        <?php foreach ($ciclos as $ciclo) : ?>
 	                        <tr>
-	                            <td><?php echo $ciclo->getCiclo(); ?></td>
-	                            <td><?php echo $ciclo->getVigente() == '1' ? 'Vigente' : 'No Vigente' ; ?></td>
-	                            <td><?php echo $ciclo->getDescripcion(); ?></td>
-	                            <td><?php echo $ciclo->getInicio(); ?></td>
-	                            <td><?php echo $ciclo->getTermino(); ?></td>
+	                            <td><?php echo $ciclo['ciclo']; ?></td>
+	                            <td><?php echo $ciclo['vigente'] == '1' ? 'Vigente' : 'No Vigente' ; ?></td>
+	                            <td><?php echo $ciclo['descripcion']; ?></td>
+	                            <td><?php echo $ciclo['inicio']; ?></td>
+	                            <td><?php echo $ciclo['termino']; ?></td>
 	                            <td>
-	                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"admin","idCiclo"=>$ciclo->getIdCiclo()),null,true) ?>">
+	                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"admin","idCiclo"=>$ciclo['idCicloEscolar']),null,true) ?>">
 	                                    <span class="fa fa-cogs"></span> Configurar 
 	                                </a>
 	                            </td>

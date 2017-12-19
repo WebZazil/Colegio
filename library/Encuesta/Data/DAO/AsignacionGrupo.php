@@ -1,5 +1,5 @@
 <?php
-class Encuesta_Data_DAO_Asignacion {
+class Encuesta_Data_DAO_AsignacionGrupo {
     
     private $tableAsignacionGrupo;
     
@@ -48,7 +48,48 @@ class Encuesta_Data_DAO_Asignacion {
         return $object;
     }
     
+    public function getDocenteByIdAsignacion($idAsignacion) {
+        $tAG = $this->tableAsignacionGrupo;
+        $select = $tAG->select()->from($tAG)->where('idAsignacionGrupo=?',$idAsignacion);
+        $rowAG = $tAG->fetchRow($select)->toArray();
+        
+        $tR = $this->tableRegistro;
+        $select = $tR->select()->from($tR)->where('idRegistro=?', $rowAG['idRegistro']);
+        $rowR = $tR->fetchRow($select);
+        
+        return $rowR->toArray();
+    }
     
+    public function getAsignacionesGrupoByIdGrupo($idGrupoEscolar) {
+        $tAG = $this->tableAsignacionGrupo;
+        $select = $tAG->select()->from($tAG)->where('idGrupoEscolar=?',$idGrupoEscolar);
+        $rowsAG = $tAG->fetchAll($select);
+        
+        return $rowsAG->toArray();
+    }
+    
+    function getAsignacionByParams($params) {
+        $tAG = $this->tableAsignacionGrupo;
+        $select = $tAG->select()->from($tAG);
+        foreach ($params as $k => $v){
+            $select->where($k.'=?',$v);
+        }
+        $rowAG = $tAG->fetchRow($select);
+        
+        return $rowAG->toArray();
+    }
+    
+    public function existeDocenteEnAsignacion($idGrupoEscolar, $idMateriaEscolar) {
+        $tAG = $this->tableAsignacionGrupo;
+        $select = $tAG->select()->from($tAG)->where('idGrupoEscolar=?',$idGrupoEscolar)->where('idMateriaEscolar=?',$idMateriaEscolar);
+        $rowAG = $tAG->fetchRow($select);
+        
+        if (is_null($rowAG)) {
+            return false;
+        }else{
+            return true;
+        }
+    }
     
     
 }

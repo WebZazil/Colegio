@@ -855,6 +855,8 @@
             <controllerFile controllerName="Index">
               <actionMethod actionName="index"/>
               <actionMethod actionName="logout"/>
+              <actionMethod actionName="loginu"/>
+              <actionMethod actionName="loginb"/>
             </controllerFile>
             <controllerFile controllerName="Autor">
               <actionMethod actionName="index"/>
@@ -939,6 +941,12 @@
             <controllerFile controllerName="Editorial">
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
+            </controllerFile>
+            <controllerFile controllerName="Uprestamo">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Udashboard">
+              <actionMethod actionName="index"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -1145,6 +1153,18 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Usuario">
                 <viewScriptFile forActionName="logout"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="loginu"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="loginb"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uprestamo">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Udashboard">
+                <viewScriptFile forActionName="index"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1612,6 +1632,8 @@
               <testApplicationControllerFile forControllerName="Index">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="logout"/>
+                <testApplicationActionMethod forActionName="loginu"/>
+                <testApplicationActionMethod forActionName="loginb"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Autor">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1696,6 +1718,12 @@
               <testApplicationControllerFile forControllerName="Editorial">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Uprestamo">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Udashboard">
+                <testApplicationActionMethod forActionName="index"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

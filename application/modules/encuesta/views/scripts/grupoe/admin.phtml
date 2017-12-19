@@ -2,28 +2,27 @@
 	$grupo = $this->grupo;
 	$grado = $this->grado;
 	$nivel = $this->nivel;
-	$materiasAsociadas = $this->materiasAsociadas;
+	$materiasGrado = $this->materiasGrado;
 	$materiasDisponibles = $this->materiasDisponibles;
     
 	$asignacionDAO = $this->asignacionDAO;
     $registroDAO = $this->registroDAO;
-    
 ?>
 <div class="row">
 	<div class="col-xs-12">
-		<div class="panel panel-warning">
+		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h5 class="panel-title">Grado: <strong><?php echo $grado->getGradoEducativo(); ?></strong> >> Grupo: <strong><?php echo $grupo->getGrupo(); ?></strong></h5>
+				<h5 class="panel-title">Grado: <strong><?php echo $grado['gradoEducativo']; ?></strong> >> Grupo: <strong><?php echo $grupo['grupoEscolar']; ?></strong></h5>
 			</div>
 			<div class="panel-body">
 				<div>
-					<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"consulta","idGrado"=>$grado->getIdGradoEducativo()), null,true); ?>">
+					<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"consulta","idGrado"=>$grado['idGradoEducativo']), null,true); ?>">
 						<i class="fa fa-arrow-circle-left"></i> Regresar a grupos
 					</a>
 				</div>
 				<hr />
 				<div>
-					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarm","idGrupoEscolar" => $grupo->getIdGrupo()),null,true) ?>" >
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarm","idGrupoEscolar" => $grupo['idGrupoEscolar']),null,true) ?>" >
 						<div class="form-group">
 							<label class="col-xs-2 control-label" for="idMateriaEscolar">Materias Disponibles: </label>
 							<div class="col-xs-10">
@@ -51,9 +50,9 @@
 
 <div class="row">
 	<div class="col-xs-12">
-		<div class="panel panel-info">
+		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h5 class="panel-title">Grupo: <strong><?php echo $grupo->getGrupo(); ?></strong></h5>
+				<h5 class="panel-title">Grupo: <strong><?php echo $grupo['grupoEscolar']; ?></strong></h5>
 			</div>
 			<div class="panel-body">				
 				<div>
@@ -68,23 +67,22 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($materiasAsociadas as $materiaAsociada) : 
+							<?php foreach ($materiasGrado as $materiaGrado) : 
 							    //print_r($materiaAsociada["idMateriaEscolar"]);
 							    ?>
 							<tr>
-								<td><?php echo $nivel->getNivel() ?></td>
-								<td><?php echo $grado->getGradoEducativo() ?></td>
-								<td><?php echo $grupo->getGrupo() ?></td>
-								<td><?php echo $materiaAsociada["materiaEscolar"] ?></td>
+								<td><?php echo $nivel['nivelEducativo'] ?></td>
+								<td><?php echo $grado['gradoEducativo']; ?></td>
+								<td><?php echo $grupo['grupoEscolar'] ?></td>
+								<td><?php echo $materiaGrado['materiaEscolar'] ?></td>
 								<td>
-								    
-                                    
-								    <?php if ($asignacionDAO->existeDocenteEnAsignacion($grupo->getIdGrupo(), $materiaAsociada["idMateriaEscolar"]) ) {
-								        $asignacion = $asignacionDAO->obtenerDocenteEnAsignacion($grupo->getIdGrupo(), $materiaAsociada["idMateriaEscolar"]);
-                                        $registro = $registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+								    <?php if ($asignacionDAO->existeDocenteEnAsignacion($grupo['idGrupoEscolar'], $materiaGrado['idMateriaEscolar']) ) {
+								        $params = array('idGrupoEscolar'=>$grupo['idGrupoEscolar'],'idMateriaEscolar'=>$materiaGrado['idMateriaEscolar']);
+								        $asignacion = $asignacionDAO->getAsignacionByParams($params);
+                                        $registro = $registroDAO->getRegistroById($asignacion["idRegistro"]);
                                         echo $registro["apellidos"]." ".$registro["nombres"];
 									}else{ ?>
-								        <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarp","idGrupo"=>$grupo->getIdGrupo(),"idMateria"=>$materiaAsociada["idMateriaEscolar"],),null,true) ?>">
+								        <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asocdoc","gpo"=>$grupo['idGrupoEscolar'],"mat"=>$materiaGrado["idMateriaEscolar"]),null,true) ?>">
                                             <i class="fa fa-plus-circle"></i> Asociar Docente
                                         </a>
 								    <?php } ?>

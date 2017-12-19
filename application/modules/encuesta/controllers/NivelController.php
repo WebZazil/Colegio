@@ -8,16 +8,21 @@ class Encuesta_NivelController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $dataIdentity = $auth->getIdentity();
+        $identity = $auth->getIdentity();
         
-        $this->nivelDAO = new Encuesta_DAO_Nivel($dataIdentity["adapter"]);
+        if (!$auth->hasIdentity()) {
+            $auth->clearIdentity();
+            
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+        }
+        
+        $this->nivelDAO = new Encuesta_Data_DAO_NivelEducativo($identity["adapter"]);
     }
 
     public function indexAction()
     {
         // action body
-        $niveles = $this->nivelDAO->obtenerNiveles();
-		$this->view->niveles = $niveles;
+        $this->view->niveles = $this->nivelDAO->getAllNivelesEducativos();
     }
 
     public function adminAction()
@@ -28,33 +33,18 @@ class Encuesta_NivelController extends Zend_Controller_Action
     public function altaAction()
     {
         // action body
-        //$formulario = new Encuesta_Form_AltaNivel;
-		$request = $this->getRequest();
-		//$this->view->formulario = $formulario;
+        $request = $this->getRequest();
 		
 		if($request->isPost()){
 			$datos = $request->getPost();
             $datos["fecha"] = date("Y-m-d H:i:s", time());
-            //print_r($datos);
+            
             try{
                 $this->nivelDAO->crearNivel($datos);
                 $this->view->messageSuccess = "Nivel Educativo: <strong>" .$datos["nivelEducativo"]."</strong> creado exitosamente.";
-            }catch(Util_Exception_BussinessException $ex){
+            }catch(Exception $ex){
                 $this->view->messageFail = $ex->getMessage();
             }
-            /*
-			if($formulario->isValid($request->getPost())){
-				$datos = $formulario->getValues();
-				//$nivel = new Encuesta_Model_Nivel($datos);
-				
-				try{
-					$this->nivelDAO->crearNivel($datos);
-					$this->view->messageSuccess = "Nivel Educativo: <strong>" .$datos["nivelEducativo"]."</strong> creado exitosamente.";
-				}catch(Util_Exception_BussinessException $ex){
-					$this->view->messageFail = $ex->getMessage();
-				}
-			}
-            */
 		}
     }
 

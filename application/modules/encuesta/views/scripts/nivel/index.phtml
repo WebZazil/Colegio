@@ -26,10 +26,10 @@
 	                    <tbody>
 	                        <?php foreach ($niveles as $nivel) : ?>
 	                        <tr>
-	                            <td><?php echo $nivel->getNivel(); ?></td>
-	                            <td><?php echo $nivel->getDescripcion(); ?></td>
+	                            <td><?php echo $nivel['nivelEducativo']; ?></td>
+	                            <td><?php echo $nivel['descripcion']; ?></td>
 	                            <td>
-	                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"grados","idNivel"=>$nivel->getIdNivel()),null,true) ?>">
+	                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"grados","idNivel"=>$nivel['idNivelEducativo']),null,true) ?>">
 	                                    <span class="fa fa-search"></span> Grados
 	                                </a>
 	                            </td>
