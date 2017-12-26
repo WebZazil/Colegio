@@ -1,0 +1,22 @@
+<?php
+    $module = 'biblioteca';
+    $links = array(
+        'udashboardIndex' => $this->url(array('module'=>$module,'controller'=>'udashboard','action'=>'index'),null,true),
+        'uuserIndex' => $this->url(array('module'=>$module,'controller'=>'uusuario','action'=>'index'),null,true),
+        'uuserSettings' => $this->url(array('module'=>$module,'controller'=>'uusuario','action'=>'configuracion'),null,true),
+        'uuserLogout' => $this->url(array('module'=>$module,'controller'=>'uusuario','action'=>'logout'),null,true),
+        'uprestamoIndex' => $this->url(array('module'=>$module,'controller'=>'uprestamo','action'=>'index'),null,true),
+        'uprestamoMultas' => $this->url(array('module'=>$module,'controller'=>'uprestamo','action'=>'multa'),null,true),
+        'uprestamoHistorial' => $this->url(array('module'=>$module,'controller'=>'uprestamo','action'=>'historial'),null,true),
+        'uconsultaIndex' => $this->url(array('module'=>$module,'controller'=>'uconsulta','action'=>'index'),null,true),
+        
+    );
+?>
+<ul class="breadcrumb">
+	<li>
+		<i class="ace-icon fa fa-home home-icon"></i>
+		<a href="<?php echo $links['udashboardIndex']; ?>">Home</a>
+	</li>
+	<li class="active"><?php echo $this->controllerName; ?></li>
+	<li class="active"><?php echo $this->actionName; ?></li>
+</ul>

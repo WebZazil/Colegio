@@ -3,61 +3,63 @@
 	$messageSuccess = $this->messageSuccess;
 	$messageFail = $this->messageFail;
 ?>
-<div class="row-fluid">
-    <div class="span12 widget-box">
-        <div class="widget-title">
-            <h5>Alta de <strong>nivel educativo</strong> en la encuesta</h5>
-        </div>
-        <div class="widget-content">
-            <div>
-                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"nivel","action"=>"index"),null,true) ?>">
-                    <span class="icon icon-arrow-left"></span> Regresar a Niveles
-                </a>
-                <br />
-                <?php if(!is_null($messageSuccess)){ ?>
-                <br />
-                <div class="alert alert-success" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    <?php echo $messageSuccess; ?>
-                </div>
-                <?php }elseif(!is_null($messageFail)){ ?>
-                <div class="alert alert-danger" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    <?php echo $messageFail; ?>
-                </div>
-                <br />
-                <?php } ?>
+<div class="row">
+    <div class="col-md-12">
+    	<div class="panel panel-info">
+    		<div class="panel-heading">
+                <h5 class="panel-title">Nuevo Nivel Educativo</h5>
             </div>
-            <hr />
-            <div>
-                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
-                    <div class="control-group">
-                        <label class="control-label" for="nivelEducativo">Nivel Educativo: </label>
-                        <div class="controls">
-                            <input type="text" name="nivelEducativo" placeholder="Preescolar, Primaria, Etc.." autofocus="" class="span10" />
-                        </div>
+            <div class="panel-body">
+                <div>
+                    <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"nivel","action"=>"index"),null,true) ?>">
+                        <span class="fa fa-arrow-left"></span> Regresar a Niveles
+                    </a>
+                    <br />
+                    <?php if(!is_null($messageSuccess)){ ?>
+                    <br />
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <?php echo $messageSuccess; ?>
                     </div>
-                    
-                    <div class="control-group">
-                        <label class="control-label" for="descripcion">Descripción: </label>
-                        <div class="controls">
-                            <input type="text" name="descripcion" placeholder="Agregre una descripción..." class="span10" />
-                        </div>
+                    <?php }elseif(!is_null($messageFail)){ ?>
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <?php echo $messageFail; ?>
                     </div>
-                    
-                    <div class="form-actions">
-                        <div class="pull-right">
-                            <button type="submit" class="btn btn-success">
-                                <span class="icon icon-save"></span> Guardar Nivel
-                            </button>
+                    <br />
+                    <?php } ?>
+                </div>
+                <hr />
+                <div>
+                    <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="nivelEducativo">Nivel Educativo: </label>
+                            <div class="col-md-10">
+                                <input type="text" name="nivelEducativo" placeholder="Preescolar, Primaria, Etc.." autofocus="autofocus" class="form-control" />
+                            </div>
                         </div>
-                    </div>
-                </form>
+                        
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="descripcion">Descripción: </label>
+                            <div class="col-md-10">
+                                <input type="text" name="descripcion" placeholder="Agregre una descripción..." class="form-control" />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-success">
+                                    <span class="fa fa-save"></span> Guardar Nivel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+    	</div>
     </div>
 </div>

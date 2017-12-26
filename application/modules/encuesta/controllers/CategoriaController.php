@@ -1,28 +1,36 @@
 <?php
-
+/**
+ * 
+ * @author EnginnerRodriguez
+ * Actualizado: Noviembre 2017
+ *
+ */
 class Encuesta_CategoriaController extends Zend_Controller_Action
 {
 
 	private $categoriaDAO = null;
-	private $opcionDAO = null;
 	
+	/**
+	 * Actualizado: Noviembre 2017
+	 */
     public function init()
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
         $identity = $auth->getIdentity();
         
-        
-        // $this->categoriaDAO = new Encuesta_DAO_Categoria($dataIdentity["adapter"]);
-		//$this->opcionDAO = new Encuesta_DAO_Opcion($dataIdentity["adapter"]);
-		
-		if ($auth->hasIdentity()) {
-		    ;
+        if (!$auth->hasIdentity()) {
+            $auth->clearIdentity();
+            
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
 		}
 		
 		$this->categoriaDAO = new Encuesta_Data_DAO_Categoria($identity['adapter']);
     }
 
+    /**
+     * Actualizado: Noviembre 2017
+     */
     public function indexAction()
     {
         // action body
@@ -33,9 +41,8 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
     {
         // action body
         $idCategoria = $this->getParam("idCategoria");
-		//$categoria = $this->categoriaDAO->obtenerCategoria($idCategoria);
-		$categoria = $this->categoriaDAO->getCategoriaById($idCategoria);
-		//$opciones = $this->categoriaDAO->obtenerOpciones($idCategoria);
+		
+        $categoria = $this->categoriaDAO->getCategoriaById($idCategoria);
 		$opciones = $this->categoriaDAO->getOpcionesCategoria($idCategoria);
 		
 		$formulario = new Encuesta_Form_AltaCategoria();
@@ -81,29 +88,20 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
 		$this->_helper->redirector->gotoSimple("index", "categoria", "encuesta");
     }
 
+    /**
+     * Actualizado: Noviembre 2017
+     */
     public function opcionesAction()
     {
         // action body
         $idCategoria = $this->getParam("idCategoria");
-		// $categoria = $this->categoriaDAO->obtenerCategoria($idCategoria);
-		$categoria = $this->categoriaDAO->getCategoriaById($idCategoria);
-		
-		// $opciones = $this->categoriaDAO->obtenerOpciones($idCategoria);
+        
+		$categoria = $this->categoriaDAO->getCategoriaById($idCategoria);		
 		$opciones = $this->categoriaDAO->getOpcionesCategoria($idCategoria);
 		
 		$this->view->categoria = $categoria;
 		$this->view->opciones = $opciones;
-		//$this->view->formulario = $formulario;
+		
     }
 
-
 }
-
-
-
-
-
-
-
-
-

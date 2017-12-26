@@ -11,26 +11,26 @@
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h4 class="panel-title">
-				Grupo: <strong><?php echo $grupo->getGrupo(); ?></strong>
+				Grupo: <strong><?php echo $grupo['grupoEscolar']; ?></strong>
 			</h4>
 		</div>
 		<div class="panel-body">
 			<?php //echo $formulario; ?>
 			<div>
-			   <h4>Asociando Materia: <strong><?php echo $materia->getMateriaEscolar() ?></strong> con Docente</h4>
+			   <h4>Asociando Materia: <strong><?php echo $materia['materiaEscolar'] ?></strong> con Docente</h4>
 			   <hr />
 			   <div class="form-horizontal">
                    <div class="form-group">
                        <label class="col-md-2 control-label">Materia:</label>
                        <div class="col-md-10">
-                           <label class="control-label"><?php echo $materia->getMateriaEscolar(); ?></label>
+                           <label class="control-label"><?php echo $materia['materiaEscolar']; ?></label>
                        </div>
                    </div>
                    
                    <div class="form-group">
                        <label class="col-md-2 control-label">Docente: </label>
                        <div class="col-md-10">
-                           <input id="docente" class="form-control" autofocus="" />
+                           <input id="docente" class="form-control" autofocus="autofocus" />
                        </div>
                    </div>
                </div>
@@ -65,8 +65,8 @@
             if(valor != ""){
                 var urlDocentes = "/param/"+valor;
                 var urlQueryDocentes = url + "/json/docentes" + urlDocentes;
-                var idMateria = <?php echo $materia->getIdMateriaEscolar(); ?>;
-                var idGrupo = <?php echo $grupo->getIdGrupo(); ?>;
+                var idMateria = <?php echo $materia['idMateriaEscolar']; ?>;
+                var idGrupo = <?php echo $grupo['idGrupoEscolar']; ?>;
                 
                 console.log(urlQueryDocentes);
                 

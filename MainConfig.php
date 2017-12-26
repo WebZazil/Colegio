@@ -13,7 +13,7 @@ class MainConfig {
 	function __construct() {
 		setlocale(LC_ALL, 'es_MX.UTF-8');
 		date_default_timezone_set('America/Mexico_City');
-
+		
         $tipo = array('AB' => 'ABIERTAS', 'SS' => 'SIMPLE SELECCION', 'MS' => 'MULTIPLE SELECCION');
 		Zend_Registry::set('tipo', $tipo);
         $tipoValor = array('EN' => 'Entero', 'DC' => 'Decimal', 'TX' => 'Caractéres');

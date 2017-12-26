@@ -6,7 +6,7 @@
     <div class="col-xs-12">
     	<div class="panel panel-info">
     		<div class="panel-heading">
-	            <h5 class="panel-title">Grados Escolares del Nivel: <strong><?php echo $nivel->getNivel() ?></strong></h5>
+	            <h5 class="panel-title">Grados Escolares del Nivel: <strong><?php echo $nivel['nivelEducativo'] ?></strong></h5>
 	        </div>
 	        <div class="panel-body">
 	            <div>
@@ -14,7 +14,7 @@
 	                    <span class="fa fa-arrow-circle-left"></span> Regresar a los Niveles
 	                </a>
 	                
-	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"alta","idNivel"=>$nivel->getIdNivel()),null,true) ?>">
+	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"alta","idNivel"=>$nivel['idNivelEducativo']),null,true) ?>">
 	                    <span class="fa fa-plus-circle"></span> Agregar Grado
 	                </a>
 	            </div>
@@ -31,10 +31,10 @@
 	                    <tbody>
 	                        <?php foreach ($grados as $grado) : ?>
 	                        <tr>
-	                            <td><?php echo $grado->getGradoEducativo(); ?></td>
-	                            <td><?php echo $grado->getDescripcion(); ?></td>
+	                            <td><?php echo $grado['gradoEducativo']; ?></td>
+	                            <td><?php echo $grado['descripcion']; ?></td>
 	                            <td>
-	                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado->getIdGradoEducativo()),null,true) ?>">
+	                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado['idGradoEducativo']),null,true) ?>">
 	                                    <span class="fa fa-cogs"></span> Configurar
 	                                </a>
 	                            </td>

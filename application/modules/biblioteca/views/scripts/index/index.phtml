@@ -1,4 +1,7 @@
-<?php 
+<?php
+    $consultaActiva = true;
+    $loginActivo = true;
+    $errorMessage = $this->errorMessage;
 ?>
 <!-- Navegacion  --> 
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -18,31 +21,123 @@
                     <a href="#page-top"></a>
                 </li>
                 <li class="page-scroll">
-                    <a href="#login">Login</a>
+                    <a href="#about">
+                    	<i class="fa fa-star"></i> Acerca de
+                    </a>
                 </li>
+                <?php if ($loginActivo) { ?>
+				<li class="page-scroll">
+					<a href="#login">
+						<i class="fa fa-user"></i> Login
+					</a>
+				</li>
+				<?php }  ?>
+                <?php if ($consultaActiva) { ?>
+				<li class="page-scroll">
+					<a href="#consulta">
+						<i class="fa fa-search"></i> Consulta
+					</a>
+				</li>
+				<?php } ?>
             </ul>
         </div>
     </div>
 </nav>
 
-<header id="login">
+<header id="about">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2>Login</h2>
+                <h2>Sistema de Biblioteca</h2>
                 <hr class="star-primary">
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <form class="form-horizontal" action="<?php echo $this->url(array("module"=>"biblioteca","controller"=>"index","action"=>"login"),null,true) ?>" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+            	<p>
+            		Consulta, Prestamos y Renovación de libros de biblioteca del Colegio Sagrado Corazón plantel CDMX.
+            	</p>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</header>
+
+<?php if ($loginActivo) { ?>
+<section id="login">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2>Login</h2>
+				<hr class="star-primary">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-5">
+				<form class="form-horizontal" action="<?php echo $this->url(array("module"=>"biblioteca","controller"=>"index","action"=>"index"),null,true) ?>" method="post" enctype="application/x-www-form-urlencoded">
                     <fieldset>
-                        <legend>Acceso al Sistema:</legend>
+                        <legend>Alumnas y Docentes:</legend>
                         <div class="form-group">
-                            <label class="col-xs-2" for="usuario">Usuario: </label>
+                            <label class="col-xs-2" for="tipo">Tipo: </label>
                             <div class="col-xs-10">
-                                <input type="text" class="form-control" name="usuario" placeholder="Usuario..." autofocus>
+                                <select name="tipo" class="form-control" >
+                                	<option value="ST">Seleccione Tipo</option>
+                                	<option value="AL">Alumna</option>
+                                	<option value="DO">Docente</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-xs-2" for="nickname">Nickname: </label>
+                            <div class="col-xs-10">
+                                <input type="text" class="form-control" name="nickname" placeholder="Nickname..." autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2" for="password">Password: </label>
+                            <div class="col-xs-10">
+                                <input type="password" class="form-control" name="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <button type="submit" class="btn btn-success">
+                                    Acceder
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <?php if (!is_null($errorMessage) || $errorMessage != "") { ?>
+            	<p style="color: red;">
+                	<strong><?php echo $errorMessage; ?></strong>
+                </p>
+            	<?php } ?>
+			</div>
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-5">
+            	<form class="form-horizontal" action="<?php echo $this->url(array("module"=>"biblioteca","controller"=>"index","action"=>"login"),null,true) ?>" method="post" enctype="application/x-www-form-urlencoded">
+                    <fieldset>
+                        <legend>Bibliotecarios y Sistema:</legend>
+                        
+                        <div class="form-group">
+                            <label class="col-xs-2" for="tipo">Tipo: </label>
+                            <div class="col-xs-10">
+                                <select name="tipo" class="form-control" >
+                                	<option value="ST">Seleccione Tipo</option>
+                                	<option value="AL">Bibliotecario</option>
+                                	<option value="DO">Sistema</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-xs-2" for="nickname">Nickname: </label>
+                            <div class="col-xs-10">
+                                <input type="text" class="form-control" name="nickname" placeholder="Nickname..." autofocus>
                             </div>
                         </div>
                         <div class="form-group">
@@ -61,11 +156,27 @@
                     </fieldset>
                 </form>
             </div>
-            <div class="col-sm-2"></div>
-        </div>
-    </div>
-</header>
+		</div>
+	</div>	
+</section>
+<?php } ?>
 
+<?php if ($consultaActiva) { ?>
+<section id="consulta">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2>Consulta de libros</h2>
+				<hr class="star-primary">
+			</div>
+		</div>
+		<div class="row">
+		</div>
+		<div class="row">
+		</div>
+	</div>	
+</section>
+<?php } ?>
 
 <footer class="text-center">
     <div class="footer-below">

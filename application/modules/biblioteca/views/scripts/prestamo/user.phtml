@@ -1,0 +1,105 @@
+<?php
+    $usuario = $this->usuario;
+    $prestamosUsuario = $this->prestamosUsuario;
+    
+    $multasUsuario = $this->multasUsuario;
+    $linkUser = $this->url(array('module'=>'biblioteca','controller'=>'usuarios','action'=>'user','us'=>$usuario['id']),null,true);
+    $linkUsers = $this->url(array('module'=>'biblioteca','controller'=>'usuarios','action'=>'index'),null,true);
+    $linkAlta = $this->url(array('module'=>'biblioteca','controller'=>'prestamo','action'=>'alta','us'=>$usuario['id']),null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Prestamos del Usuario</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a class="btn btn-info" href="<?php echo $linkUser; ?>">
+						<i class="fa fa-user"></i> Regresar a usuario
+					</a>
+					<a class="btn btn-info" href="<?php echo $linkUsers; ?>">
+						<i class="fa fa-users"></i> Regresar a usuarios
+					</a>
+					<a class="btn btn-success" href="<?php echo $linkAlta; ?>">
+						<i class="fa fa-plus"></i> Alta Prestamo
+					</a>
+				</div>
+				<hr />
+				<div>
+				<?php if (!empty($prestamosUsuario)) { ?>
+				<table class="table table-striped table-condensed">
+					<thead>
+						<tr>
+							<th>Estatus</th>
+							<th>Fecha Prestamo</th>
+							<th>Fecha Entrega</th>
+							<th>Fecha Vencimiento</th>
+							<th>Ejemplar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($prestamosUsuario as $prestamo) : ?>
+						<tr>
+							<td><?php echo $prestamo['idEstatus']; ?></td>
+							<td><?php echo $prestamo['fechaPrestamo']; ?></td>
+							<td><?php echo $prestamo['fechaDevolucion']; ?></td>
+							<td><?php echo $prestamo['fechaVencimiento']; ?></td>
+							<td><?php echo $prestamo['idEjemplar']; ?></td>
+						</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+				<?php } else { ?>
+				<p style="color: red;">
+					<strong>No se encontraron prestamos para el usuario.</strong>
+				</p>
+				<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<h5 class="panel-title">Multas del Usuario</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					
+				</div>
+				<div>
+					<?php if (!empty($multasUsuario)) { ?>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Ejemplar</th>
+								<th>Fecha Multa</th>
+								<th>Tiempo Excedido</th>
+								<th>Importe Unitario</th>
+								<th>Importe Multa</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<?php } else { ?>
+					<p style="color: red;">
+        				<strong>No se encontraron multas para el usuario.</strong>
+        			</p>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

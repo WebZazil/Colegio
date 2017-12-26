@@ -1,0 +1,166 @@
+<?php
+    $module = 'biblioteca';
+    $links = array(
+        'udashboardIndex' => $this->url(array('module'=>$module,'controller'=>'udashboard','action'=>'index'),null,true),
+        'uuserIndex' => $this->url(array('module'=>$module,'controller'=>'uuser','action'=>'index'),null,true),
+        'uuserSettings' => $this->url(array('module'=>$module,'controller'=>'uuser','action'=>'settings'),null,true),
+        'uuserLogout' => $this->url(array('module'=>$module,'controller'=>'uuser','action'=>'logout'),null,true),
+        'uprestamoIndex' => $this->url(array('module'=>$module,'controller'=>'uprestamo','action'=>'index'),null,true),
+        'uprestamoMultas' => $this->url(array('module'=>$module,'controller'=>'uprestamo','action'=>'multa'),null,true),
+        'uprestamoHistorial' => $this->url(array('module'=>$module,'controller'=>'uprestamo','action'=>'historial'),null,true),
+        'uconsultaIndex' => $this->url(array('module'=>$module,'controller'=>'uconsulta','action'=>'index'),null,true),
+    );
+?>
+<div id="sidebar" class="sidebar responsive">
+	<script type="text/javascript">
+		try{ace.settings.loadState('sidebar')}catch(e){}
+	</script>
+	
+	<div id="sidebar-shortcuts" class="sidebar-shortcuts">
+		<div id="sidebar-shortcuts-large" class="sidebar-shortcuts-large">
+			<button class="btn btn-success">
+				<i class="ace-icon fa fa-signal"></i>
+			</button>
+			
+			<button class="btn btn-info">
+				<i class="ace-icon fa fa-pencil"></i>
+			</button>
+
+			<button class="btn btn-warning">
+				<i class="ace-icon fa fa-users"></i>
+			</button>
+
+			<button class="btn btn-danger">
+				<i class="ace-icon fa fa-cogs"></i>
+			</button>
+		</div>
+		
+		<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+			<span class="btn btn-success"></span>
+			<span class="btn btn-info"></span>
+			<span class="btn btn-warning"></span>
+			<span class="btn btn-danger"></span>
+		</div>
+	</div>
+	
+	<ul class="nav nav-list">
+		<li class="active">
+			<a href="<?php echo $links['udashboardIndex'] ?>">
+				<i class="menu-icon fa fa-tachometer"></i>
+				<span class="menu-text"> Dashboard </span>
+			</a>
+
+			<b class="arrow"></b>
+		</li>
+
+		<li class="">
+			<a href="<?php echo $links['udashboardIndex'] ?>" class="dropdown-toggle">
+				<i class="menu-icon fa fa-users"></i>
+				<span class="menu-text">
+					Usuario
+				</span>
+
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+
+			<b class="arrow"></b>
+
+			<ul class="submenu">
+				<li class="">
+					<a href="#" class="dropdown-toggle">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Prestamos
+						<b class="arrow fa fa-angle-down"></b>
+					</a>
+
+					<b class="arrow"></b>
+
+					<ul class="submenu">
+						<li class="">
+							<a href="<?php echo $links['uprestamoIndex'] ?>">
+								<i class="menu-icon fa fa-caret-right"></i>
+								Activos
+							</a>
+
+							<b class="arrow"></b>
+						</li>
+
+						<li class="">
+							<a href="<?php echo $links['uprestamoMultas'] ?>">
+								<i class="menu-icon fa fa-caret-right"></i>
+								Multas
+							</a>
+
+							<b class="arrow"></b>
+						</li>
+
+						<li class="">
+							<a href="<?php echo $links['uprestamoHistorial'] ?>">
+								<i class="menu-icon fa fa-caret-right"></i>
+								Historial
+							</a>
+
+							<b class="arrow"></b>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		
+		<li class="">
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-search"></i>
+				<span class="menu-text"> Consultas </span>
+
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+
+			<b class="arrow"></b>
+
+			<ul class="submenu">
+				<li class="">
+					<a href="<?php echo $links['uconsultaIndex'] ?>">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Consulta de recursos
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+			</ul>
+		</li>
+
+		<?php if (false) { // Implementar conexion a google calendar ?>
+		<li class="">
+			<a href="calendar.html">
+				<i class="menu-icon fa fa-calendar"></i>
+
+				<span class="menu-text">
+					Calendar
+
+					<span class="badge badge-transparent tooltip-error" title="2 Important Events">
+						<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
+					</span>
+				</span>
+			</a>
+
+			<b class="arrow"></b>
+		</li>
+		<?php } ?>
+		
+		<?php if (false) { // Alumnas/Docentes pueden subir imagenes de los libros ?>
+		<li class="">
+			<a href="gallery.html">
+				<i class="menu-icon fa fa-picture-o"></i>
+				<span class="menu-text"> Gallery </span>
+			</a>
+
+			<b class="arrow"></b>
+		</li>
+		<?php } ?>
+		
+	</ul><!-- /.nav-list -->
+	
+	<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+		<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+	</div>
+</div>

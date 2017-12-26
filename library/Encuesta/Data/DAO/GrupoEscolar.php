@@ -4,7 +4,7 @@
  * @author EnginnerRodriguez
  *
  */
-class Encuesta_Data_DAO_Grupo {
+class Encuesta_Data_DAO_GrupoEscolar {
     
     private $tableGrupoEscolar;
     private $tableConjuntoEvaluador;
@@ -35,6 +35,20 @@ class Encuesta_Data_DAO_Grupo {
      */
     public function getAllGrupos() {
         return $this->tableGrupoEscolar->fetchAll()->toArray();
+    }
+    
+    /**
+     * 
+     * @param int $idGradoEducativo
+     * @param int $idCicloEscolar
+     * @return array
+     */
+     public function getGruposByIdGradoEducativoAndIdCicloEscolar($idGradoEducativo, $idCicloEscolar){
+        $tGE = $this->tableGrupoEscolar;
+        $select = $tGE->select()->from($tGE)->where('idGradoEducativo=?',$idGradoEducativo)->where('idCicloEscolar=?',$idCicloEscolar);
+        $rowsGE = $tGE->fetchAll($select);
+        
+        return $rowsGE->toArray();
     }
     
     /**
