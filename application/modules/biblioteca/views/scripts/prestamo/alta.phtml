@@ -1,0 +1,47 @@
+<?php
+    $usuario = $this->usuario;
+    $nombreUsuario =  $usuario['apaterno']. ' '. $usuario['amaterno'].', '.$usuario['nombres'];
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Prestamo de recursos de Biblioteca</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<h4>Usuario: <strong><?php echo $nombreUsuario; ?></strong> </h4>
+					<form action="" class="form-inline" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="recursoId">Recurso: </label>
+							<input type="text" name="recursoId" class="form-control" />
+						</div>
+					</form>
+				</div>
+				<hr />
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Recurso</th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

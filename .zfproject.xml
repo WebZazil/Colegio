@@ -944,9 +944,30 @@
             </controllerFile>
             <controllerFile controllerName="Uprestamo">
               <actionMethod actionName="index"/>
+              <actionMethod actionName="multa"/>
+              <actionMethod actionName="historial"/>
             </controllerFile>
             <controllerFile controllerName="Udashboard">
               <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Uconsulta">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Uusuario">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="configuracion"/>
+              <actionMethod actionName="logout"/>
+            </controllerFile>
+            <controllerFile controllerName="Prestamo">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="devolucion"/>
+              <actionMethod actionName="multa"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="user"/>
+            </controllerFile>
+            <controllerFile controllerName="Usuarios">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="user"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -1165,6 +1186,45 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Udashboard">
                 <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uconsulta">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uprestamo">
+                <viewScriptFile forActionName="multa"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uprestamo">
+                <viewScriptFile forActionName="historial"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uusuario">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uusuario">
+                <viewScriptFile forActionName="configuracion"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uusuario">
+                <viewScriptFile forActionName="logout"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="devolucion"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="multa"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="user"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="user"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1721,9 +1781,30 @@
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Uprestamo">
                 <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="multa"/>
+                <testApplicationActionMethod forActionName="historial"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Udashboard">
                 <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Uconsulta">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Uusuario">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="configuracion"/>
+                <testApplicationActionMethod forActionName="logout"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Prestamo">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="devolucion"/>
+                <testApplicationActionMethod forActionName="multa"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="user"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Usuarios">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="user"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

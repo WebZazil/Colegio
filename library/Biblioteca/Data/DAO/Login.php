@@ -26,7 +26,7 @@ class Biblioteca_Data_DAO_Login {
      */
     public function loginUser($params) {
         $auth = Zend_Auth::getInstance();
-        $auth->clearIdentity();
+        //$auth->clearIdentity();
         
         $authAdapter = new Zend_Auth_Adapter_DbTable($this->dbConnection,'Usuario','nickname','password',null);
         $authAdapter->setIdentity($params['nickname'])->setCredential($params['password']);
@@ -44,6 +44,21 @@ class Biblioteca_Data_DAO_Login {
             $auth->getStorage()->write($sessionObj);
         }else {
             print_r($resultado->getMessages());
+            $mensajes = $resultado->getMessages();
+            $strMsg = "";
+            foreach ($mensajes as $mensaje){
+                switch ($mensaje) {
+                    case 'Supplied credential is invalid.' :
+                        $mensaje = 'Password incorrecto';
+                        break;
+                    case 'A record with the supplied identity could not be found.':
+                        $mensaje = 'Nickname no registrado en sistema';
+                        break;
+                }
+                $strMsg .= $mensaje.'<br />';
+            }
+            
+            throw new Exception($strMsg);
         }
     }
     

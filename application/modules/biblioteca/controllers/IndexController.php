@@ -23,6 +23,18 @@ class Biblioteca_IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                $this->loginDAO->loginUser($datos);
+                $this->_helper->redirector->gotoSimple("index", "udashboard", "biblioteca");
+            }catch(Exception $ex){
+                //print_r($expression);
+                $this->view->errorMessage = $ex->getMessage();
+            }
+        }
     }
 
     public function loginAction()
@@ -44,12 +56,7 @@ class Biblioteca_IndexController extends Zend_Controller_Action
     public function loginuAction()
     {
         // action body
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $datos = $request->getPost();
-            
-            $this->loginDAO->loginUser($datos);
-        }
+        
     }
 
     public function loginbAction()

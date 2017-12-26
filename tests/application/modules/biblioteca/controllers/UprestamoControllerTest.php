@@ -26,8 +26,46 @@ class Biblioteca_UprestamoControllerTest extends Zend_Test_PHPUnit_ControllerTes
             );
     }
 
+    public function testMultaAction()
+    {
+        $params = array('action' => 'multa', 'controller' => 'Uprestamo', 'module' => 'biblioteca');
+        $urlParams = $this->urlizeOptions($params);
+        $url = $this->url($urlParams);
+        $this->dispatch($url);
+        
+        // assertions
+        $this->assertModule($urlParams['module']);
+        $this->assertController($urlParams['controller']);
+        $this->assertAction($urlParams['action']);
+        $this->assertQueryContentContains(
+            'div#view-content p',
+            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
+            );
+    }
+
+    public function testHistorialAction()
+    {
+        $params = array('action' => 'historial', 'controller' => 'Uprestamo', 'module' => 'biblioteca');
+        $urlParams = $this->urlizeOptions($params);
+        $url = $this->url($urlParams);
+        $this->dispatch($url);
+        
+        // assertions
+        $this->assertModule($urlParams['module']);
+        $this->assertController($urlParams['controller']);
+        $this->assertAction($urlParams['action']);
+        $this->assertQueryContentContains(
+            'div#view-content p',
+            'View script for controller <b>' . $params['controller'] . '</b> and script/action name <b>' . $params['action'] . '</b>'
+            );
+    }
+
 
 }
+
+
+
+
 
 
 

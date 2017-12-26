@@ -1,6 +1,7 @@
 <?php
     $consultaActiva = true;
     $loginActivo = true;
+    $errorMessage = $this->errorMessage;
 ?>
 <!-- Navegacion  --> 
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -74,7 +75,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-5">
-				<form class="form-horizontal" action="<?php echo $this->url(array("module"=>"biblioteca","controller"=>"index","action"=>"loginu"),null,true) ?>" method="post" enctype="application/x-www-form-urlencoded">
+				<form class="form-horizontal" action="<?php echo $this->url(array("module"=>"biblioteca","controller"=>"index","action"=>"index"),null,true) ?>" method="post" enctype="application/x-www-form-urlencoded">
                     <fieldset>
                         <legend>Alumnas y Docentes:</legend>
                         <div class="form-group">
@@ -109,11 +110,16 @@
                         </div>
                     </fieldset>
                 </form>
+                <?php if (!is_null($errorMessage) || $errorMessage != "") { ?>
+            	<p style="color: red;">
+                	<strong><?php echo $errorMessage; ?></strong>
+                </p>
+            	<?php } ?>
 			</div>
             <div class="col-sm-2">
             </div>
             <div class="col-sm-5">
-            	<form class="form-horizontal" action="<?php echo $this->url(array("module"=>"biblioteca","controller"=>"index","action"=>"loginb"),null,true) ?>" method="post" enctype="application/x-www-form-urlencoded">
+            	<form class="form-horizontal" action="<?php echo $this->url(array("module"=>"biblioteca","controller"=>"index","action"=>"login"),null,true) ?>" method="post" enctype="application/x-www-form-urlencoded">
                     <fieldset>
                         <legend>Bibliotecarios y Sistema:</legend>
                         

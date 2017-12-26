@@ -151,7 +151,7 @@ class App_Data_DAO_Login {
      * @param array $credentials
      */
     public function simpleLogin($credentials, $claveOrg = 'colsagcor16', $tipoModulo = 'MOD_ENCUESTA') {
-        if ( (isset($credentials['usuario']) && $credentials['usuario'] != '' ) &&  (isset($credentials['password']) && $credentials['password'] != '' ) ) {
+        if ( (isset($credentials['nickname']) && $credentials['nickname'] != '' ) &&  (isset($credentials['password']) && $credentials['password'] != '' ) ) {
             //print_r('On simpleLogin<br /><br />');
             $organizacion = $this->getOrganizacionByClave($claveOrg);
             $modulo = $this->getModuloByTipo($tipoModulo);
@@ -161,7 +161,7 @@ class App_Data_DAO_Login {
             //$auth->setStorage(new Zend_Auth_Storage_Session($credentials['usuario']));
             
             $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('zbase'), 'Usuario','nickname','password','SHA1(?)');
-            $authAdapter->setIdentity($credentials['usuario'])->setCredential($credentials['password']);
+            $authAdapter->setIdentity($credentials['nickname'])->setCredential($credentials['password']);
             //$resultado = $authAdapter->authenticate();
             $resultado = $auth->authenticate($authAdapter);
             
@@ -169,8 +169,6 @@ class App_Data_DAO_Login {
                 //print_r('Resultado Valido: <br /><br />');
                 $datos = $authAdapter->getResultRowObject(null,null);
                 $rol = $this->getRolById($datos->idRol);
-                
-                
                 
                 $tSub = $this->tSubscripcion;
                 $select = $tSub->select()->from($tSub)
