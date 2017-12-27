@@ -39,10 +39,23 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
     public function altaAction()
     {
         // action body
+        $request = $this->getRequest();
         $idUsuario = $this->getParam('us');
         $usuario = $this->usuarioDAO->getUsuarioBibliotecaById($idUsuario);
         
         $this->view->usuario = $usuario;
+        
+        if ($request->isPost()) {
+            $datos = $request->getPost();
+            print_r($datos);
+            
+            
+            
+            
+            
+            
+            
+        }
         
         
     }

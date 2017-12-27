@@ -123,29 +123,28 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
     public function altaAction()
     {
         // action body
-       
         $request = $this->getRequest();
-		$formulario = new Biblioteca_Form_Altarecurso;
-		$this->view->formulario = $formulario;
-		
+        $this->view->materiales = $this->materialDAO->getAllMateriales();
+        $this->view->colecciones = $this->coleccionDAO->getAllColecciones();
+        $this->view->clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
+        
+        
 		
 		if($request->isPost()){
-			
-			if($formulario->isValid($request->getPost())){
-				$datos = $formulario->getValues();
-				
-				//print_r($datos);
-
-				$recurso = new Biblioteca_Model_Recurso($datos);
-				
-				try{
-				  
-					$this->recursoDAO->agregarRecurso($recurso);
-					$this->view->messageSuccess ="El recurso: <strong>".$recurso->getTitulo()."</strong> ha sido agregado";
-				}catch(Exception $ex){
-					$this->view->messageFail = "El recurso: <strong>".$recurso->getTitulo()."</strong> no ha sido agregado. Error: <strong>".$ex->getMessage()."<strong>";
-				}
-			}
+		    $datos = $request->getPost();
+		    
+		    print_r($datos);
+		    
+		    //$recurso = new Biblioteca_Model_Recurso($datos);
+		    /*
+		    try{
+		        
+		        $this->recursoDAO->agregarRecurso($recurso);
+		        $this->view->messageSuccess ="El recurso: <strong>".$recurso->getTitulo()."</strong> ha sido agregado";
+		    }catch(Exception $ex){
+		        $this->view->messageFail = "El recurso: <strong>".$recurso->getTitulo()."</strong> no ha sido agregado. Error: <strong>".$ex->getMessage()."<strong>";
+		    }
+		    */
 		}
         
     }

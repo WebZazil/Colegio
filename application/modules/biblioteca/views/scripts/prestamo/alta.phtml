@@ -11,10 +11,10 @@
 			<div class="panel-body">
 				<div>
 					<h4>Usuario: <strong><?php echo $nombreUsuario; ?></strong> </h4>
-					<form action="" class="form-inline" method="post" enctype="application/x-www-form-urlencoded">
+					<form class="form-inline" method="post" enctype="application/x-www-form-urlencoded" >
 						<div class="form-group">
 							<label for="recursoId">Recurso: </label>
-							<input type="text" name="recursoId" class="form-control" />
+							<input id='recursoId' type="text" name="recursoId" class="form-control" autofocus="autofocus" />
 						</div>
 					</form>
 				</div>
@@ -24,10 +24,10 @@
 						<thead>
 							<tr>
 								<th>Recurso</th>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th></th>
+								<th>Tipo</th>
+								<th>Estatus</th>
+								<th>Tiempo prestamo</th>
+								<th>Registrado</th>
 							</tr>
 						</thead>
 						<tbody>

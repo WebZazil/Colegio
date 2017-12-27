@@ -7,11 +7,13 @@
 class Biblioteca_Data_DAO_Prestamo {
     
     private $tablePrestamo;
+    private $tableRecurso;
     
     public function __construct($dbAdapter) {
         $config = array('db' => $dbAdapter);
         
         $this->tablePrestamo = new Biblioteca_Data_DbTable_Prestamo($config);
+        $this->tableRecurso = new Biblioteca_Data_DbTable_Recurso($config);
     }
     
     /**
@@ -35,5 +37,9 @@ class Biblioteca_Data_DAO_Prestamo {
     public function agregarPrestamoUsuario($datosPrestamo) {
         $tP = $this->tablePrestamo;
         return $tP->insert($datosPrestamo);
+    }
+    
+    public function buscarRecurso($token) {
+        $tR = $this->tableRecurso;
     }
 }
