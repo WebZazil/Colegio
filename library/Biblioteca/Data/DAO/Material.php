@@ -21,11 +21,7 @@ class Biblioteca_Data_DAO_Material{
 		$tablaMaterial = $this->tableMaterial;
         $rowsMeterial = $tablaMaterial->fetchAll();
         
-        if (is_null($rowsMeterial)) {
-            return null;
-        } else {
-            return $rowsMeterial->toArray();
-        }
+        return $rowsMeterial->toArray();
 	}
 	
 	

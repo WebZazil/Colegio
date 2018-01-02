@@ -2,10 +2,14 @@
 
 class Biblioteca_MateriaController extends Zend_Controller_Action
 {
+    private $materiaDAO;
 
     public function init()
     {
         /* Initialize action controller here */
+        $auth = Zend_Auth::getInstance();
+        $identity = $auth->getIdentity();
+        $this->materiaDAO = new Biblioteca_Data_DAO_Material($identity['adapter']);
     }
 
     public function indexAction()

@@ -1,61 +1,53 @@
 <?php
+    $recurso = $this->recurso;
+    
     $estatusRecurso = $this->estatusRecurso;
-    //$tiposRecurso = $this->tiposRecurso;
     $materiales = $this->materiales;
     $colecciones = $this->colecciones;
     $clasificaciones = $this->clasificaciones;
     
-	$messageSuccess = $this->messageSuccess;
-	$messageFail = $this->messageFail;
+    $urlRecursos = $this->url(array('module'=>'biblioteca', 'controller'=>'recurso', 'action'=>'index'),null,true);
 ?>
-<section class="row">
-	<div class="col-xs-12">
-		<div class="panel panel-success">
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-warning">
 			<div class="panel-heading">
-				<h4 class="panel-title"> Alta de Recurso</h4>
+				<h5 class="panel-title">Edicion de Recurso</h5>
 			</div>
 			<div class="panel-body">
 				<div>
-					<?php if(!is_null($messageSuccess)){ ?>
-    				<div class="alert alert-success" role="alert">
-    					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    					  <span aria-hidden="true">&times;</span>
-    					</button>
-    					<?php echo $messageSuccess; ?>
-    				</div>
-    				<?php }elseif(!is_null($messageFail)){ ?>
-    				<div class="alert alert-danger" role="alert">
-    					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    					  <span aria-hidden="true">&times;</span>
-    					</button>
-    					<?php echo $messageFail; ?>
-    				</div>
-    				<?php } ?>
+					<a class="btn btn-info" href="<?php echo $urlRecursos; ?>">
+						<i class="fa fa-chevron-left"></i> Regresar a Recursos
+					</a>
 				</div>
+				<hr />
 				<div>
 					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
 						<div class="form-group">
-							<label for="recurso" class="control-label col-md-2">Nombre Recurso: </label>
+							<label for="recurso" class="control-label col-md-2">Recurso: </label>
 							<div class="col-md-5">
-								<input name="recurso" type="text" class="form-control" autofocus="autofocus" />
+								<input name="recurso" type="text" class="form-control" value="<?php echo $recurso['recurso'] ?>" />
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label for="descripcion" class="control-label col-md-2">Descripcion recurso: </label>
 							<div class="col-md-5">
-								<input name="descripcion" type="text" class="form-control" />
+								<input name="descripcion" type="text" class="form-control" value="<?php echo $recurso['descripcion'] ?>" />
 							</div>
 						</div>
 						
-
 						<div class="form-group">
 							<label for="idMaterial" class="control-label col-md-2">Material: </label>
 							<div class="col-md-5">
 								<select name="idMaterial" id="idMaterial" class="form-control">
 									<option value="0">Seleccione Material</option>
-									<?php foreach ($materiales as $material) : ?>
-									<option value="<?php echo $material['idMaterial'] ?>"><?php echo $material['material'] ?></option>
+									<?php foreach ($materiales as $material) : 
+									   $seleccionado = $material['idMaterial'] == $recurso['idMaterial'] ? 'selected="selected"' : '' ;
+									?>
+									<option value="<?php echo $material['idMaterial']; ?>" <?php echo $seleccionado; ?> >
+										<?php echo $material['material'] ?>
+									</option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -66,8 +58,12 @@
 							<div class="col-md-5">
 								<select name="idColeccion" id="idColeccion" class="form-control">
 									<option value="0">Seleccione Coleccion</option>
-									<?php foreach ($colecciones as $coleccion) : ?>
-									<option value="<?php echo $coleccion['idColeccion'] ?>"><?php echo $coleccion['coleccion'] ?></option>
+									<?php foreach ($colecciones as $coleccion) :
+									$seleccionado = $coleccion['idColeccion'] == $recurso['idColeccion'] ? 'selected="selected"' : '' ;
+									?>
+									<option value="<?php echo $coleccion['idColeccion'] ?>" <?php echo $seleccionado; ?> >
+										<?php echo $coleccion['coleccion'] ?>
+									</option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -78,8 +74,12 @@
 							<div class="col-md-5">
 								<select name="idClasificacion" id="idClasificacion" class="form-control">
 									<option value="0">Seleccione Clasificacion</option>
-									<?php foreach ($clasificaciones as $clasificacion) : ?>
-									<option value="<?php echo $clasificacion['idClasificacion'] ?>"><?php echo $clasificacion['clasificacion'] ?></option>
+									<?php foreach ($clasificaciones as $clasificacion) : 
+									$seleccionado = $clasificacion['idClasificacion'] == $recurso['idClasificacion'] ? 'selected="selected"' : '' ;
+									?>
+									<option value="<?php echo $clasificacion['idClasificacion'] ?>" <?php echo $seleccionado; ?> >
+										<?php echo $clasificacion['clasificacion'] ?>
+									</option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -90,8 +90,12 @@
 							<div class="col-md-5">
 								<select name="idEstatusRecurso" id="idEstatusRecurso" class="form-control">
 									<option value="0">Seleccione Estatus de Recurso</option>
-									<?php foreach ($estatusRecurso as $estatus) : ?>
-									<option value="<?php echo $estatus['idEstatusRecurso'] ?>"><?php echo $estatus['estatusRecurso'] ?></option>
+									<?php foreach ($estatusRecurso as $estatus) : 
+									$seleccionado = $estatus['idEstatusRecurso'] == $recurso['idEstatusRecurso'] ? 'selected="selected"' : '' ;
+									?>
+									<option value="<?php echo $estatus['idEstatusRecurso']; ?>" <?php echo $seleccionado; ?> >
+										<?php echo $estatus['estatusRecurso'] ?>
+									</option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -100,14 +104,14 @@
 						<div class="form-group">
 							<label for="codBarrOrigen" class="control-label col-md-2">Codigo Barras:</label>
 							<div class="col-md-5">
-								<input id="codBarrOrigen" name="codBarrOrigen" type="text" class="form-control" />
+								<input id="codBarrOrigen" name="codBarrOrigen" type="text" class="form-control" autofocus="autofocus" />
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<div class="col-md-offset-2 col-md-5">
-								<button class="btn btn-success" type="submit">
-									<i class="fa fa-save"></i> Guardar Recurso
+								<button class="btn btn-warning" type="submit">
+									<i class="fa fa-reload"></i> Actualizar Recurso
 								</button>
 							</div>
 						</div>
@@ -116,21 +120,4 @@
 			</div>
 		</div>
 	</div>
-</section>
-
-<script>
-	$().ready(function(){
-		
-		//var appname = "/colegio/biblioteca";
-		//var url = window.location.origin + appname;
-		
-		$('input').on('keypress', function (evt) {
-			if(evt.which === 13){
-				evt.preventDefault();
-				//console.log('Enter pressed');
-				
-			}
-		});
-	
-	});
-</script>
+</div>

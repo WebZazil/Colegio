@@ -16,11 +16,7 @@ class Biblioteca_Data_DAO_Coleccion {
         $select = $tablaColeccion->select()->from($tablaColeccion)->order("coleccion ASC");
         $rowsColecciones = $tablaColeccion->fetchAll($select);
         
-        if (is_null($rowsColecciones)) {
-            return null;
-        } else {
-            return $rowsColecciones->toArray();
-        }
+        return $rowsColecciones->toArray();
     }
     
     public function getColeccionById($idColeccion) {

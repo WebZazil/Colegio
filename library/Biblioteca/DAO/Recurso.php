@@ -12,7 +12,7 @@ class Biblioteca_DAO_Recurso implements Biblioteca_Interfaces_IRecurso {
 	private $tableColeccion;
 	private $tableClasificacion;
 	
-	function __construct(){
+	public function __construct(){
 		
 		$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
@@ -22,33 +22,30 @@ class Biblioteca_DAO_Recurso implements Biblioteca_Interfaces_IRecurso {
 		$this->tableColeccion =new Biblioteca_Data_DbTable_Coleccion(array('db'=>$dbAdapter));
 		$this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion(array('db'=>$dbAdapter));
 		$this->tableAutor = new Biblioteca_Data_DbTable_Autor(array('db'=>$dbAdapter));
-		
 	}
-
+	
+	public function agregarRecurso($recurso) {
+	    $tablaRecurso = $this->tableRecurso;
+		return $tablaRecurso->insert($recurso);
+	}
 	 
-	 public function agregarRecurso(Biblioteca_Model_Recurso $recurso){
-		
-		 $tablaRecurso = $this->tableRecurso;
-		 $tablaRecurso->insert($recurso->toArray());
-	 }
-	 
-	 public function getAllRecursos(){
-	 		
-		$tablaRecurso = $this->tableRecurso;
+	public function getAllRecursos() {
+	    
+	    $tablaRecurso = $this->tableRecurso;
 		$rowsRecurso = $tablaRecurso->fetchAll();
 			
-			if(!is_null($rowsRecurso)){
-				$arrRecursos = $rowsRecurso->toArray();
-				$arrModelRecurso = array();
-						foreach ($arrRecursos as $arrRecurso) {
-						$modelRecurso = new Biblioteca_Model_Recurso($arrRecurso);
-						$arrModelRecurso[] = $modelRecurso;
-						}
-				return $arrModelRecurso;
-			}else{
-				return array();
-			}
+		if(!is_null($rowsRecurso)){
+			$arrRecursos = $rowsRecurso->toArray();
+			$arrModelRecurso = array();
+					foreach ($arrRecursos as $arrRecurso) {
+					$modelRecurso = new Biblioteca_Model_Recurso($arrRecurso);
+					$arrModelRecurso[] = $modelRecurso;
+					}
+			return $arrModelRecurso;
+		}else{
+			return array();
 		}
+	}
 		
 	public function getAllTableRecursos(){
  		
@@ -56,7 +53,6 @@ class Biblioteca_DAO_Recurso implements Biblioteca_Interfaces_IRecurso {
 		$rowsRecurso = $tablaRecurso->fetchAll();
 	
 	 	return $rowsRecurso->toArray();
-	
     }
 		
 	public function getDescripciones() {

@@ -17,12 +17,7 @@ class Biblioteca_Data_DAO_Clasificacion {
         $select = $tablaClasif->select()->from($tablaClasif)->order("clasificacion ASC");
         $rowsClasificaciones = $tablaClasif->fetchAll($select);
         
-        if (is_null($rowsClasificaciones)) {
-            return null;
-        } else {
-            return $rowsClasificaciones->toArray();
-        }
-        
+        return $rowsClasificaciones->toArray();
     }
     
     public function getClasificacionById($idClasificacion) {

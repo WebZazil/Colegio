@@ -4,8 +4,8 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
 {
 
     private $prestamoDAO = null;
-
     private $usuarioDAO = null;
+    private $recursoDAO = null;
 
     public function init()
     {
@@ -18,6 +18,7 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
         
         $this->prestamoDAO = new Biblioteca_Data_DAO_Prestamo($identity['adapter']);
         $this->usuarioDAO = new Biblioteca_Data_DAO_Usuario($identity['adapter']);
+        $this->recursoDAO = new Biblioteca_Data_DAO_Recurso($identity['adapter']);
     }
 
     public function indexAction()
@@ -47,17 +48,13 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
         
         if ($request->isPost()) {
             $datos = $request->getPost();
-            print_r($datos);
+            //print_r($datos);
             
-            
-            
-            
-            
-            
-            
+            $recursos = $this->recursoDAO->getRecursoByParams($datos);
+            $this->view->recursos = $recursos;
+        }else{
+            $this->view->recursos = array();
         }
-        
-        
     }
 
     public function userAction()
@@ -71,14 +68,5 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
         $this->view->usuario = $usuario;
     }
 
-
 }
-
-
-
-
-
-
-
-
 

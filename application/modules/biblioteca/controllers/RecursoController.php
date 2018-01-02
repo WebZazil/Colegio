@@ -2,28 +2,35 @@
 
 class Biblioteca_RecursoController extends Zend_Controller_Action
 {
-	
-	private $recursoDAO;
-	private $materialDAO;
-	private $coleccionDAO;
-	private $clasificacionDAO;
-	private $autorDAO;
-	
+
+    private $recursoDAO = null;
+
+    private $materialDAO = null;
+
+    private $coleccionDAO = null;
+
+    private $clasificacionDAO = null;
+
+    private $autorDAO = null;
+
     public function init()
     {
         /* Initialize action controller here */
         
         $dbAdapter = Zend_Registry::get("dbmodqueryb");
-		$this->recursoDAO = new Biblioteca_DAO_Recurso($dbAdapter);   
+		//$this->recursoDAO = new Biblioteca_DAO_Recurso($dbAdapter);
+		$this->recursoDAO = new Biblioteca_Data_DAO_Recurso($dbAdapter);
 		$this->materialDAO = new Biblioteca_Data_DAO_Material($dbAdapter);
 		$this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($dbAdapter);
 		$this->clasificacionDAO = new Biblioteca_Data_DAO_Clasificacion($dbAdapter);
 		$this->autorDAO = new Biblioteca_Data_DAO_Autor($dbAdapter);
 		
-	}
+    }
 
     public function indexAction()
     {
+        // action body
+        $request = $this->getRequest();
         $materialDAO = $this->materialDAO;
 		$coleccionDAO = $this->coleccionDAO;
 		$clasificacionDAO = $this->clasificacionDAO;
@@ -45,54 +52,31 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
 		$clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
 		$this->view->clasificaciones = $clasificaciones;
 		
-		
-		
-		//	$this->view->materiales = $materiales;
-        $obj = array();
-		//$recursos = $this->recursoDAO->getAllTableRecursos();
-        //print_r($recursos);
+		$obj = array();
 		
 		foreach ($recursos as $recurso) {
-			
-		    //print_r($recurso["idMaterial"]); print_r("<br />");
 			$contenedor = array();
 			$contenedor["recurso"] = $recurso;
 			$contenedor["material"] = $materialDAO->getMaterialById($recurso["idMaterial"]);
 			$contenedor["coleccion"] = $coleccionDAO->getColeccionById($recurso["idColeccion"]);
 			$contenedor["clasificacion"] = $clasificacionDAO->getClasificacionById($recurso["idClasificacion"]);
-			//$contenedor["autor"] = $autorDAO->getAutorById($recurso["idAutor"]);
-			
 			
 			$obj[] = $contenedor;
-	
 		}
 		
-		/*foreach ($obj as $contenedor) {
-			
-			//print_r($contenedor); print_r("<br />");
-			print_r("<br />");
-			print_r($contenedor["recurso"]); print_r("<br />");
-			print_r($contenedor["material"]); print_r("<br />");
-			print_r($contenedor["coleccion"]); print_r("<br />");
-			print_r($contenedor["clasificacion"]); print_r("<br />");
-			print_r($contenedor["autor"]); print_r("<br />");
-			
-			$this->view->contenedor = $contenedor;
-		}*/
-		
 		$this->view->recursos = $obj;
-		$request = $this->getRequest();
+		
 		
 		if($request->isPost()){
 			$datos = $request->getPost();
-			print_r($datos); print_r("<br />");
+			//print_r($datos); print_r("<br />");
 			
 			foreach ($datos as $key => $value) {
-				if ($value == "0") {
+				if ($value == "0" || $value == '') {
 					unset($datos[$key]);
 				}
 			}
-			print_r($datos);
+			//print_r($datos);
 			$resources = $this->recursoDAO->getRecursoByParams($datos);
 			//$resources = array();
 			if(!empty($resources)){
@@ -105,7 +89,7 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
 					$o["material"] = $materialDAO->getMaterialById($resource["idMaterial"]);
 					$o["coleccion"] = $coleccionDAO->getColeccionById($resource["idColeccion"]);
 					$o["clasificacion"] = $clasificacionDAO->getClasificacionById($resource["idClasificacion"]);
-					$o["autor"] = $autorDAO->getAutorById($resource["idAutor"]);
+					//$o["autor"] = $autorDAO->getAutorById($resource["idAutor"]);
 					
 					$container[] = $o;
 				}
@@ -124,33 +108,48 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
+        
+        $this->view->estatusRecurso = $this->recursoDAO->getEstatusRecurso();
         $this->view->materiales = $this->materialDAO->getAllMateriales();
         $this->view->colecciones = $this->coleccionDAO->getAllColecciones();
         $this->view->clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
         
-        
-		
-		if($request->isPost()){
+		if($request->isPost()) {
 		    $datos = $request->getPost();
+		    $datos['creacion'] = date('Y-m-d H:i:s', time());
 		    
-		    print_r($datos);
-		    
-		    //$recurso = new Biblioteca_Model_Recurso($datos);
-		    /*
 		    try{
-		        
-		        $this->recursoDAO->agregarRecurso($recurso);
-		        $this->view->messageSuccess ="El recurso: <strong>".$recurso->getTitulo()."</strong> ha sido agregado";
+		        $idRecurso = $this->recursoDAO->agregarRecurso($datos);
+		        $this->view->messageSuccess ="El recurso: <strong>".$datos['recurso']."</strong> ha sido agregado";
 		    }catch(Exception $ex){
-		        $this->view->messageFail = "El recurso: <strong>".$recurso->getTitulo()."</strong> no ha sido agregado. Error: <strong>".$ex->getMessage()."<strong>";
+		        $this->view->messageFail = "El recurso: <strong>".$datos['recurso']."</strong> no ha sido agregado. Error: <strong>".$ex->getMessage()."<strong>";
 		    }
-		    */
 		}
+    }
+
+    public function adminAction()
+    {
+        // action body
+        $request = $this->getRequest();
+        $idRecurso = $this->getParam('re');
+        
+        $recurso = $this->recursoDAO->getRecursoById($idRecurso);
+        $this->view->estatusRecurso = $this->recursoDAO->getEstatusRecurso();
+        $this->view->materiales = $this->materialDAO->getAllMateriales();
+        $this->view->colecciones = $this->coleccionDAO->getAllColecciones();
+        $this->view->clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
+        
+        $this->view->recurso = $recurso;
+        
+        if ($request->isPost()) {
+            $datos = $request->getPost();
+            print_r($datos);
+            
+        }
         
     }
 
 
 }
-
 
 
