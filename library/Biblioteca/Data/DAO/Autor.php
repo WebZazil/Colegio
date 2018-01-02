@@ -16,6 +16,7 @@ class Biblioteca_Data_DAO_Autor {
         $tablaAutor = $this->tableAutor;
         $select = $tablaAutor->select()->from($tablaAutor)->order("nombres ASC");
         $rowsAutor = $tablaAutor->fetchAll($select);
+        
         return $rowsAutor->toArray();
     }
     

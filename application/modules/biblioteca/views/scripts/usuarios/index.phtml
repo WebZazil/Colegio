@@ -1,5 +1,8 @@
 <?php
+    $module = 'biblioteca';
     $usuarios = $this->usuarios;
+    
+    $urlAltaUsuario = $this->url(array('module'=>$module,'controller'=>'usuarios','action'=>'alta'),null,true);
 ?>
 <div class="row">
 	<div class="col-md-12">
@@ -8,30 +11,36 @@
 				<h5 class="panel-title">Consulta de Usuarios</h5>
 			</div>
 			<div class="panel-body">
-				<div>
-					<form class="form-inline" method="post" enctype="application/x-www-form-urlencoded">
-						<div class="form-group">
-							<label for="tipo" class="col-md-2 control-label">Criterio: </label>
-							
-							<div class="col-md-4">
-								<select name="tipo" class="form-control">
-									<option value="0">Seleccione tipo</option>
-									<option value="1">Nickname</option>
-									<option value="2">Nombres</option>
-								</select>
-							</div>
-							
-							<div class="col-md-4">
-								<input name="pattern" type="text" class="form-control" />
-							</div>
-							
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-success">
-									<i class="fa fa-search"></i> Buscar
-								</button>
-							</div>
-						</div>
-					</form>
+				<div class="row">
+					<div class="col-md-5">
+						<a class="btn btn-success" href="<?php echo $urlAltaUsuario; ?>">
+    						<i class="fa fa-plus"></i> Nuevo Usuario
+    					</a>
+					</div>
+					<div class="col-md-7">
+						<form class="form-inline" method="post" enctype="application/x-www-form-urlencoded">
+        					<div class="form-group">
+        						<label for="tipo">Tipo Usuario: </label>
+        						<select name="tipo" class="form-control">
+    								<option value="ST">Seleccione tipo</option>
+    								<option value="AL">Alumna</option>
+    								<option value="DO">Docente</option>
+    								<option value="EX">ExAlumna</option>
+    							</select>
+        					</div>
+        					
+        					<div class="form-group">
+        						<label for="pattern"></label>
+        						<input name="pattern" type="text" class="form-control" placeholder="nickname, nombres, apellidos..." />
+        					</div>
+        					
+        					<div class="form-group">
+        						<button type="submit" class="btn btn-success">
+    								<i class="fa fa-search"></i> Buscar
+    							</button>
+        					</div>
+        				</form>
+					</div>
 				</div>
 				<hr />
 				<div>

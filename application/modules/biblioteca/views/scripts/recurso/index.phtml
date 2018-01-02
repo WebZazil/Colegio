@@ -8,9 +8,7 @@
 	$colecciones = $this->colecciones;
 	$clasificaciones = $this->clasificaciones;
 	
-	
 	$resources = $this->resources;
-	
 ?>
 <div class="row">
 	<div class="col-md-12">
@@ -42,9 +40,9 @@
 					<hr />
 					
 					<div class="form-group">
-						<label for="titulo" class="col-md-2 control-label">Título:</label>
+						<label for="recurso" class="col-md-2 control-label">Recurso:</label>
 						<div class="col-md-10">
-							<input id="titulo" name="titulo" type="text" class="form-control" />
+							<input id="recurso" name="recurso" type="text" class="form-control" />
 						</div>
 					</div>
 					<div id="containerMaterial" class="form-group hidden">
@@ -53,7 +51,7 @@
 							<select name="idMaterial" id="material" class="form-control">
 								<option value="0">Sin Material</option>							
 								<?php foreach ($materiales as $material) : ?>
-									<option value="<?php echo $material["idMaterial"]?>"><?php echo utf8_encode($material["descripcion"]) ?>
+									<option value="<?php echo $material["idMaterial"]?>"><?php echo utf8_encode($material["material"]) ?>
 										
 			               			</option>
 			               	    <?php endforeach; ?>
@@ -121,67 +119,37 @@
 			    </div>
 			    <hr />
 			    <div  >
-			    	<?php if(false){ ?>
+			    	<?php if(true){ ?>
 			        <table class="table table-striped table-condensed">
 			            <thead>
 			                <tr>
-			                    <th>Título</th>
-			                    <th>Subtítulo</th>
-			                    <th>Autor</th>
+			                    <th>Recurso</th>
+			                    <th>Barcode</th>
 			                    <th>Material</th>
 			                    <th>Colección</th>
 			                    <th>Clasificación</th>
-			                    <th>Extra</th>
 			                    <th>Creación</th>
 			                </tr>
 			            </thead>
 			            <tbody>
-			                <?php foreach ($recursos as $recurso) : ?>
+			                <?php foreach ($resources as $recurso) : 
+			                $nombreRecurso = strlen($recurso["recurso"]["recurso"]) > 35 ? substr($recurso["recurso"]["recurso"], 0, 35) . ' ...' : $recurso["recurso"]["recurso"] ;
+			                $urlAdminResource = $this->url(array('module'=>'biblioteca','controller'=>'recurso','action'=>'admin','re'=>$recurso['recurso']['idRecurso']));
+			                ?>
 			                <tr>
-			                   <td><?php echo $recurso["recurso"]["titulo"]; ?></td>
-			             	   <td><?php echo $recurso["recurso"]["subtitulo"]; ?></td>
-			                   <td><?php echo $recurso["autor"]["nombre"]; ?></td>
-			                   <td><?php echo $recurso["material"]["descripcion"]; ?></td>
+			                   <td><?php echo $nombreRecurso; ?></td>
+			                   <td>
+			                   		<?php if ($recurso["recurso"]["codBarrOrigen"] == 'SCB') { ?>
+			                   		    <a class="btn btn-link" href="<?php echo $urlAdminResource ?>">
+			                   		    	<i class="fa fa-plus"></i> Agregar codigo de barras.
+			                   		    </a>
+			                   		<?php }else{
+			                   		echo $recurso["recurso"]["codBarrOrigen"];
+			                        } ?>
+			                   </td>
+			             	   <td><?php echo $recurso["material"]["material"]; ?></td>
 			                   <td><?php echo $recurso["coleccion"]["coleccion"]; ?></td>
 			                   <td><?php echo $recurso["clasificacion"]["clasificacion"]; ?></td>
-			                   <td><?php echo $recurso["recurso"]["extra"]; ?></td>
-			                   <td><?php echo $recurso["recurso"]["creacion"]; ?></td>
-			                    
-			                </tr>
-			                 <?php endforeach; ?>
-			               <!--  <?php
-			                 $buscar = $_POST["palabra"];
-							 
-			                 ?>-->
-			                 
-			            </tbody>
-			        </table>
-			        <?php } ?>
-			        
-			        <?php if(true){ ?>
-			        <table class="table table-striped table-condensed">
-			            <thead>
-			                <tr>
-			                    <th>Título</th>
-			                    <th>Subtítulo</th>
-			                    <th>Autor</th>
-			                    <th>Material</th>
-			                    <th>Colección</th>
-			                    <th>Clasificación</th>
-			                    <th>Extra</th>
-			                    <th>Creación</th>
-			                </tr>
-			            </thead>
-			            <tbody>
-			                <?php foreach ($resources as $recurso) : ?>
-			                <tr>
-			                   <td><?php echo $recurso["recurso"]["titulo"]; ?></td>
-			             	   <td><?php echo $recurso["recurso"]["subtitulo"]; ?></td>
-			                   <td><?php echo $recurso["autor"]["nombres"]; ?></td>
-			                   <td><?php echo $recurso["material"]["descripcion"]; ?></td>
-			                   <td><?php echo $recurso["coleccion"]["coleccion"]; ?></td>
-			                   <td><?php echo $recurso["clasificacion"]["clasificacion"]; ?></td>
-			                   <td><?php echo $recurso["recurso"]["extra"]; ?></td>
 			                   <td><?php echo $recurso["recurso"]["creacion"]; ?></td>
 			                    
 			                </tr>

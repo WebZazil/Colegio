@@ -903,6 +903,7 @@
             <controllerFile controllerName="Recurso">
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
             </controllerFile>
             <controllerFile controllerName="Ejemplar">
               <actionMethod actionName="index"/>
@@ -968,6 +969,7 @@
             <controllerFile controllerName="Usuarios">
               <actionMethod actionName="index"/>
               <actionMethod actionName="user"/>
+              <actionMethod actionName="alta"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -1225,6 +1227,12 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Usuarios">
                 <viewScriptFile forActionName="user"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Recurso">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="alta"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1740,6 +1748,7 @@
               <testApplicationControllerFile forControllerName="Recurso">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Ejemplar">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1805,6 +1814,7 @@
               <testApplicationControllerFile forControllerName="Usuarios">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="user"/>
+                <testApplicationActionMethod forActionName="alta"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
