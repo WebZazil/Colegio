@@ -967,6 +967,7 @@
               <actionMethod actionName="alta"/>
               <actionMethod actionName="user"/>
               <actionMethod actionName="prestamo"/>
+              <actionMethod actionName="prestamot"/>
             </controllerFile>
             <controllerFile controllerName="Usuarios">
               <actionMethod actionName="index"/>
@@ -1247,6 +1248,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Prestamo">
                 <viewScriptFile forActionName="prestamo"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="prestamot"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1826,6 +1830,7 @@
                 <testApplicationActionMethod forActionName="alta"/>
                 <testApplicationActionMethod forActionName="user"/>
                 <testApplicationActionMethod forActionName="prestamo"/>
+                <testApplicationActionMethod forActionName="prestamot"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Usuarios">
                 <testApplicationActionMethod forActionName="index"/>

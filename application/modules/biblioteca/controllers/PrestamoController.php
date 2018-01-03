@@ -8,9 +8,12 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
     private $usuarioDAO = null;
 
     private $recursoDAO = null;
-    private $materialDAO;
-    private $coleccionDAO;
-    private $clasificacionDAO;
+
+    private $materialDAO = null;
+
+    private $coleccionDAO = null;
+
+    private $clasificacionDAO = null;
 
     public function init()
     {
@@ -186,8 +189,39 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
         
     }
 
+    public function prestamotAction()
+    {
+        // action body
+        $request = $this->getRequest();
+        $idRecurso = $this->getParam('rc');
+        $idUsuario = $this->getParam('us');
+        
+        $recurso = $this->recursoDAO->getRecursoById($idRecurso);
+        $usuario = $this->usuarioDAO->getUsuarioBibliotecaById($idUsuario);
+        
+        $this->view->recurso = $recurso;
+        $this->view->usuario = $usuario;
+        
+        if ($request->isPost()) {
+            $datos = $request->getPost();
+            //print_r($datos);
+            $datos['creacion'] = date('Y-m-d h:i:s',time());
+            try {
+                $this->prestamoDAO->agregarPrestamoUsuario($datos);
+                $this->recursoDAO->setEstatusRecurso('PRESTAMO', $idRecurso);
+                $this->_helper->redirector->gotoSimple("alta", "prestamo", "biblioteca",array('us'=>$idUsuario));
+            } catch (Exception $e) {
+                print_r($e->getMessage());
+            }
+            
+        }
+        
+    }
+
 
 }
+
+
 
 
 
