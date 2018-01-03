@@ -35,6 +35,17 @@ class Biblioteca_Data_DAO_Recurso {
         return $rowsRecursos->toArray();
     }
     
+    public function setEstatusRecurso($estatus,$idRecurso) {
+        $teR = $this->tableEstatusRecurso;
+        $select = $teR->select()->from($teR)->where('estatusRecurso=?',$estatus);
+        $rowEstatus = $teR->fetchRow($select)->toArray();
+        
+        $tR = $this->tableRecurso;
+        $where = $tR->getAdapter()->quoteInto('idRecurso=?', $idRecurso);
+        $data = array('idEstatusRecurso' => $rowEstatus['idEstatusRecurso']);
+        $tR->update($data, $where);
+    }
+    
     /**
      * @TODO cambiar nombre de metodo a getAllRecursos
      * @return array

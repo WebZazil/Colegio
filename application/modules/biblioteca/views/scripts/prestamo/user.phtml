@@ -35,17 +35,17 @@
 							<th>Fecha Prestamo</th>
 							<th>Fecha Entrega</th>
 							<th>Fecha Vencimiento</th>
-							<th>Ejemplar</th>
+							<th>Recurso</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ($prestamosUsuario as $prestamo) : ?>
 						<tr>
-							<td><?php echo $prestamo['idEstatus']; ?></td>
-							<td><?php echo $prestamo['fechaPrestamo']; ?></td>
-							<td><?php echo $prestamo['fechaDevolucion']; ?></td>
-							<td><?php echo $prestamo['fechaVencimiento']; ?></td>
-							<td><?php echo $prestamo['idEjemplar']; ?></td>
+							<td><?php echo $prestamo['estatus']['estatusRecurso']; ?></td>
+							<td><?php echo $prestamo['prestamo']['fechaPrestamo']; ?></td>
+							<td><?php echo $prestamo['prestamo']['fechaDevolucion']; ?></td>
+							<td><?php echo $prestamo['prestamo']['fechaVencimiento']; ?></td>
+							<td><?php echo $prestamo['recurso']['recurso']; ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
