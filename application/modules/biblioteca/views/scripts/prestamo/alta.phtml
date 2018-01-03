@@ -1,4 +1,5 @@
 <?php
+    $modulo = 'biblioteca';
     $usuario = $this->usuario;
     $nombreUsuario =  $usuario['apaterno']. ' '. $usuario['amaterno'].', '.$usuario['nombres'];
     $recursos = $this->recursos;
@@ -29,7 +30,8 @@
 								<th>Tipo Recurso</th>
 								<th>Coleccion</th>
 								<th>Clasificacion</th>
-								<th>Accion</th>
+								<th>Prestamo</th>
+								<th>PrestamoPruebas</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -60,18 +62,24 @@
 								<th>Tipo Recurso</th>
 								<th>Coleccion</th>
 								<th>Clasificacion</th>
-								<th>Accion</th>
+								<th>Entrega</th>
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($recursos as $recurso) : ?>
+							<?php foreach ($recursos as $recurso) :
+							     $urlEntrega = $this->url(array('module'=>$modulo,'controller'=>'prestamo','action'=>'devolucion','us'=>$usuario['id'],'rc'=>$recurso['recurso']['idRecurso']),null,true);
+							?>
 							<tr>
 								<td><?php echo $recurso['recurso']['recurso']; ?></td>
 								<td><?php echo $recurso['estatus']['estatusRecurso']; ?></td>
 								<td><?php echo $recurso['material']['material']; ?></td>
 								<td><?php echo $recurso['coleccion']['coleccion']; ?></td>
 								<td><?php echo $recurso['clasificacion']['clasificacion']; ?></td>
-								<td><?php echo $recurso['recurso']['recurso']; ?></td>
+								<td>
+									<a class="btn btn-link" href="<?php echo $urlEntrega; ?>">
+										Entregar Recurso
+									</a>
+								</td>
 							</tr>
 							<?php endforeach; ?>
 						</tbody>
@@ -106,10 +114,17 @@
 						var tbody = $("#recursosEncontrados").find('tbody'); 
                 		tbody.empty();
 						$.each(data, function(i,item){
-							var urlAccion = url+'/prestamo/prestamo/rc/'+item.recurso.idRecurso+'/us/'+idUsuario;
+							var urlPrestamo = url+'/prestamo/prestamo/rc/'+item.recurso.idRecurso+'/us/'+idUsuario;
+							var urlPrestamoTest = url+'/prestamo/prestamot/rc/'+item.recurso.idRecurso+'/us/'+idUsuario;
 							var link = $("<a></a>")
                                 .attr("class","btn btn-link")
-                                .attr("href",urlAccion)
+                                .attr("href",urlPrestamo)
+                                //.attr("target","_blank")
+                                .text("Prestar Recurso");
+                            
+							var linkT = $("<a></a>")
+                                .attr("class","btn btn-link")
+                                .attr("href",urlPrestamoTest)
                                 //.attr("target","_blank")
                                 .text("Prestar Recurso");
 
@@ -120,7 +135,8 @@
 	                           append($('<td>').append(item.material.material)).
 	                           append($('<td>').append(item.coleccion.coleccion)).
 	                           append($('<td>').append(item.clasificacion.clasificacion)).
-	                           append($('<td>').append(link))
+	                           append($('<td>').append(link)).
+	                           append($('<td>').append(linkT))
 	                       );
 						});
 					}
