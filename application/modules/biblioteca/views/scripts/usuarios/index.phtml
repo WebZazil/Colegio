@@ -53,10 +53,12 @@
 								<th>Nombre</th>
 								<th>Fecha Alta</th>
 								<th>Ver Estado</th>
+								<th>Editar</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php foreach ($usuarios as $usuario) : 
+			                 //  $urlAdminUsuario = $this->url(array('module'=>'biblioteca','controller'=>'usuarios','action'=>'edit','us'=>$usuarios['usuario']['idUsuario']),null,true);
 							     $tipo = "";
                                  switch ($usuario['tipoUsuario']) {
                                      case 'AL': $tipo = 'Alumna'; break;
@@ -74,6 +76,11 @@
 								<td>
 									<a class="btn btn-link" href="<?php echo $link; ?>">
 										<i class="fa fa-cogs"></i> Estado
+									</a>
+								</td>
+								<td>
+									<a class="btn btn-link" href="<?php echo $urlAdminUsuario?>">
+										<i class="fa fa-cogs"></i> Editar
 									</a>
 								</td>
 							</tr>

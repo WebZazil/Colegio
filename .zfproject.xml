@@ -973,6 +973,7 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="user"/>
               <actionMethod actionName="alta"/>
+              <actionMethod actionName="edit"/>
             </controllerFile>
             <controllerFile controllerName="Multimedia">
               <actionMethod actionName="index"/>
@@ -1251,6 +1252,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Prestamo">
                 <viewScriptFile forActionName="prestamot"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="edit"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1836,6 +1840,7 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="user"/>
                 <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="edit"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Multimedia">
                 <testApplicationActionMethod forActionName="index"/>
