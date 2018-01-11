@@ -42,4 +42,24 @@ class Biblioteca_Data_DAO_Prestamo {
     public function buscarRecurso($token) {
         $tR = $this->tableRecurso;
     }
+    
+    /**
+     * 
+     * @param unknown $prestamos
+     */
+    public function procesarPrestamos($prestamos) {
+        $tP = $this->tablePrestamo;
+        
+        foreach ($prestamos as $prestamo) {
+            $fechaActual = date('Y-m-d',time());
+            
+            $fechaDevolucion = strtotime($prestamo['fechaDevolucion']);
+            //$fechaVencimiento = date('Y-m-d', $prestamo['fechaVencimiento']);
+            $diferencia = date_diff($fechaActual, $fechaDevolucion);
+            
+            echo $diferencia->format("%R%a days");
+            print_r('<br /><br />');
+        }
+        
+    }
 }

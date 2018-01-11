@@ -3,7 +3,7 @@ class Biblioteca_Data_DAO_Recurso {
     
     private $tableRecurso;
     private $tableTipoRecurso;
-    private $tableEstatusRecurso;
+    // private $tableEstatusRecurso;
     
     private $tableAutor;
     private $tableMaterial;
@@ -14,8 +14,7 @@ class Biblioteca_Data_DAO_Recurso {
         $config = array('db' => $dbAdapter);
         
         $this->tableRecurso = new Biblioteca_Data_DbTable_Recurso($config);
-        //$this->tableTipoRecurso = new Biblioteca_Data_DbTable_TipoRecurso($config);
-        $this->tableEstatusRecurso = new Biblioteca_Data_DbTable_EstatusRecurso($config);
+        //$this->tableEstatusRecurso = new Biblioteca_Data_DbTable_EstatusRecurso($config);
         
         $this->tableAutor = new Biblioteca_Data_DbTable_Autor(array('db'=>$dbAdapter));
         $this->tableColeccion =new Biblioteca_Data_DbTable_Coleccion(array('db'=>$dbAdapter));
@@ -66,6 +65,12 @@ class Biblioteca_Data_DAO_Recurso {
         return $rowRecurso->toArray();
     }
     
+    /**
+     * Obtenemos los registros de la T.Recurso mediante los parametros
+     * enviados por $params
+     * @param array $params
+     * @return array
+     */
     public function getRecursoByParams(array $params) {
         $tRecurso = $this->tableRecurso;
         $select = $tRecurso->select()->from($tRecurso);
@@ -95,4 +100,34 @@ class Biblioteca_Data_DAO_Recurso {
         $tR = $this->tableRecurso;
         return $tR->insert($datos);
     }
+    // ========================================================================================= >> Mejoras 5 enero 2018
+    
+    public function getObjectsRecurso() {
+        $tR = $this->tableRecurso;
+        $rowsRecursos = $tR->fetchAll()->toArray();
+        
+        $tCol = $this->tableColeccion;
+        $tCla = $this->tableClasificacion;
+        $tM = $this->tableMaterial;
+        $tA = $this->tableAutor;
+        
+        $container = array();
+        
+        foreach ($rowsRecursos as $rowRecurso) {
+            $obj = array();
+            $obj['recurso'] = $rowRecurso;
+            #Obtenemos Coleccion;
+        }
+        
+        
+    }
+    
+    private function getTablesItems($tableName, $index, $indexVal) {
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db->select()->from($tableName)->where($index.'=?',$indexVal);
+        $rows = $db->fetchAll($select)->toArray();
+        
+        return $rows;
+    }
+    
 }

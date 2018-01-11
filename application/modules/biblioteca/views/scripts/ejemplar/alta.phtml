@@ -1,39 +1,188 @@
 <?php 
-	$formulario = $this->formulario;
-
 	$messageSuccess = $this->messageSuccess;
 	$messageFail = $this->messageFail;
+	
+	$recurso = $this->recurso;
+	
+	$tiposLibro = $this->tiposLibro;
+	$editoriales = $this->editoriales;
+	$idiomas = $this->idiomas;
+	$paises = $this->paises;
+	$series = $this->series;
+	
+	$urlEjemplares = $this->url(array('module'=>'biblioteca', 'controller'=>'ejemplar','action'=>'ejemplares','rc'=>$recurso['idRecurso']),null,true);
+	
 ?>
 <section class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h4> Alta Ejemplar</h4>
+				<h5 class="panel-title"> Alta Ejemplar</h5>
 			</div>
 			<div class="panel-body">
-				<?php if(!is_null($messageSuccess)){ ?>
-				<div class="alert alert-success" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-					<?php echo $messageSuccess; ?>
+				<div>
+					<a href="<?php echo $urlEjemplares; ?>" class="btn btn-info">
+						<i class="fa fa-chevron-left"></i> Regresar a Ejemplares
+					</a>
+				
+					<?php if(!is_null($messageSuccess)){ ?>
+    				<div class="alert alert-success" role="alert">
+    					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    					  <span aria-hidden="true">&times;</span>
+    					</button>
+    					<?php echo $messageSuccess; ?>
+    				</div>
+    				<?php }elseif(!is_null($messageFail)){ ?>
+    				<div class="alert alert-danger" role="alert">
+    					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    					  <span aria-hidden="true">&times;</span>
+    					</button>
+    					<?php echo $messageFail; ?>
+    				</div>
+    				<?php } ?>
 				</div>
-				<?php }elseif(!is_null($messageFail)){ ?>
-				<div class="alert alert-danger" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-					<?php echo $messageFail; ?>
+				<hr />
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+    					
+						<div class="form-group">
+							<label for="idTipoLibro" class="control-label col-md-2">Tipo de Libro</label>
+							<div class="col-md-6">
+								<select name="idTipoLibro" class="form-control">
+									<?php foreach ($tiposLibro as $tipoLibro): ?>
+									<option value="<?php $tipoLibro['idTipoLibro'] ?>"><?php echo $tipoLibro['tipoLibro'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="publicado" class="control-label col-md-2">Año de Publicación</label>
+							<div class="col-md-6">
+								<input name="publicado" type="number" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idEditorial" class="control-label col-md-2">Editorial</label>
+							<div class="col-md-6">
+								<select name="idEditorial" class="form-control">
+									<option value="">Seleccionar Editorial</option>
+									<option value="0">Especificar después</option>
+									<?php foreach ($editoriales as $editorial): ?>
+									<option value="<?php $editorial['idEditorial'] ?>"><?php echo $editorial['editorial'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="paginas" class="control-label col-md-2">Páginas</label>
+							<div class="col-md-6">
+								<input name="paginas" type="number" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="isbn" class="control-label col-md-2">ISBN</label>
+							<div class="col-md-6">
+								<input name="isbn" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="issn" class="control-label col-md-2">ISSN</label>
+							<div class="col-md-6">
+								<input name="issn" type="number" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idIdioma" class="control-label col-md-2">Idioma</label>
+							<div class="col-md-6">
+								<select name="idIdioma" class="form-control">
+									<?php foreach ($idiomas as $idioma): ?>
+									<option value="<?php $idioma['idIdioma'] ?>"><?php echo $idioma['idioma'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idPais" class="control-label col-md-2">País</label>
+							<div class="col-md-6">
+								<select name="idPais" class="form-control">
+									<?php foreach ($paises as $pais): ?>
+									<option value="<?php $pais['idPais'] ?>"><?php echo $pais['nombre'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="noClasif" class="control-label col-md-2">Número de Clasificación (Opcional)</label>
+							<div class="col-md-6">
+								<input name="noClasif" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="noItem" class="control-label col-md-2">Número de Item (Opcional)</label>
+							<div class="col-md-6">
+								<input name="noItem" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="noClasif" class="control-label col-md-2">Número de Edición (Opcional)</label>
+							<div class="col-md-6">
+								<input name="noClasif" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idSerie" class="control-label col-md-2">Serie</label>
+							<div class="col-md-6">
+								<select name="idSerie" class="form-control">
+									<?php foreach ($paises as $pais): ?>
+									<option value="<?php $pais['idPais'] ?>"><?php echo $pais['nombre'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="dimension" class="control-label col-md-2">Dimensión: </label>
+							<div class="col-md-6">
+								<input name="dimension" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="serie" class="control-label col-md-2">Serie: </label>
+							<div class="col-md-6">
+								<input name="serie" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="volumen" class="control-label col-md-2">Volúmen: </label>
+							<div class="col-md-6">
+								<input name="volumen" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-6">
+								<button class="btn btn-success" type="submit">
+									<i class="fa fa-plus"></i> Alta de Ejemplar
+								</button>
+							</div>
+						</div>
+						
+					</form>
 				</div>
-				<?php } ?>
-				<?php echo $formulario ?>
 			</div>
 		</div>
 	</div>
 </section>
-
-<script>
-	$().ready(function(){
-	
-	});
-</script>

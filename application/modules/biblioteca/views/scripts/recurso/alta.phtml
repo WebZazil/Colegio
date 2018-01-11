@@ -1,20 +1,25 @@
 <?php
-    $estatusRecurso = $this->estatusRecurso;
-    //$tiposRecurso = $this->tiposRecurso;
     $materiales = $this->materiales;
     $colecciones = $this->colecciones;
     $clasificaciones = $this->clasificaciones;
+    $autores = $this->autores;
     
 	$messageSuccess = $this->messageSuccess;
 	$messageFail = $this->messageFail;
+	
+	$urlRecursos = $this->url(array('module'=>'biblioteca','controller'=>'recurso','action'=>'index'),null,true);
 ?>
 <section class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h4 class="panel-title"> Alta de Recurso</h4>
+				<h4 class="panel-title"> Nuevo de Recurso en Sistema</h4>
 			</div>
 			<div class="panel-body">
+				<a href="<?php echo $urlRecursos ?>" class="btn btn-info">
+					<i class="fa fa-chevron-left"></i> Regresar a Recursos
+				</a>
+			
 				<div>
 					<?php if(!is_null($messageSuccess)){ ?>
     				<div class="alert alert-success" role="alert">
@@ -32,23 +37,23 @@
     				</div>
     				<?php } ?>
 				</div>
+				<hr />
 				<div>
 					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
 						<div class="form-group">
-							<label for="recurso" class="control-label col-md-2">Nombre Recurso: </label>
+							<label for="titulo" class="control-label col-md-2">Titulo: </label>
 							<div class="col-md-5">
-								<input name="recurso" type="text" class="form-control" autofocus="autofocus" />
+								<input name="titulo" type="text" class="form-control" autofocus="autofocus" required="required" />
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label for="descripcion" class="control-label col-md-2">Descripcion recurso: </label>
+							<label for="subtitulo" class="control-label col-md-2">Subtitulo: </label>
 							<div class="col-md-5">
-								<input name="descripcion" type="text" class="form-control" />
+								<input name="subtitulo" type="text" class="form-control" />
 							</div>
 						</div>
 						
-
 						<div class="form-group">
 							<label for="idMaterial" class="control-label col-md-2">Material: </label>
 							<div class="col-md-5">
@@ -86,12 +91,21 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="idEstatusRecurso" class="control-label col-md-2">Estatus de Recurso: </label>
+							<label for="idAutor" class="control-label col-md-2">Autor(es): </label>
 							<div class="col-md-5">
-								<select name="idEstatusRecurso" id="idEstatusRecurso" class="form-control">
-									<option value="0">Seleccione Estatus de Recurso</option>
-									<?php foreach ($estatusRecurso as $estatus) : ?>
-									<option value="<?php echo $estatus['idEstatusRecurso'] ?>"><?php echo $estatus['estatusRecurso'] ?></option>
+								<select name="idAutor" id="idAutor" class="form-control">
+									<option value="0">Seleccionar Autor(es)</option>
+									<option value="ED">Especificar después...</option>
+									<?php foreach ($autores as $autor) : 
+									   $nameAutor = "";
+									   switch ($autor['tipo']) {
+									       case 'UN': $nameAutor = $autor['apellidos'].', '.$autor['nombres'];
+									           break;
+									       default: $nameAutor = $autor['autores'];
+									           break;
+									   }
+									?>
+									<option value="<?php echo $autor['idAutor'] ?>"><?php echo $nameAutor; ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -127,10 +141,8 @@
 		$('input').on('keypress', function (evt) {
 			if(evt.which === 13){
 				evt.preventDefault();
-				//console.log('Enter pressed');
-				
+				//console.log('Enter pressed');				
 			}
 		});
-	
 	});
 </script>

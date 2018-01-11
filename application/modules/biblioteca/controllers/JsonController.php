@@ -51,7 +51,7 @@ class Biblioteca_JsonController extends Zend_Controller_Action
         // action body
         $claveRecurso = $this->getParam('cr');
         $recursos = $this->recursoDAO->getRecursoByParams(array('codBarrOrigen'=>$claveRecurso));
-        $estatusRecurso = $this->recursoDAO->getEstatusRecurso();
+        //$estatusRecurso = $this->recursoDAO->getEstatusRecurso();
         $materiales = $this->materialDAO->getAllMateriales();
         $colecciones = $this->coleccionDAO->getAllColecciones();
         $clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
@@ -65,11 +65,13 @@ class Biblioteca_JsonController extends Zend_Controller_Action
             $obj = array();
             $obj['recurso'] = $recurso;
             # Buscando en estatus
+            /*
             foreach ($estatusRecurso as $eRecurso){
                 if ($eRecurso['idEstatusRecurso'] == $recurso['idEstatusRecurso']) {
                     $obj['estatus'] = $eRecurso;
                 }
             }
+            */
             # Buscando en material
             foreach ($materiales as $material){
                 if ($material['idMaterial'] == $recurso['idMaterial']) {
