@@ -20,7 +20,7 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
         if (!$auth->hasIdentity()) {
-            ;
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
         }
         $identity = $auth->getIdentity();
         
@@ -57,7 +57,10 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
         
         $this->view->usuario = $usuario;
         $prestamos = $this->prestamoDAO->getPrestamosUsuario($idUsuario);
-        $estatusRecurso = $this->recursoDAO->getEstatusRecurso();
+        //Verificar prestamos
+        //$this->prestamoDAO->procesarPrestamos($prestamos);
+        
+        //$estatusRecurso = $this->recursoDAO->getEstatusRecurso();
         $materiales = $this->materialDAO->getAllMateriales();
         $colecciones = $this->coleccionDAO->getAllColecciones();
         $clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
@@ -109,7 +112,7 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
         $prestamos = $this->prestamoDAO->getPrestamosUsuario($idUsuario);
         $usuario = $this->usuarioDAO->getUsuarioBibliotecaById($idUsuario);
         
-        $estatusRecurso = $this->recursoDAO->getEstatusRecurso();
+        //$estatusRecurso = $this->recursoDAO->getEstatusRecurso();
         $materiales = $this->materialDAO->getAllMateriales();
         $colecciones = $this->coleccionDAO->getAllColecciones();
         $clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
@@ -125,12 +128,6 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
             foreach ($materiales as $material){
                 if($material['idMaterial'] == $recurso['idMaterial']){
                     $obj['material'] = $material;
-                }
-            }
-            # Recorremos EstatusRecurso
-            foreach ($estatusRecurso as $estatus){
-                if($estatus['idEstatusRecurso'] == $recurso['idEstatusRecurso']){
-                    $obj['estatus'] = $estatus;
                 }
             }
             

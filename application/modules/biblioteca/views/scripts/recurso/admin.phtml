@@ -1,7 +1,7 @@
 <?php
     $recurso = $this->recurso;
     
-    $estatusRecurso = $this->estatusRecurso;
+    $autores = $this->autores;
     $materiales = $this->materiales;
     $colecciones = $this->colecciones;
     $clasificaciones = $this->clasificaciones;
@@ -12,7 +12,7 @@
 	<div class="col-md-12">
 		<div class="panel panel-warning">
 			<div class="panel-heading">
-				<h5 class="panel-title">Edicion de Recurso</h5>
+				<h5 class="panel-title">Edición de Recurso</h5>
 			</div>
 			<div class="panel-body">
 				<div>
@@ -24,16 +24,16 @@
 				<div>
 					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
 						<div class="form-group">
-							<label for="recurso" class="control-label col-md-2">Recurso: </label>
+							<label for="titulo" class="control-label col-md-2">Titulo: </label>
 							<div class="col-md-5">
-								<input name="recurso" type="text" class="form-control" value="<?php echo $recurso['recurso'] ?>" />
+								<input name="titulo" type="text" class="form-control" value="<?php echo htmlspecialchars($recurso['titulo']) ?>" />
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label for="descripcion" class="control-label col-md-2">Descripcion recurso: </label>
+							<label for="subtitulo" class="control-label col-md-2">Subtitulo: </label>
 							<div class="col-md-5">
-								<input name="descripcion" type="text" class="form-control" value="<?php echo $recurso['descripcion'] ?>" />
+								<input name="subtitulo" type="text" class="form-control" value="<?php echo $recurso['subtitulo'] ?>" />
 							</div>
 						</div>
 						
@@ -86,10 +86,9 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="idEstatusRecurso" class="control-label col-md-2">Estatus de Recurso: </label>
+							<label for="idAutor" class="control-label col-md-2">Autor: </label>
 							<div class="col-md-5">
-								<select name="idEstatusRecurso" id="idEstatusRecurso" class="form-control">
-									<option value="0">Seleccione Estatus de Recurso</option>
+								<select name="idAutor" class="form-control">
 									<?php foreach ($estatusRecurso as $estatus) : 
 									$seleccionado = $estatus['idEstatusRecurso'] == $recurso['idEstatusRecurso'] ? 'selected="selected"' : '' ;
 									?>

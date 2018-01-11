@@ -904,10 +904,13 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
               <actionMethod actionName="admin"/>
+              <actionMethod actionName="recurso"/>
             </controllerFile>
             <controllerFile controllerName="Ejemplar">
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="ejemplares"/>
             </controllerFile>
             <controllerFile controllerName="SubdivisionesLibro">
               <actionMethod actionName="index"/>
@@ -1255,6 +1258,14 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Usuarios">
                 <viewScriptFile forActionName="edit"/>
+              <viewControllerScriptsDirectory forControllerName="Ejemplar">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ejemplar">
+                <viewScriptFile forActionName="ejemplares"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Recurso">
+                <viewScriptFile forActionName="recurso"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1771,10 +1782,13 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
                 <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="recurso"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Ejemplar">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="ejemplares"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="SubdivisionesLibro">
                 <testApplicationActionMethod forActionName="index"/>
