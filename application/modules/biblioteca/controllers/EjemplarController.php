@@ -43,12 +43,15 @@ class Biblioteca_EjemplarController extends Zend_Controller_Action
 		
 		if($request->isPost()){
 		    $datos = $request->getPost();
-		    print_r($datos);
+		    $datos['idRecurso'] = $idRecurso;
+		    $datos['creacion'] = date('Y-m-d H:i:s',time());
+		    //print_r($datos);
 		    
 		    try{
+		        $ejemplarDAO->altaEjemplar($datos);
 		        $this->view->messageSuccess ="Ejemplar ha sido agregado";
 		    }catch(Exception $ex){
-		        $this->view->messageFail = "Ejemplar no ha sido agregado.<br /> Error: <strong>".$ex->getMessage()."<strong>";
+		        $this->view->messageFail = "Ejemplar no ha sido agregado.<br /> Error: <strong>".$ex->getMessage()."</strong>";
 		    }
 		}
     }

@@ -24,7 +24,7 @@
 					<a href="<?php echo $urlEjemplares; ?>" class="btn btn-info">
 						<i class="fa fa-chevron-left"></i> Regresar a Ejemplares
 					</a>
-				
+					<br /><br />
 					<?php if(!is_null($messageSuccess)){ ?>
     				<div class="alert alert-success" role="alert">
     					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -49,8 +49,9 @@
 							<label for="idTipoLibro" class="control-label col-md-2">Tipo de Libro</label>
 							<div class="col-md-6">
 								<select name="idTipoLibro" class="form-control">
+									<option value="0">Seleccionar Tipo de Libro</option>
 									<?php foreach ($tiposLibro as $tipoLibro): ?>
-									<option value="<?php $tipoLibro['idTipoLibro'] ?>"><?php echo $tipoLibro['tipoLibro'] ?></option>
+									<option value="<?php echo $tipoLibro['idTipoLibro'] ?>"><?php echo $tipoLibro['tipoLibro'] ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -67,10 +68,9 @@
 							<label for="idEditorial" class="control-label col-md-2">Editorial</label>
 							<div class="col-md-6">
 								<select name="idEditorial" class="form-control">
-									<option value="">Seleccionar Editorial</option>
-									<option value="0">Especificar después</option>
+									<option value="0">Seleccionar Editorial</option>
 									<?php foreach ($editoriales as $editorial): ?>
-									<option value="<?php $editorial['idEditorial'] ?>"><?php echo $editorial['editorial'] ?></option>
+									<option value="<?php echo $editorial['idEditorial'] ?>"><?php echo $editorial['editorial'] ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -93,7 +93,7 @@
 						<div class="form-group">
 							<label for="issn" class="control-label col-md-2">ISSN</label>
 							<div class="col-md-6">
-								<input name="issn" type="number" class="form-control" />
+								<input name="issn" type="text" class="form-control" />
 							</div>
 						</div>
 						
@@ -101,8 +101,9 @@
 							<label for="idIdioma" class="control-label col-md-2">Idioma</label>
 							<div class="col-md-6">
 								<select name="idIdioma" class="form-control">
+									<option value="0">Seleccione Idioma</option>
 									<?php foreach ($idiomas as $idioma): ?>
-									<option value="<?php $idioma['idIdioma'] ?>"><?php echo $idioma['idioma'] ?></option>
+									<option value="<?php echo $idioma['idIdioma'] ?>"><?php echo $idioma['idioma'] ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -112,8 +113,9 @@
 							<label for="idPais" class="control-label col-md-2">País</label>
 							<div class="col-md-6">
 								<select name="idPais" class="form-control">
+									<option value="0">Seleccione Pais</option>
 									<?php foreach ($paises as $pais): ?>
-									<option value="<?php $pais['idPais'] ?>"><?php echo $pais['nombre'] ?></option>
+									<option value="<?php echo $pais['idPais'] ?>"><?php echo $pais['nombre'] ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -134,34 +136,21 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="noClasif" class="control-label col-md-2">Número de Edición (Opcional)</label>
+							<label for="noEdicion" class="control-label col-md-2">Número de Edición (Opcional)</label>
 							<div class="col-md-6">
-								<input name="noClasif" type="text" class="form-control" />
+								<input name="noEdicion" type="text" class="form-control" />
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label for="idSerie" class="control-label col-md-2">Serie</label>
+							<label for="idSeriesEjemplar" class="control-label col-md-2">Serie</label>
 							<div class="col-md-6">
-								<select name="idSerie" class="form-control">
-									<?php foreach ($paises as $pais): ?>
-									<option value="<?php $pais['idPais'] ?>"><?php echo $pais['nombre'] ?></option>
+								<select name="idSeriesEjemplar" class="form-control">
+									<option value="0">Seleccione Serie</option>
+									<?php foreach ($series as $serie): ?>
+									<option value="<?php echo $serie['idSeriesEjemplar'] ?>"><?php echo $serie['nombreSerie'] ?></option>
 									<?php endforeach; ?>
 								</select>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label for="dimension" class="control-label col-md-2">Dimensión: </label>
-							<div class="col-md-6">
-								<input name="dimension" type="text" class="form-control" />
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label for="serie" class="control-label col-md-2">Serie: </label>
-							<div class="col-md-6">
-								<input name="serie" type="text" class="form-control" />
 							</div>
 						</div>
 						

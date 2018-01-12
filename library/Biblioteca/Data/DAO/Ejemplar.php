@@ -132,5 +132,9 @@ class Biblioteca_Data_DAO_Ejemplar {
         return $objs;
     }
     
+    public function altaEjemplar($datos) {
+        $tE = $this->tableEjemplar;
+        return $tE->insert($datos);
+    }
     
 }

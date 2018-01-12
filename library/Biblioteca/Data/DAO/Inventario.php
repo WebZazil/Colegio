@@ -93,10 +93,10 @@ class Biblioteca_Data_DAO_Inventario {
         $obj['clasificacion'] = $rowClasificacion;
         # Obtenemos Autores Asociados
         $tA = $this->tableAutor;
-        $idsAutores = explode(',', $rowRecurso['idsAutores']);
-        $select = $tA->select()->from($tA)->where('idAutor IN (?)', $idsAutores);
+        $idAutor = $rowRecurso['idAutor'];
+        $select = $tA->select()->from($tA)->where('idAutor = ?', $idAutor);
         $rowsAutores = $tA->fetchAll($select)->toArray();
-        $obj['autores'] = $rowsAutores;
+        $obj['autor'] = $rowsAutores;
         
         return $obj;
     }
