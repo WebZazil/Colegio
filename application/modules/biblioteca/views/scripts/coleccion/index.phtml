@@ -49,9 +49,16 @@
 			                </tr>
 			            </thead>
 			            <tbody>
-			                <?php foreach ($colecciones as $coleccion) : ?>
+			                <?php foreach ($colecciones as $coleccion) : 
+			                $urlAdminColeccion = $this->url(array('module'=>'biblioteca','controller'=>'coleccion','action'=>'admin','col'=>$coleccion['coleccion']['idColeccion']));
+			                ?>
 			                <tr>
-			                    <td><?php echo $coleccion["coleccion"]; ?></td>
+			                    <td>
+			                    	<?php echo $coleccion["coleccion"]; ?>
+			                    	<a class="btn btn-link" href="<?php echo $urlAdminColeccion; ?>">
+										<i class="fa fa-cog"></i> 
+									</a>
+			                    </td>
 			                    <td><?php echo $coleccion["codigo"]; ?></td>
 			                    <td><?php echo $coleccion["creacion"]; ?></td>
 			                </tr>

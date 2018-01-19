@@ -79,20 +79,23 @@ class Biblioteca_UsuariosController extends Zend_Controller_Action
     public function editAction()
     {
         // action body
-        
         $request = $this->getRequest();
         $idUsuario = $this->getParam('us');
         
         $usuario = $this->usuarioDAO->getUsuarioBibliotecaById($idUsuario);
+        print_r($usuario);
         
-        
-        $this->view->usuarios = $usuario;
+        $this->view->usuarios = $usuarios;
         
         if ($request->isPost()) {
             $datos = $request->getPost();
-            print_r($datos);       
-        }
+            print_r($datos);
+            
+            
+}
     }
+
+
 }
 
 

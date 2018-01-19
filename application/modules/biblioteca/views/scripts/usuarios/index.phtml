@@ -53,12 +53,11 @@
 								<th>Nombre</th>
 								<th>Fecha Alta</th>
 								<th>Ver Estado</th>
-								<th>Editar</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php foreach ($usuarios as $usuario) : 
-			                  $urlAdminUsuario = $this->url(array('module'=>'biblioteca','controller'=>'usuarios','action'=>'edit','us'=>$usuarios['usuario']['idUsuario']),null,true);
+			$urlAdminUsuario = $this->url(array('module'=>'biblioteca','controller'=>'usuarios','action'=>'edit','us'=>$usuarios['usuario']['idUsuario']));
 							     $tipo = "";
                                  switch ($usuario['tipoUsuario']) {
                                      case 'AL': $tipo = 'Alumna'; break;
@@ -70,17 +69,17 @@
 							?>
 							<tr>
 								<td><?php echo $tipo; ?></td>
-								<td><?php echo $usuario['nickname']; ?></td>
+								<td>
+									<?php echo $usuario['nickname']; ?>
+									<a class="btn btn-link" href="<?php echo $urlAdminUsuario?>">
+										<i class="fa fa-cog"></i> 
+									</a>
+								</td>
 								<td><?php echo $nombreCompleto; ?></td>
 								<td><?php echo $usuario['creacion']; ?></td>
 								<td>
 									<a class="btn btn-link" href="<?php echo $link; ?>">
 										<i class="fa fa-cogs"></i> Estado
-									</a>
-								</td>
-								<td>
-									<a class="btn btn-link" href="<?php echo $urlAdminUsuario?>">
-										<i class="fa fa-cogs"></i> Editar
 									</a>
 								</td>
 							</tr>
