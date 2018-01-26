@@ -88,6 +88,7 @@ class Biblioteca_ClasificacionController extends Zend_Controller_Action
         // action body
         $request = $this->getRequest();
         $idClasificacion = $this->getParam('clas');
+        print_r($idClasificacion);
         
         $clasificaciones = $this->clasificacionDAO->getClasificacionById($idClasificacion);
        

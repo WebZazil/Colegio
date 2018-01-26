@@ -25,11 +25,12 @@ class Biblioteca_Data_DAO_Clasificacion {
         $select = $tablaClasif->select()->from($tablaClasif)->where("idClasificacion=?",$idClasificacion);
         $rowClasificacion = $tablaClasif->fetchRow($select);
         
-        if (is_null($rowClasificacion)) {
+        print_r("$select");
+       /* if (is_null($rowClasificacion)) {
             return null;
         } else {
             return $rowClasificacion->toArray();
-        }
+        }*/
         
         
     }

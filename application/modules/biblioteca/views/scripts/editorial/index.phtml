@@ -52,9 +52,16 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($editoriales as $editorial) : ?>
+							<?php foreach ($editoriales as $editorial) : 
+							$urlAdminEditorial = $this->url(array('module'=>'biblioteca','controller'=>'editorial','action'=>'admin','edit'=>$editorial['editorial']['idEditorial']));
+							?>
 								<tr>
-									<td><?php echo $editorial["editorial"]; ?></td>
+									<td>
+										 <?php echo $editorial["editorial"]; ?>
+										  <a class="btn btn-link" href="<?php echo $urlAdminEditorial; ?>">
+										<i class="fa fa-cog"></i> 
+									</a>
+									</td>
 									<td><?php echo $editorial["creacion"]; ?></td>
 									
 								</tr>
