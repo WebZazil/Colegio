@@ -1,6 +1,6 @@
 <?php
     $usuario = $this->usuario;
-    $prestamosUsuario = $this->prestamosUsuario;
+    $contenedor = $this->contenedor;
     
     $multasUsuario = $this->multasUsuario;
     $linkUser = $this->url(array('module'=>'biblioteca','controller'=>'usuarios','action'=>'user','us'=>$usuario['id']),null,true);
@@ -27,25 +27,38 @@
 				</div>
 				<hr />
 				<div>
-				<?php if (!empty($prestamosUsuario)) { ?>
+				<?php if (!empty($contenedor)) { ?>
 				<table class="table table-striped table-condensed">
 					<thead>
 						<tr>
+							<th>Recurso</th>
 							<th>Estatus</th>
 							<th>Fecha Prestamo</th>
 							<th>Fecha Entrega</th>
-							<th>Fecha Vencimiento</th>
-							<th>Recurso</th>
+							<th>Devolver</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($prestamosUsuario as $prestamo) : ?>
+						<?php foreach ($contenedor as $cont) : 
+						      $prestamo = $cont['prestamo'];
+						      $copia = $cont['copia'];
+						      $ejemplar = $cont['ejemplar'];
+						      $recurso = $cont['recurso'];
+						      $urlDevolucion = $this->url(array('module'=>'biblioteca','controller'=>'prestamo','action'=>'devolucion','cp'=>$copia['idInventario']),null,true);
+						      
+						      $fechaPrestamo = new DateTime($prestamo['prestamo']['fechaPrestamo']);
+						      $fechaDevolucion = new DateTime($prestamo['prestamo']['fechaDevolucion']);
+						?>
 						<tr>
-							<td><?php //echo $prestamo['estatus']['estatusRecurso']; ?></td>
-							<td><?php echo $prestamo['prestamo']['fechaPrestamo']; ?></td>
-							<td><?php echo $prestamo['prestamo']['fechaDevolucion']; ?></td>
-							<td><?php echo $prestamo['prestamo']['fechaVencimiento']; ?></td>
-							<td><?php echo $prestamo['recurso']['recurso']; ?></td>
+							<td><?php echo $recurso['recurso']['titulo']; ?></td>
+							<td><?php echo $prestamo['estatus']['estatusPrestamo']; ?></td>
+							<td><?php echo $fechaPrestamo->format('Y-m-d'); ?></td>
+							<td><?php echo $fechaDevolucion->format('Y-m-d'); ?></td>
+							<td>
+								<a href="<?php echo $urlDevolucion; ?>" class="btn btn-link">
+									<i class="fa fa-refresh"></i> Devolver
+								</a>
+							</td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

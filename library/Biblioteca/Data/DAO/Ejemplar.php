@@ -9,6 +9,9 @@ class Biblioteca_Data_DAO_Ejemplar {
     private $tableIdioma;
     private $tableTipoLibro;
     private $tableSerieEjemplar;
+    private $tableInventario;
+    private $tableDimensionesEjemplar;
+    private $tableEstatusEjemplar;
     
     public function __construct($dbAdapter) {
         $config = array('db' => $dbAdapter);
@@ -21,6 +24,10 @@ class Biblioteca_Data_DAO_Ejemplar {
         $this->tableIdioma = new Biblioteca_Data_DbTable_Idioma($config);
         $this->tableTipoLibro = new Biblioteca_Data_DbTable_TipoLibro($config);
         $this->tableSerieEjemplar = new Biblioteca_Data_DbTable_SeriesEjemplar($config);
+        
+        $this->tableInventario = new Biblioteca_Data_DbTable_Inventario($config);
+        $this->tableDimensionesEjemplar = new Biblioteca_Data_DbTable_DimensionesEjemplar($config);
+        $this->tableEstatusEjemplar = new Biblioteca_Data_DbTable_EstatusEjemplar($config);
     }
     
     public function getAllRowsTiposLibro() {
@@ -98,6 +105,21 @@ class Biblioteca_Data_DAO_Ejemplar {
         $select = $tTL->select()->from($tTL)->where('idTipoLibro=?',$rowEjemplar['idTipoLibro']);
         $rowTipoLibro = $tTL->fetchRow($select)->toArray();
         $obj['tipoLibro'] = $rowTipoLibro;
+        # Table SerieEjemplar
+        $tSE = $this->tableSerieEjemplar;
+        $select = $tSE->select()->from($tSE)->where('idSeriesEjemplar=?',$rowEjemplar['idSeriesEjemplar']);
+        $rowSE = $tSE->fetchRow($select)->toArray();
+        $obj['serieEjemplar'] = $rowSE;
+        # Table Inventario
+        $tI = $this->tableInventario;
+        $select = $tI->select()->from($tI)->where('idEjemplar=?',$idEjemplar);
+        $rowsInventario = $tI->fetchAll($select)->toArray();
+        $obj['inventario'] = $rowsInventario;
+        # Table DimensionesEjemplar
+        $tDE = $this->tableDimensionesEjemplar;
+        $select = $tDE->select()->from($tDE)->where('idDimensionesEjemplar=?',$rowEjemplar['idDimensionesEjemplar']);
+        $rowDE = $tDE->fetchRow($select)->toArray();
+        $obj['dimensiones'] = $rowDE;
         
         return $obj;
         
@@ -137,4 +159,44 @@ class Biblioteca_Data_DAO_Ejemplar {
         return $tE->insert($datos);
     }
     
+    public function altaDimensionesEjemplar($datos) {
+        $tDE = $this->tableDimensionesEjemplar;
+        return $tDE->insert($datos);
+    }
+    
+    
+    public function getAllRowsEstatusEjemplar() {
+        $tEE = $this->tableEstatusEjemplar;
+        return $tEE->fetchAll()->toArray();
+    }
+    
+    public function getCopiasEjemplar($idEjemplar) {
+        $tI = $this->tableInventario;
+        $select = $tI->select()->from($tI)->where('idEjemplar=?',$idEjemplar);
+        $rowsEjemplar = $tI->fetchAll($select)->toArray();
+        
+        return $rowsEjemplar;
+    }
+    
+    public function altaCopiaEjemplar($datos) {
+        $tI = $this->tableInventario;
+        return $tI->insert($datos);
+    }
+    
+    public function getCopiaEjemplarByBarcode($barcode) {
+        $tI = $this->tableInventario;
+        $select = $tI->select()->from($tI)->where('codigoBarras=?',$barcode);
+        $rowCopia = $tI->fetchRow($select);
+        
+        return $rowCopia->toArray();
+    }
+    
+    public function getCopiaEjemplarByIdCopia($idCopia) {
+        $tI = $this->tableInventario;
+        $select = $tI->select()->from($tI)->where('idInventario=?',$idCopia);
+        $rowCopia = $tI->fetchRow($select);
+        
+        return $rowCopia->toArray();
+    }
 }
+

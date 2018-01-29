@@ -58,7 +58,7 @@
 						</thead>
 						<tbody>
 							<?php foreach ($usuarios as $usuario) : 
-			                  $urlAdminUsuario = $this->url(array('module'=>'biblioteca','controller'=>'usuarios','action'=>'edit','us'=>$usuarios['usuario']['idUsuario']),null,true);
+			                  $urlAdminUsuario = $this->url(array('module'=>'biblioteca','controller'=>'usuarios','action'=>'edit','us'=>$usuario['id']),null,true);
 							     $tipo = "";
                                  switch ($usuario['tipoUsuario']) {
                                      case 'AL': $tipo = 'Alumna'; break;

@@ -2,7 +2,9 @@
 
 class Biblioteca_EjemplarController extends Zend_Controller_Action
 {
+
     private $recursoDAO = null;
+
     private $ejemplarDAO = null;
 
     public function init()
@@ -44,11 +46,25 @@ class Biblioteca_EjemplarController extends Zend_Controller_Action
 		if($request->isPost()){
 		    $datos = $request->getPost();
 		    $datos['idRecurso'] = $idRecurso;
+		    //$datos['idDimensionesEjemplar'] = 0;
 		    $datos['creacion'] = date('Y-m-d H:i:s',time());
 		    //print_r($datos);
 		    
+		    $dimEjem = array(
+		        'largo' => $datos['largo'],
+		        'alto' => $datos['alto'],
+		        'ancho' => $datos['ancho'],
+		        'creacion' => date('Y-m-d H:i:s',time())
+		    );
+		    
+		    unset($datos['largo']);
+		    unset($datos['alto']);
+		    unset($datos['ancho']);
+		    
 		    try{
-		        $ejemplarDAO->altaEjemplar($datos);
+		        $idDimEjem = $ejemplarDAO->altaDimensionesEjemplar($dimEjem);
+		        $datos['idDimensionesEjemplar'] = $idDimEjem;
+		        $idEjemplar = $ejemplarDAO->altaEjemplar($datos);
 		        $this->view->messageSuccess ="Ejemplar ha sido agregado";
 		    }catch(Exception $ex){
 		        $this->view->messageFail = "Ejemplar no ha sido agregado.<br /> Error: <strong>".$ex->getMessage()."</strong>";
@@ -59,6 +75,7 @@ class Biblioteca_EjemplarController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        $idEjemplar = $this->getParam('ej');
     }
 
     public function ejemplaresAction()
@@ -72,12 +89,39 @@ class Biblioteca_EjemplarController extends Zend_Controller_Action
         $this->view->ejemplares = $ejemplares;
     }
 
+    public function acopiaAction() {
+        // action body
+        $request = $this->getRequest();
+        $idEjemplar = $this->getParam('ej');
+        $ejemplar = $this->ejemplarDAO->getObjectEjemplar($idEjemplar);
+        
+        $recurso = $this->recursoDAO->getRecursoById($ejemplar['ejemplar']['idRecurso']);
+        $estatusEjemplar = $this->ejemplarDAO->getAllRowsEstatusEjemplar();
+        //print_r($recurso);
+        $copias = $this->ejemplarDAO->getCopiasEjemplar($idEjemplar);
+        
+        $this->view->ejemplar = $ejemplar;
+        $this->view->recurso = $recurso;
+        $this->view->estatusEjemplar = $estatusEjemplar;
+        $this->view->copias = count($copias);
+        
+        if ($request->isPost()) {
+            $datos = $request->getPost();
+            $datos['idEjemplar'] = $idEjemplar;
+            $datos['creacion'] = date('Y-m-d H:i:s', time());
+            print_r($datos);
+            print_r('<br /><br />');
+            
+            try {
+                $this->ejemplarDAO->altaCopiaEjemplar($datos);
+                $this->view->messageSuccess = 'Copia de Ejemplar dada de alta correctamente';
+            } catch (Exception $e) {
+                print_r($e->getMessage());
+                $this->view->messageFail = 'Error al agregar la copia:<br /> <strong>'.$e->getMessage().'</strong>';
+            }
+            
+        }
+    }
+
 
 }
-
-
-
-
-
-
-

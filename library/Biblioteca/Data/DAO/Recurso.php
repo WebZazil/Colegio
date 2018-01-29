@@ -77,7 +77,7 @@ class Biblioteca_Data_DAO_Recurso {
         $rowsRecursos = "";
         if(!empty($params)){
             foreach ($params as $key => $value) {
-                if($key == 'recurso'){
+                if($key == 'titulo' || $key == 'subtitulo'){
                     $select->where($key.' LIKE ?',"%{$value}%");
                 }else{
                     $select->where($key."=?", $value);
@@ -102,6 +102,40 @@ class Biblioteca_Data_DAO_Recurso {
     }
     // ========================================================================================= >> Mejoras 5 enero 2018
     
+    /**
+     * 
+     * @param int $idRecurso recurso a buscar en tabla
+     * @return array que contiene el 
+     */
+    public function getObjectRecurso($idRecurso){
+        $contenedor = array();
+        
+        $rowRecurso = $this->getRecursoById($idRecurso);
+        $contenedor['recurso'] = $rowRecurso;
+        # Table Material
+        $tM = $this->tableMaterial;
+        $select = $tM->select()->from($tM)->where('idMaterial=?',$rowRecurso['idMaterial']);
+        $rowMaterial = $tM->fetchRow($select)->toArray();
+        $contenedor['material'] = $rowMaterial;
+        # Table Coleccion
+        $tColeccion = $this->tableColeccion;
+        $select = $tColeccion->select()->from($tColeccion)->where('idColeccion=?',$rowRecurso['idColeccion']);
+        $rowColeccion = $tColeccion->fetchRow($select)->toArray();
+        $contenedor['coleccion'] = $rowColeccion;
+        # Table Clasificacion
+        $tClasificacion = $this->tableClasificacion;
+        $select = $tClasificacion->select()->from($tClasificacion)->where('idClasificacion=?',$rowRecurso['idClasificacion']);
+        $rowClasificacion = $tClasificacion->fetchRow($select)->toArray();
+        $contenedor['clasificacion'] = $rowClasificacion;
+        # Table Autor
+        $tAutor = $this->tableAutor;
+        $select = $tAutor->select()->from($tAutor)->where('idAutor=?',$rowRecurso['idAutor']);
+        $rowAutor = $tAutor->fetchRow($select)->toArray();
+        $contenedor['autor'] = $rowAutor;
+        
+        return $contenedor;
+    }
+    
     public function getObjectsRecurso() {
         $tR = $this->tableRecurso;
         $rowsRecursos = $tR->fetchAll()->toArray();
@@ -118,8 +152,6 @@ class Biblioteca_Data_DAO_Recurso {
             $obj['recurso'] = $rowRecurso;
             #Obtenemos Coleccion;
         }
-        
-        
     }
     
     private function getTablesItems($tableName, $index, $indexVal) {

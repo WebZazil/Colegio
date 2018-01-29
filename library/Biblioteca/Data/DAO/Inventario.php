@@ -1,4 +1,9 @@
 <?php
+/**
+ * 
+ * @author EnginnerRodriguez
+ *
+ */
 class Biblioteca_Data_DAO_Inventario {
     
     private $tableInventario;
@@ -14,6 +19,7 @@ class Biblioteca_Data_DAO_Inventario {
     private $tableColeccion;
     private $tableClasificacion;
     private $tableAutor;
+    private $tableSerieEjemplar;
     
     public function __construct($dbAdapter) {
         $config = array('db' => $dbAdapter);
@@ -31,6 +37,58 @@ class Biblioteca_Data_DAO_Inventario {
         $this->tableColeccion = new Biblioteca_Data_DbTable_Coleccion($config);
         $this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion($config);
         $this->tableAutor = new Biblioteca_Data_DbTable_Autor($config);
+        $this->tableSerieEjemplar = new Biblioteca_Data_DbTable_SeriesEjemplar($config);
+    }
+    
+    /**
+     * Obtiene objetos recurso
+     * @param int $idRecurso
+     * @return array[]
+     */
+    public function getObjectRecurso($idRecurso) {
+        $tR = $this->tableRecurso;
+        $select = $tR->select()->from($tR)->where('idRecurso=?',$idRecurso);
+        $rowRecurso = $tR->fetchRow($select)->toArray();
+        
+        $obj = array();
+        $obj['recurso'] = $rowRecurso;
+        # Obtenemos Material Asociado
+        $tM = $this->tableMaterial;
+        $select = $tM->select()->from($tM)->where('idMaterial=?',$rowRecurso['idMaterial']);
+        $rowMaterial = $tM->fetchRow($select)->toArray();
+        $obj['material'] = $rowMaterial;
+        # Obtenemos Coleccion Asociada
+        $tCol = $this->tableColeccion;
+        $select = $tCol->select()->from($tCol)->where('idColeccion=?',$rowRecurso['idColeccion']);
+        $rowColeccion = $tCol->fetchRow($select)->toArray();
+        $obj['coleccion'] = $rowColeccion;
+        # Obtenemos Clasificacion Asociada
+        $tCla = $this->tableClasificacion;
+        $select = $tCla->select()->from($tCla)->where('idClasificacion=?',$rowRecurso['idClasificacion']);
+        $rowClasificacion = $tCla->fetchRow($select)->toArray();
+        $obj['clasificacion'] = $rowClasificacion;
+        # Obtenemos Autores Asociados
+        $tA = $this->tableAutor;
+        $idAutor = $rowRecurso['idAutor'];
+        $select = $tA->select()->from($tA)->where('idAutor = ?', $idAutor);
+        $rowsAutores = $tA->fetchAll($select)->toArray();
+        $obj['autor'] = $rowsAutores;
+        
+        $tE = $this->tableEjemplar;
+        $select = $tE->select()->from($tE)->where('idRecurso=?', $idRecurso);
+        $rowsEjemplar = $tE->fetchAll($select)->toArray();
+        $objsEjemplar = array();
+        
+        foreach ($rowsEjemplar as $rowEjemplar){
+            $objEjemplar = $this->getObjectEjemplar($rowEjemplar['idEjemplar']);
+            $objsEjemplar[] = $objEjemplar;
+        }
+        
+        $obj['ejemplares'] = $objsEjemplar;
+        
+        //$rowsEjemplar = 
+        
+        return $obj;
     }
     
     function getObjectEjemplar($idEjemplar) {
@@ -65,42 +123,25 @@ class Biblioteca_Data_DAO_Inventario {
         $select = $tP->select()->from($tP)->where('idPais=?',$rowEjemplar['idPais']);
         $rowPais = $tP->fetchRow($select)->toArray();
         $obj['pais'] = $rowPais;
+        # Obtenemos Serie Asociada
+        $tSE = $this->tableSerieEjemplar;
+        $select = $tSE->select()->from($tSE)->where('idSeriesEjemplar=?',$rowEjemplar['idSeriesEjemplar']);
+        $rowSeriesE = $tSE->fetchRow($select)->toArray();
+        $obj['seriesEjemplar'] = $rowSeriesE;
+        
+        # Obtenemos Ejemplares
+        $obj['ejemplares'] = $this->getObjectsInventario($rowEjemplar['idEjemplar']);
         
         return $obj;
     }
     
-    public function getObjectRecurso($idRecurso) {
-        $tR = $this->tableRecurso;
-        $select = $tR->select()->from($tR)->where('idRecurso=?',$idRecurso);
-        $rowRecurso = $tR->fetchRow($select)->toArray();
+    function getObjectsInventario($idEjemplar) {
+        $tI = $this->tableInventario;
+        $select = $tI->select()->from($tI)->where('idEjemplar=?',$idEjemplar);
+        $rowsInventario = $tI->fetchAll($select)->toArray();
         
-        $obj = array();
-        $obj['recurso'] = $rowRecurso;
-        # Obtenemos Material Asociado
-        $tM = $this->tableMaterial;
-        $select = $tM->select()->from($tM)->where('idMaterial=?',$rowRecurso['idMaterial']);
-        $rowMaterial = $tM->fetchRow($select)->toArray();
-        $obj['material'] = $rowMaterial;
-        # Obtenemos Coleccion Asociada
-        $tCol = $this->tableColeccion;
-        $select = $tCol->select()->from($tCol)->where('idColeccion=?',$rowRecurso['idColeccion']);
-        $rowColeccion = $tCol->fetchRow($select)->toArray();
-        $obj['coleccion'] = $rowColeccion;
-        # Obtenemos Clasificacion Asociada
-        $tCla = $this->tableClasificacion;
-        $select = $tCla->select()->from($tCla)->where('idClasificacion=?',$rowRecurso['idClasificacion']);
-        $rowClasificacion = $tCla->fetchRow($select)->toArray();
-        $obj['clasificacion'] = $rowClasificacion;
-        # Obtenemos Autores Asociados
-        $tA = $this->tableAutor;
-        $idAutor = $rowRecurso['idAutor'];
-        $select = $tA->select()->from($tA)->where('idAutor = ?', $idAutor);
-        $rowsAutores = $tA->fetchAll($select)->toArray();
-        $obj['autor'] = $rowsAutores;
-        
-        return $obj;
+        //$objs = array();
+        return $rowsInventario;
     }
-    
-    
     
 }

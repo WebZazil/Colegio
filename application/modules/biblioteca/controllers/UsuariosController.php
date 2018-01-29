@@ -36,6 +36,11 @@ class Biblioteca_UsuariosController extends Zend_Controller_Action
     public function userAction()
     {
         // action body
+        $idUsuario = $this->getParam('us');
+        $usuario = $this->usuarioDAO->getUsuarioBibliotecaById($idUsuario);
+        $this->view->usuario = $usuario;
+        
+        
     }
 
     public function altaAction()

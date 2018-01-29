@@ -8,21 +8,25 @@ class Biblioteca_JsonController extends Zend_Controller_Action
     private $materialDAO = null;
     private $coleccionDAO = null;
     private $clasificacionDAO = null;
+    private $ejemplarDAO = null;
 
     public function init()
     {
         /* Initialize action controller here */
-        $this->autorDAO = new Biblioteca_Data_DAO_Autor;
         $auth = Zend_Auth::getInstance();
         $identity = $auth->getIdentity();
+        
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        
+        $this->autorDAO = new Biblioteca_Data_DAO_Autor;
         
         $this->recursoDAO = new Biblioteca_Data_DAO_Recurso($identity['adapter']);
         $this->materialDAO = new Biblioteca_Data_DAO_Material($identity['adapter']);
         $this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($identity['adapter']);
         $this->clasificacionDAO = new Biblioteca_Data_DAO_Clasificacion($identity['adapter']);
+        $this->ejemplarDAO = new Biblioteca_Data_DAO_Ejemplar($identity['adapter']);
 		
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender(true);
     }
 
     public function indexAction()
@@ -50,59 +54,28 @@ class Biblioteca_JsonController extends Zend_Controller_Action
     {
         // action body
         $claveRecurso = $this->getParam('cr');
-        $recursos = $this->recursoDAO->getRecursoByParams(array('codBarrOrigen'=>$claveRecurso));
-        //$estatusRecurso = $this->recursoDAO->getEstatusRecurso();
-        $materiales = $this->materialDAO->getAllMateriales();
-        $colecciones = $this->coleccionDAO->getAllColecciones();
-        $clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
-        
-        //print_r($recursos);
-        //print_r($estatusRecurso);
+        //$recursos = $this->recursoDAO->getRecursoByParams(array('codBarrOrigen'=>$claveRecurso));
+        $copia = $this->ejemplarDAO->getCopiaEjemplarByBarcode($claveRecurso);
+        $ejemplar = $this->ejemplarDAO->getObjectEjemplar($copia['idEjemplar']);
+        $recurso = $this->recursoDAO->getObjectRecurso($ejemplar['ejemplar']['idRecurso']);
         
         $container = array();
+        $container['copia'] = $copia;
+        $container['ejemplar'] = $ejemplar;
+        $container['recurso'] = $recurso;
         
-        foreach ($recursos as $recurso) {
-            $obj = array();
-            $obj['recurso'] = $recurso;
-            # Buscando en estatus
-            /*
-            foreach ($estatusRecurso as $eRecurso){
-                if ($eRecurso['idEstatusRecurso'] == $recurso['idEstatusRecurso']) {
-                    $obj['estatus'] = $eRecurso;
-                }
-            }
-            */
-            # Buscando en material
-            foreach ($materiales as $material){
-                if ($material['idMaterial'] == $recurso['idMaterial']) {
-                    $obj['material'] = $material;
-                }
-            }
-            # Buscando en coleccion
-            foreach ($colecciones as $coleccion){
-                if ($coleccion['idColeccion'] == $recurso['idColeccion']) {
-                    $obj['coleccion'] = $coleccion;
-                }
-            }
-            # Buscando en clasificacion
-            foreach ($clasificaciones as $clasificacion){
-                if ($clasificacion['idClasificacion'] == $recurso['idClasificacion']) {
-                    $obj['clasificacion'] = $clasificacion;
-                }
-            }
-            
-            $container[] = $obj;
-        }
-        /*
-        foreach ($container as $obj){
-            //print_r($obj); print_r('<br /><br />');
-        }
-        */
         echo Zend_Json::encode($container);
+    }
+
+    public function loginuAction()
+    {
+        // action body
     }
 
 
 }
+
+
 
 
 

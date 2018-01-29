@@ -4,16 +4,12 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
 {
 
     private $recursoDAO = null;
-
     private $materialDAO = null;
-
     private $coleccionDAO = null;
-
     private $clasificacionDAO = null;
-
     private $autorDAO = null;
-
     private $inventarioDAO = null;
+    private $ejemplarDAO = null;
 
     public function init()
     {
@@ -22,6 +18,7 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
         if (!$auth->hasIdentity()) {
             $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");
         }
+        
         $identity = $auth->getIdentity();
         
 		$this->recursoDAO = new Biblioteca_Data_DAO_Recurso($identity['adapter']);
@@ -31,6 +28,7 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
 		$this->autorDAO = new Biblioteca_Data_DAO_Autor($identity['adapter']);
 		
 		$this->inventarioDAO = new Biblioteca_Data_DAO_Inventario($identity['adapter']);
+		$this->ejemplarDAO = new Biblioteca_Data_DAO_Ejemplar($identity['adapter']);
     }
 
     public function indexAction()
@@ -94,15 +92,21 @@ class Biblioteca_RecursoController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-        $idRecurso = $this->getParam('re');
+        $idRecurso = $this->getParam('rc');
         
-        $recurso = $this->recursoDAO->getRecursoById($idRecurso);
+        $ejemplarDAO = $this->ejemplarDAO;
+        
+        //$recurso = $this->recursoDAO->getRecursoById($idRecurso);
+        $recurso = $this->recursoDAO->getObjectRecurso($idRecurso);
+        
         $this->view->autores = $this->autorDAO->getAllAutores();
         $this->view->materiales = $this->materialDAO->getAllMateriales();
         $this->view->colecciones = $this->coleccionDAO->getAllColecciones();
         $this->view->clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
         
         $this->view->recurso = $recurso;
+        
+        $this->recursoDAO->getObjectsRecurso();
         
         if ($request->isPost()) {
             $datos = $request->getPost();

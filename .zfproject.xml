@@ -911,6 +911,7 @@
               <actionMethod actionName="alta"/>
               <actionMethod actionName="admin"/>
               <actionMethod actionName="ejemplares"/>
+              <actionMethod actionName="acopia"/>
             </controllerFile>
             <controllerFile controllerName="SubdivisionesLibro">
               <actionMethod actionName="index"/>
@@ -934,6 +935,7 @@
               <actionMethod actionName="autoresi"/>
               <actionMethod actionName="autoresv"/>
               <actionMethod actionName="brecursos"/>
+              <actionMethod actionName="loginu"/>
             </controllerFile>
             <controllerFile controllerName="Usuario">
               <actionMethod actionName="index"/>
@@ -1258,6 +1260,7 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Usuarios">
                 <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Ejemplar">
                 <viewScriptFile forActionName="admin"/>
               </viewControllerScriptsDirectory>
@@ -1266,6 +1269,12 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Recurso">
                 <viewScriptFile forActionName="recurso"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="loginu"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ejemplar">
+                <viewScriptFile forActionName="acopia"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1789,6 +1798,7 @@
                 <testApplicationActionMethod forActionName="alta"/>
                 <testApplicationActionMethod forActionName="admin"/>
                 <testApplicationActionMethod forActionName="ejemplares"/>
+                <testApplicationActionMethod forActionName="acopia"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="SubdivisionesLibro">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1812,6 +1822,7 @@
                 <testApplicationActionMethod forActionName="autoresi"/>
                 <testApplicationActionMethod forActionName="autoresv"/>
                 <testApplicationActionMethod forActionName="brecursos"/>
+                <testApplicationActionMethod forActionName="loginu"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>

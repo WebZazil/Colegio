@@ -28,16 +28,30 @@
 				</div>
 				<hr />
 				<div>
-					<table id="recursosEncontrados" class="table table-striped table-condensed">
+					<table id="detalleRecurso" class="table table-striped table-condensed">
 						<thead>
 							<tr>
 								<th>Recurso</th>
-								<th>Estatus</th>
-								<th>Tipo Recurso</th>
+								<th>Material</th>
 								<th>Coleccion</th>
 								<th>Clasificacion</th>
 								<th>Prestamo</th>
 								<th>PrestamoPruebas</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					<hr />
+					<table id="detalleEjemplar" class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Editorial</th>
+								<th>Idioma</th>
+								<th>Pais</th>
+								<th>Serie</th>
+								<th>Tipo Libro</th>
+								<th>Dimensiones</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -95,61 +109,5 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	$().ready(function(){
-		var appname = "/colegio/biblioteca";
-		var url = window.location.origin + appname;
-		//var idUsuario
-		
-		$("#codBarrOrigen").keypress(function(evt){
-			//console.log(evt.which);
-			console.log('keypress');
-			if(evt.which === 13){
-				console.log('keypress + enter');
-				var idUsuario = $(this).attr('user');
-				var valor = $(this).val();
-				var urlQRecursos = url+'/json/brecursos/cr/'+valor;
-				//console.log(urlQRecursos);
-				
-
-				$.ajax({
-					url: urlQRecursos,
-					dataType: "json",
-					success: function(data){
-						console.dir(data);
-						var tbody = $("#recursosEncontrados").find('tbody'); 
-                		tbody.empty();
-						$.each(data, function(i,item){
-							var urlPrestamo = url+'/prestamo/prestamo/rc/'+item.recurso.idRecurso+'/us/'+idUsuario;
-							var urlPrestamoTest = url+'/prestamo/prestamot/rc/'+item.recurso.idRecurso+'/us/'+idUsuario;
-							var link = $("<a></a>")
-                                .attr("class","btn btn-link")
-                                .attr("href",urlPrestamo)
-                                //.attr("target","_blank")
-                                .text("Prestar Recurso");
-                            
-							var linkT = $("<a></a>")
-                                .attr("class","btn btn-link")
-                                .attr("href",urlPrestamoTest)
-                                //.attr("target","_blank")
-                                .text("Prestar Recurso");
-
-							//$("#grado").append($("<option></option>").attr("value",data[i].idGradoEducativo).text(data[i].gradoEducativo));
-							tbody.append($('<tr>').
-	                           append($('<td>').append(item.recurso.recurso)).
-	                           //append($('<td>').append(item.estatus.estatusRecurso)).
-	                           append($('<td>').append(item.material.material)).
-	                           append($('<td>').append(item.coleccion.coleccion)).
-	                           append($('<td>').append(item.clasificacion.clasificacion)).
-	                           append($('<td>').append(link)).
-	                           append($('<td>').append(linkT))
-	                       );
-						});
-					}
-				});				
-			}
-		});
-	});
+<script type="text/javascript" src="<?php echo $this->baseUrl()."/public/js/biblio/prestamo/altaPrestamo.js" ?>">
 </script>
-
-

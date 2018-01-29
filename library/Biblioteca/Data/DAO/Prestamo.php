@@ -8,12 +8,25 @@ class Biblioteca_Data_DAO_Prestamo {
     
     private $tablePrestamo;
     private $tableRecurso;
+    private $tableInventario;
+    private $tableEstatusPrestamo;
     
     public function __construct($dbAdapter) {
         $config = array('db' => $dbAdapter);
         
         $this->tablePrestamo = new Biblioteca_Data_DbTable_Prestamo($config);
         $this->tableRecurso = new Biblioteca_Data_DbTable_Recurso($config);
+        $this->tableInventario = new Biblioteca_Data_DbTable_Inventario($config);
+        
+        $this->tableEstatusPrestamo = new Biblioteca_Data_DbTable_EstatusPrestamo($config);
+    }
+    
+    public function getEstatusPrestamoByEstatus($estatus) {
+        $tEP = $this->tableEstatusPrestamo;
+        $select = $tEP->select()->from($tEP)->where('estatusPrestamo=?',$estatus);
+        $rowEstatus = $tEP->fetchRow($select)->toArray();
+        
+        return $rowEstatus;
     }
     
     /**
@@ -27,6 +40,26 @@ class Biblioteca_Data_DAO_Prestamo {
         $rowsPrestamos = $tP->fetchAll($select);
         
         return $rowsPrestamos->toArray();
+    }
+    
+    public function getObjectPrestamosUsuario($idUsuario) {
+        $tP = $this->tablePrestamo;
+        $tEP = $this->tableEstatusPrestamo;
+        $select = $tP->select()->from($tP)->where('idUsuario=?',$idUsuario);
+        $rowsPrestamos = $tP->fetchAll($select);
+        
+        $contenedor = array();
+        
+        foreach ($rowsPrestamos as $rowPrestamo){
+            $obj = array();
+            $obj['prestamo'] = $rowPrestamo;
+            $select = $tEP->select()->from($tEP)->where('idEstatusPrestamo=?',$rowPrestamo['idEstatusPrestamo']);
+            $rowEP = $tEP->fetchRow($select)->toArray();
+            $obj['estatus'] = $rowEP;
+            $contenedor[] = $obj;
+        }
+        
+        return $contenedor;
     }
     
     /**
@@ -45,7 +78,7 @@ class Biblioteca_Data_DAO_Prestamo {
     
     /**
      * 
-     * @param unknown $prestamos
+     * @param array $prestamos
      */
     public function procesarPrestamos($prestamos) {
         $tP = $this->tablePrestamo;
@@ -60,6 +93,9 @@ class Biblioteca_Data_DAO_Prestamo {
             echo $diferencia->format("%R%a days");
             print_r('<br /><br />');
         }
-        
     }
+    
+    
+   
+    
 }

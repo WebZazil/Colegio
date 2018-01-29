@@ -134,7 +134,7 @@
 			            <tbody>
 			                <?php foreach ($resources as $recurso) : 
 			                $nombreRecurso = strlen($recurso['recurso']['titulo']) > 35 ? substr($recurso['recurso']['titulo'], 0, 35) . ' ...' : $recurso['recurso']['titulo'];
-			                $urlAdminResource = $this->url(array('module'=>'biblioteca','controller'=>'recurso','action'=>'admin','re'=>$recurso['recurso']['idRecurso']));
+			                $urlAdminResource = $this->url(array('module'=>'biblioteca','controller'=>'recurso','action'=>'admin','rc'=>$recurso['recurso']['idRecurso']));
 			                $urlEjemplares = $this->url(array('module'=>'biblioteca','controller'=>'ejemplar','action'=>'ejemplares','rc'=>$recurso['recurso']['idRecurso']));
 			                ?>
 			                <tr>
