@@ -53,7 +53,6 @@
 								<th>Nombre</th>
 								<th>Fecha Alta</th>
 								<th>Ver Estado</th>
-								<th>Editar</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -70,17 +69,17 @@
 							?>
 							<tr>
 								<td><?php echo $tipo; ?></td>
-								<td><?php echo $usuario['nickname']; ?></td>
+								<td>
+									<?php echo $usuario['nickname']; ?>
+									<a class="btn btn-link" href="<?php echo $urlAdminUsuario?>">
+										<i class="fa fa-cog"></i> 
+									</a>
+								</td>
 								<td><?php echo $nombreCompleto; ?></td>
 								<td><?php echo $usuario['creacion']; ?></td>
 								<td>
 									<a class="btn btn-link" href="<?php echo $link; ?>">
 										<i class="fa fa-cogs"></i> Estado
-									</a>
-								</td>
-								<td>
-									<a class="btn btn-link" href="<?php echo $urlAdminUsuario?>">
-										<i class="fa fa-cogs"></i> Editar
 									</a>
 								</td>
 							</tr>

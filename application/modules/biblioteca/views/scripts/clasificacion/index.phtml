@@ -29,9 +29,16 @@
 			                </tr>
 			            </thead>
 			            <tbody>
-			                <?php foreach ($clasificaciones as $clasificacion) : ?>
+			                <?php foreach ($clasification as $clasificacion) :
+			                $urlAdminClasificacion = $this->url(array('module'=>'biblioteca','controller'=>'clasificacion','action'=>'admin','clas'=>$clasificacion['clasificacion']['idClasificacion']));
+   			                ?>
 			                <tr>
-			                    <td><?php echo $clasificacion["clasificacion"]; ?></td>
+			                    <td>
+			                    	<?php echo $clasificacion["clasificacion"]; ?>
+			                    	<a class="btn btn-link" href="<?php echo $urlAdminClasificacion; ?>">
+										<i class="fa fa-cogs"></i> 
+									</a>
+			                    </td>
 			                    <td><?php echo $clasificacion["descripcion"]; ?></td>
 			                    <td><?php echo $clasificacion["codigo"]; ?></td>
 			                    <td><?php echo $clasificacion["creacion"]; ?></td>
@@ -52,9 +59,16 @@
 			                </tr>
 			            </thead>
 			            <tbody>
-			                <?php foreach ($clasificaciones as $clasificacion) : ?>
+			                <?php foreach ($clasificaciones as $clasificacion) : 
+			                $urlAdminClasificacion = $this->url(array('module'=>'biblioteca','controller'=>'clasificacion','action'=>'admin','clas'=>$clasificacion['clasificacion']['idClasificacion']));
+			                ?>
 			                <tr>
-			                    <td><?php echo $clasificacion["clasificacion"]; ?></td>
+			                    <td>
+			                   		 <?php echo $clasificacion["clasificacion"]; ?>
+			                   		 <a class="btn btn-link" href="<?php echo $urlAdminClasificacion; ?>">
+										<i class="fa fa-cog"></i> 
+									</a>
+			                    </td>
 			                    <td><?php echo $clasificacion["descripcion"]; ?></td>
 			                    <td><?php echo $clasificacion["codigo"]; ?></td>
 			                    <td><?php echo $clasificacion["creacion"]; ?></td>

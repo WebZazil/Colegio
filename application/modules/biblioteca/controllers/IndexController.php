@@ -4,14 +4,21 @@ class Biblioteca_IndexController extends Zend_Controller_Action
 {
 
     private $serviceLogin = null;
+
     private $testConnector = null;
+
     private $loginDAO = null;
-    
+
     private $recursoDAO = null;
+
     private $materialDAO = null;
+
     private $coleccionDAO = null;
+
     private $clasificacionDAO = null;
+
     private $autorDAO = null;
+
     private $inventarioDAO = null;
 
     public function init()
@@ -104,8 +111,15 @@ class Biblioteca_IndexController extends Zend_Controller_Action
         // action body
     }
 
+    public function testtAction()
+    {
+        // action body
+    }
+
 
 }
+
+
 
 
 

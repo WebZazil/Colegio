@@ -1,4 +1,83 @@
-<br /><br />
+<?php
+    $materiales = $this->materiales;
+    
+    $params = array("module"=>"biblioteca","controller"=>"material","action"=>"alta");
+    $urlAltaColeccion = $this->url($params,null,TRUE);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Materiales Registradas en Biblioteca</h5>
+			</div>
+			<div class="panel-body">
+			    <div>
+			        <a class="btn btn-success" href="<?php echo $urlAltaMaterial; ?>">
+			            <i class="fa fa-plus"></i> Nuevo Material
+			        </a>
+			    </div>
+			    <hr />
+			    <div>
+			    <?php if(false){?>
+			        <table class="table table-striped table-condensed">
+			            <thead>
+			                <tr>
+			                    <th>Material</th>
+			                    <th>Descripción</th>
+			                    <th>Código</th>
+			                    <th>Creación</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <?php foreach ($materiales as $material) : ?>
+			                <tr>
+			                    <td><?php echo $material["material"]; ?></td>
+			                    <td><?php echo $material["descripcion"]; ?></td>
+			                    <td><?php echo $material["codigo"]; ?></td>
+								<td><?php echo $material["creación"]; ?></td>
+			                </tr>
+			                <?php endforeach; ?>
+			            </tbody>
+			        </table>
+			        	<?php } ?>
+			        	
+			        	<?php if(true){?>
+			        <table id="tMaterial" class="table table-striped table-condensed">
+			            <thead>
+			                <tr>
+			                    <th>Material</th>
+			                    <th>Descripción</th>
+			                    <th>Código</th>
+			                    <th>Creación</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <?php foreach ($materiales as $material) : ?>
+			                <tr>
+			                    <td><?php echo $material["material"]; ?></td>
+			                    <td><?php echo $material["descripcion"]; ?></td>
+			                    <td><?php echo $material["codigo"]; ?></td>
+			                    <td><?php echo $material["creacion"]; ?></td>
+			                </tr>
+			                <?php endforeach; ?>
+			            </tbody>
+			        </table>
+			        	<?php } ?>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+	$().ready(function(){
+		console.log("jQuery Activo!!");
+
+		$("#tMaterial").DataTable();
+		
+	});
+		
+</script><br /><br />
 <div id="view-content">
 	<p>View script for controller <b>Material</b> and script/action name <b>index</b></p>
 </div>

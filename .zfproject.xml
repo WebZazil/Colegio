@@ -857,6 +857,7 @@
               <actionMethod actionName="logout"/>
               <actionMethod actionName="loginu"/>
               <actionMethod actionName="loginb"/>
+              <actionMethod actionName="testt"/>
             </controllerFile>
             <controllerFile controllerName="Autor">
               <actionMethod actionName="index"/>
@@ -1275,6 +1276,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Ejemplar">
                 <viewScriptFile forActionName="acopia"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="testt"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1744,6 +1748,7 @@
                 <testApplicationActionMethod forActionName="logout"/>
                 <testApplicationActionMethod forActionName="loginu"/>
                 <testApplicationActionMethod forActionName="loginb"/>
+                <testApplicationActionMethod forActionName="testt"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Autor">
                 <testApplicationActionMethod forActionName="index"/>

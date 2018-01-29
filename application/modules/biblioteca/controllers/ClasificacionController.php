@@ -86,6 +86,22 @@ class Biblioteca_ClasificacionController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        $request = $this->getRequest();
+        $idClasificacion = $this->getParam('clas');
+        print_r($idClasificacion);
+        
+        $clasificaciones = $this->clasificacionDAO->getClasificacionById($idClasificacion);
+       
+        
+        $this->view->clasificaciones = $clasificaciones;
+        
+        if ($request->isPost()) {
+            $datos = $request->getPost();
+            print_r($datos);
+            
+        }
+        
+        
     }
 
 
