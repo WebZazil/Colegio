@@ -52,6 +52,16 @@ class Biblioteca_IdiomaController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        $request = $this->getRequest();
+        $idIdioma = $this->getParam('idm');
+        
+        //print_r($idClasificacion);
+        
+        $idiomas = $this->idiomaDAO->getIdiomaById($idIdioma);
+        
+        
+        $this->view->idiomas = $idiomas;
     }
 
 

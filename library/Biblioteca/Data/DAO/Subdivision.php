@@ -33,4 +33,17 @@ class Biblioteca_Data_DAO_Subdivision{
 	}
 	
 	
+	public function getSubdivisionById($idSubdivision)
+	{
+	    $tableSubdivision = $this->tableSubDivision;
+        $select = $tableSubdivision->select()->from($tableSubdivision)->where("idSubdivision=?",$idSubdivision);
+        $rowSubdivision = $tableSubdivision->fetchRow($select);
+        
+        if(is_null($rowSubdivision)){
+            return null;
+        }else{
+            return  $rowSubdivision->toArray();
+        }
+	}
+	
 }

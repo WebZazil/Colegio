@@ -54,6 +54,16 @@ class Biblioteca_SubdivisionController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        $request = $this->getRequest();
+        $idSubdivision = $this->getParam("sdv");
+        
+        $subdivisiones = $this->subdivisionDAO->getSubdivisionById($idSubdivision);
+        
+        $this->view->subdivisiones = $subdivisiones;
+        
+        
+        
     }
 
 

@@ -2,10 +2,9 @@
 
 class Biblioteca_EditorialController extends Zend_Controller_Action
 {
-		
-	private $editorialDAO;
-	
-	
+
+    private $editorialDAO = null;
+
     public function init()
     {
         /* Initialize action controller here */
@@ -20,7 +19,7 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
         // action body
         
         $editoriales = $this->editorialDAO->getAllEditoriales();
-        
+        $editorialDAO   = $this->editorialDAO;
         $this->view->editoriales = $editoriales;
         $request = $this->getRequest();
         
@@ -53,7 +52,7 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
             $this->view->resources = array();
         }
         
-        $editorialDAO   = $this->editorialDAO;
+        
         
         
         
@@ -83,8 +82,26 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
         }
     }
 
+    public function adminAction()
+    {
+        // action body
+        
+        $request = $this->getRequest();
+        $idEditorial = $this->getParam('ed');
+        
+        $editorialDAO = $this->editorialDAO;
+        
+        $editorial = $this->editorialDAO->getEditorialById($idEditorial);
+        
+        $this->view->editorial = $editorial;
+        
+        
+    }
+
 
 }
+
+
 
 
 

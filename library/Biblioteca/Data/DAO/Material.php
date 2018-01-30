@@ -16,6 +16,11 @@ class Biblioteca_Data_DAO_Material{
 	}
 	
 	
+	public function addMaterial($data){
+	    $this->tableMaterial->insert($data);
+	}
+	
+	
 	public function getAllMateriales()
 	{
 		$tablaMaterial = $this->tableMaterial;

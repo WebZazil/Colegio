@@ -88,6 +88,17 @@ class Biblioteca_ColeccionController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        
+        $request = $this->getRequest();
+        $idColeccion = $this->getParam('cln');
+        
+        //print_r($idClasificacion);
+        
+        $colecciones = $this->coleccionDAO->getColeccionById($idColeccion);
+        
+        
+        $this->view->colecciones = $colecciones;
     }
 
 

@@ -88,7 +88,17 @@ class Biblioteca_TemaController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        $request = $this->getRequest();
+        $idTema = $this->getParam("tm");
+        
+        //print_r($idMaterial);
+        
+        $temas = $this->temaDAO->getTemaById($idTema);
+        
+        $this->view->temas = $temas;
     }
+ 
 
 
 }

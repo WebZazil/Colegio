@@ -6,7 +6,7 @@ class Biblioteca_Data_DAO_Clasificacion {
 	
     private $tableClasificacion;
     
-	function __construct() {
+	function __construct($dbAdapter) {
 		
 		$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		$this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion(array("db"=>$dbAdapter));
@@ -25,13 +25,13 @@ class Biblioteca_Data_DAO_Clasificacion {
         $select = $tablaClasif->select()->from($tablaClasif)->where("idClasificacion=?",$idClasificacion);
         $rowClasificacion = $tablaClasif->fetchRow($select);
         
-        print_r("$select");
-       /* if (is_null($rowClasificacion)) {
+      //  print_r("$select");
+       if (is_null($rowClasificacion)) {
             return null;
         } else {
             return $rowClasificacion->toArray();
-        }*/
-        
+        }
+       
         
     }
     

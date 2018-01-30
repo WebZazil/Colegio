@@ -1,5 +1,5 @@
 <?php
-    $clasificaciones = $this->clasificaciones;
+    $clasification = $this->clasificaciones;
     
     $params = array("module"=>"biblioteca","controller"=>"clasificacion","action"=>"alta");
     $urlAltaClasificacion = $this->url($params,null,TRUE);
@@ -18,65 +18,37 @@
 			    </div>
 			    <hr />
 			    <div>
-			    <?php if(false){?>
-			        <table class="table table-striped table-condensed">
-			            <thead>
-			                <tr>
-			                    <th>Clasificación</th>
-			                    <th>Descripción</th>
-			                     <th>Código</th>
-			                    <th>Creación</th>
-			                </tr>
-			            </thead>
-			            <tbody>
-			                <?php foreach ($clasification as $clasificacion) :
-			                $urlAdminClasificacion = $this->url(array('module'=>'biblioteca','controller'=>'clasificacion','action'=>'admin','clas'=>$clasificacion['clasificacion']['idClasificacion']));
-   			                ?>
-			                <tr>
-			                    <td>
-			                    	<?php echo $clasificacion["clasificacion"]; ?>
-			                    	<a class="btn btn-link" href="<?php echo $urlAdminClasificacion; ?>">
-										<i class="fa fa-cogs"></i> 
-									</a>
-			                    </td>
-			                    <td><?php echo $clasificacion["descripcion"]; ?></td>
-			                    <td><?php echo $clasificacion["codigo"]; ?></td>
-			                    <td><?php echo $clasificacion["creacion"]; ?></td>
-			                </tr>
-			                <?php endforeach; ?>
-			            </tbody>
-			        </table>
-			        	<?php } ?>
-			        	
-			        		    <?php if(true){?>
+			    	
 			        <table id="tClasificacion" class="table table-striped table-condensed">
 			            <thead>
 			                <tr>
 			                    <th>Clasificación</th>
 			                    <th>Descripción</th>
-			                     <th>Código</th>
+			                    <th>Código</th>
 			                    <th>Creación</th>
+			                    <th>Editar</th>
 			                </tr>
 			            </thead>
 			            <tbody>
-			                <?php foreach ($clasificaciones as $clasificacion) : 
-			                $urlAdminClasificacion = $this->url(array('module'=>'biblioteca','controller'=>'clasificacion','action'=>'admin','clas'=>$clasificacion['clasificacion']['idClasificacion']));
+			                <?php foreach ($clasification as $clasificacion) : 
+			              //  print_r($clasificacion); print_r('<br> / <br> /');
+			                		$urlAdminClasificacion = $this->url(array('module'=>'biblioteca','controller'=>'clasificacion','action'=>'admin','cfn'=>$clasificacion['idClasificacion']));
 			                ?>
 			                <tr>
-			                    <td>
-			                   		 <?php echo $clasificacion["clasificacion"]; ?>
-			                   		 <a class="btn btn-link" href="<?php echo $urlAdminClasificacion; ?>">
-										<i class="fa fa-cog"></i> 
-									</a>
-			                    </td>
+			                    <td><?php echo $clasificacion["clasificacion"]; ?></td>
 			                    <td><?php echo $clasificacion["descripcion"]; ?></td>
 			                    <td><?php echo $clasificacion["codigo"]; ?></td>
 			                    <td><?php echo $clasificacion["creacion"]; ?></td>
+			                    <td>
+			                    	 <a class="btn btn-link" href="<?php echo $urlAdminClasificacion; ?>">
+										<i class="fa fa-edit"></i> 
+									</a>
+			                    </td>
 			                </tr>
 			                <?php endforeach; ?>
 			            </tbody>
 			        </table>
-			        	<?php } ?>
+			        
 			    </div>
 			</div>
 		</div>
