@@ -58,6 +58,13 @@ class Biblioteca_Data_DAO_Clasificacion {
 	    
 	    
 	}
+	
+	
+	public function editarClasificacion($idClasificacion, array $datos){
+	    $tC = $this->tableClasificacion;
+	    $where = $tC->getAdapter()->quoteInto("idClasificacion=?", $idClasificacion);
+	    $tC->update($datos, $where);
+	}
     
     
 }

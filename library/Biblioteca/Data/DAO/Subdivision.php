@@ -46,4 +46,12 @@ class Biblioteca_Data_DAO_Subdivision{
         }
 	}
 	
+	
+	public function editarSubdivision($idSubdivision, array $datos){
+	    $tS = $this->tableSubDivision;
+	    $where = $tS->getAdapter()->quoteInto("idSubdivision=?", $idSubdivision);
+	    $tS->update($datos, $where);
+	}
+	
+	
 }

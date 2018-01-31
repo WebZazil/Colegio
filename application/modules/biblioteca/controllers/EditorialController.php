@@ -96,9 +96,21 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
         $this->view->editorial = $editorial;
         
         
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+        try{
+            
+            $idEditorial = $this->editorialDAO->editarEditorial($idEditorial, $datos);
+            $this->view->messageSuccess ="Editorial: <strong>".$datos['editorial']."</strong> ha sido modificado";
+            
+        }catch (Exception $ex){
+            $this->view->messageFail = "La editorial: <strong>".$datos['editorial']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
+        }
+        
     }
-
-
+ 
+    }
 }
 
 

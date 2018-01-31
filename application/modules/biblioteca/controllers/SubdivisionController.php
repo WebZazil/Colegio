@@ -63,6 +63,19 @@ class Biblioteca_SubdivisionController extends Zend_Controller_Action
         $this->view->subdivisiones = $subdivisiones;
         
         
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                
+                $idSubdivision = $this->subdivisionDAO->editarSubdivision($idSubdivision, $datos);
+                $this->view->messageSuccess ="Subdivision: <strong>".$datos['subdivision']."</strong> modificada";
+                
+            }catch (Exception $ex){
+                $this->view->messageFail = "La subdivisión: <strong>".$datos['subdivision']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
+            }
+            
+        }
         
     }
 

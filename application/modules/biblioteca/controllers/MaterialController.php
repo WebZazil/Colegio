@@ -64,6 +64,22 @@ class Biblioteca_MaterialController extends Zend_Controller_Action
         $materiales = $this->materialDAO->getMaterialById($idMaterial);
         
         $this->view->materiales = $materiales;
+        
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                
+                $idMaterial = $this->materialDAO->editarMaterial($idMaterial, $datos);
+                $this->view->messageSuccess ="Material: <strong>".$datos['material']."</strong> ha sido modificado";
+                
+            }catch (Exception $ex){
+                $this->view->messageFail = "El amterial: <strong>".$datos['material']."</strong> no ha sido modificado. Error: <strong>".$ex->getMessage()."<strong>";
+            }
+            
+        }
+    
     }
 
 

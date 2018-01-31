@@ -62,6 +62,13 @@ class Biblioteca_Data_DAO_Material{
 		return $rowsMaterial;
 	}
 	
+	
+	public function editarMaterial($idMaterial, array $datos){
+	    $tM = $this->tableMaterial;
+	    $where = $tM->getAdapter()->quoteInto("idMaterial=?", $idMaterial);
+	    $tM->update($datos, $where);
+	}
+	
 
 
 	

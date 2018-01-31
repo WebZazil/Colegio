@@ -70,6 +70,13 @@
 	    
 	    
 	}
+	
+	public function editarEditorial($idEditorial, array $datos){
+	    $tE = $this->tableEditorial;
+	    $where = $tE->getAdapter()->quoteInto("idEditorial=?", $idEditorial);
+	    $tE->update($datos, $where);
+	}
+	
  
  }
   
