@@ -1,4 +1,95 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Uprestamo</b> and script/action name <b>multa</b></p>
+<?php
+    $estatusMulta = $this->estatusMulta;
+    $multas = $this->multas;
+    $message = $this->message;
+?>
+<div class="page-header">
+	<h1>
+		Prestamo
+		<small>
+			<i class="ace-icon fa fa-angle-double-right"></i>
+			Información de multas
+		</small>
+	</h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Consultas</h5>
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+					<fieldset>
+                        <legend>Consulta de Multas:</legend>
+                        <div class="form-group">
+                            <label class="col-xs-2" for="estatus">Estatus Multa: </label>
+                            <div class="col-xs-4">
+                            	<select name="estatus" class="form-control" >
+                            	<?php foreach ($estatusMulta as $eM) : ?>
+                            		<option value="<?php echo $eM['idEstatusMulta'] ?>">
+                            			<?php echo $eM['estatus'] ?>
+                            		</option>
+                                <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-xs-4">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-search"></i> Consultar
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<h5 class="panel-title"></h5>
+			</div>
+			<div class="panel-body">
+				<?php if (!is_null($multas) && !empty($multas)) { ?>
+				<table class="table table-striped table-condensed">
+					<thead>
+						<tr>
+							<th>Ejemplar</th>
+							<th>Estatus</th>
+							<th>Dias</th>
+							<th>Fecha Devolucion</th>
+							<th>Fecha Entrega</th>
+							<th>Importe</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($multas as $multa) : 
+						    //print_r($prestamo);
+    						$fechaPrestamo = new DateTime($multa['prestamo']['fechaPrestamo']);
+    						$fechaDevolucion = new DateTime($multa['prestamo']['fechaDevolucion']);
+    						$fechaVencimiento = new DateTime($multa['prestamo']['fechaVencimiento']);
+						?>
+						<tr>
+							<td><?php echo $multa['recurso']['titulo'];  ?></td>
+							<td><?php echo $multa['estatus']['estatusPrestamo'];  ?></td>
+							<td><?php echo $fechaPrestamo->format('d-m-Y');  ?></td>
+							<td><?php echo $fechaDevolucion->format('d-m-Y');  ?></td>
+							<td><?php echo $fechaVencimiento->format('d-m-Y');  ?></td>
+							<td></td>
+						</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+				<?php }else { ?>
+				<p style="color: red;">
+					<?php echo $message; ?>
+				</p>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
 </div>

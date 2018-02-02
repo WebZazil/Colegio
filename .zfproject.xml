@@ -949,6 +949,7 @@
             <controllerFile controllerName="Editorial">
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
             </controllerFile>
             <controllerFile controllerName="Uprestamo">
               <actionMethod actionName="index"/>
@@ -983,6 +984,10 @@
             </controllerFile>
             <controllerFile controllerName="Multimedia">
               <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Multa">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="pago"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -1279,6 +1284,15 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="testt"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Editorial">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Multa">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Multa">
+                <viewScriptFile forActionName="pago"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1840,6 +1854,7 @@
               <testApplicationControllerFile forControllerName="Editorial">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Uprestamo">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1874,6 +1889,10 @@
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Multimedia">
                 <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Multa">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="pago"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

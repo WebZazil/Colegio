@@ -2,7 +2,9 @@
     $modulo = 'biblioteca';
     $usuario = $this->usuario;
     $nombreUsuario =  $usuario['apaterno']. ' '. $usuario['amaterno'].', '.$usuario['nombres'];
-    $recursos = $this->recursos;
+    $prestamos = $this->contenedor;
+    
+    $urlUsuario = $this->url(array('module'=>'biblioteca','controller'=>'prestamo','action'=>'user','us'=>$usuario['id']),null,true);
 ?>
 <div class="row">
 	<div class="col-md-12">
@@ -13,6 +15,11 @@
 			<div class="panel-body">
 				<div>
 					<div class="row">
+						<div class="col-md-2">
+							<a href="<?php echo $urlUsuario; ?>" class="btn btn-info">
+								<i class="fa fa-chevron-left"></i> Regresar a usuario
+							</a>
+						</div>
 						<div class="col-md-5">
 							<h5>Usuario: <strong><?php echo $nombreUsuario; ?></strong> </h5>
 						</div>
@@ -69,42 +76,37 @@
 				<h5 class="panel-title">Recursos Prestados A Usuario</h5>
 			</div>
 			<div class="panel-body">
-				<div>
-				
-				</div>
-				<hr />
-				<div>
-					<table class="table table condensed table-striped">
-						<thead>
-							<tr>
-								<th>Recurso</th>
-								<th>Estatus</th>
-								<th>Tipo Recurso</th>
-								<th>Coleccion</th>
-								<th>Clasificacion</th>
-								<th>Entrega</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ($recursos as $recurso) :
-							     $urlEntrega = $this->url(array('module'=>$modulo,'controller'=>'prestamo','action'=>'devolucion','us'=>$usuario['id'],'rc'=>$recurso['recurso']['idRecurso']),null,true);
-							?>
-							<tr>
-								<td><?php echo $recurso['recurso']['recurso']; ?></td>
-								<td><?php //echo $recurso['estatus']['estatusRecurso']; ?></td>
-								<td><?php echo $recurso['material']['material']; ?></td>
-								<td><?php echo $recurso['coleccion']['coleccion']; ?></td>
-								<td><?php echo $recurso['clasificacion']['clasificacion']; ?></td>
-								<td>
-									<a class="btn btn-link" href="<?php echo $urlEntrega; ?>">
-										Entregar Recurso
-									</a>
-								</td>
-							</tr>
-							<?php endforeach; ?>
-						</tbody>
-					</table>
-				</div>
+				<table class="table table condensed table-striped">
+					<thead>
+						<tr>
+							<th>Título</th>
+							<th>Estatus Prestamo</th>
+							<th>Tipo Recurso</th>
+							<th>Colección</th>
+							<th>Clasificación</th>
+							<th>Devolución</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($prestamos as $prestamo) :
+						  //print_r($prestamo['prestamo']['prestamo']);
+						     $urlEntrega = $this->url(array('module'=>$modulo,'controller'=>'prestamo','action'=>'devolucion','us'=>$usuario['id'],'po'=>$prestamo['prestamo']['prestamo']['idPrestamo']),null,true);
+						?>
+						<tr>
+							<td><?php echo $prestamo['recurso']['recurso']['titulo']; ?></td>
+							<td><?php echo $prestamo['prestamo']['estatus']['estatusPrestamo']; ?></td>
+							<td><?php echo $prestamo['recurso']['material']['material']; ?></td>
+							<td><?php echo $prestamo['recurso']['coleccion']['coleccion']; ?></td>
+							<td><?php echo $prestamo['recurso']['clasificacion']['clasificacion']; ?></td>
+							<td>
+								<a class="btn btn-link" href="<?php echo $urlEntrega; ?>">
+									<i class="fa fa-arrow-down"></i> Devolver Ejemplar
+								</a>
+							</td>
+						</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

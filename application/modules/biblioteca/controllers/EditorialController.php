@@ -2,10 +2,9 @@
 
 class Biblioteca_EditorialController extends Zend_Controller_Action
 {
-		
-	private $editorialDAO;
-	
-	
+
+    private $editorialDAO = null;
+
     public function init()
     {
         /* Initialize action controller here */
@@ -83,8 +82,15 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
         }
     }
 
+    public function adminAction()
+    {
+        // action body
+    }
+
 
 }
+
+
 
 
 

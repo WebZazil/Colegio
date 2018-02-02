@@ -93,6 +93,8 @@ class Biblioteca_IndexController extends Zend_Controller_Action
     public function loginuAction()
     {
         // action body
+        $request = $this->getRequest();
+        
         if ($request->isPost()) {
             $datos = $request->getPost();
             

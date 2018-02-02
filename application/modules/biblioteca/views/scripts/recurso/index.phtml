@@ -40,19 +40,27 @@
 					<hr />
 					
 					<div class="form-group">
-						<label for="recurso" class="col-md-2 control-label">Recurso:</label>
+						<label for="titulo" class="col-md-2 control-label">Título:</label>
 						<div class="col-md-10">
-							<input id="recurso" name="recurso" type="text" class="form-control" />
+							<input id="titulo" name="titulo" type="text" class="form-control" />
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label for="subtitulo" class="col-md-2 control-label">SubTítulo:</label>
+						<div class="col-md-10">
+							<input id="subtitulo" name="subtitulo" type="text" class="form-control" />
+						</div>
+					</div>
+					
 					<div id="containerMaterial" class="form-group hidden">
 						<label for="material" class="col-md-2 control-label">Material:</label>
 						<div class="col-md-10">
 							<select name="idMaterial" id="material" class="form-control">
 								<option value="0">Sin Material</option>							
 								<?php foreach ($materiales as $material) : ?>
-									<option value="<?php echo $material["idMaterial"]?>"><?php echo utf8_encode($material["material"]) ?>
-										
+									<option value="<?php echo $material["idMaterial"]?>">
+										<?php echo utf8_encode($material["material"]) ?>
 			               			</option>
 			               	    <?php endforeach; ?>
 								

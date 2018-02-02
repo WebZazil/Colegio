@@ -177,7 +177,6 @@
 	            <thead>
 	                <tr>
 	                    <th>Recurso</th>
-	                    <th>Ejemplares</th>
 	                    <th>Material</th>
 	                    <th>Colección</th>
 	                    <th>Clasificación</th>
@@ -185,16 +184,13 @@
 	            </thead>
 	            <tbody>
 	                <?php foreach ($resources as $recurso) : 
-	                $nombreRecurso = strlen($recurso['recurso']['titulo']) > 35 ? substr($recurso['recurso']['titulo'], 0, 35) . ' ...' : $recurso['recurso']['titulo'];
+	                $nombreRecurso = strlen($recurso['recurso']['titulo']) > 35 ? substr($recurso['recurso']['titulo'], 0, 40) . ' ...' : $recurso['recurso']['titulo'];
 	                //$urlAdminResource = $this->url(array('module'=>'biblioteca','controller'=>'recurso','action'=>'admin','re'=>$recurso['recurso']['idRecurso']));
 	                //$urlEjemplares = $this->url(array('module'=>'biblioteca','controller'=>'ejemplar','action'=>'ejemplares','rc'=>$recurso['recurso']['idRecurso']));
 	                ?>
 	                <tr>
 	                   <td>
 	                   		<?php echo $nombreRecurso; ?>
-	                   </td>
-	                   <td>
-	                   		Ejemplares
 	                   </td>
 	                   <td><?php echo $recurso["material"]["material"]; ?></td>
 	                   <td><?php echo $recurso["coleccion"]["coleccion"]; ?></td>
@@ -229,6 +225,7 @@
                                 	<option value="ST">Seleccione Tipo</option>
                                 	<option value="AL">Alumna</option>
                                 	<option value="DO">Docente</option>
+                                	<option value="EX">ExAlumna</option>
                                 </select>
                             </div>
                         </div>
@@ -236,7 +233,7 @@
                         <div class="form-group">
                             <label class="col-xs-2" for="nickname">Nickname: </label>
                             <div class="col-xs-10">
-                                <input type="text" class="form-control" name="nickname" placeholder="Nickname..." autofocus>
+                                <input type="text" class="form-control" name="nickname" placeholder="Nickname...">
                             </div>
                         </div>
                         <div class="form-group">
@@ -272,8 +269,8 @@
                             <div class="col-xs-10">
                                 <select name="tipo" class="form-control" >
                                 	<option value="ST">Seleccione Tipo</option>
-                                	<option value="AL">Bibliotecario</option>
-                                	<option value="DO">Sistema</option>
+                                	<option value="SA">Sistema</option>
+                                	<option value="BO">Bibliotecario</option>
                                 </select>
                             </div>
                         </div>
@@ -281,7 +278,7 @@
                         <div class="form-group">
                             <label class="col-xs-2" for="nickname">Nickname: </label>
                             <div class="col-xs-10">
-                                <input type="text" class="form-control" name="nickname" placeholder="Nickname..." autofocus>
+                                <input type="text" class="form-control" name="nickname" placeholder="Nickname...">
                             </div>
                         </div>
                         <div class="form-group">
