@@ -53,4 +53,13 @@ class Biblioteca_Data_DAO_Coleccion {
         
         
     }
+    
+    
+    
+    public function editarColeccion($idColeccion, array $datos){
+        $tCol = $this->tableColeccion;
+        $where = $tCol->getAdapter()->quoteInto("idColeccion=?", $idColeccion);
+        $tCol->update($datos, $where);
+    }
+    
 }

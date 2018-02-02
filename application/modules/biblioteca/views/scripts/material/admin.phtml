@@ -1,4 +1,78 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Material</b> and script/action name <b>admin</b></p>
+<?php
+
+    $materiales = $this->materiales;
+    
+    //$formulario = $this->formulario;
+    $messageSuccess = $this->messageSuccess;
+    $messageFail = $this->messageFail;
+    
+    $params = array("module"=>"biblioteca","controller"=>"material","action"=>"index");
+    $urlMateriales = $this->url($params,null,TRUE);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Edición de Clasificaciones</h5>
+			</div>
+			<div class="panel-body">
+			    <div>
+                    <a class="btn btn-info" href="<?php echo $urlMateriales; ?>">
+                        <i class="fa fa-arrow-circle-left"></i> Regresar a Materiales
+                    </a><br />
+                    <?php if(!is_null($messageSuccess)){ ?>
+                    <br />
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <?php echo $messageSuccess; ?>
+                    </div>
+                    <?php }elseif(!is_null($messageFail)){ ?>
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <?php echo $messageFail; ?>
+                    </div>
+                    <br />
+                    <?php } ?>
+                    
+                </div>
+                <hr />
+                <div >
+                 	 <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                 		<div class="form-group">
+                 			<label for="material" class="control-label col-md-2"> Material</label>
+                 			<div class="col-md-5">
+								<input name="material" type="text" class="form-control" value="<?php echo $materiales['material']?>" />
+							</div>
+                 		</div>
+                 		
+                 		<div class="form-group">
+                 			<label for="descripcion" class="control-label col-md-2">Descripción</label>
+                 			<div class="col-md-5">
+								<input name="descripcion" type="text" class="form-control" value="<?php echo $materiales['descripcion']?>" />
+							</div>
+                 		</div>
+                 		
+                 			<div class="form-group">
+                 			<label for="codigo" class="control-label col-md-2">Código</label>
+                 			<div class="col-md-5">
+								<input name="codigo" type="text" class="form-control" value="<?php echo $materiales['codigo']?>"/>
+							</div>
+                 		</div>
+                 		
+                 		<div class="form-group">
+							<div class="col-md-offset-2 col-md-5">
+								<button class="btn btn-warning" type="submit">
+									<i class="fa fa-refresh"></i> Actualizar Material
+								</button>
+							</div>
+						</div>
+                 	</form>
+                </div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -52,6 +52,31 @@ class Biblioteca_IdiomaController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        $request = $this->getRequest();
+        $idIdioma = $this->getParam('idm');
+        
+        //print_r($idClasificacion);
+        
+        $idiomas = $this->idiomaDAO->getIdiomaById($idIdioma);
+        
+        
+        $this->view->idiomas = $idiomas;
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                
+                $idIdioma = $this->idiomaDAO->editarIdioma($idIdioma, $datos);
+                $this->view->messageSuccess ="Idioma: <strong>".$datos['idioma']."</strong> ha sido modificado";
+                
+            }catch (Exception $ex){
+                $this->view->messageFail = "El idioma: <strong>".$datos['idioma']."</strong> no ha sido modificado. Error: <strong>".$ex->getMessage()."<strong>";
+            }
+            
+        }
+    
     }
 
 

@@ -17,8 +17,8 @@
 		$this->tableIdioma->insert($data);
 	}
 	
-	public function getAllIdiomas()
-	{
+	public function getAllIdiomas(){
+	    
 		$tablaidioma = $this->tableIdioma;
 		$select = $tablaidioma->select()->from($tablaidioma)->order("idioma ASC");
 		$rowsidiomas = $tablaidioma->fetchAll($select);
@@ -30,4 +30,27 @@
 			return null;
 		}
 	}
+	
+	
+	public function getIdiomaById($idIdioma) {
+	    $tI = $this->tableIdioma;
+	    $select = $tI->select()->from($tI)->where("idIdioma=?",$idIdioma);
+	    $rowIdioma = $tI->fetchRow($select);
+	    
+	    //  print_r("$select");
+	      
+	    if (is_null($rowIdioma)) {
+	        return null;
+	    } else {
+	        return $rowIdioma->toArray();
+	    }
+	}
+	
+	
+	public function editarIdioma($idIdioma, array $datos){
+	    $tI = $this->tableIdioma;
+	    $where = $tI->getAdapter()->quoteInto("idIdioma=?", $idIdioma);
+	    $tI->update($datos, $where);
+	}
+	
  }

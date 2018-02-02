@@ -16,6 +16,11 @@ class Biblioteca_Data_DAO_Material{
 	}
 	
 	
+	public function addMaterial($data){
+	    $this->tableMaterial->insert($data);
+	}
+	
+	
 	public function getAllMateriales()
 	{
 		$tablaMaterial = $this->tableMaterial;
@@ -55,6 +60,13 @@ class Biblioteca_Data_DAO_Material{
 		$rowsMaterial = $tablaMaterial->fetchAll($select)->toArray();
 		
 		return $rowsMaterial;
+	}
+	
+	
+	public function editarMaterial($idMaterial, array $datos){
+	    $tM = $this->tableMaterial;
+	    $where = $tM->getAdapter()->quoteInto("idMaterial=?", $idMaterial);
+	    $tM->update($datos, $where);
 	}
 	
 

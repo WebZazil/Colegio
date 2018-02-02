@@ -7,10 +7,12 @@
  	
 	private $tableEditorial;
 	
-	function __construct(){
+	function __construct($dbAdapter){
+	    
+	    $config = array('db' => $dbAdapter);
 		
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
-		$this->tableEditorial = new Biblioteca_Model_DbTable_Editorial(array("db"=>$dbAdapter));
+		//$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		$this->tableEditorial = new Biblioteca_Model_DbTable_Editorial($config);
 		
 	}
 	
@@ -18,6 +20,15 @@
 	{
 		$this->tableEditorial->insert($data);
 	}
+	
+    public function getEditorialById($idEditorial){
+        
+        $tE = $this->tableEditorial;
+        $select = $tE->select()->from($tE)->where('idEditorial=?',$idEditorial);
+        $rowEditorial = $tE->fetchRow($select);
+        
+        return $rowEditorial->toArray();
+    }
 	
 
 	public function getAllEditoriales()
@@ -59,6 +70,13 @@
 	    
 	    
 	}
+	
+	public function editarEditorial($idEditorial, array $datos){
+	    $tE = $this->tableEditorial;
+	    $where = $tE->getAdapter()->quoteInto("idEditorial=?", $idEditorial);
+	    $tE->update($datos, $where);
+	}
+	
  
  }
   

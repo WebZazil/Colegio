@@ -88,8 +88,31 @@ class Biblioteca_ColeccionController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        
+        $request = $this->getRequest();
+        $idColeccion = $this->getParam('cln');
+        
+        //print_r($idClasificacion);
+        
+        $colecciones = $this->coleccionDAO->getColeccionById($idColeccion);
+        
+        
+        $this->view->colecciones = $colecciones;
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                
+                $idColeccion = $this->coleccionDAO->editarColeccion($idColeccion, $datos);
+                $this->view->messageSuccess ="La coleccion: <strong>".$datos['coleccion']."</strong> ha sido modificado";
+                
+            }catch (Exception $ex){
+                $this->view->messageFail = "La coleccion: <strong>".$datos['coleccion']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
+            }
     }
-
+    }
 
 }
 

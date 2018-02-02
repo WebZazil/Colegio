@@ -87,29 +87,29 @@ class Biblioteca_ClasificacionController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-        $idClasificacion = $this->getParam('clas');
-        print_r($idClasificacion);
+        $idClasificacion = $this->getParam('cfn');
+      
+       //print_r($idClasificacion);
         
         $clasificaciones = $this->clasificacionDAO->getClasificacionById($idClasificacion);
        
         
         $this->view->clasificaciones = $clasificaciones;
         
-        if ($request->isPost()) {
+        
+        
+        if($request->isPost()) {
             $datos = $request->getPost();
-            print_r($datos);
+        
+        try{
             
+            $idClasificacion = $this->clasificacionDAO->editarClasificacion($idClasificacion, $datos);
+            $this->view->messageSuccess ="La clasificación: <strong>".$datos['clasificacion']."</strong> ha sido modificado";
+            
+        }catch (Exception $ex){
+            $this->view->messageFail = "La clasificación: <strong>".$datos['clasificacion']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
         }
         
-        
     }
-
-
+    }
 }
-
-
-
-
-
-
-

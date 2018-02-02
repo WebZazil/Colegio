@@ -19,7 +19,7 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
         // action body
         
         $editoriales = $this->editorialDAO->getAllEditoriales();
-        
+        $editorialDAO   = $this->editorialDAO;
         $this->view->editoriales = $editoriales;
         $request = $this->getRequest();
         
@@ -52,7 +52,7 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
             $this->view->resources = array();
         }
         
-        $editorialDAO   = $this->editorialDAO;
+        
         
         
         
@@ -85,9 +85,32 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        $request = $this->getRequest();
+        $idEditorial = $this->getParam('ed');
+        
+        $editorialDAO = $this->editorialDAO;
+        
+        $editorial = $this->editorialDAO->getEditorialById($idEditorial);
+        
+        $this->view->editorial = $editorial;
+        
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+        try{
+            
+            $idEditorial = $this->editorialDAO->editarEditorial($idEditorial, $datos);
+            $this->view->messageSuccess ="Editorial: <strong>".$datos['editorial']."</strong> ha sido modificado";
+            
+        }catch (Exception $ex){
+            $this->view->messageFail = "La editorial: <strong>".$datos['editorial']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
+        }
+        
     }
-
-
+ 
+    }
 }
 
 
