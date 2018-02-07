@@ -198,5 +198,11 @@ class Biblioteca_Data_DAO_Ejemplar {
         
         return $rowCopia->toArray();
     }
+    
+    
+    
+    /*  Acciones para serie */
+    
+  
 }
 

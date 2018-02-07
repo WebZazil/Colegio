@@ -97,6 +97,22 @@ class Biblioteca_TemaController extends Zend_Controller_Action
         $temas = $this->temaDAO->getTemaById($idTema);
         
         $this->view->temas = $temas;
+        
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                
+                $idTema = $this->temaDAO->editarTema($idTema, $datos);
+                $this->view->messageSuccess ="Tema: <strong>".$datos['tema']."</strong> ha sido modificado";
+                
+            }catch (Exception $ex){
+                $this->view->messageFail = "El tema: <strong>".$datos['tema']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
+            }
+            
+        }
+    
     }
  
 

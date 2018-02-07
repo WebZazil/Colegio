@@ -98,6 +98,27 @@ class Biblioteca_AutorController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        $request = $this->getRequest();
+        $idAutor = $this->getParam('atr');
+        
+        $autor = $this->autorDAO->getAutorById($idAutor);
+        
+        $this->view->autor = $autor;
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                
+                $idAutor = $this->autorDAO->editarAutor($idAutor, $datos);
+                $this->view->messageSuccess ="Autor: <strong>".$datos['nombres']."</strong> ha sido modificado";
+                
+            }catch (Exception $ex){
+                $this->view->messageFail = "El autor: <strong>".$datos['nombres']."</strong> no ha sido modificado. Error: <strong>".$ex->getMessage()."<strong>";
+            }
+            
+        }
     }
 
 

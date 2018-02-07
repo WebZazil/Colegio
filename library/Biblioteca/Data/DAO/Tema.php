@@ -60,4 +60,11 @@ class Biblioteca_Data_DAO_Tema {
         
         
     }
+    
+    public function editarTema($idTema, array $datos){
+        $tT = $this->tableTema;
+        $where = $tT->getAdapter()->quoteInto("idTema=?", $idTema);
+        $tT->update($datos, $where);
+    }
+    
 }
