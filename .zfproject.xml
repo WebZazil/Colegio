@@ -990,6 +990,11 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="pago"/>
             </controllerFile>
+            <controllerFile controllerName="Serieejemplar">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory>
             <formFile formName="AltaAutor"/>
@@ -1297,6 +1302,15 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Json">
                 <viewScriptFile forActionName="brecindex"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Serieejemplar">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Serieejemplar">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Serieejemplar">
+                <viewScriptFile forActionName="admin"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1898,6 +1912,15 @@
               <testApplicationControllerFile forControllerName="Multa">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="pago"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="SerieEjemplar">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Serieejemplar">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

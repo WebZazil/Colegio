@@ -18,33 +18,7 @@
 			    </div>
 			    <hr />
 			    <div>
-			    <?php if(false){?>
-			        <table class="table table-striped table-condensed">
-			            <thead>
-			                <tr>
-			                    <th>Tipo</th>
-			                    <th>Nombres</th>
-			                    <th>Apellidos</th>
-			                    <th>Autores</th>
-			                    <th>Creación</th>
-			                </tr>
-			            </thead>
-			            <tbody>
-			                <?php foreach ($autores as $autor) : ?>
-			                <tr>
-			                    <td><?php echo $autor["tipo"]; ?></td>
-			                    <td><?php echo $autor["nombres"]; ?></td>
-			                    <td><?php echo $autor["apellidos"]; ?></td>
-			                    <td><?php echo $autor["autores"]; ?></td>
-			                    <td><?php echo $autor["creacion"]; ?></td>
-			                </tr>
-			                <?php endforeach; ?>
-			         
-			            </tbody>
-			        </table>
-			        <?php } ?>
-			        
-			        <?php if(true){?>
+			   
 			        <table id="tAutor" class="table table-striped table-condensed">
 			            <thead>
 			                <tr>
@@ -53,22 +27,31 @@
 			                    <th>Apellidos</th>
 			                    <th>Autores</th>
 			                    <th>Creación</th>
+			                    <td>Editar</td>
+			                    </td>
 			                </tr>
 			            </thead>
 			            <tbody>
-			                <?php foreach ($autores as $autor) : ?>
+			                <?php foreach ($autores as $autor) :
+			                 $urlAdminAutores = $this->url(array('module'=>'biblioteca','controller'=>'autor','action'=>'admin','atr'=>$autor['idAutor']));
+			                ?>
 			                <tr>
 			                    <td><?php echo $autor["tipo"]; ?></td>
 			                    <td><?php echo $autor["nombres"]; ?></td>
 			                    <td><?php echo $autor["apellidos"]; ?></td>
 			                    <td><?php echo $autor["autores"]; ?></td>
 			                    <td><?php echo $autor["creacion"]; ?></td>
+			                    <td>
+			                    	<a class="btn btn-link" href="<?php echo $urlAdminAutores; ?>">
+			                   			<i class="fa fa-edit"></i> 
+			                   		</a>
+			                    </td>
 			                </tr>
 			                <?php endforeach; ?>
 			         
 			            </tbody>
 			        </table>
-			        <?php } ?>
+			    
 			    </div>
 			</div>
 		</div>

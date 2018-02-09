@@ -68,5 +68,12 @@ class Biblioteca_Data_DAO_Autor {
 	    $autores = $tablaAutor->fetchAll($select);
 	    return $autores->toArray();
 	}
+	
+	public function editarAutor($idAutor, array $datos){
+	    $tA = $this->tableAutor;
+	    $where = $tA->getAdapter()->quoteInto("idAutor=?", $idAutor);
+	    $tA->update($datos, $where);
+	}
+	
     
 }
