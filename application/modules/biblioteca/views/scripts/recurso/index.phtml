@@ -1,4 +1,232 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Recurso</b> and script/action name <b>index</b></p>
+<?php
+	
+    $params = array("module"=>"biblioteca","controller"=>"recurso","action"=>"alta");
+    $urlAltaRecurso = $this->url($params,null,TRUE);
+	
+	//$recursos = $this->recursos;
+	$materiales = $this->materiales;
+	$colecciones = $this->colecciones;
+	$clasificaciones = $this->clasificaciones;
+	
+	$resources = $this->recursos;
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Consulta de Recursos</h5>
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" >
+					<div class="input-group">
+						<span class="input-group-addon">
+							<input type="checkbox" id="cmaterial" aria-label="..." />
+						</span>
+						<label class="form-control" aria-label="...">Material</label>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<input type="checkbox" id="ccoleccion" aria-label="..." />
+						</span>
+						<label class="form-control" aria-label="...">Colección</label>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<input type="checkbox" id="cclasificacion" aria-label="..." />
+						</span>
+						<label class="form-control" aria-label="...">Clasificación</label>
+					</div>
+					
+					<hr />
+					
+					<div class="form-group">
+						<label for="titulo" class="col-md-2 control-label">Título:</label>
+						<div class="col-md-10">
+							<input id="titulo" name="titulo" type="text" class="form-control" />
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="subtitulo" class="col-md-2 control-label">SubTítulo:</label>
+						<div class="col-md-10">
+							<input id="subtitulo" name="subtitulo" type="text" class="form-control" />
+						</div>
+					</div>
+					
+					<div id="containerMaterial" class="form-group hidden">
+						<label for="material" class="col-md-2 control-label">Material:</label>
+						<div class="col-md-10">
+							<select name="idMaterial" id="material" class="form-control">
+								<option value="0">Sin Material</option>							
+								<?php foreach ($materiales as $material) : ?>
+									<option value="<?php echo $material["idMaterial"]?>">
+										<?php echo utf8_encode($material["material"]) ?>
+			               			</option>
+			               	    <?php endforeach; ?>
+								
+
+							</select>
+						</div>
+					</div>
+					
+					<div id="containerColeccion" class="form-group hidden">
+						<label for="coleccion" class="col-md-2 control-label">Colección:</label>
+						<div class="col-md-10">
+							<select name="idColeccion" id="coleccion" class="form-control">
+									<option value=0>Sin Coleccion</option>
+								 <?php foreach ($colecciones as $coleccion) : ?>
+								 
+			                		 <option value="<?php echo $coleccion["idColeccion"]?>">
+			                		 	<?php echo $coleccion["coleccion"]; ?>
+			               			 </option>
+			               		 <?php endforeach; ?>
+			               	</select>
+						</div>
+					</div>
+					
+					<div id="containerClasificacion" class="form-group hidden">
+						<label for="clasificacion" class="col-md-2 control-label">Clasificación:</label>
+						<div class="col-md-10">
+							<select name="idClasificacion" id="clasificacion" class="form-control">
+									<option value=0>Sin Clasificación</option>
+								<?php foreach ($clasificaciones as $clasificacion) : ?>
+									<option value="<?php echo $clasificacion["idClasificacion"]?>"> 	
+										<?php echo $clasificacion["clasificacion"]; ?>
+									</option>
+			                    <?php endforeach; ?>
+			               		
+							</select>
+						</div>
+					</div>
+					
+					    <div class="form-group">
+                      <div class="col-xs-offset-2 col-xs-10">
+                          <button id="btnConsultar" type="submit" class="btn btn-success">
+                              <span class="glyphicon glyphicon-flash"></span> Consultar
+                          </button>
+                      </div>
+                  </div>
+				</form>
+				<!-- Fin del formulario -->
+			</div>
+		</div>
+	</div>
 </div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Recursos Registrados en Biblioteca</h5>
+			</div>
+			<div class="panel-body">
+			    <div>
+			        <a class="btn btn-success" href="<?php echo $urlAltaRecurso; ?>">
+			            <i class="fa fa-plus"></i> Nuevo recurso
+			        </a>
+			    </div>
+			    <hr />
+			    <div  >
+			    	<table class="table table-striped table-condensed">
+			            <thead>
+			                <tr>
+			                    <th>Recurso</th>
+			                    <th>Ejemplares</th>
+			                    <th>Codigo de Barras</th>
+			                    
+			                    <th>Material</th>
+			                    <th>Colección</th>
+			                    <th>Clasificación</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <?php foreach ($resources as $recurso) : 
+			                $nombreRecurso = strlen($recurso['recurso']['titulo']) > 35 ? substr($recurso['recurso']['titulo'], 0, 35) . ' ...' : $recurso['recurso']['titulo'];
+			                $urlAdminResource = $this->url(array('module'=>'biblioteca','controller'=>'recurso','action'=>'admin','rc'=>$recurso['recurso']['idRecurso']));
+			                $urlEjemplares = $this->url(array('module'=>'biblioteca','controller'=>'ejemplar','action'=>'ejemplares','rc'=>$recurso['recurso']['idRecurso']));
+			                ?>
+			                <tr>
+			                   <td>
+			                   		<?php echo $nombreRecurso; ?>
+			                   		<a class="btn btn-link" href="<?php echo $urlAdminResource; ?>">
+			                   			<i class="fa fa-cog"></i> 
+			                   		</a>
+			                   </td>
+			                   <td>
+			                   		Ejemplares
+			                   		<a href="<?php echo $urlEjemplares;  ?>">
+			                   			<i class="fa fa-book"></i><i class="fa fa-book"></i> 
+			                   		</a>
+			                   </td>
+			                   <td>
+			                   		<?php if ($recurso["recurso"]["codBarrOrigen"] == 'SCB') { ?>
+			                   		    <a class="btn btn-link" href="<?php echo $urlAdminResource ?>">
+			                   		    	<i class="fa fa-plus"></i> Agregar codigo de barras.
+			                   		    </a>
+			                   		<?php }else{
+			                   		echo $recurso["recurso"]["codBarrOrigen"];
+			                        } ?>
+			                   </td>
+			             	   <td><?php echo $recurso["material"]["material"]; ?></td>
+			                   <td><?php echo $recurso["coleccion"]["coleccion"]; ?></td>
+			                   <td><?php echo $recurso["clasificacion"]["clasificacion"]; ?></td>
+			                </tr>
+			                 <?php endforeach; ?>
+			            </tbody> 
+			        </table>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+<script>
+	$().ready(function(){
+		//console.log("jQuery Activo!!");
+		var url = window.location.origin + "/colegio/";
+		console.log(url); 
+		$('#cmaterial').change(function(){
+			//console.log("checkbox checado!!");
+			if(this.checked){
+				//console.log("Checado");
+				$("#containerMaterial").removeClass('hidden');
+			}else{
+				//console.log("No checado");
+				$("#containerMaterial").addClass('hidden');
+				$("#containerMaterial").val('0').change();
+				$("#containerMaterial").find('option:first').attr('selected','selected').parent('select');
+			}
+			
+		});
+		
+		$('#ccoleccion').change(function(){
+			//console.log("checkbox checado!!");
+			if(this.checked){
+				//console.log("Checado");
+				$("#containerColeccion").removeClass('hidden');
+			}else{
+				//console.log("No checado");
+				$("#containerColeccion").addClass('hidden');
+				$("#containerColeccion").val('0').change();
+				$("#containerColeccion").find('option:first').attr('selected','selected').parent('select');
+			}
+			
+		});
+		
+		$('#cclasificacion').change(function(){
+			//console.log("checkbox checado!!");
+			if(this.checked){
+				//console.log("Checado");
+				$("#containerClasificacion").removeClass('hidden');
+			}else{
+				//console.log("No checado");
+				$("#containerClasificacion").addClass('hidden');
+				$("#containerClasificacion").val('0').change();
+				$("#containerClasificacion").val('0').change();
+				$("#containerClasificacion").find('option:first').attr('selected','selected').parent('select');
+			}
+			
+		});
+});
+</script>

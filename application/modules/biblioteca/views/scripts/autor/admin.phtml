@@ -1,4 +1,131 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Autor</b> and script/action name <b>admin</b></p>
+<?php
+
+    $autor = $this->autor;
+    
+    //$formulario = $this->formulario;
+    $messageSuccess = $this->messageSuccess;
+    $messageFail = $this->messageFail;
+    
+    $params = array("module"=>"biblioteca","controller"=>"autor","action"=>"index");
+    $urlAutores = $this->url($params,null,TRUE);
+   // print_r($autor); print_r('<br />');
+    
+    $tipoA =  $autor['tipo'];
+    
+    $tiposAutor = array(
+        'IN' => 'Indefinido',
+        'VR' => 'Varios',
+        'UN' => 'Unico'
+    );
+    
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Edición de Autor.</h5>
+			</div>
+			<div class="panel-body">
+			    <div>
+                    <a class="btn btn-info" href="<?php echo $urlAutores; ?>">
+                        <i class="fa fa-arrow-circle-left"></i> Regresar a Autores
+                    </a><br />
+                    <?php if(!is_null($messageSuccess)){ ?>
+                    <br />
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <?php echo $messageSuccess; ?>
+                    </div>
+                    <?php }elseif(!is_null($messageFail)){ ?>
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <?php echo $messageFail; ?>
+                    </div>
+                    <br />
+                    <?php } ?>
+                </div>
+                <hr />
+                <div>
+                	<form  class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                		<div class="form-group">
+							<label for="tipoAutor" class="control-label col-md-2">Tipo Autor: </label>
+							<div class="col-md-5">
+								<select id="tipoAutor" name="tipoAutor" class="form-control">
+									<?php foreach ($tiposAutor as $clave => $tipoAutor) : 
+									   $atributo = ( $tipoA == $clave ) ? 'selected="selected"' : '' ;
+									?>
+									<option value="<?php echo $clave; ?>" <?php echo $atributo ?> >
+										<?php echo $tipoAutor; ?>
+									</option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="nombres" class="control-label col-md-2">Nombres: </label>
+							<div class="col-md-5">
+								<input id="nombres" name="nombres" type="text" class="form-control" value="<?php echo $autor['nombres'] ?>" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="apellidos" class="control-label col-md-2">Apellidos: </label>
+							<div class="col-md-5">
+								<input id="apellidos" name="apellidos" type="text" class="form-control" value="<?php echo $autor['apellidos'] ?>" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="autores" class="control-label col-md-2">Autores: </label>
+							<div class="col-md-5">
+								<input id="autores" name="autores" type="text" class="form-control" value="<?php echo $autor['autores'] ?>" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-5">
+								<button class="btn btn-warning" type="submit">
+									<i class="fa fa-reload"></i> Actualizar Autor
+								</button>
+							</div>
+						</div>
+                	</form>
+                </div>
+			</div>
+		</div>
+	</div>
 </div>
+
+<script>
+	$().ready(function(){
+
+		//console.log('JQary activo!!')
+		$("select#tipoAutor").on('change',function(){
+			console.log("combo cambio!!!");
+			var valorCombo = $(this).val();
+			//console.log(valorCombo);
+			
+			switch(valorCombo) {
+				case("VR") :
+				case("IN") :
+					//console.log("Varios o Indefinido seleccionado");
+					$("input#nombres").attr('disabled','true');
+					$("input#apellidos").attr('disabled','true');
+					$("input#autores").removeAttr('disabled');
+					break;
+				case("UN") :
+					//console.log("Unico seleccionado");
+					$("input#autores").attr('disabled','true');
+					$("input#nombres").removeAttr('disabled');
+					$("input#apellidos").removeAttr('disabled');
+					break;
+			}
+		});
+		
+	});
+</script>

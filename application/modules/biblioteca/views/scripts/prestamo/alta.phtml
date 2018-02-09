@@ -1,0 +1,115 @@
+<?php
+    $modulo = 'biblioteca';
+    $usuario = $this->usuario;
+    $nombreUsuario =  $usuario['apaterno']. ' '. $usuario['amaterno'].', '.$usuario['nombres'];
+    $prestamos = $this->contenedor;
+    
+    $urlUsuario = $this->url(array('module'=>'biblioteca','controller'=>'prestamo','action'=>'user','us'=>$usuario['id']),null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Prestamo de recursos de Biblioteca</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<div class="row">
+						<div class="col-md-2">
+							<a href="<?php echo $urlUsuario; ?>" class="btn btn-info">
+								<i class="fa fa-chevron-left"></i> Regresar a usuario
+							</a>
+						</div>
+						<div class="col-md-5">
+							<h5>Usuario: <strong><?php echo $nombreUsuario; ?></strong> </h5>
+						</div>
+						<div class="col-md-5">
+							<div class="form-inline">
+        						<div class="form-group">
+        							<label for="codBarrOrigen">Recurso: </label>
+        							<input id='codBarrOrigen' type="text" name="codBarrOrigen" class="form-control" autofocus="autofocus" user="<?php echo $usuario['id'] ?>" />
+        						</div>
+        					</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<div>
+					<table id="detalleRecurso" class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Recurso</th>
+								<th>Material</th>
+								<th>Coleccion</th>
+								<th>Clasificacion</th>
+								<th>Prestamo</th>
+								<th>PrestamoPruebas</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					<hr />
+					<table id="detalleEjemplar" class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Editorial</th>
+								<th>Idioma</th>
+								<th>Pais</th>
+								<th>Serie</th>
+								<th>Tipo Libro</th>
+								<th>Dimensiones</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Recursos Prestados A Usuario</h5>
+			</div>
+			<div class="panel-body">
+				<table class="table table condensed table-striped">
+					<thead>
+						<tr>
+							<th>Título</th>
+							<th>Estatus Prestamo</th>
+							<th>Tipo Recurso</th>
+							<th>Colección</th>
+							<th>Clasificación</th>
+							<th>Devolución</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($prestamos as $prestamo) :
+						  //print_r($prestamo['prestamo']['prestamo']);
+						     $urlEntrega = $this->url(array('module'=>$modulo,'controller'=>'prestamo','action'=>'devolucion','us'=>$usuario['id'],'po'=>$prestamo['prestamo']['prestamo']['idPrestamo']),null,true);
+						?>
+						<tr>
+							<td><?php echo $prestamo['recurso']['recurso']['titulo']; ?></td>
+							<td><?php echo $prestamo['prestamo']['estatus']['estatusPrestamo']; ?></td>
+							<td><?php echo $prestamo['recurso']['material']['material']; ?></td>
+							<td><?php echo $prestamo['recurso']['coleccion']['coleccion']; ?></td>
+							<td><?php echo $prestamo['recurso']['clasificacion']['clasificacion']; ?></td>
+							<td>
+								<a class="btn btn-link" href="<?php echo $urlEntrega; ?>">
+									<i class="fa fa-arrow-down"></i> Devolver Ejemplar
+								</a>
+							</td>
+						</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="<?php echo $this->baseUrl()."/public/js/biblio/prestamo/altaPrestamo.js" ?>">
+</script>

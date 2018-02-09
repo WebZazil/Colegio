@@ -855,6 +855,9 @@
             <controllerFile controllerName="Index">
               <actionMethod actionName="index"/>
               <actionMethod actionName="logout"/>
+              <actionMethod actionName="loginu"/>
+              <actionMethod actionName="loginb"/>
+              <actionMethod actionName="testt"/>
             </controllerFile>
             <controllerFile controllerName="Autor">
               <actionMethod actionName="index"/>
@@ -901,10 +904,15 @@
             <controllerFile controllerName="Recurso">
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="recurso"/>
             </controllerFile>
             <controllerFile controllerName="Ejemplar">
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
+              <actionMethod actionName="ejemplares"/>
+              <actionMethod actionName="acopia"/>
             </controllerFile>
             <controllerFile controllerName="SubdivisionesLibro">
               <actionMethod actionName="index"/>
@@ -927,6 +935,9 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="autoresi"/>
               <actionMethod actionName="autoresv"/>
+              <actionMethod actionName="brecursos"/>
+              <actionMethod actionName="loginu"/>
+              <actionMethod actionName="brecindex"/>
             </controllerFile>
             <controllerFile controllerName="Usuario">
               <actionMethod actionName="index"/>
@@ -939,6 +950,50 @@
             <controllerFile controllerName="Editorial">
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
+            </controllerFile>
+            <controllerFile controllerName="Uprestamo">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="multa"/>
+              <actionMethod actionName="historial"/>
+            </controllerFile>
+            <controllerFile controllerName="Udashboard">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Uconsulta">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Uusuario">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="configuracion"/>
+              <actionMethod actionName="logout"/>
+            </controllerFile>
+            <controllerFile controllerName="Prestamo">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="devolucion"/>
+              <actionMethod actionName="multa"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="user"/>
+              <actionMethod actionName="prestamo"/>
+              <actionMethod actionName="prestamot"/>
+            </controllerFile>
+            <controllerFile controllerName="Usuarios">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="user"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
+            <controllerFile controllerName="Multimedia">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Multa">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="pago"/>
+            </controllerFile>
+            <controllerFile controllerName="Serieejemplar">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -1145,6 +1200,117 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Usuario">
                 <viewScriptFile forActionName="logout"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="loginu"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="loginb"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uprestamo">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Udashboard">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uconsulta">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uprestamo">
+                <viewScriptFile forActionName="multa"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uprestamo">
+                <viewScriptFile forActionName="historial"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uusuario">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uusuario">
+                <viewScriptFile forActionName="configuracion"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Uusuario">
+                <viewScriptFile forActionName="logout"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="devolucion"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="multa"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="user"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="user"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Recurso">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="brecursos"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Multimedia">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="prestamo"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Prestamo">
+                <viewScriptFile forActionName="prestamot"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ejemplar">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ejemplar">
+                <viewScriptFile forActionName="ejemplares"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Recurso">
+                <viewScriptFile forActionName="recurso"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="loginu"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Ejemplar">
+                <viewScriptFile forActionName="acopia"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="testt"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Editorial">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Multa">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Multa">
+                <viewScriptFile forActionName="pago"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="brecindex"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Serieejemplar">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Serieejemplar">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Serieejemplar">
+                <viewScriptFile forActionName="admin"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1612,6 +1778,9 @@
               <testApplicationControllerFile forControllerName="Index">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="logout"/>
+                <testApplicationActionMethod forActionName="loginu"/>
+                <testApplicationActionMethod forActionName="loginb"/>
+                <testApplicationActionMethod forActionName="testt"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Autor">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1658,10 +1827,15 @@
               <testApplicationControllerFile forControllerName="Recurso">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="recurso"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Ejemplar">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
+                <testApplicationActionMethod forActionName="ejemplares"/>
+                <testApplicationActionMethod forActionName="acopia"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="SubdivisionesLibro">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1684,6 +1858,9 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="autoresi"/>
                 <testApplicationActionMethod forActionName="autoresv"/>
+                <testApplicationActionMethod forActionName="brecursos"/>
+                <testApplicationActionMethod forActionName="loginu"/>
+                <testApplicationActionMethod forActionName="brecindex"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>
@@ -1696,6 +1873,54 @@
               <testApplicationControllerFile forControllerName="Editorial">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Uprestamo">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="multa"/>
+                <testApplicationActionMethod forActionName="historial"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Udashboard">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Uconsulta">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Uusuario">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="configuracion"/>
+                <testApplicationActionMethod forActionName="logout"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Prestamo">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="devolucion"/>
+                <testApplicationActionMethod forActionName="multa"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="user"/>
+                <testApplicationActionMethod forActionName="prestamo"/>
+                <testApplicationActionMethod forActionName="prestamot"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Usuarios">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="user"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="edit"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Multimedia">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Multa">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="pago"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="SerieEjemplar">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Serieejemplar">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

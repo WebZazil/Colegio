@@ -14,7 +14,9 @@ class Biblioteca_Data_DAO_Autor {
     
     public function getAllAutores() {
         $tablaAutor = $this->tableAutor;
+        //$select = $tablaAutor->select()->from($tablaAutor)->order("nombres ASC");
         $rowsAutor = $tablaAutor->fetchAll();
+        
         return $rowsAutor->toArray();
     }
     
@@ -51,5 +53,27 @@ class Biblioteca_Data_DAO_Autor {
 		
 		return $rowsAutores->toArray();
 	}
+	
+	
+	public function  getAutoresByParams(array $params){
+	    $tablaAutor = $this->tableAutor;
+	    $select = $tablaAutor->select()->from($tablaAutor);
+	    
+	    if(!empty($params)){
+	        foreach ($params as $key => $value){
+	            $select->where($key."?", value);
+	        }
+	    }
+	    
+	    $autores = $tablaAutor->fetchAll($select);
+	    return $autores->toArray();
+	}
+	
+	public function editarAutor($idAutor, array $datos){
+	    $tA = $this->tableAutor;
+	    $where = $tA->getAdapter()->quoteInto("idAutor=?", $idAutor);
+	    $tA->update($datos, $where);
+	}
+	
     
 }

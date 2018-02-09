@@ -8,16 +8,58 @@ class Biblioteca_AutorController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodqueryb");
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        
+        $identity = $auth->getIdentity();
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
                 
-        $this->autorDAO = new Biblioteca_Data_DAO_Autor($dbAdapter);
+        $this->autorDAO = new Biblioteca_Data_DAO_Autor($identity['adapter']);
     }
 
     public function indexAction()
     {
         // action body
+       // $autores = $this->autorDAO->getAllAutores();
+        //$this->view->autores = $autores;
+        
         $autores = $this->autorDAO->getAllAutores();
+        
         $this->view->autores = $autores;
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            $autores = $request->getPost();
+            print_r($autores); print_r("<br />");
+            
+            foreach ($autores as $key => $value){
+                if($value == "0"){
+                    unset($editorial[$key]);
+                }
+            }
+            
+            $resources = $this->autorDAO->getEditorialByParamas($autores);
+            if(!empty($resources)){
+                
+                $container = array();
+                
+                $container = $resources;
+                $this->view->resources = $container;
+                
+            }else{
+                $this->view->resources = $array;
+            }
+            
+            
+        }else{
+            $this->view->resources = array();
+        }
+        
+        $autorDAO   = $this->autorDAO;
+        
+        
     }
 
     public function altaAction() {
@@ -62,6 +104,27 @@ class Biblioteca_AutorController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        $request = $this->getRequest();
+        $idAutor = $this->getParam('atr');
+        
+        $autor = $this->autorDAO->getAutorById($idAutor);
+        
+        $this->view->autor = $autor;
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                
+                $idAutor = $this->autorDAO->editarAutor($idAutor, $datos);
+                $this->view->messageSuccess ="Autor: <strong>".$datos['nombres']."</strong> ha sido modificado";
+                
+            }catch (Exception $ex){
+                $this->view->messageFail = "El autor: <strong>".$datos['nombres']."</strong> no ha sido modificado. Error: <strong>".$ex->getMessage()."<strong>";
+            }
+            
+        }
     }
 
 

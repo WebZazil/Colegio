@@ -4,28 +4,44 @@ class Encuesta_PlanController extends Zend_Controller_Action
 {
 	private $planDAO = null;
 
+	/**
+	 * Actualizado: Noviembre 2017
+	 */
     public function init()
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $dataIdentity = $auth->getIdentity();
+        $identity = $auth->getIdentity();
         
-        $this->planDAO = new Encuesta_DAO_Plan($dataIdentity["adapter"]);
+        if (!$auth->hasIdentity()) {
+            $auth->clearIdentity();
+            
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+        }
+        
+        //$this->planDAO = new Encuesta_DAO_Plan($identity["adapter"]);
+        $this->planDAO = new Encuesta_Data_DAO_PlanEducativo($identity['adapter']);
+        
     }
 
+    /**
+     * Actualizado: Noviembre 2017
+     */
     public function indexAction()
     {
         // action body
-        $planes = $this->planDAO->obtenerPlanesDeEstudio();
-		$this->view->planes = $planes;
+        $this->view->planes = $this->planDAO->getAllPlanesEducativos();
     }
 
+    /**
+     * Actualizado: Noviembre 2017
+     */
     public function adminAction()
     {
         // action body
         $idPlan = $this->getParam("idPlan");
 		$planDAO = $this->planDAO;
-		$plan = $planDAO->obtenerPlanEstudios($idPlan);
+		$plan = $planDAO->getPlanEducativoById($idPlan);
 		$this->view->plan = $plan;
         $formulario = new Encuesta_Form_AltaPlan;
 		$formulario->getElement("planEducativo")->setValue($plan["planEducativo"]);
@@ -73,10 +89,3 @@ class Encuesta_PlanController extends Zend_Controller_Action
 
 
 }
-
-
-
-
-
-
-

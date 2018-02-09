@@ -8,16 +8,59 @@ class Biblioteca_ColeccionController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodqueryb");
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        
+        $identity = $auth->getIdentity();
+        
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
-		$this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($dbAdapter);
+		$this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($identity['adapter']);
     }
 
     public function indexAction()
     {
         // action body
+        //$colecciones = $this->coleccionDAO->getAllColecciones();
+		//$this->view->colecciones = $colecciones;
+		
         $colecciones = $this->coleccionDAO->getAllColecciones();
-		$this->view->colecciones = $colecciones;
+        
+        $this->view->colecciones = $colecciones;
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            $colecciones =$request->getPost();
+            print_r($colecciones); print_r("<br />");
+            
+            
+            foreach ($colecciones as $key => $value){
+                if($value == "0"){
+                    unset($coleccion[$key]);
+                }
+            }
+            
+            $resources = $this->coleccionDAO->getEditorialByParamas($colecciones);
+            if(!empty($resources)){
+                
+                $container = array();
+                
+                $container = $resources;
+                $this->view->resources = $container;
+                
+            }else{
+                $this->view->resources = $array;
+            }
+            
+            
+            
+        }else{
+            $this->view->resources = array();
+        }
+        
+        $coleccionDAO   = $this->coleccionDAO;
     }
 
     public function altaAction()
@@ -52,8 +95,31 @@ class Biblioteca_ColeccionController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        
+        $request = $this->getRequest();
+        $idColeccion = $this->getParam('cln');
+        
+        //print_r($idClasificacion);
+        
+        $colecciones = $this->coleccionDAO->getColeccionById($idColeccion);
+        
+        
+        $this->view->colecciones = $colecciones;
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                
+                $idColeccion = $this->coleccionDAO->editarColeccion($idColeccion, $datos);
+                $this->view->messageSuccess ="La coleccion: <strong>".$datos['coleccion']."</strong> ha sido modificado";
+                
+            }catch (Exception $ex){
+                $this->view->messageFail = "La coleccion: <strong>".$datos['coleccion']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
+            }
     }
-
+    }
 
 }
 

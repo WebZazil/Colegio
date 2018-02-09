@@ -1,0 +1,182 @@
+<?php
+    $recurso = $this->recurso;
+    
+    $autores = $this->autores;
+    $materiales = $this->materiales;
+    $colecciones = $this->colecciones;
+    $clasificaciones = $this->clasificaciones;
+    
+    $subtitulo = $recurso['recurso']['subtitulo'] == 'SST' ? 'Sin Subtitulo' : $recurso['recurso']['subtitulo'] ;
+    
+    $urlRecursos = $this->url(array('module'=>'biblioteca', 'controller'=>'recurso', 'action'=>'index'),null,true);
+    $urlEjemplares = $this->url(array('module'=>'biblioteca', 'controller'=>'ejemplar', 'action'=>'ejemplares','rc'=>$recurso['recurso']['idRecurso']),null,true);
+    
+    $nombreAutores = '';
+    switch ($recurso['autor']['tipo']) {
+        case 'UN' :
+            $nombreAutores = $recurso['autor']['nombres'].' '.$recurso['autor']['apellidos'];
+            break;
+        default:
+            $nombreAutores = $recurso['autor']['autores'];
+            break;
+    }
+    
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Detalle de Recurso</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a class="btn btn-info" href="<?php echo $urlRecursos; ?>">
+						<i class="fa fa-chevron-left"></i> Regresar a Recursos
+					</a>
+					<a href="<?php echo $urlEjemplares; ?>" class="btn btn-success">
+						<i class="fa fa-book"></i><i class="fa fa-book"></i> Ejemplares del Recurso
+					</a>
+				</div>
+				<hr />
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Titulo</th>
+								<th>Subtitulo</th>
+								<th>Material</th>
+								<th>Colección</th>
+								<th>Clasificación</th>
+								<th>Autor(es)</th>
+								<th>Codigo Barras</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><?php echo $recurso['recurso']['titulo']; ?></td>
+								<td><?php echo $subtitulo; ?></td>
+								<td><?php echo $recurso['material']['material']; ?></td>
+								<td><?php echo $recurso['coleccion']['coleccion']; ?></td>
+								<td><?php echo $recurso['clasificacion']['clasificacion']; ?></td>
+								<td><?php echo $nombreAutores; ?></td>
+								<td><?php echo $recurso['recurso']['codBarrOrigen']; ?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Edición de Recurso</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="titulo" class="control-label col-md-2">Titulo: </label>
+							<div class="col-md-5">
+								<input name="titulo" type="text" class="form-control" value="<?php echo htmlspecialchars($recurso['recurso']['titulo']) ?>" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="subtitulo" class="control-label col-md-2">Subtitulo: </label>
+							<div class="col-md-5">
+								<input name="subtitulo" type="text" class="form-control" value="<?php echo $recurso['recurso']['subtitulo'] ?>" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idMaterial" class="control-label col-md-2">Material: </label>
+							<div class="col-md-5">
+								<select name="idMaterial" id="idMaterial" class="form-control">
+									<option value="0">Seleccione Material</option>
+									<?php foreach ($materiales as $material) : 
+									   $seleccionado = $material['idMaterial'] == $recurso['material']['idMaterial'] ? 'selected="selected"' : '' ;
+									?>
+									<option value="<?php echo $material['idMaterial']; ?>" <?php echo $seleccionado; ?> >
+										<?php echo $material['material'] ?>
+									</option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idColeccion" class="control-label col-md-2">Coleccion: </label>
+							<div class="col-md-5">
+								<select name="idColeccion" id="idColeccion" class="form-control">
+									<option value="0">Seleccione Coleccion</option>
+									<?php foreach ($colecciones as $coleccion) :
+									$seleccionado = $coleccion['idColeccion'] == $recurso['coleccion']['idColeccion'] ? 'selected="selected"' : '' ;
+									?>
+									<option value="<?php echo $coleccion['idColeccion'] ?>" <?php echo $seleccionado; ?> >
+										<?php echo $coleccion['coleccion'] ?>
+									</option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idClasificacion" class="control-label col-md-2">Clasificacion:</label>
+							<div class="col-md-5">
+								<select name="idClasificacion" id="idClasificacion" class="form-control">
+									<option value="0">Seleccione Clasificacion</option>
+									<?php foreach ($clasificaciones as $clasificacion) : 
+									$seleccionado = $clasificacion['idClasificacion'] == $recurso['clasificacion']['idClasificacion'] ? 'selected="selected"' : '' ;
+									?>
+									<option value="<?php echo $clasificacion['idClasificacion'] ?>" <?php echo $seleccionado; ?> >
+										<?php echo $clasificacion['clasificacion'] ?>
+									</option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idAutor" class="control-label col-md-2">Autor: </label>
+							<div class="col-md-5">
+								<select name="idAutor" class="form-control">
+									<?php foreach ($autores as $autor) : 
+									$seleccionado = $autor['idAutor'] == $recurso['autor']['idAutor'] ? 'selected="selected"' : '' ;
+									?>
+									<option value="<?php echo $autor['idAutor']; ?>" <?php echo $seleccionado; ?> >
+										<?php
+										if ($autor['tipo'] == 'UN') {
+										    echo $autor['nombres'].' '.$autor['apellidos'];
+										}else{
+										    echo $autor['autores'];
+										}
+										?>
+									</option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="codBarrOrigen" class="control-label col-md-2">Codigo Barras:</label>
+							<div class="col-md-5">
+								<input id="codBarrOrigen" name="codBarrOrigen" type="text" class="form-control" autofocus="autofocus" value="<?php echo $recurso['recurso']['codBarrOrigen'] ?>" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-5">
+								<button class="btn btn-warning" type="submit">
+									<i class="fa fa-reload"></i> Actualizar Recurso
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

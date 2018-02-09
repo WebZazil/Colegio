@@ -9,9 +9,18 @@
    $urlSTema = $this->url(array("module"=>$modulo,"controller"=>"tema","action"=>"index"),null,true);
    $urlSIdioma = $this->url(array("module"=>$modulo,"controller"=>"idioma","action"=>"index"),null,true);
    
+   $urlSEditorial = $this->url(array("module"=>$modulo,"controller"=>"editorial","action"=>"index"),null,true);
+   $urlSSubdivision = $this->url(array("module"=>$modulo,"controller"=>"subdivision","action"=>"index"),null,true);
+   $urlSMaterial = $this->url(array("module"=>$modulo,"controller"=>"material","action"=>"index"),null,true);
+   
    $urlResources = $this->url(array("module"=>$modulo,"controller"=>"recurso","action"=>"index"),null,true);
    $urlRLibro = $this->url(array("module"=>$modulo,"controller"=>"libro","action"=>"index"),null,true);
-   $urlRMultiMedia = $this->url(array("module"=>$modulo,"controller"=>"multimedia","action"=>"index"),null,true); 
+   $urlRMultiMedia = $this->url(array("module"=>$modulo,"controller"=>"multimedia","action"=>"index"),null,true);
+   
+   $urlPrestamo = $this->url(array("module"=>$modulo,"controller"=>"prestamo","action"=>"index"),null,true);
+   $urlDevolucion = $this->url(array("module"=>$modulo,"controller"=>"prestamo","action"=>"devolucion"),null,true);
+   $urlMulta = $this->url(array("module"=>$modulo,"controller"=>"prestamo","action"=>"multa"),null,true);
+   $urlUsuarios = $this->url(array("module"=>$modulo,"controller"=>"usuarios","action"=>"index"),null,true);
 ?>
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
@@ -29,6 +38,24 @@
             </li>
             <li>
                 <a href="<?php echo $urlDashboard; ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-users fa-fw"></i> Usuarios<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                	<li>
+                        <a href="<?php echo $urlUsuarios; ?>"><i class="fa fa-users"></i> Usuarios</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $urlPrestamo; ?>"><i class="fa fa-arrow-up"></i> Prestamos</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $urlDevolucion; ?>"><i class="fa fa-arrow-down"></i> Devoluciones</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $urlMulta; ?>"><i class="fa fa-exclamation-triangle"></i> Multas</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
             </li>
             <li>
                 <a href="#"><i class="fa fa-archive fa-fw"></i> Recursos<span class="fa arrow"></span></a>
@@ -52,11 +79,21 @@
                         <a href="<?php echo $urlSColeccion; ?>"><i class="fa fa-dropbox"></i> Colección</a>
                     </li>
                     <li>
+                        <a href="<?php echo $urlSEditorial; ?>"><i class="fa fa-info-circle"></i> Editorial</a>
+                    </li>
+                    <li>
                         <a href="<?php echo $urlSIdioma; ?>"><i class="fa fa-globe"></i> Idioma</a>
                     </li>
                     <li>
+                        <a href="<?php echo $urlSMaterial; ?>"><i class="fa fa-info-circle"></i> Material</a>
+                    </li>
+                      <li>
+                        <a href="<?php echo $urlSSubdivision; ?>"><i class="fa fa-info-circle"></i> Subdivisión</a>
+                    </li>
+                      <li>
                         <a href="<?php echo $urlSTema; ?>"><i class="fa fa-info-circle"></i> Tema</a>
                     </li>
+                     
                 </ul>
             </li>
         </ul>

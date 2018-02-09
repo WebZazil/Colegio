@@ -35,10 +35,10 @@ class Biblioteca_Form_AltaRecurso extends Zend_Form
 		$autorDAO = new Biblioteca_Data_DAO_Autor();
 		$autores = $autorDAO->getAllAutores();
 		
-		$eIdAutor = new Zend_Form_Element_Select('idsAutores');
+		$eIdAutor = new Zend_Form_Element_Select('idAutor');
 		$eIdAutor->setLabel("Seleccione autor ");
 		$eIdAutor->setAttrib("class", "form-control");
-		$eIdAutor->setAttrib("required", "required");
+		//$eIdAutor->setAttrib("required", "required");
 		$eIdAutor->setRegisterInArrayValidator(FALSE);
 		
 		//===================================================
@@ -87,9 +87,7 @@ class Biblioteca_Form_AltaRecurso extends Zend_Form
         $eTipoExtra->setAttrib("class", "form-control");
         $eTipoExtra->setMultiOptions($tipoExtras);
 		//=================================================
-		$eNota = new Zend_Form_Element_Text('nota');
-		$eNota->setLabel("Nota(s)");
-		$eNota->setAttrib("class","form-control");
+	
 		
 		//=================================================
 		$eSubmit = new Zend_Form_Element_Submit('submit');
@@ -97,7 +95,7 @@ class Biblioteca_Form_AltaRecurso extends Zend_Form
 		$eSubmit->setAttrib("class", "btn btn-success");
 		
 		
-		$this->addElements(array($eTitulo, $eSubtitulo, $eTipoAutor, $eIdAutor, $eIdMaterial, $eIdClasificacion,$eIdColeccion, $eTipoExtra,$eNota,$eSubmit));
+		$this->addElements(array($eTitulo, $eSubtitulo, $eTipoAutor, $eIdAutor, $eIdMaterial, $eIdClasificacion,$eIdColeccion, $eTipoExtra,$eSubmit));
 	
 
 	}

@@ -2,16 +2,21 @@
 
 class Biblioteca_EditorialController extends Zend_Controller_Action
 {
-		
-	private $editorialDAO;
-	
-	
+
+    private $editorialDAO = null;
+
     public function init()
     {
         /* Initialize action controller here */
-         $dbAdapter = Zend_Registry::get("dbmodqueryb");
-		 
-		 $this->editorialDAO = new Biblioteca_DAO_Editorial($dbAdapter);
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        
+        $identity = $auth->getIdentity();
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		
+        $this->editorialDAO = new Biblioteca_DAO_Editorial($identity['adapter']);
         
     }
 
@@ -20,7 +25,43 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
         // action body
         
         $editoriales = $this->editorialDAO->getAllEditoriales();
+        $editorialDAO   = $this->editorialDAO;
         $this->view->editoriales = $editoriales;
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            $editoriales =$request->getPost();
+            print_r($editoriales); print_r("<br />");
+            
+            
+            foreach ($editoriales as $key => $value){
+                if($value == "0"){
+                    unset($editorial[$key]);
+                }
+            }
+            
+            $resources = $this->editorialDAO->getEditorialByParamas($editoriales);
+             if(!empty($resources)){
+                 
+                 $container = array();
+                 
+                 $container = $resources;
+                 $this->view->resources = $container;
+                
+             }else{
+                 $this->view->resources = $array;
+             }
+             
+            
+            
+        }else{
+            $this->view->resources = array();
+        }
+        
+        
+        
+        
+        
     }
 
     public function altaAction()
@@ -47,8 +88,38 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
         }
     }
 
-
+    public function adminAction()
+    {
+        // action body
+        
+        $request = $this->getRequest();
+        $idEditorial = $this->getParam('ed');
+        
+        $editorialDAO = $this->editorialDAO;
+        
+        $editorial = $this->editorialDAO->getEditorialById($idEditorial);
+        
+        $this->view->editorial = $editorial;
+        
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+        try{
+            
+            $idEditorial = $this->editorialDAO->editarEditorial($idEditorial, $datos);
+            $this->view->messageSuccess ="Editorial: <strong>".$datos['editorial']."</strong> ha sido modificado";
+            
+        }catch (Exception $ex){
+            $this->view->messageFail = "La editorial: <strong>".$datos['editorial']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
+        }
+        
+    }
+ 
+    }
 }
+
+
 
 
 

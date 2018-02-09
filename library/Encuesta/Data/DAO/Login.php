@@ -11,10 +11,6 @@ class Encuesta_Data_DAO_Login {
     
     public function __construct($dbAdapter) {
         $config = array('db' => $dbAdapter);
-        
-        $this->tableUsuario = new Encuesta_Data_DbTable_Usuario($config);
-        $this->tableRol = new Encuesta_Data_DbTable_Rol($config);
-        
     }
     
     public function login($data) {
@@ -26,15 +22,5 @@ class Encuesta_Data_DAO_Login {
         foreach ($messages as $message){
             print_r($message);
         }
-        /*
-        if ($resultado->isValid()) {
-            ;
-        }else {
-            $messages = $resultado->getMessages();
-            foreach ($messages as $message){
-                print_r($message);
-            }
-        }
-        */
     }
 }

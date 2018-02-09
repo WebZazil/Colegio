@@ -18,20 +18,28 @@
 			    </div>
 			    <hr />
 			    <div>
-			        <table class="table table-striped table-condensed">
+			        <table id="tSubdivision" class="table table-striped table-condensed">
 			            <thead>
 			                <tr>
 			                    <th>Subdivisión</th>
 			                    <th>Código</th>
 			                    <th>Creación</th>
+			                    <th>Editar</th>
 			                </tr>
 			            </thead>
 			            <tbody>
-			                <?php foreach ($subdivisiones as $subdivision) : ?>
+			                <?php foreach ($subdivisiones as $subdivision) :
+			                $urlAdminSubdivision = $this->url(array('module'=>'biblioteca','controller'=>'subdivision','action'=>'admin','sdv'=>$subdivision['idSubdivision']));
+			                ?>
 			                <tr>
 			                    <td><?php echo $subdivision["subdivision"]; ?></td>
 			                    <td><?php echo $subdivision["codigo"]; ?></td>
 			                    <td><?php echo $subdivision["creacion"]; ?></td>
+			                    <td>
+			                    	<a class="btn btn-link" href="<?php echo $urlAdminSubdivision; ?>">
+										<i class="fa fa-edit"></i> 
+									</a>
+			                    </td>
 			                </tr>
 			                <?php endforeach; ?>
 			            </tbody>
@@ -41,3 +49,14 @@
 		</div>
 	</div>
 </div>
+
+<script>
+
+	$().ready(function(){
+		//console.log("jQuery Activo!!");
+
+		$("#tSubdivision").DataTable();
+		
+	});
+		
+</script>

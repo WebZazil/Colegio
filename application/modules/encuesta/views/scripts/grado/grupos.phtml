@@ -1,0 +1,44 @@
+<?php
+    $grado = $this->grado;
+    $grupos = $this->grupos;
+    
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Grupos en el Grado: <strong><?php echo $grado['gradoEducativo'] ?></strong> </h5>
+			</div>
+			<div class="panel-body">
+				<div></div>
+				<hr />
+				<div>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Grupo Escolar</th>
+								<th>Configurar</th>
+								<th>Creacion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($grupos as $grupo): 
+							     $url = $this->url(array('module'=>'encuesta', 'controller'=>'grupoe', 'action'=>'admin','gpo'=>$grupo['idGrupoEscolar']),null,true);
+							?>
+							<tr>
+								<td><?php echo $grupo['grupoEscolar']; ?></td>
+								<td>
+									<a class="btn btn-link" href="<?php echo $url; ?>">
+										<i class="fa fa-cog"></i> Configurar
+									</a>
+								</td>
+								<td><?php echo $grupo['fecha'] ?></td>
+							</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

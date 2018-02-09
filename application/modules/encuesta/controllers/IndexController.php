@@ -25,32 +25,12 @@ class Encuesta_IndexController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
         $this->serviceLogin = new Encuesta_Service_Login();
+        
+        $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
         $this->testConnector = $this->serviceLogin->getTestConnection($testData);
         
-        //$this->service = new Encuesta_Util_Service;
-        //$this->loginDAO = new Encuesta_DAO_Login();
-        /*
-		$dbAdapter = Zend_Registry::get('dbmodquery');
-        
-        $this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dbAdapter);
-        $this->generador = new Encuesta_Util_Generator($dbAdapter);
-        $this->cicloDAO = new Encuesta_DAO_Ciclo($dbAdapter);
-		$this->nivelDAO = new Encuesta_DAO_Nivel($dbAdapter);
-        $this->grupoDAO = new Encuesta_DAO_Grupos($dbAdapter);
-        $this->gradoDAO = new Encuesta_DAO_Grado($dbAdapter);
-        
-        $this->encuestaDAO = new Encuesta_DAO_Encuesta($dbAdapter);
-        $this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
-        $this->materiaDAO = new Encuesta_DAO_Materia($dbAdapter);
-        $this->registroDAO = new Encuesta_DAO_Registro($dbAdapter);
-        //$this->docenteDAO = new Encuesta_DAO_Registro($this->identity["adapter"]);
-         * 
-         */
-        
         $this->_helper->layout->setLayout('homeEncuesta');
-        
     }
 
     public function indexAction()

@@ -1,0 +1,98 @@
+<?php
+    $estatusLibro = $this->estatusLibro;
+    $prestamos = $this->prestamos;
+    $message = $this->message;
+    $estatusConsultado = $this->estatusConsultado;
+?>
+<div class="page-header">
+	<h1>
+		Prestamo
+		<small>
+			<i class="ace-icon fa fa-angle-double-right"></i>
+			Información de prestamos
+		</small>
+	</h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="row">
+        	<div class="col-md-12">
+        		<div class="panel panel-success">
+        			<div class="panel-heading">
+        				<h5 class="panel-title">Consultas</h5>
+        			</div>
+        			<div class="panel-body">
+        				<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+    						<fieldset>
+                                <legend>Consulta de Prestamos:</legend>
+                                <div class="form-group">
+                                    <label class="col-xs-2" for="estatus">Estatus Prestamo: </label>
+                                    <div class="col-xs-4">
+                                    	<select name="estatus" class="form-control" >
+                                    	<?php foreach ($estatusLibro as $estatusl) : ?>
+                                    		<option value="<?php echo $estatusl['idEstatusPrestamo'] ?>">
+                                    			<?php echo $estatusl['estatusPrestamo'] ?>
+                                    		</option>
+                                        <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fa fa-search"></i> Consultar
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+    					</form>
+        			</div>
+        		</div>
+        	</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h5 class="panel-title">Prestamos</h5>
+					</div>
+					<div class="panel-body">
+						<?php if (!is_null($prestamos) && !empty($prestamos)) { ?>
+    					<table class="table table-striped table-condensed">
+    						<thead>
+    							<tr>
+    								<th>Ejemplar</th>
+    								<th>Estatus</th>
+    								<th>Fecha Prestamo</th>
+    								<th>Fecha Devolucion</th>
+    								<th>Fecha Entrega</th>
+    							</tr>
+    						</thead>
+    						<tbody>
+    							<?php foreach ($prestamos as $prestamo) : 
+    							     //print_r($prestamo);
+    							$fechaPrestamo = new DateTime($prestamo['prestamo']['fechaPrestamo']);
+    							$fechaDevolucion = new DateTime($prestamo['prestamo']['fechaDevolucion']);
+    							$fechaVencimiento = new DateTime($prestamo['prestamo']['fechaVencimiento']);
+    							?>
+    							<tr>
+    								<td><?php echo $prestamo['recurso']['titulo'];  ?></td>
+    								<td><?php echo $prestamo['estatus']['estatusPrestamo'];  ?></td>
+    								<td><?php echo $fechaPrestamo->format('d-m-Y');  ?></td>
+    								<td><?php echo $fechaDevolucion->format('d-m-Y');  ?></td>
+    								<td><?php echo $fechaVencimiento->format('d-m-Y');  ?></td>
+    							</tr>
+    							<?php endforeach; ?>
+    						</tbody>
+    					</table>
+    					<?php }else { ?>
+    					<p style="color: red;">
+    						<?php echo $message; ?>
+    					</p>
+    					<?php } ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

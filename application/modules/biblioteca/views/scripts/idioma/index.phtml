@@ -25,15 +25,23 @@
 			                    <th>Inglés</th>
 			                    <th>Código</th>
 			                    <th>Creación</th>
+			                    <th>Editar</th>
 			                </tr>
 			            </thead>
 			            <tbody>
-			                <?php foreach ($idiomas as $idioma) : ?>
+			                <?php foreach ($idiomas as $idioma) : 
+			                  $urlAdminIdioma = $this->url(array('module'=>'biblioteca','controller'=>'idioma','action'=>'admin','idm'=>$idioma['idIdioma']));
+			                ?>
 			                <tr>
 			                    <td><?php echo $idioma["idioma"]; ?></td>
 			                    <td><?php echo $idioma["english"]; ?></td>
 			                    <td><?php echo $idioma["codigo"]; ?></td>
 			                    <td><?php echo $idioma["creacion"]; ?></td>
+			                    <td>
+			                    	 <a class="btn btn-link" href="<?php echo $urlAdminIdioma; ?>">
+										<i class="fa fa-edit"></i> 
+									</a>
+			                    </td>
 			                </tr>
 			                <?php endforeach; ?>
 			            </tbody>

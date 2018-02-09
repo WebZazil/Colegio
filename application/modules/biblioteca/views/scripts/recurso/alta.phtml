@@ -1,32 +1,132 @@
-<?php 
-	$formulario = $this->formulario;
-
+<?php
+    $materiales = $this->materiales;
+    $colecciones = $this->colecciones;
+    $clasificaciones = $this->clasificaciones;
+    $autores = $this->autores;
+    
 	$messageSuccess = $this->messageSuccess;
 	$messageFail = $this->messageFail;
+	
+	$urlRecursos = $this->url(array('module'=>'biblioteca','controller'=>'recurso','action'=>'index'),null,true);
 ?>
 <section class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h4> Alta de Recurso</h4>
+				<h4 class="panel-title"> Nuevo de Recurso en Sistema</h4>
 			</div>
 			<div class="panel-body">
-				<?php if(!is_null($messageSuccess)){ ?>
-				<div class="alert alert-success" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-					<?php echo $messageSuccess; ?>
+				<a href="<?php echo $urlRecursos ?>" class="btn btn-info">
+					<i class="fa fa-chevron-left"></i> Regresar a Recursos
+				</a>
+			
+				<div>
+					<?php if(!is_null($messageSuccess)){ ?>
+    				<div class="alert alert-success" role="alert">
+    					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    					  <span aria-hidden="true">&times;</span>
+    					</button>
+    					<?php echo $messageSuccess; ?>
+    				</div>
+    				<?php }elseif(!is_null($messageFail)){ ?>
+    				<div class="alert alert-danger" role="alert">
+    					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    					  <span aria-hidden="true">&times;</span>
+    					</button>
+    					<?php echo $messageFail; ?>
+    				</div>
+    				<?php } ?>
 				</div>
-				<?php }elseif(!is_null($messageFail)){ ?>
-				<div class="alert alert-danger" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-					<?php echo $messageFail; ?>
+				<hr />
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="titulo" class="control-label col-md-2">Titulo: </label>
+							<div class="col-md-5">
+								<input name="titulo" type="text" class="form-control" autofocus="autofocus" required="required" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="subtitulo" class="control-label col-md-2">Subtitulo: </label>
+							<div class="col-md-5">
+								<input name="subtitulo" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idMaterial" class="control-label col-md-2">Material: </label>
+							<div class="col-md-5">
+								<select name="idMaterial" id="idMaterial" class="form-control">
+									<option value="0">Seleccione Material</option>
+									<?php foreach ($materiales as $material) : ?>
+									<option value="<?php echo $material['idMaterial'] ?>"><?php echo $material['material'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idColeccion" class="control-label col-md-2">Coleccion: </label>
+							<div class="col-md-5">
+								<select name="idColeccion" id="idColeccion" class="form-control">
+									<option value="0">Seleccione Coleccion</option>
+									<?php foreach ($colecciones as $coleccion) : ?>
+									<option value="<?php echo $coleccion['idColeccion'] ?>"><?php echo $coleccion['coleccion'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idClasificacion" class="control-label col-md-2">Clasificacion:</label>
+							<div class="col-md-5">
+								<select name="idClasificacion" id="idClasificacion" class="form-control">
+									<option value="0">Seleccione Clasificacion</option>
+									<?php foreach ($clasificaciones as $clasificacion) : ?>
+									<option value="<?php echo $clasificacion['idClasificacion'] ?>"><?php echo $clasificacion['clasificacion'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idAutor" class="control-label col-md-2">Autor(es): </label>
+							<div class="col-md-5">
+								<select name="idAutor" id="idAutor" class="form-control">
+									<option value="0">Seleccionar Autor(es)</option>
+									<option value="ED">Especificar después...</option>
+									<?php foreach ($autores as $autor) : 
+									   $nameAutor = "";
+									   switch ($autor['tipo']) {
+									       case 'UN': $nameAutor = $autor['apellidos'].', '.$autor['nombres'];
+									           break;
+									       default: $nameAutor = $autor['autores'];
+									           break;
+									   }
+									?>
+									<option value="<?php echo $autor['idAutor'] ?>"><?php echo $nameAutor; ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="codBarrOrigen" class="control-label col-md-2">Codigo Barras:</label>
+							<div class="col-md-5">
+								<input id="codBarrOrigen" name="codBarrOrigen" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-5">
+								<button class="btn btn-success" type="submit">
+									<i class="fa fa-save"></i> Guardar Recurso
+								</button>
+							</div>
+						</div>
+					</form>
 				</div>
-				<?php } ?>
-				<?php echo $formulario ?>
 			</div>
 		</div>
 	</div>
@@ -35,59 +135,14 @@
 <script>
 	$().ready(function(){
 		
-		var appname = "/colegio/biblioteca";
-		var url = window.location.origin + appname;
+		//var appname = "/colegio/biblioteca";
+		//var url = window.location.origin + appname;
 		
-		$('#tipoAutor').on('change', function () {
-		  var valor = $(this).val();
-		  console.log(valor);
-		  
-		  var urlAutor = url + '/json/';
-		  
-		  if(valor != 'PEN'){
-		  	
-		  	switch(valor) {
-		  		case 'IND' : 
-		  			urlAutor += "autoresi";
-		  		break;
-		  		case 'VAR' : 
-		  			urlAutor += "autoresv";
-		  		break;
-		  	}
-		  	
-		  	console.log(urlAutor);
-		  	
-		  	$.ajax({
-				url: urlAutor,
-				dataType: "json",
-				success: function(data){
-					console.dir(data);
-					$("#idsAutores").empty();
-					//$("#grado").append($("<option></option>").attr("value","0").text("Seleccione Grado Educativo"));
-					
-					$.each(data, function(i,item){//function(key,value)
-						
-						var nombre = "";
-						
-						switch(valor) {
-					  		case 'IND' : 
-					  			nombre = item.apellidos + " " + item.nombres;
-					  		break;
-					  		case 'VAR' : 
-					  			nombre = item.autores;
-					  		break;
-					  	}
-						
-						
-						$("#idsAutores").append($("<option></option>").attr("value",item.idAutor).text(nombre));
-					});
-					//$("#grupo").empty();
-				}
-			});
-		  }else {
-		  	$("#idsAutores").empty();
-		  }
+		$('input').on('keypress', function (evt) {
+			if(evt.which === 13){
+				evt.preventDefault();
+				//console.log('Enter pressed');				
+			}
 		});
-	
 	});
 </script>

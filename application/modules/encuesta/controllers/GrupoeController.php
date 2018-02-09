@@ -3,43 +3,40 @@
 class Encuesta_GrupoeController extends Zend_Controller_Action
 {
 
+    private $grupoeDAO = null;
     private $gradoDAO = null;
-
     private $cicloDAO = null;
-
-    private $gruposDAO = null;
-
     private $nivelDAO = null;
-
     private $materiaDAO = null;
-
-    private $encuestaDAO = null;
-
-    private $registroDAO = null;
-
-    private $preferenciaDAO = null;
-
-    private $asignacionDAO = null;
-
     private $planDAO = null;
+    
+    private $encuestaDAO = null;
+    private $registroDAO = null;
+    private $preferenciaDAO = null;
+    private $asignacionDAO = null;
+    
 
     public function init()
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $dataIdentity = $auth->getIdentity();
-		
-        $this->gruposDAO = new Encuesta_DAO_Grupos($dataIdentity["adapter"]);
-		$this->cicloDAO = new Encuesta_DAO_Ciclo($dataIdentity["adapter"]);
-		$this->gradoDAO = new Encuesta_DAO_Grado($dataIdentity["adapter"]);
-		$this->nivelDAO = new Encuesta_DAO_Nivel($dataIdentity["adapter"]);
-		$this->materiaDAO = new Encuesta_DAO_Materia($dataIdentity["adapter"]);
-		$this->encuestaDAO = new Encuesta_DAO_Encuesta($dataIdentity["adapter"]);
-		$this->registroDAO = new Encuesta_DAO_Registro($dataIdentity["adapter"]);
-		$this->preferenciaDAO = new Encuesta_DAO_Preferencia($dataIdentity["adapter"]);
-		$this->planDAO = new Encuesta_DAO_Plan($dataIdentity["adapter"]);
+        $identity = $auth->getIdentity();
         
-        $this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dataIdentity["adapter"]);
+        if (!$auth->hasIdentity()) {
+            $auth->clearIdentity();
+            
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+        }
+        
+        $this->grupoeDAO = new Encuesta_Data_DAO_GrupoEscolar($identity['adapter']);
+        $this->gradoDAO = new Encuesta_Data_DAO_GradoEducativo($identity['adapter']);
+        $this->cicloDAO = new Encuesta_Data_DAO_CicloEscolar($identity['adapter']);
+        $this->materiaDAO = new Encuesta_Data_DAO_Materia($identity['adapter']);
+        $this->planDAO = new Encuesta_Data_DAO_PlanEducativo($identity['adapter']);
+        $this->nivelDAO = new Encuesta_Data_DAO_NivelEducativo($identity['adapter']);
+        $this->registroDAO = new Encuesta_Data_DAO_Registro($identity['adapter']);
+        $this->asignacionDAO = new Encuesta_Data_DAO_AsignacionGrupo($identity['adapter']);
+        
     }
 
     public function indexAction()
@@ -68,20 +65,19 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-		$idGrupo = $this->getParam("idGrupo");
-		$materiasRelacionadas = $this->gruposDAO->obtenerMaterias($idGrupo);
+		$idGrupo = $this->getParam('gpo');
 		
-		$grupo = $this->gruposDAO->obtenerGrupo($idGrupo);
-		$grado = $this->gradoDAO->getGradoById($grupo->getIdGrado());
-		$nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
+		$grupo = $this->grupoeDAO->getGrupoById($idGrupo);
+		$grado = $this->gradoDAO->getGradoEducativoById($grupo['idGradoEducativo']);
+		$nivel = $this->nivelDAO->getNivelEducativoById($grado['idNivelEducativo']);
+		$cicloEscolar = $this->cicloDAO->getCicloEscolarActual();
 		
-		$idsRelacionadas = explode(",", $grupo->getIdsMaterias());
+		$materiasGrado = $this->materiaDAO->getMateriasByIdGradoEducativoAndIdCicloEscolar($grado['idGradoEducativo'],$cicloEscolar['idCicloEscolar']);
 		
-		$this->view->grupo = $grupo;
-		$this->view->grado = $grado;
-		$this->view->nivel = $nivel;
-		//$this->view->materias = $materias;
-		$materiasGrado = $this->materiaDAO->getMateriasByIdGradoAndCurrentCiclo($grado->getIdGradoEducativo());
+		
+		$idsRelacionadas = explode(",", $grupo['idsMaterias']);
+		
+		//$materiasGrado = $this->materiaDAO->getMateriasByIdGradoEducativo($grado['idGradoEducativo']);
 		$materiasDisponibles = array();
 		
 		if (empty($idsRelacionadas)) {
@@ -96,30 +92,21 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 			}
 		}
 		
+		$this->view->grupo = $grupo;
+		$this->view->grado = $grado;
+		$this->view->nivel = $nivel;
+		
+		//$asignacionesGrupo = $this->asignacionDAO->getObjByIdAsignacion($idAsignacion);
+		
 		//print_r("<br />Desplegando materias<br />");
 		//print_r($materiasDisponibles);
 		$this->view->materiasDisponibles = $materiasDisponibles;
-		$this->view->materiasAsociadas = $materiasRelacionadas;
+		//$this->view->materiasAsociadas = $materiasRelacionadas;
+		$this->view->materiasGrado = $materiasGrado;
         //$this->asignacionDAO->getAsignacionById($id);
         $this->view->asignacionDAO = $this->asignacionDAO;
         $this->view->registroDAO = $this->registroDAO;
         
-		/*
-		$idsMateriaGrado = array();
-		
-		foreach ($materiasGrado as $materiaGrado) {
-			$idsMateriaGrado[] = $materiaGrado["idMateriaEscolar"];
-		}
-		
-		$materiasDisponibles = array();
-		foreach ($materiasGrado as $materiaGrado) {
-			foreach ($materiasRelacionadas as $materiaRelacionada) {
-				if($materiaGrado["idMateriaEscolar"] == $materiaRelacionada["idMateriaEscolar"]){
-					$materiasDisponibles[] = $materiaGrado;
-				}
-			}
-		}
-		*/
     }
 
     public function consultaAction()
@@ -127,19 +114,19 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
         // action body
         $request = $this->getRequest();
 		$formulario = new Encuesta_Form_ConsultaGrupos;
-		
-        $idGrado = $this->getParam("idGrado");
+		$idGrado = $this->getParam("idGrado");
 		$idNivel = $this->getParam("idNivel");
-		$ciclo = $this->cicloDAO->getCurrentCiclo();
+		
+		$ciclo = $this->cicloDAO->getCicloEscolarActual();
 		$this->view->ciclo = $ciclo;
 		
 		//Cuando viene la la vista encuesta/grado/admin/idGrado/valor
 		//No desplegamos formulario de consulta, traemos tabla con los grupos del grado del ciclo actual
 		if(!is_null($idGrado)){
-			$grado = $this->gradoDAO->getGradoById($idGrado);
-			$nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
+			$grado = $this->gradoDAO->getGradoEducativoById($idGrado);
+			$nivel = $this->nivelDAO->getNivelEducativoById($grado['idNivelEducativo']);
 			
-			$grupos = $this->gruposDAO->obtenerGrupos($idGrado, $ciclo->getIdCiclo());
+			$grupos = $this->grupoeDAO->getGruposByIdGradoEducativoAndIdCicloEscolar($idGrado, $ciclo['idCicloEscolar']);
 			
 			$this->view->nivel = $nivel;
 			$this->view->grado = $grado;
@@ -197,10 +184,9 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 				try{
 					$this->gruposDAO->crearGrupo($datos);
 					$this->view->messageSuccess = "Grupo: <strong>".$datos["grupoEscolar"]."</strong> dado de alta en el Grado: <strong>" . $grado->getGradoEducativo() . "</strong> exitosamente";
-				}catch(Util_Exception_BussinessException $ex){
+				}catch(Exception $ex){
 					$this->view->messageFail = $ex->getMessage();
 				}
-				
 			}
 		}
     }
@@ -220,22 +206,22 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
         $this->view->ciclo = $ciclo;
     }
 
-    public function asociarpAction()
+    public function asocdocAction()
     {
         // action body
         $request = $this->getRequest();
-        $idGrupo = $this->getParam("idGrupo");
-		$idMateria = $this->getParam("idMateria");
+        $idGrupo = $this->getParam("gpo");
+		$idMateria = $this->getParam("mat");
 		
-		$grupo = $this->gruposDAO->obtenerGrupo($idGrupo);
-		$materia = $this->materiaDAO->obtenerMateria($idMateria);
+		$grupo = $this->grupoeDAO->getGrupoById($idGrupo);
+		$materia = $this->materiaDAO->getMateriaById($idMateria);
 		
 		$this->view->grupo = $grupo;
         $this->view->materia = $materia;
 		
 		$formulario = new Encuesta_Form_MateriasProfesor;
 		$formulario->getElement("idMateriaEscolar")->clearMultiOptions();
-		$formulario->getElement("idMateriaEscolar")->addMultiOption($materia->getIdMateriaEscolar(),$materia->getMateriaEscolar());
+		$formulario->getElement("idMateriaEscolar")->addMultiOption($materia['idMateriaEscolar'],$materia['materiaEscolar']);
 		
 		$this->view->grupo = $grupo;
 		$this->view->formulario = $formulario;
@@ -249,7 +235,7 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 				$registro["idMateriaEscolar"] = $datos["idMateriaEscolar"];
 				try{
 					$this->gruposDAO->agregarDocenteGrupo($registro);
-					$docente = $this->registroDAO->obtenerRegistro($registro["idRegistro"]);
+					$docente = $this->registroDAO->getRegistroById($registro["idRegistro"]);
 					//$this->view->messageSuccess = "Docente: <strong>".$docente->getApellidos().", ".$docente->getNombres()."</strong> asociado a la materia <strong>".$materia->getMateriaEscolar()."</strong> exitosamente.";
 					$this->_helper->redirector->gotoSimple("index", "grupoe", "encuesta", array("idGrupo"=>$idGrupo));
 				}catch(Exception $ex){

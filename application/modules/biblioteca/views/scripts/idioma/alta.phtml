@@ -1,5 +1,7 @@
 <?php
-    $formulario = $this->formulario;
+
+
+   // $formulario = $this->formulario;
     $messageSuccess = $this->messageSuccess;
     $messageFail = $this->messageFail;
     
@@ -15,7 +17,7 @@
 			<div class="panel-body">
 			    <div>
                     <a class="btn btn-info" href="<?php echo $urlIdiomas; ?>">
-                        <i class="fa fa-arrow-circle-left"></i> Regresar a Editoriales
+                        <i class="fa fa-arrow-circle-left"></i> Regresar a Idiomas
                     </a><br />
                     <?php if(!is_null($messageSuccess)){ ?>
                     <br />
@@ -37,7 +39,36 @@
                 </div>
                 <hr />
                 <div>
-                    <?php echo $formulario; ?>
+                   <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                 		<div class="form-group">
+                 			<label for="idioma" class="control-label col-md-2"> Idioma</label>
+                 			<div class="col-md-5">
+								<input name="idioma" type="text" class="form-control" autofocus="autofocus" required="required" />
+							</div>
+                 		</div>
+                 		
+                 		<div class="form-group">
+                 			<label for="ingles" class="control-label col-md-2"> Inglés</label>
+                 			<div class="col-md-5">
+								<input name="ingles" type="text" class="form-control" autofocus="autofocus" required="required" />
+							</div>
+                 		</div>
+                 		
+                 			<div class="form-group">
+                 			<label for="codigo" class="control-label col-md-2">Código</label>
+                 			<div class="col-md-5">
+								<input name="codigo" type="text" class="form-control" autofocus="autofocus" required="required" />
+							</div>
+                 		</div>
+                 		
+                 		<div class="form-group">
+							<div class="col-md-offset-2 col-md-5">
+								<button class="btn btn-success" type="submit">
+									<i class="fa fa-save"></i> Guardar Idioma
+								</button>
+							</div>
+						</div>
+                 	</form>
                 </div>
 			</div>
 		</div>

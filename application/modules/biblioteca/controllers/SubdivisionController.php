@@ -8,10 +8,15 @@ class Biblioteca_SubdivisionController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
+        $auth = Zend_Auth::getInstance();
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        $identity = $auth->getIdentity();
         
-        $dbAdapter = Zend_Registry::get("dbmodqueryb");
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
-		$this->subdivisionDAO = new Biblioteca_Data_DAO_Subdivision($dbAdapter);
+		$this->subdivisionDAO = new Biblioteca_Data_DAO_Subdivision($identity['adapter']);
     }
 
     public function indexAction()
@@ -54,6 +59,29 @@ class Biblioteca_SubdivisionController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
+        
+        $request = $this->getRequest();
+        $idSubdivision = $this->getParam("sdv");
+        
+        $subdivisiones = $this->subdivisionDAO->getSubdivisionById($idSubdivision);
+        
+        $this->view->subdivisiones = $subdivisiones;
+        
+        
+        if($request->isPost()) {
+            $datos = $request->getPost();
+            
+            try{
+                
+                $idSubdivision = $this->subdivisionDAO->editarSubdivision($idSubdivision, $datos);
+                $this->view->messageSuccess ="Subdivision: <strong>".$datos['subdivision']."</strong> modificada";
+                
+            }catch (Exception $ex){
+                $this->view->messageFail = "La subdivisión: <strong>".$datos['subdivision']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
+            }
+            
+        }
+        
     }
 
 

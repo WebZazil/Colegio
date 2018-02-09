@@ -43,3 +43,30 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$().ready(function(){
+		$("select#tipo").on('change',function(){
+			//console.log("combo cambio!!!");
+			var valorCombo = $(this).val();
+			//console.log(valorCombo);
+			
+			switch(valorCombo) {
+				case("VR") :
+				case("IN") :
+					//console.log("Varios o Indefinido seleccionado");
+					$("input#nombres").attr('disabled','true');
+					$("input#apellidos").attr('disabled','true');
+					$("input#autores").removeAttr('disabled');
+					break;
+				case("UN") :
+					//console.log("Unico seleccionado");
+					$("input#autores").attr('disabled','true');
+					$("input#nombres").removeAttr('disabled');
+					$("input#apellidos").removeAttr('disabled');
+					break;
+			}
+		});
+		
+	});
+</script>

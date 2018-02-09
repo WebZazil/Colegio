@@ -9,18 +9,26 @@ class Encuesta_CicloController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $dataIdentity = $auth->getIdentity();
+        $identity = $auth->getIdentity();
         
-        $this->cicloDAO = new Encuesta_DAO_Ciclo($dataIdentity["adapter"]);
-		$this->planDAO = new Encuesta_DAO_Plan($dataIdentity["adapter"]);
+        if (!$auth->hasIdentity()) {
+            $auth->clearIdentity();
+            
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+        }
+        
+		$this->cicloDAO = new Encuesta_Data_DAO_CicloEscolar($identity['adapter']);
+		$this->planDAO = new Encuesta_Data_DAO_PlanEducativo($identity['adapter']);
     }
 
     public function indexAction()
     {
         // action body
         $idPlan = $this->getParam("idPlan");
-        $ciclos = $this->cicloDAO->getCiclosbyIdPlan($idPlan);//->obtenerCiclos($idPlan);
-		$plan = $this->planDAO->obtenerPlanEstudios($idPlan);
+        
+        $ciclos = $this->cicloDAO->getAllCiclosEscolaresByIdPlanEducativo($idPlan);//->obtenerCiclos($idPlan);
+        $plan = $this->planDAO->getPlanEducativoById($idPlan);
+        
         $this->view->ciclos = $ciclos;
 		$this->view->plan = $plan;
     }
@@ -29,14 +37,14 @@ class Encuesta_CicloController extends Zend_Controller_Action
     {
         // action body
         $idCiclo = $this->getParam("idCiclo");
-		$ciclo = $this->cicloDAO->getCicloById($idCiclo);//->obtenerCiclo($idCiclo);
+		$ciclo = $this->cicloDAO->getCicloEscolarById($idCiclo);//->obtenerCiclo($idCiclo);
 		
 		$formulario = new Encuesta_Form_AltaCiclo;
-		$formulario->getElement("ciclo")->setValue($ciclo->getCiclo());
-		$formulario->getElement("inicio")->setValue($ciclo->getInicio());
-		$formulario->getElement("termino")->setValue($ciclo->getTermino());
-		$formulario->getElement("vigente")->setValue($ciclo->getVigente());
-		$formulario->getElement("descripcion")->setValue($ciclo->getDescripcion());
+		$formulario->getElement("ciclo")->setValue($ciclo['ciclo']);
+		$formulario->getElement("inicio")->setValue($ciclo['inicio']);
+		$formulario->getElement("termino")->setValue($ciclo['termino']);
+		$formulario->getElement("vigente")->setValue($ciclo['vigente']);
+		$formulario->getElement("descripcion")->setValue($ciclo['descripcion']);
 		$formulario->getElement("submit")->setLabel("Actualizar Ciclo");
 		$formulario->getElement("submit")->setAttrib("class", "btn btn-warning");
 		
@@ -49,10 +57,11 @@ class Encuesta_CicloController extends Zend_Controller_Action
         // action body
         $request = $this->getRequest();
         $idPlan = $this->getParam("idPlan");
-		$plan = $this->planDAO->obtenerPlanEstudios($idPlan);
-        //$formulario = new Encuesta_Form_AltaCiclo;
-		//$this->view->formulario = $formulario;
+        
+		$plan = $this->planDAO->getPlanEducativoById($idPlan);
+        
 		$this->view->plan = $plan;
+		
 		if($request->isPost()){
 		    $datos = $request->getPost();
             if (array_key_exists("vigente", $datos)) $datos["vigente"] = 1;
@@ -70,26 +79,6 @@ class Encuesta_CicloController extends Zend_Controller_Action
             }catch(Exception $ex){
                 $this->view->messageFail = $ex->getMessage();
             }
-            /*
-			if($formulario->isValid($request->getPost())){
-				$datos = $formulario->getValues();
-				
-				$inicio = new Zend_Date($datos["inicio"], 'yyyy-MM-dd hh-mm-ss');
-				$termino = new Zend_Date($datos["termino"], 'yyyy-MM-dd hh-mm-ss');
-				
-				$datos["inicio"] = $inicio->toString('yyyy-MM-dd hh-mm-ss');
-				$datos["termino"] = $termino->toString('yyyy-MM-dd hh-mm-ss');
-				$datos["idPlanEducativo"] = $idPlan;
-				
-				try{
-					$this->cicloDAO->crearCiclo($datos);
-					$this->view->messageSuccess = "Ciclo Escolar: <strong>".$datos["ciclo"]. "</strong> dato de alta efectivamente." ;
-				}catch(Util_Exception_BussinessException $ex){
-					$this->view->messageFail = $ex->getMessage();
-				}
-				
-			}
-            */
 		}
     }
 
@@ -112,20 +101,12 @@ class Encuesta_CicloController extends Zend_Controller_Action
     {
         // action body
         $idPlan = $this->getParam("idPlan");
-        $ciclos = $this->cicloDAO->getCiclosbyIdPlan($idPlan);//->obtenerCiclos($idPlan);
-        $plan = $this->planDAO->obtenerPlanEstudios($idPlan);
+        
+        $ciclos = $this->cicloDAO->getAllCiclosEscolaresByIdPlanEducativo($idPlan);
+        $plan = $this->planDAO->getPlanEducativoById($idPlan);
+        
         $this->view->ciclos = $ciclos;
         $this->view->plan = $plan;
     }
 
-
 }
-
-
-
-
-
-
-
-
-

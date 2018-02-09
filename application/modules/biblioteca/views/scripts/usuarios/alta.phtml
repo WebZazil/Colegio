@@ -1,0 +1,120 @@
+<?php
+    $messageSuccess = $this->messageSuccess;
+    $messageFail = $this->messageFail;
+
+    $module = 'biblioteca';
+    $urlUsuarios = $this->url(array('module'=>$module,'controller'=>'usuarios','action'=>'index'),null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<div class="panel-title">Nuevo Usuario de Biblioteca</div>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlUsuarios; ?>" class="btn btn-info">
+						<i class="fa fa-chevron-left"></i> Regresar a Usuarios
+					</a><br />
+					<?php if(!is_null($messageSuccess)){ ?>
+	                <br />
+	                <div class="alert alert-success" role="alert">
+	                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                      <span aria-hidden="true">&times;</span>
+	                    </button>
+	                    <?php echo $messageSuccess; ?>
+	                </div>
+	                <?php }elseif(!is_null($messageFail)){ ?>
+	                <div class="alert alert-danger" role="alert">
+	                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                      <span aria-hidden="true">&times;</span>
+	                    </button>
+	                    <?php echo $messageFail; ?>
+	                </div>
+	                <br />
+	                <?php } ?>
+				</div>
+				<hr />
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="tipoUsuario" class="control-label col-md-2">Tipo Usuario: </label>
+							<div class="col-md-5">
+								<select name="tipoUsuario" class="form-control">
+									<option value="ST">Seleccione Tipo</option>
+									<option value="AL">Alumna</option>
+									<option value="DO">Docente</option>
+									<option value="EX">ExAlumna</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="nickname" class="control-label col-md-2">Nickname: </label>
+							<div class="col-md-5">
+								<input name="nickname" type="text" class="form-control" value="" required="required" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="password" class="control-label col-md-2">Password: </label>
+							<div class="col-md-5">
+								<input name="password" type="password" class="form-control" value="" required="required" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="nombres" class="control-label col-md-2">Nombres: </label>
+							<div class="col-md-5">
+								<input name="nombres" type="text" class="form-control" required="required" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="apaterno" class="control-label col-md-2">Apellido Paterno: </label>
+							<div class="col-md-5">
+								<input name="apaterno" type="text" class="form-control" required="required" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="amaterno" class="control-label col-md-2">Apellido Materno: </label>
+							<div class="col-md-5">
+								<input name="amaterno" type="text" class="form-control" required="required" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="claveUsuario" class="control-label col-md-2">Clave Usuario: </label>
+							<div class="col-md-5">
+								<input name="claveUsuario" type="text" class="form-control" required="required" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="telefono" class="control-label col-md-2">Telefono: </label>
+							<div class="col-md-5">
+								<input name="telefono" type="tel" class="form-control" required="required" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="email" class="control-label col-md-2">Email: </label>
+							<div class="col-md-5">
+								<input name="email" type="email" class="form-control" required="required" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-5">
+								<button class="btn btn-success" type="submit">
+									<i class="fa fa-plus"></i> Crear Usuario
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

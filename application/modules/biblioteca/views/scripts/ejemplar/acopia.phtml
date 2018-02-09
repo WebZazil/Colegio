@@ -1,0 +1,73 @@
+<?php
+    $recurso = $this->recurso;
+    $ejemplar = $this->ejemplar;
+    $estatusEjemplar = $this->estatusEjemplar;
+    $copias = (int) $this->copias;
+    $numero = $copias + 1;
+    //print_r($recurso);
+    $urlRegreso = $this->url(array('module'=>'biblioteca','controller'=>'ejemplar','action'=>'ejemplares','rc'=>$recurso['idRecurso']),null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Agregando copia de ejemplar en recurso : <strong><?php echo $recurso['titulo'].', '.$recurso['subtitulo']; ?></strong> </h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlRegreso ?>" class="btn btn-info">
+						<i class="fa fa-chevron-left"></i> Regresar a Ejemplar
+					</a>
+				</div>
+				<hr />
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+					
+						<input name="idEjemplar" type="text" class="form-control hidden" value="<?php echo $ejemplar['idEjemplar']; ?>" />
+					
+						<div class="form-group">
+							<label for="idEstatusEjemplar" class="control-label col-md-2">Estatus Ejemplar: </label>
+							<div class="col-md-5">
+								<select name="idEstatusEjemplar" class="form-control">
+									<option value="0">Seleccione Estatus Ejemplar</option>
+									<?php foreach ($estatusEjemplar as $estatus): ?>
+									<option value="<?php echo $estatus['idEstatusEjemplar'] ?>"><?php echo $estatus['estatusEjemplar'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="copia" class="control-label col-md-2">Copia: </label>
+							<div class="col-md-5">
+								<input name="copia" type="text" class="form-control" contenteditable="false" value="<?php echo $numero; ?>" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="prestamos" class="control-label col-md-2">Prestamos: </label>
+							<div class="col-md-5">
+								<input name="prestamos" type="text" class="form-control" contenteditable="false" value="0" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="codigoBarras" class="control-label col-md-2">Codigo de Barras: </label>
+							<div class="col-md-5">
+								<input name="codigoBarras" type="text" class="form-control" autofocus="autofocus" />
+							</div>
+						</div>
+												
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-5">
+								<button class="btn btn-success" type="submit">
+    								<i class="fa fa-save"></i> Guardar Copia Ejemplar 
+    							</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
