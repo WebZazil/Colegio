@@ -5,7 +5,7 @@
 	<div class="col-md-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h5 class="panel-title"></h5>
+				<h5 class="panel-title">Consulta de Prestamos</h5>
 			</div>
 			<div class="panel-body">
 				<div>
@@ -13,7 +13,22 @@
 				</div>
 				<hr />
 				<div>
-					<form action="" class="form-horizontal">
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+					
+						<div class="form-group">
+							<label for="fechaInicio" class="control-label col-md-2">Fecha Inicio: </label>
+							<div class="col-md-5">
+								<input name="fechaInicio" type="date" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="fechaTermino" class="control-label col-md-2">Fecha Termino: </label>
+							<div class="col-md-5">
+								<input name="fechaTermino" type="date" class="form-control" />
+							</div>
+						</div>
+						
 						<div class="form-group">
 							<label for="fechaInicio" class="control-label col-md-2">Fecha Inicio: </label>
 							<div class="col-md-5">

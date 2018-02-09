@@ -19,6 +19,7 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
         if (!$auth->hasIdentity()) {
             $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
         }
+        
         $identity = $auth->getIdentity();
         
         $this->prestamoDAO = new Biblioteca_Data_DAO_Prestamo($identity['adapter']);
@@ -55,7 +56,8 @@ class Biblioteca_PrestamoController extends Zend_Controller_Action
         $prestamo = $this->prestamoDAO->getRowPrestamoById($idPrestamo);
         
         $this->prestamoDAO->devolverPrestamo($prestamo['idPrestamo']);
-        $this->prestamoDAO->setEstatusInventarioEjemplar($copia['idInventario'], 'DISPONIBLE');
+        $this->prestamoDAO->setEstatusInventarioEjemplar($prestamo['idInventario'], 'DISPONIBLE');
+        $this->prestamoDAO->agregarPrestamoCopia($prestamo['idInventario']);
         
         $this->_helper->redirector->gotoSimple("user", "prestamo", "biblioteca",array('us'=>$idUsuario));
     }
