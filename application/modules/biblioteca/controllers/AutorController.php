@@ -112,10 +112,9 @@ class Biblioteca_AutorController extends Zend_Controller_Action
             try{
                 
                 $idAutor = $this->autorDAO->editarAutor($idAutor, $datos);
-                $this->view->messageSuccess ="Autor: <strong>".$datos['nombres']."</strong> ha sido modificado";
-                
-            }catch (Exception $ex){
-                $this->view->messageFail = "El autor: <strong>".$datos['nombres']."</strong> no ha sido modificado. Error: <strong>".$ex->getMessage()."<strong>";
+                $this->view->messageSuccess = "Autor(es) editado(s)  exitosamente.";
+            }catch(Exception $ex){
+                $this->view->messageFail = "Error en edicion de autor(es) <strong>".$ex->getMessage()."</strong>";
             }
             
         }
