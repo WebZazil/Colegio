@@ -216,7 +216,7 @@ class App_Data_DAO_Login {
     public function getTestConnector($credentials, $claveOrg = 'colsagcor16', $tipoModulo = 'MOD_ENCUESTA') {
         $tSub = $this->tSubscripcion;
         $organizacion = $this->getOrganizacionByClave($claveOrg);
-        $auth = Zend_Auth::getInstance();
+        //$auth = Zend_Auth::getInstance();
         
         $usuario = $this->getUsuarioByParams($credentials);
         $rol = $this->getRolById($usuario['idRol']);
@@ -241,5 +241,36 @@ class App_Data_DAO_Login {
         return $db;
     }
     
+    /**
+     * 
+     * @param array $credentials
+     * @param string $claveOrg
+     * @param string $tipoModulo
+     * @return Zend_Db_Adapter_Abstract
+     */
+    public function getSystemConnector(array $credentials, $claveOrg = 'colsagcor16', $tipoModulo = 'MOD_ENCUESTA') {
+        $organizacion = $this->getOrganizacionByClave($claveOrg);;
+        $usuario = $this->getUsuarioByParams($credentials);
+        $rol = $this->getRolById($usuario['idRol']);
+        $modulo = $this->getModuloByTipo($tipoModulo);
+        
+        $tSub = $this->tSubscripcion;
+        $select = $tSub->select()->from($tSub)
+            ->where('idOrganizacion=?',$organizacion['idOrganizacion'])
+            ->where('idModulo=?',$modulo['idModulo'])
+            ->where('idRol=?',$rol['idRol']);
+        $rowSub = $tSub->fetchRow($select)->toArray();
+        
+        $connector = array();
+        $connector['host'] = $rowSub['host'];
+        $connector['username'] = $rowSub['username'];
+        $connector['password'] = $rowSub['password'];
+        $connector['dbname'] = $rowSub['dbname'];
+        $connector['charset'] = $rowSub['charset'];
+        
+        $db = Zend_Db::factory(strtoupper($rowSub['adapter']), $connector);
+        
+        return $db;
+    }
     
 }

@@ -4,11 +4,20 @@ class Biblioteca_JsonController extends Zend_Controller_Action
 {
 
     private $autorDAO = null;
+
     private $recursoDAO = null;
+
     private $materialDAO = null;
+
     private $coleccionDAO = null;
+
     private $clasificacionDAO = null;
+
     private $ejemplarDAO = null;
+    
+    private $testConnector = null;
+    
+    private $serviceLogin = null;
 
     public function init()
     {
@@ -16,16 +25,21 @@ class Biblioteca_JsonController extends Zend_Controller_Action
         $auth = Zend_Auth::getInstance();
         $identity = $auth->getIdentity();
         
+        $this->serviceLogin = new Biblioteca_Service_Login();
+        
+        $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
+        $this->testConnector = $this->serviceLogin->getTestConnection($testData, 'colsagcor16', 'MOD_BIBLIOTECA');
+        
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         
         $this->autorDAO = new Biblioteca_Data_DAO_Autor;
         
-        $this->recursoDAO = new Biblioteca_Data_DAO_Recurso($identity['adapter']);
-        $this->materialDAO = new Biblioteca_Data_DAO_Material($identity['adapter']);
-        $this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($identity['adapter']);
-        $this->clasificacionDAO = new Biblioteca_Data_DAO_Clasificacion($identity['adapter']);
-        $this->ejemplarDAO = new Biblioteca_Data_DAO_Ejemplar($identity['adapter']);
+        $this->recursoDAO = new Biblioteca_Data_DAO_Recurso($this->testConnector);
+        $this->materialDAO = new Biblioteca_Data_DAO_Material($this->testConnector);
+        $this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($this->testConnector);
+        $this->clasificacionDAO = new Biblioteca_Data_DAO_Clasificacion($this->testConnector);
+        $this->ejemplarDAO = new Biblioteca_Data_DAO_Ejemplar($this->testConnector);
 		
     }
 
@@ -72,8 +86,68 @@ class Biblioteca_JsonController extends Zend_Controller_Action
         // action body
     }
 
+    public function brecindexAction()
+    {
+        // action body
+        $params = $this->getAllParams();
+        unset($params['module']);
+        unset($params['controller']);
+        unset($params['action']);
+        
+        $parametros = array();
+        
+        if(array_key_exists('to', $params)){
+            $parametros['titulo'] = $params['to'];
+        }
+        if(array_key_exists('sb', $params)){
+            $parametros['subtitulo'] = $params['sb'];
+        }
+        if(array_key_exists('mt', $params)){
+            $parametros['idMaterial'] = $params['mt'];
+        }
+        if(array_key_exists('co', $params)){
+            $parametros['idColeccion'] = $params['co'];
+        }
+        if(array_key_exists('cl', $params)){
+            $parametros['idClasificacion'] = $params['cl'];
+        }
+        
+        $recursos = $this->recursoDAO->getRecursoByParams($parametros);
+        $container = array();
+        foreach ($recursos as $recurso){
+            $obj = array();
+            // Obtenemos el recurso
+            $obj['recurso'] = $this->recursoDAO->getObjectRecurso($recurso['idRecurso']);
+            // Obtenemos todos los ejemplares de recurso
+            $ejemplares = $this->ejemplarDAO->getObjectEjemplaresRecurso($recurso['idRecurso']);
+            $obj['ejemplares'] = $ejemplares;
+            // Obtenemos todas las copias de todos los ejemplares
+            $inventario = array();
+            foreach ($ejemplares as $ejemplar){
+                $e = $ejemplar['ejemplar'];
+                $copias = $this->ejemplarDAO->getCopiasEjemplar($e['idEjemplar']);
+                
+                foreach ($copias as $copia){
+                    $inventario[] = $copia;
+                }
+            }
+            
+            $obj['inventario'] = $inventario;
+            
+            $container[] = $obj;
+        }
+        
+        //print_r($container); print_r('<br /><br />');
+        
+        
+        //$container = array();
+        echo Zend_Json::encode($container);
+    }
+
 
 }
+
+
 
 
 

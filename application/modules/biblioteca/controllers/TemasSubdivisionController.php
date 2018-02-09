@@ -7,7 +7,13 @@ class Biblioteca_TemasSubdivisionController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $this->temasSubdivisionDAO = new Biblioteca_DAO_TemasSubdivision();
+        $auth = Zend_Auth::getInstance();
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        $identity = $auth->getIdentity();
+        
+        $this->temasSubdivisionDAO = new Biblioteca_DAO_TemasSubdivision($identity['adapter']);
     }
 
     public function indexAction()

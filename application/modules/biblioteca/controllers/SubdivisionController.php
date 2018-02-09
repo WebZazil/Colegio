@@ -8,10 +8,15 @@ class Biblioteca_SubdivisionController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
+        $auth = Zend_Auth::getInstance();
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        $identity = $auth->getIdentity();
         
-        $dbAdapter = Zend_Registry::get("dbmodqueryb");
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
-		$this->subdivisionDAO = new Biblioteca_Data_DAO_Subdivision($dbAdapter);
+		$this->subdivisionDAO = new Biblioteca_Data_DAO_Subdivision($identity['adapter']);
     }
 
     public function indexAction()
