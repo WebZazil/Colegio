@@ -8,8 +8,15 @@ class Biblioteca_IdiomaController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodqueryb");
-		$this->idiomaDAO = new Biblioteca_Data_DAO_Idioma($dbAdapter);
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        
+        $identity = $auth->getIdentity();
+        
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		$this->idiomaDAO = new Biblioteca_Data_DAO_Idioma($identity['adapter']);
     }
 
     public function indexAction()

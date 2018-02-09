@@ -8,7 +8,13 @@ class Biblioteca_SubdivisionesLibroController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $this->subdivisionesLibroDAO = new Biblioteca_DAO_SubdivisionesLibro();
+        $auth = Zend_Auth::getInstance();
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        $identity = $auth->getIdentity();
+        
+        $this->subdivisionesLibroDAO = new Biblioteca_DAO_SubdivisionesLibro($identity['adapter']);
     }
 
     public function indexAction()

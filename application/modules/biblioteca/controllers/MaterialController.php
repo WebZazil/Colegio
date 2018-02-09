@@ -6,9 +6,16 @@ class Biblioteca_MaterialController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodqueryb");
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
         
-        $this->materialDAO = new Biblioteca_Data_DAO_Material($dbAdapter);
+        $identity = $auth->getIdentity();
+        
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
+        
+        $this->materialDAO = new Biblioteca_Data_DAO_Material($identity['adapter']);
     
     }
 
@@ -75,7 +82,7 @@ class Biblioteca_MaterialController extends Zend_Controller_Action
                 $this->view->messageSuccess ="Material: <strong>".$datos['material']."</strong> ha sido modificado";
                 
             }catch (Exception $ex){
-                $this->view->messageFail = "El amterial: <strong>".$datos['material']."</strong> no ha sido modificado. Error: <strong>".$ex->getMessage()."<strong>";
+                $this->view->messageFail = "El material: <strong>".$datos['material']."</strong> no ha sido modificado. Error: <strong>".$ex->getMessage()."<strong>";
             }
             
         }

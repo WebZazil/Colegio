@@ -8,7 +8,14 @@ class Biblioteca_LibrosTemaController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $this->librosTemaDAO = new Biblioteca_DAO_LibrosTema();
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        
+        $identity = $auth->getIdentity();
+        
+        $this->librosTemaDAO = new Biblioteca_DAO_LibrosTema($identity['adapter']);
     }
 
     public function indexAction()

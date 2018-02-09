@@ -8,9 +8,15 @@ class Biblioteca_EditorialController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-         $dbAdapter = Zend_Registry::get("dbmodqueryb");
-		 
-		 $this->editorialDAO = new Biblioteca_DAO_Editorial($dbAdapter);
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        
+        $identity = $auth->getIdentity();
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		
+        $this->editorialDAO = new Biblioteca_DAO_Editorial($identity['adapter']);
         
     }
 

@@ -7,8 +7,15 @@ class Biblioteca_ClasificacionController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodqueryb");
-		$this->clasificacionDAO = new Biblioteca_Data_DAO_Clasificacion($dbAdapter);
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        
+        $identity = $auth->getIdentity();
+        
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		$this->clasificacionDAO = new Biblioteca_Data_DAO_Clasificacion($identity['adapter']);
     }
 
     public function indexAction()

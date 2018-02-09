@@ -62,11 +62,12 @@ class Biblioteca_Data_DAO_Login {
         }
     }
     
-    public function loginSystem($params) {
+    public function getRowLoginSystem($params) {
         $tA = $this->tableAdmin;
         $select = $tA->select()->from($tA)
             ->where('nickname=?',$params['nickname'])
-            ->where('password=?',$params['password']);
+            ->where('password=?',$params['password'])
+            ->where('tipoAdmin=?',$params['tipoAdmin']);
         
         $rowAdmin = $tA->fetchRow($select);
         

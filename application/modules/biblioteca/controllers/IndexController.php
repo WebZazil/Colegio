@@ -31,7 +31,7 @@ class Biblioteca_IndexController extends Zend_Controller_Action
         $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
         $this->testConnector = $this->serviceLogin->getTestConnection($testData, 'colsagcor16', 'MOD_BIBLIOTECA');
         
-        $this->loginDAO = new Biblioteca_Data_DAO_Login($this->testConnector); 
+        $this->loginDAO = new Biblioteca_Data_DAO_Login($this->testConnector);
         $this->recursoDAO = new Biblioteca_Data_DAO_Recurso($this->testConnector);
         $this->materialDAO = new Biblioteca_Data_DAO_Material($this->testConnector);
         $this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($this->testConnector);
@@ -49,6 +49,7 @@ class Biblioteca_IndexController extends Zend_Controller_Action
         $this->view->materiales = $this->materialDAO->getAllMateriales();
         $this->view->colecciones = $this->coleccionDAO->getAllColecciones();
         $this->view->clasificaciones = $this->clasificacionDAO->getAllClasificaciones();
+        
         $this->view->recursos = array();
         
         if ($request->isPost()) {

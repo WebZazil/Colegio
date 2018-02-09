@@ -12,9 +12,8 @@ class Biblioteca_UprestamoController extends Zend_Controller_Action
         /* Initialize action controller here */
         $this->_helper->layout->setLayout('dashbuser');
         $auth = Zend_Auth::getInstance();
-        
         if (!$auth->hasIdentity()) {
-            
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
         }
         $identity = $auth->getIdentity();
         $this->identity = $identity;

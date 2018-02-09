@@ -8,9 +8,15 @@ class Biblioteca_AutorController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodqueryb");
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        
+        $identity = $auth->getIdentity();
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
                 
-        $this->autorDAO = new Biblioteca_Data_DAO_Autor($dbAdapter);
+        $this->autorDAO = new Biblioteca_Data_DAO_Autor($identity['adapter']);
     }
 
     public function indexAction()

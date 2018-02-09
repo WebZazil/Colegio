@@ -7,6 +7,11 @@ class Biblioteca_UconsultaController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $this->_helper->layout->setLayout('dashbuser');
+        $auth = Zend_Auth::getInstance();
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        $identity = $auth->getIdentity();
     }
 
     public function indexAction()

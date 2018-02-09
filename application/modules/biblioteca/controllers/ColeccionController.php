@@ -8,9 +8,16 @@ class Biblioteca_ColeccionController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodqueryb");
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
+        
+        $identity = $auth->getIdentity();
+        
+        //$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
-		$this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($dbAdapter);
+		$this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($identity['adapter']);
     }
 
     public function indexAction()

@@ -11,8 +11,8 @@ class Biblioteca_EjemplarController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        if ($auth->hasIdentity()) {
-            ;
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
         }
         $identity = $auth->getIdentity();
         
