@@ -20,8 +20,6 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
         $identity = $auth->getIdentity();
         
         if (!$auth->hasIdentity()) {
-            $auth->clearIdentity();
-            
             $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
 		}
 		

@@ -63,7 +63,9 @@ $().ready(function(){
                         append($('<td>').append(ejemplar.tipoLibro.tipoLibro)).
                         append($('<td>').append(dimension)) ) ;
 				}
-			});				
+			});
+			
+			$(this).val('');
 		}
 	});
 });

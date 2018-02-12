@@ -15,29 +15,9 @@
             <li>
                 <a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"dashboard","action"=>"index"),null,true) ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
-            <li>
-            	<a href="#"><i class="fa fa-th-large fa-fw"></i> Encuestas<span class="fa arrow"></span></a>
-            	<ul class="nav nav-second-level">
-            		<li>
-            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"index"),null,true) ?>">
-            				<i class="fa fa-list-ol"></i> Conjuntos Respuesta
-            			</a>
-            		</li>
-            		<li>
-            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuesta","action"=>"index"),null,true) ?>">
-            				<i class="fa fa-search"></i> Consultar Encuestas
-            			</a>
-            		</li>
-            		<li>
-            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuesta","action"=>"alta"),null,true) ?>">
-            				<i class="fa fa-plus-circle"></i> Nueva Encuesta
-            			</a>
-            		</li>
-            	</ul>
-            </li>
             
             <li>
-            	<a href="#"><i class="fa fa-th-large fa-fw"></i> Encuestas Escolares<span class="fa arrow"></span></a>
+            	<a href="#"><i class="fa fa-cogs fa-fw"></i> Sistema<span class="fa arrow"></span></a>
             	<ul class="nav nav-second-level">
             		<li>
             			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"plan","action"=>"index"),null,true) ?>">
@@ -64,9 +44,40 @@
             				<i class="fa fa-list-alt"></i> Conjuntos de Evaluacion
             			</a>
             		</li>
+            		
+            	</ul>
+            </li>
+            
+            <li>
+            	<a href="#"><i class="fa fa-th-large fa-fw"></i> Encuestas<span class="fa arrow"></span></a>
+            	<ul class="nav nav-second-level">
+            		<li>
+            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuesta","action"=>"alta"),null,true) ?>">
+            				<i class="fa fa-plus-circle"></i> Nueva Encuesta
+            			</a>
+            		</li>
+            		
+            		<li>
+            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"encuesta","action"=>"index"),null,true) ?>">
+            				<i class="fa fa-search"></i> Consultar Encuestas
+            			</a>
+            		</li>
+            		
+            		<li>
+            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"index"),null,true) ?>">
+            				<i class="fa fa-list-ol"></i> Conjuntos Respuesta
+            			</a>
+            		</li>
+            		
+            	</ul>
+            </li>
+            
+            <li>
+            	<a href="#"><i class="fa fa-list fa-fw"></i> Resultados	<span class="fa arrow"></span></a>
+            	<ul class="nav nav-second-level">
             		<li>
                         <a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"index"),null,true) ?>">
-                            <i class="fa fa-list-alt"></i> Resultados Evaluacion
+                            <i class="fa fa-check-square-o"></i> Resultados Evaluacion
                         </a>
                     </li>
             	</ul>

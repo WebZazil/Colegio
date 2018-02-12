@@ -4,6 +4,7 @@ class Biblioteca_UsuariosController extends Zend_Controller_Action
 {
 
     private $usuarioDAO = null;
+    private $contactoDAO = null;
 
     public function init()
     {
@@ -15,6 +16,7 @@ class Biblioteca_UsuariosController extends Zend_Controller_Action
         $identity = $auth->getIdentity();
         
         $this->usuarioDAO = new Biblioteca_Data_DAO_Usuario($identity['adapter']);
+        $this->contactoDAO = new Biblioteca_Data_DAO_Contacto($identity['adapter']);
     }
 
     public function indexAction()
@@ -86,17 +88,45 @@ class Biblioteca_UsuariosController extends Zend_Controller_Action
         $request = $this->getRequest();
         $idUsuario = $this->getParam('us');
         
-        $usuario = $this->usuarioDAO->getUsuarioBibliotecaById($idUsuario);
-        print_r($usuario);
         
-        $this->view->usuarios = $usuarios;
+        $usuario = $this->usuarioDAO->getObjectUsuario($idUsuario);
+        
+        $this->view->usuario = $usuario;
+        //$this->view->contacto = $this->contactoDAO->getContactoById($usuario['idContacto']);
+        
+        //print_r($usuario);
+        
+        
         
         if ($request->isPost()) {
             $datos = $request->getPost();
-            print_r($datos);
+            $datos['id'] = $idUsuario;
+            
+            $dataContacto = array(
+                'emails' => $datos['emails'],
+                'telefonos' => $datos['telefonos'],
+            );
+            
+            unset($datos['emails']);
+            unset($datos['telefonos']);
+            
+            print_r($datos); print_r('<br /><br/>');
+            print_r($dataContacto);
+            
+            try {
+                $this->usuarioDAO->editarUsuario($idUsuario, $datos);
+                $this->contactoDAO->editarContacto($usuario['contacto']['idContacto'],$dataContacto);
+                $this->view->messageSuccess ="El usuario: <strong>".$datos['nickname']."</strong> ha sido modificado";
+            
+            }catch (Exception $ex){
+                $this->view->messageFail = "El usuario: <strong>".$datos['nickname']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";
+                print_r($ex->getMessage());
+            }
             
             
-}
+            
+            
+            }
     }
 
 

@@ -66,6 +66,14 @@ class Biblioteca_Data_DAO_Prestamo {
         return $tI->update($data, $where);
     }
     
+    public function agregarPrestamoCopia($idCopia) {
+        $tI = $this->tableInventario;
+        $select = $tI->select()->from($tI)->where('idInventario=?',$idCopia);
+        $rowI = $tI->fetchRow($select);
+        $rowI->prestamos++;
+        $rowI->save();
+    }
+    
     /**
      * 
      * @param int $idUsuario

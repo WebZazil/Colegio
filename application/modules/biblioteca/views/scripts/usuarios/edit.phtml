@@ -1,20 +1,48 @@
 <?php
-    $usuarios = $this->usuarios;
+    $usuario = $this->usuario;
+    //$contacto = $this->contacto;
+    
+    $messageSuccess = $this->messageSuccess;
+    $messageFail = $this->messageFail;
 
     $module = 'biblioteca';
     $urlUsuarios = $this->url(array('module'=>$module,'controller'=>'usuarios','action'=>'index'),null,true);
+    $tiposUsuario = array(
+        'AL' => 'Alumna',
+        'DO' => 'Docente',
+        'EX' => 'ExAlumna',
+    );
 ?>
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-warning">
 			<div class="panel-heading">
 				<div class="panel-title">Edición de Usuario</div>
-			</div>
+			</div>	
 			<div class="panel-body">
 				<div>
 					<a href="<?php echo $urlUsuarios; ?>" class="btn btn-info">
 						<i class="fa fa-chevron-left"></i> Regresar a Usuarios
-					</a>
+					</a><br />
+					
+					   <?php if(!is_null($messageSuccess)){ ?>
+                    <br />
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                       <?php echo $messageSuccess; ?>
+                    </div>
+                    <?php }elseif(!is_null($messageFail)){ ?>
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <?php echo $messageFail; ?>
+                    </div>
+                    <br />
+                    <?php } ?>
+					
 				</div>
 				<hr />
 				<div>
@@ -22,11 +50,12 @@
 						<div class="form-group">
 							<label for="tipoUsuario" class="control-label col-md-2">Tipo Usuario: </label>
 							<div class="col-md-5">
-								<select name="tipoUsuario" class="form-control">
-									<option value="ST">Seleccione Tipo</option>
-									<option value="AL">Alumna</option>
-									<option value="DO">Docente</option>
-									<option value="EX">ExAlumna</option>
+								<select id="tipoUsuario" name="tipoUsuario" class="form-control">
+								<?php foreach ($tiposUsuario as $clave => $tipoUsuario) :
+								    $atributo = ($clave == $usuario['tipoUsuario'] ) ? 'selected="selected"' : '';
+								    ?>
+									<option value="<?php echo $clave; echo $atributo; ?>" ><?php echo $tipoUsuario; ?></option>
+								<?php endforeach;?>
 								</select>
 							</div>
 						</div>
@@ -34,56 +63,56 @@
 						<div class="form-group">
 							<label for="nickname" class="control-label col-md-2">Nickname: </label>
 							<div class="col-md-5">
-								<input name="nickname" type="text" class="form-control" value="<?php echo $usuarios['nickname']?>" />
+								<input name="nickname" type="text" class="form-control" value="<?php echo $usuario['usuario']['nickname']?>" />
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label for="password" class="control-label col-md-2">Password: </label>
 							<div class="col-md-5">
-								<input name="password" type="password" class="form-control" value="<?php echo $usuarios['password']?>" />
+								<input name="password" type="password" class="form-control" value="<?php echo $usuario ['usuario']['password']?>" />
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label for="nombres" class="control-label col-md-2">Nombres: </label>
 							<div class="col-md-5">
-								<input name="nombres" type="text" class="form-control" value="<?php echo $usuarios['nombres']?>" />
+								<input name="nombres" type="text" class="form-control" value="<?php echo $usuario ['usuario']['nombres']?>" />
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label for="apaterno" class="control-label col-md-2">Apellido Paterno: </label>
 							<div class="col-md-5">
-								<input name="apaterno" type="text" class="form-control" value="<?php echo $usuarios['apaterno']?>" />
+								<input name="apaterno" type="text" class="form-control" value="<?php echo $usuario ['usuario']['apaterno']?>" />
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label for="amaterno" class="control-label col-md-2">Apellido Materno: </label>
 							<div class="col-md-5">
-								<input name="amaterno" type="text" class="form-control" value="<?php echo $usuarios['amaterno']?>" />
+								<input name="amaterno" type="text" class="form-control" value="<?php echo $usuario ['usuario']['amaterno']?>" />
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label for="claveUsuario" class="control-label col-md-2">Clave Usuario: </label>
 							<div class="col-md-5">
-								<input name="claveUsuario" type="text" class="form-control" value="<?php echo $usuarios['claveUsuario']?>" />
+								<input name="claveUsuario" type="text" class="form-control" value="<?php echo $usuario ['usuario']['claveUsuario']?>" />
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label for="telefono" class="control-label col-md-2">Telefono: </label>
+							<label for="telefonos" class="control-label col-md-2">Telefono: </label>
 							<div class="col-md-5">
-								<input name="telefono" type="tel" class="form-control" value="<?php echo $usuarios['telefono']?>" />
+								<input name="telefonos" type="tel" class="form-control" value="<?php echo $usuario['contacto']['telefonos']?>" />
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label for="email" class="control-label col-md-2">Email: </label>
+							<label for="emails" class="control-label col-md-2">Email: </label>
 							<div class="col-md-5">
-								<input name="email" type="email" class="form-control" value="<?php echo $usuarios['email']?>" />
+								<input name="emails" type="email" class="form-control" value="<?php echo $usuario['contacto']['emails']?>" />
 							</div>
 						</div>
 						
