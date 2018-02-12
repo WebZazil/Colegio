@@ -12,13 +12,17 @@ class Encuesta_DocenteController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $dataIdentity = $auth->getIdentity();
         
-        $this->encuestaDAO = new Encuesta_DAO_Encuesta($dataIdentity["adapter"]);
-        $this->registroDAO = new Encuesta_DAO_Registro($dataIdentity["adapter"]);
-        $this->gruposDAO = new Encuesta_DAO_Grupos($dataIdentity["adapter"]);
-        $this->asignacionGrupoDAO = new Encuesta_DAO_AsignacionGrupo($dataIdentity["adapter"]);
-        $this->materiaDAO = new Encuesta_DAO_Materia($dataIdentity["adapter"]);
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+        }
+        $identity = $auth->getIdentity();
+        
+        $this->encuestaDAO = new Encuesta_DAO_Encuesta($identity["adapter"]);
+        $this->registroDAO = new Encuesta_DAO_Registro($identity["adapter"]);
+        $this->gruposDAO = new Encuesta_DAO_Grupos($identity["adapter"]);
+        $this->asignacionGrupoDAO = new Encuesta_DAO_AsignacionGrupo($identity["adapter"]);
+        $this->materiaDAO = new Encuesta_DAO_Materia($identity["adapter"]);
     }
 
     public function indexAction()

@@ -54,7 +54,7 @@ class Encuesta_IndexController extends Zend_Controller_Action
         
         if ($request->isPost()) {
             $datos = $request->getPost();
-            //print_r($datos);
+            print_r($datos);
             // @TODO hardcoded claveOrganizacion y tipoModulo
             try {
                 $serviceLogin->simpleLogin($datos, 'colsagcor16', 'MOD_ENCUESTA');

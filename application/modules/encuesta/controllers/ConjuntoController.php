@@ -13,16 +13,23 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodquery");
+        $auth = Zend_Auth::getInstance();
+        
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+        }
+        $identity = $auth->getIdentity();
+        
+        //$dbAdapter = Zend_Registry::get("dbmodquery");
 		
-		$this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
+		$this->evaluacionDAO = new Encuesta_DAO_Evaluacion($identity['adapter']);
 		
-		$this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($dbAdapter);
-		$this->encuestaDAO = new Encuesta_DAO_Encuesta($dbAdapter);
+		$this->asignacionDAO = new Encuesta_DAO_AsignacionGrupo($identity['adapter']);
+		$this->encuestaDAO = new Encuesta_DAO_Encuesta($identity['adapter']);
 		
-		$this->grupoDAO = new Encuesta_DAO_Grupos($dbAdapter);
-		$this->registroDAO = new Encuesta_DAO_Registro($dbAdapter);
-		$this->materiaDAO = new Encuesta_DAO_Materia($dbAdapter);
+		$this->grupoDAO = new Encuesta_DAO_Grupos($identity['adapter']);
+		$this->registroDAO = new Encuesta_DAO_Registro($identity['adapter']);
+		$this->materiaDAO = new Encuesta_DAO_Materia($identity['adapter']);
     }
 
     public function indexAction()
