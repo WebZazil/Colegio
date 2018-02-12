@@ -3,13 +3,14 @@
    $urlDashboard = $this->url(array("module"=>$modulo,"controller"=>"dashboard","action"=>"index"),null,true);
    
    
-   
+   $urlAutor = $this->url(array("module"=>$modulo,"controller"=>"autor","action"=>"index"),null,true);
    $urlSClasificacion = $this->url(array("module"=>$modulo,"controller"=>"clasificacion","action"=>"index"),null,true);
    $urlSColeccion = $this->url(array("module"=>$modulo,"controller"=>"coleccion","action"=>"index"),null,true);
    $urlSTema = $this->url(array("module"=>$modulo,"controller"=>"tema","action"=>"index"),null,true);
    $urlSIdioma = $this->url(array("module"=>$modulo,"controller"=>"idioma","action"=>"index"),null,true);
    
    $urlSEditorial = $this->url(array("module"=>$modulo,"controller"=>"editorial","action"=>"index"),null,true);
+   $urlSSeries = $this->url(array("module"=>$modulo,"controller"=>"serieejemplar","action"=>"index"),null,true);
    $urlSSubdivision = $this->url(array("module"=>$modulo,"controller"=>"subdivision","action"=>"index"),null,true);
    $urlSMaterial = $this->url(array("module"=>$modulo,"controller"=>"material","action"=>"index"),null,true);
    
@@ -42,6 +43,9 @@
             <li>
                 <a href="#"><i class="fa fa-cogs fa-fw"></i> Administración<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
+            	    <li>
+                        <a href="<?php echo $urlAutor; ?>"><i class="fa fa-users"></i> Autores</a>
+                    </li>
                 	<li>
                         <a href="<?php echo $urlUsuarios; ?>"><i class="fa fa-users"></i> Usuarios</a>
                     </li>
@@ -59,6 +63,9 @@
                     </li>
                     <li>
                         <a href="<?php echo $urlSMaterial; ?>"><i class="fa fa-info-circle"></i> Material</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $urlSSeries; ?>"><i class="fa fa-info-circle"></i> Series</a>
                     </li>
                       <li>
                         <a href="<?php echo $urlSSubdivision; ?>"><i class="fa fa-info-circle"></i> Subdivisión</a>

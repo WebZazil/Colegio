@@ -61,4 +61,47 @@ class Biblioteca_Data_DAO_Usuario {
         return $tU->insert($datos);
     }
     
+    
+    
+    public function getObjectUsuario($idUsuario){
+        $contenedor = array();
+        
+        $rowUsuario = $this->getUsuarioBibliotecaById($idUsuario);
+        $contenedor['usuario'] = $rowUsuario;
+        # Table Contacto
+        $tC = $this->tableContacto;
+        $select = $tC->select()->from($tC)->where('idContacto=?',$rowUsuario['idContacto']);
+        $rowContacto = $tC->fetchRow($select)->toArray();
+        $contenedor['contacto'] = $rowContacto;
+        
+       
+        return $contenedor;
+    }
+    
+    public function getObjectsUsuario() {
+        $tU = $this->tableUsuario;
+        $rowsUsuarios = $tU->fetchAll()->toArray();
+        
+        $tContact = $this->tableContacto;
+      
+        
+        $container = array();
+        
+        foreach ($rowsUsuarios as $rowUsuario) {
+            $obj = array();
+            $obj['usuario'] = $rowUsuario;
+            #Obtenemos Coleccion;
+        }
+    }
+    
+    
+    
+    public function editarUsuario($idUsuario, array $datos){
+        $tU = $this->tableUsuario;
+        $where = $tU->getAdapter()->quoteInto("id=?", $idUsuario);
+        $tU->update($datos, $where);
+    }
+    
+    
+   
 }

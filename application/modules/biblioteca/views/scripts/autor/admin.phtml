@@ -52,9 +52,9 @@
                 <div>
                 	<form  class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                 		<div class="form-group">
-							<label for="tipoAutor" class="control-label col-md-2">Tipo Autor: </label>
+							<label for="tipo" class="control-label col-md-2">Tipo Autor: </label>
 							<div class="col-md-5">
-								<select id="tipoAutor" name="tipoAutor" class="form-control">
+								<select id="tipo" name="tipo" class="form-control">
 									<?php foreach ($tiposAutor as $clave => $tipoAutor) : 
 									   $atributo = ( $tipoA == $clave ) ? 'selected="selected"' : '' ;
 									?>
@@ -104,25 +104,32 @@
 <script>
 	$().ready(function(){
 
-		//console.log('JQary activo!!')
-		$("select#tipoAutor").on('change',function(){
+		console.log('JQary activo!!')
+		$("select#tipo").on('change',function(){
 			console.log("combo cambio!!!");
 			var valorCombo = $(this).val();
-			//console.log(valorCombo);
+			console.log(valorCombo);
 			
 			switch(valorCombo) {
 				case("VR") :
 				case("IN") :
-					//console.log("Varios o Indefinido seleccionado");
+					console.log("Varios o Indefinido seleccionado");
+					
 					$("input#nombres").attr('disabled','true');
 					$("input#apellidos").attr('disabled','true');
+					$("input#nombres").val('');
+					$("input#apellidos").val('');
+					$("input#autores").attr('required','required');
 					$("input#autores").removeAttr('disabled');
 					break;
 				case("UN") :
-					//console.log("Unico seleccionado");
+					console.log("Unico seleccionado");
 					$("input#autores").attr('disabled','true');
+					$("input#autores").val('');
 					$("input#nombres").removeAttr('disabled');
 					$("input#apellidos").removeAttr('disabled');
+					$("input#nombres").attr('required','required');
+					$("input#apellidos").attr('required','required');
 					break;
 			}
 		});
