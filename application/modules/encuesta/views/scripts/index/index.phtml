@@ -5,6 +5,7 @@
 	$evaluaciones = array();
     $encuestasActivas = true;
     $consultaActiva = true;
+    $messageForm = $this->messageForm;
 ?>
 <!-- Navegacion  --> 
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -52,19 +53,28 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
-				<form class="form-horizontal" action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"login"),null,true) ?>" method="post" enctype="application/x-www-form-urlencoded">
+				<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
 					<fieldset>
 						<legend>Acceso al Sistema:</legend>
+						<?php if ($messageForm != '') { ?>
+						<div class="form-group">
+							<div class="col-md-12">
+								<label class="control-label">
+									<?php echo $messageForm; ?>
+								</label>
+							</div>
+						</div>
+						<?php } ?>
 						<div class="form-group">
 							<label class="col-xs-2" for="nickname">Usuario: </label>
 							<div class="col-xs-10">
-								<input type="text" class="form-control" name="nickname" placeholder="Usuario...">
+								<input name="nickname" type="text" class="form-control" placeholder="Usuario...">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-2" for="password">Password: </label>
 							<div class="col-xs-10">
-								<input type="password" class="form-control" name="password">
+								<input name="password" type="password" class="form-control" >
 							</div>
 						</div>
 						<div class="form-group">

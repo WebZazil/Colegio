@@ -30,9 +30,17 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodquery");
+        $auth = Zend_Auth::getInstance();
+        if (! $auth->hasIdentity()) {
+            ;
+        }
         
-        $this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
+        $identity = $auth->getIdentity();
+        $dbAdapter = $identity['adapter'];
+        
+        //$this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
+        $this->evaluacionDAO = new Encuesta_Data_DAO_Evaluacion($dbAdapter);
+        
         $this->grupoDAO = new Encuesta_DAO_Grupos($dbAdapter);
         $this->cicloDAO = new Encuesta_DAO_Ciclo($dbAdapter);
         $this->encuestaDAO = new Encuesta_DAO_Encuesta($dbAdapter);
