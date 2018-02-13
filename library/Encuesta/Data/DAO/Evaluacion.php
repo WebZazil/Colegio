@@ -1,12 +1,12 @@
 <?php
 /**
- * 
+ * Revisado Febrero 2018 
  * @author EnginnerRodriguez
  *
  */
 class Encuesta_Data_DAO_Evaluacion {
     
-    private $tableEvaluacion;
+    private $tableEvaluacionConjunto;
     private $tableEncuesta;
     private $tableConjuntoEvaluador;
     private $tableEvaluador;
@@ -14,16 +14,16 @@ class Encuesta_Data_DAO_Evaluacion {
     public function __construct($adapter) {
         $config = array('db' => $adapter);
         
-        $this->tableEvaluacion = new Encuesta_Data_DbTable_Evaluacion($config);
+        $this->tableEvaluacionConjunto = new Encuesta_Data_DbTable_EvaluacionConjunto($config);
         $this->tableEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
         $this->tableConjuntoEvaluador = new Encuesta_Data_DbTable_ConjuntoEvaluador($config);
         $this->tableEvaluador = new Encuesta_Data_DbTable_Evaluador($config);
     }
     
     public function getEvaluacionById($idEvaluacion) {
-        $tE = $this->tableEvaluacion;
-        $select = $tE->select()->from($tE)->where($idEvaluacion);
-        $rowE = $tE->fetchRow($select);
+        $tEC = $this->tableEvaluacionConjunto;
+        $select = $tEC->select()->from($tEC)->where('idEvaluacionConjunto=?', $idEvaluacion);
+        $rowE = $tEC->fetchRow($select);
         
         return $rowE->toArray();
     }
@@ -45,16 +45,46 @@ class Encuesta_Data_DAO_Evaluacion {
     
     public function getEvaluadoresConjunto($idConjunto) {
         $tCE = $this->tableConjuntoEvaluador;
-        $select = $tCE->select()->from($tCE)->where('idConjunto=?',$idConjunto);
-        $rowConjunto = $tCE->fetchAll($select);
+        $select = $tCE->select()->from($tCE)->where('idConjuntoEvaluador=?',$idConjunto);
+        $rowConjunto = $tCE->fetchRow($select);
         
         $idsEvaluadores = explode(',', $rowConjunto->idsEvaluadores);
         $tE = $this->tableEvaluador;
         $select = $tE->select()->from($tE)->where('idEvaluador IN (?)',$idsEvaluadores);
         $rowsEvaluadores = $tE->fetchAll($select);
-        print_r($rowsEvaluadores);
         
+        return $rowsEvaluadores->toArray();
+    }
+    
+    public function getEvaluadoresGrupo($idGrupo) {
+        $tCE = $this->tableConjuntoEvaluador;
+        $select = $tCE->select()->from($tCE)->where('idGrupoEscolar=?',$idGrupo);
+        $rowsCE = $tCE->fetchAll($select)->toArray();
         
+        $idsEvals = array();
+        
+        foreach ($rowsCE as $rowCE){
+            $ids = explode(',', $rowCE['idsEvaluadores']);
+            foreach ($ids as $id){
+                if($id != ''){
+                    $idsEvals[] = $ids;
+                }
+            }
+        }
+        
+        $tE = $this->tableEvaluador;
+        $select = $tE->select()->from($tE)->where('idEvaluador IN (?)',$idsEvals);
+        $rowE = $tE->fetchAll($select);
+        
+        return $rowE->toArray();
+    }
+    
+    public function getEvaluadorById($idEvaluador) {
+       $tE = $this->tableEvaluador;
+       $select = $tE->select()->from($tE)->where('idEvaluador=?',$idEvaluador);
+       $rowEvaluador = $tE->fetchRow($select);
+       
+       return $rowEvaluador->toArray();
     }
     
     

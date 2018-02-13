@@ -1,4 +1,9 @@
 <?php
+/**
+ * 
+ * @author EnginnerRodriguez
+ *
+ */
 class Encuesta_Data_DAO_CicloEscolar {
     
     private $tableCicloEscolar;

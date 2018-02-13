@@ -193,6 +193,7 @@
               <actionMethod actionName="evaluar"/>
               <actionMethod actionName="conjunto"/>
               <actionMethod actionName="evaluadores"/>
+              <actionMethod actionName="evaluaciones"/>
             </controllerFile>
             <controllerFile controllerName="Generador">
               <actionMethod actionName="index"/>
@@ -766,6 +767,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Usuario">
                 <viewScriptFile forActionName="actions"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Evaluacion">
+                <viewScriptFile forActionName="evaluaciones"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1678,6 +1682,7 @@
                 <testApplicationActionMethod forActionName="evaluar"/>
                 <testApplicationActionMethod forActionName="conjunto"/>
                 <testApplicationActionMethod forActionName="evaluadores"/>
+                <testApplicationActionMethod forActionName="evaluaciones"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Generador">
                 <testApplicationActionMethod forActionName="index"/>
