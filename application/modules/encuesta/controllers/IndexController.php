@@ -5,10 +5,12 @@ class Encuesta_IndexController extends Zend_Controller_Action
 
     private $service = null;
     private $loginDAO = null;
-    private $identity = null;
-    private $cicloDAO = null;
+    //private $identity = null;
+    
+    private $cicloEscolarDAO = null;
+    private $nivelEducativoDAO = null;
+    
     private $docenteDAO = null;
-    private $nivelDAO = null;
     private $encuestaDAO = null;
     private $materiaDAO = null;
     private $registroDAO = null;
@@ -25,25 +27,26 @@ class Encuesta_IndexController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
+        $this->_helper->layout->setLayout('homeEncuesta');
+        
         $this->serviceLogin = new Encuesta_Service_Login();
         
         $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
-        $this->testConnector = $this->serviceLogin->getTestConnection($testData);
+        $dbConnector = $this->serviceLogin->getTestConnection($testData);;
+        $this->testConnector = $dbConnector;
         
-        $this->_helper->layout->setLayout('homeEncuesta');
+        $this->cicloEscolarDAO = new Encuesta_Data_DAO_CicloEscolar($dbConnector);
+        $this->nivelEducativoDAO = new Encuesta_Data_DAO_NivelEducativo($dbConnector);
+        
+        $this->grupoDAO = new Encuesta_Data_DAO_GrupoEscolar($dbConnector);
+        $this->evaluacionDAO = new Encuesta_Data_DAO_Evaluacion($dbConnector);
     }
 
     public function indexAction()
     {
         // action body
-        $cicloDAO = new Encuesta_DAO_Ciclo($this->testConnector);
-        $nivelDAO = new Encuesta_DAO_Nivel($this->testConnector);
-        
-        $ciclos = $cicloDAO->getAllCiclos();
-        $niveles = $nivelDAO->obtenerNiveles();
-        
-        $this->view->ciclosEscolares = $ciclos;
-        $this->view->nivelesEscolares = $niveles;
+        $this->view->ciclosEscolares = $this->cicloEscolarDAO->getAllCiclosEscolares();;
+        $this->view->nivelesEducativos = $this->nivelEducativoDAO->getAllNivelesEducativos();;
     }
 
     public function loginAction()
@@ -221,7 +224,7 @@ class Encuesta_IndexController extends Zend_Controller_Action
     {
         // action body
         $grupo = $this->getParam("grupo");
-		$objGrupo = $this->grupoDAO->obtenerGrupo($grupo);
+		$objGrupo = $this->grupoDAO->getGrupoById($grupo);
         //Obtenemos todos los evaluadores del grupo
         //print_r($grupo);
 		$conjuntos = $this->evaluacionDAO->getEvaluadoresGrupo($grupo);

@@ -1,0 +1,43 @@
+<?php
+    $asignacion = $this->asignacion;
+    $as = $asignacion['as'];
+    
+    $conjunto = $this->conjunto;
+    $evaluacion = $this->evaluacion;
+
+    $materia = $asignacion['me'];
+    $nivel = $this->nivel;
+    $grado = $this->grado;
+    $grupo = $asignacion['ge'];
+    $docente = $asignacion['re'];
+    $evaluador = $this->evaluador;
+    
+    $urlSurvey = $this->baseUrl()."/public/lib/survey-jquery/survey.jquery.min.js";
+    $urlProcessForm = $this->baseUrl()."/public/js/helpers/processForm.js";
+?>
+<style type="text/css">
+    .txtHelper{
+        color: #ce1126;
+    }
+</style>
+<section id="evaluaciones" evaluador="<?php echo $evaluador["idEvaluador"] ?>" asignacion="<?php echo $as["idAsignacionGrupo"] ?>" 
+	evaluacion="<?php echo $evaluacion['idEncuesta']; ?>" conjunto="<?php echo $conjunto['conjunto']["idConjuntoEvaluador"] ?>" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h3>Nivel: <span class="txtHelper"><?php echo $nivel['nivelEducativo']; ?></span> Grado: <span class="txtHelper"><?php echo $grado['gradoEducativo']; ?></span> Grupo: <span class="txtHelper"><?php echo $grupo['grupoEscolar']; ?></span> </h3>
+                <hr class="star-primary">
+                <h5>Materia: <span class="txtHelper"><?php echo $materia["materiaEscolar"] ?></span>  -  Docente: <span class="txtHelper"><?php echo $docente['apellidos'].", ".$docente['nombres'] ?></span> </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php //echo $form; ?>
+                <div id="surveyContainer"></div>
+                <div id="continueEvals"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="<?php echo $urlSurvey; ?>" type="text/javascript"></script>
+<script src="<?php echo $urlProcessForm; ?>" type="text/javascript"></script>

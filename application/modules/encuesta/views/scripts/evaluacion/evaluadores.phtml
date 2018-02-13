@@ -1,7 +1,8 @@
 <?php 
 	$grupo = $this->grupo;
 	$conjuntos = $this->conjuntos;
-	$evaluacionDAO = $this->evaluacionDAO;
+	
+	$evaluadores = $this->evaluadores;
 	
 ?>
 <section id="evaluadores">
@@ -14,43 +15,54 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <table class="table table-striped table-condensed">
+            	<?php foreach ($evaluadores as $evaluador): 
+            	$conjunto = $evaluador['conjunto'];
+            	$grupo = $evaluador['grupo'];
+            	$evals = $evaluador['evaluadores'];
+            	$evaluaciones = $evaluador['evaluaciones'];
+            	//print_r($evaluaciones);
+            	if (!empty($evals)) {
+            	?>
+            	<table class="table table-striped table-condensed">
                 	<thead>
                 		<tr>
+                			<th>Conjunto</th>
                 			<th>Apellidos</th>
                 			<th>Nombres</th>
                 			<th>Evaluaciones</th>
                 		</tr>
                 	</thead>
                 	<tbody>
-                	    <?php foreach ($conjuntos as $index => $conjunto) :
-                                $idConjunto = $index; 
-                	               print_r($conjunto); print_r('<br />');
-                	               foreach ($conjunto as $key => $evaluador) :
-                                       //print_r($evaluador);
-                                       $params = array(
-                                            "module" => "encuesta",
-                                            "controller" => "index",
-                                            "action" => "evaluaciones",
-                                            "conjunto" => $idConjunto,
-                                            "evaluador" => $evaluador["idEvaluador"]
-                                       );
-                                       $url = $this->url($params,null,TRUE);
-                	        ?>
+                		<?php foreach ($evals as $eval) : ?>
                 		<tr>
-                			<td><?php echo $evaluador["apellidos"]; ?></td>
-                			<td><?php echo $evaluador["nombres"]; ?></td>
+                			<td><?php echo $conjunto['nombre']; ?></td>
+                			<td><?php echo $eval['apellidos'] ?></td>
+                			<td><?php echo $eval['nombres'] ?></td>
                 			<td>
-                			    <a class="btn btn-link" href="<?php echo $url; ?>">
-                			        <i class="fa fa-check-circle-o"></i> Evaluaciones
-                			    </a>
+                				<?php foreach ($evaluaciones as $evaluacion): 
+                				$params = array(
+                				    'module'=>'encuesta',
+                				    'controller'=>'evaluacion',
+                				    'action' => 'evaluaciones',
+                				    'ev' => $evaluacion['idEncuesta'],
+                				    'co' => $conjunto['idConjuntoEvaluador'],
+                				    'er' => $eval['idEvaluador'],
+                				    
+                				);
+                				$url = $this->url($params,null,true);
+                				?>
+                				<a href="<?php echo $url; ?>" class="btn btn-link">
+                					<i class="fa fa-check-square-o"></i> Evaluacion <?php echo $evaluacion['nombreClave'] ?>
+                				</a>
+                				<br />
+                				<?php endforeach; ?>
                 			</td>
                 		</tr>
-                		<?php 
-                		          endforeach;
-                		      endforeach; ?>
+                		<?php endforeach; ?>
                 	</tbody>
                 </table>
+                <hr />
+            	<?php } endforeach; ?>
             </div>
         </div>
     </div>

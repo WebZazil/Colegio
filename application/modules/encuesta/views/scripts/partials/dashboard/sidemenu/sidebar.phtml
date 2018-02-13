@@ -17,7 +17,7 @@
             </li>
             
             <li>
-            	<a href="#"><i class="fa fa-cogs fa-fw"></i> Sistema<span class="fa arrow"></span></a>
+            	<a href="#"><i class="fa fa-cogs fa-fw"></i> Configuración Sistema<span class="fa arrow"></span></a>
             	<ul class="nav nav-second-level">
             		<li>
             			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"plan","action"=>"index"),null,true) ?>">
@@ -27,6 +27,20 @@
             		<li>
             			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"nivel","action"=>"index"),null,true) ?>">
             				<i class="fa fa-list-ul"></i> Niveles Educativos
+            			</a>
+            		</li>
+            		
+            		
+            	</ul>
+            </li>
+            
+            <li>
+            	<a href="#"><i class="fa fa-wrench fa-fw"></i> Configuración Encuesta	<span class="fa arrow"></span></a>
+            	<ul class="nav nav-second-level">
+            		
+            		<li>
+            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"index"),null,true) ?>">
+            				<i class="fa fa-list-ol"></i> Conjuntos Respuesta
             			</a>
             		</li>
             		<li>
@@ -63,11 +77,7 @@
             			</a>
             		</li>
             		
-            		<li>
-            			<a href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"index"),null,true) ?>">
-            				<i class="fa fa-list-ol"></i> Conjuntos Respuesta
-            			</a>
-            		</li>
+            		
             		
             	</ul>
             </li>
