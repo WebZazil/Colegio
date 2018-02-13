@@ -3,7 +3,6 @@
  * @author EnginnerRodriguez
  * 
  */
-
 class Encuesta_EvaluacionController extends Zend_Controller_Action
 {
 
@@ -52,7 +51,7 @@ class Encuesta_EvaluacionController extends Zend_Controller_Action
 
     public function evalsAction()
     {
-        // action body
+        // action body @TODO Eliminar este metodo, ya no se usa
         $idAsignacion = $this->getParam('as');
         $idConjunto = $this->getParam('co');
         $idEncuesta = $this->getParam('ev');
