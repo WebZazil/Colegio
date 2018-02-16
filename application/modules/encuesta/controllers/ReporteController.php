@@ -91,7 +91,7 @@ class Encuesta_ReporteController extends Zend_Controller_Action
     public function descargaAction()
     {
         // action body
-        $idReporte = $this->getParam("idReporte");
+        $idReporte = $this->getParam("rpt");
         $reporteDAO = $this->reporteDAO;
         $reporte = $reporteDAO->obtenerReporte($idReporte);
         

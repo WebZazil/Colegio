@@ -11,12 +11,15 @@ class Encuesta_GrupoController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $this->identity = $auth->getIdentity();
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+        }
+        $identity = $auth->getIdentity();
         
-        $this->grupoDAO = new Encuesta_DAO_Grupo($this->identity["adapter"]);
-		$this->seccionDAO = new Encuesta_DAO_Seccion($this->identity["adapter"]);
-		$this->preguntaDAO = new Encuesta_DAO_Pregunta($this->identity["adapter"]);
-		$this->opcionDAO = new Encuesta_DAO_Opcion($this->identity["adapter"]);
+        $this->grupoDAO = new Encuesta_DAO_Grupo($identity["adapter"]);
+		$this->seccionDAO = new Encuesta_DAO_Seccion($identity["adapter"]);
+		$this->preguntaDAO = new Encuesta_DAO_Pregunta($identity["adapter"]);
+		$this->opcionDAO = new Encuesta_DAO_Opcion($identity["adapter"]);
     }
 
     public function indexAction()

@@ -7,19 +7,19 @@ $().ready(function(){
 	
 	$("#nombres,#apellidos").on('blur',function(){
 		var valor = $(this).val();
-		//console.log("TextoEnNombre: "+valor);
-		var tipoCampo = $(this).attr("tipo");
+		console.log("TextoEnNombre: "+valor);
+		var tipoCampo = $(this).attr("name");
 		//console.log(tipoCampo);
 		var urlCond = "";
 		if(valor != ""){
 			switch (tipoCampo) {
 				case "nombres":
 					urlCond = "/nombres/"+valor;
-					if($("#apellidos").val() != "") urlCond += "/apellidos/" + $("#apellidos").val();
+					if($("#apellidos").val() != "") urlCond += "/apellidos/" + encodeURIComponent($("#apellidos").val());
 					break;
 				case "apellidos":
 					urlCond = "/apellidos/"+valor;
-					if($("#nombres").val() != "") urlCond += "/nombres/" + $("#nombres").val();
+					if($("#nombres").val() != "") urlCond += "/nombres/" + encodeURIComponent($("#nombres").val());
 					break;
 				default:
 					//tipo = "No especificado";
@@ -27,8 +27,8 @@ $().ready(function(){
 			}
 		}
 		console.log(urlCond);
-		var urlQueryEvaluador = url + "/json/evaluadores"+urlCond;
-		//console.log(urlQueryEvaluador);
+		var urlQueryEvaluador = url + "/json/evaluadores" + urlCond;
+		console.log(urlQueryEvaluador);
 		if(urlCond != ""){
 			$.ajax({
 				url: urlQueryEvaluador,
@@ -51,10 +51,14 @@ $().ready(function(){
 								tipo = "No especificado";
 								break;
 						}
+						var urlAsignaciones = url+'/evaluador/admin/ev/'+item.idEvaluador;
+						//var htmlBtn = $("<i></i>").attr("class","fa fa-cogs").text();
+						var btnAdmin = $("<a></a>").attr("class","btn btn-link").attr("href",urlAsignaciones).html('<i class="fa fa-cogs"></i> Administrar');
 						
 						tbody.append($('<tr>').
 							append($('<td>').append(item.nombres)).
 							append($('<td>').append(item.apellidos)).
+							append($('<td>').append(btnAdmin)).
 							append($('<td>').append(tipo))
 						);
 						

@@ -17,11 +17,10 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $identity = $auth->getIdentity();
-        
         if (!$auth->hasIdentity()) {
             $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
 		}
+		$identity = $auth->getIdentity();
 		
 		$this->categoriaDAO = new Encuesta_Data_DAO_Categoria($identity['adapter']);
     }
@@ -38,7 +37,7 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
-        $idCategoria = $this->getParam("idCategoria");
+        $idCategoria = $this->getParam("ca");
 		
         $categoria = $this->categoriaDAO->getCategoriaById($idCategoria);
 		$opciones = $this->categoriaDAO->getOpcionesCategoria($idCategoria);
@@ -62,8 +61,6 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
         if ($request->isPost()) {
             $datos = $request->getPost();
             $datos["fecha"] = date("Y-m-d H:i:s", time());
-            
-            //print_r($datos);
             
             try{
                 $this->categoriaDAO->crearCategoria($datos);
@@ -92,7 +89,7 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
     public function opcionesAction()
     {
         // action body
-        $idCategoria = $this->getParam("idCategoria");
+        $idCategoria = $this->getParam("ca");
         
 		$categoria = $this->categoriaDAO->getCategoriaById($idCategoria);		
 		$opciones = $this->categoriaDAO->getOpcionesCategoria($idCategoria);

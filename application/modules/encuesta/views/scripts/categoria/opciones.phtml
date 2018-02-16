@@ -2,7 +2,6 @@
 	$opciones = $this->opciones;
 	$categoria = $this->categoria;
 	
-	//$opcionDAO = new Encuesta_DAO_Opcion;
 ?>
 <div class="row">
     <div class="col-xs-12">
@@ -24,30 +23,46 @@
 	                <table class="table table-striped table-condensed">
 	                    <thead>
 	                        <tr>
-	                            <th>Orden</th>
 	                            <th>Nombre</th>
+	                            <th>Orden</th>
 	                            <th>Valor</th>
+	                            <th>Mayor</th>
+	                            <th>Menor</th>
+	                            <th>Configurar</th>
 	                            <th>Creación</th>
 	                        </tr>
 	                    </thead>
 	                    <tbody>
-	                        <?php foreach ($opciones as $opcion) : ?>
+	                        <?php foreach ($opciones as $opcion) : 
+	                        $valor = '';
+	                        switch ($opcion['tipoValor']){
+	                            case 'EN' :
+	                                $valor = $opcion['valorEntero'];
+	                                break;
+	                            case 'DC' :
+	                                $valor = $opcion['valorDecimal'];
+	                                break;
+	                            case 'ST' :
+	                                $valor = $opcion['valorTexto'];
+	                                break;
+	                        }
+	                        $mayor = $categoria['idOpcionMayor'] == $opcion['idOpcionCategoria'] ? 'Mayor' : '';
+	                        $menor = $categoria['idOpcionMenor'] == $opcion['idOpcionCategoria'] ? 'Menor' : '';
+	                        
+	                        $params = array('module'=>'encuesta','controller'=>'opcion','action'=>'admin','op'=>$opcion['idOpcionCategoria']);
+	                        $urlOpcionAdmin = $this->url($params,null,true);
+	                        ?>
 	                        <tr>
-	                            <td><?php echo $opcion["orden"]; ?></td>
 	                            <td><?php echo $opcion["nombreOpcion"]; ?></td>
-	                            <td><?php 
-	                                switch ($opcion["tipoValor"]) {
-	                                    case 'EN':
-	                                        echo $opcion["valorEntero"];
-	                                        break;
-	                                    case 'TX':
-	                                        echo $opcion["valorTexto"];
-	                                        break;
-	                                    case 'DC':
-	                                        echo $opcion["valorDecimal"];
-	                                        break;
-	                                }
-	                             ?></td>
+	                            <td><?php echo $opcion["orden"].'°'; ?></td>
+	                            <td><?php echo $valor; ?></td>
+	                            <td><?php echo $mayor; ?></td>
+	                            <td><?php echo $menor; ?></td>
+	                            <td>
+	                            	<a href="<?php echo $urlOpcionAdmin; ?>" class="btn btn-link">
+	                            		<i class="fa fa-cogs"></i> Configurar
+	                            	</a>
+	                            </td>
 	                            <td><?php echo $opcion["fecha"]; ?></td>
 	                        </tr>
 	                        <?php endforeach ?>

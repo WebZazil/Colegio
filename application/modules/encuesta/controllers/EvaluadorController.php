@@ -10,10 +10,14 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodquery");
+        $auth = Zend_Auth::getInstance();
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+        }
+        $identity = $auth->getIdentity();
         
-        $this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
-        $this->registroDAO = new Encuesta_DAO_Registro($dbAdapter);
+        $this->evaluacionDAO = new Encuesta_DAO_Evaluacion($identity['adapter']);
+        $this->registroDAO = new Encuesta_DAO_Registro($identity['adapter']);
     }
 
     public function indexAction()
@@ -46,16 +50,7 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-        $idEvaluador = $this->getParam("idEvaluador");
-		
-		
-		//$formulario = new Encuesta_Form_AltaEvaluador();
-		//$formulario->getElement("nombres")->setValue($evaluador["nombres"]);
-		//$formulario->getElement("apellidos")->setValue($evaluador["apellidos"]);
-		//$formulario->getElement("submit")->setLabel("Actualizar Evaluador")->setAttrib("class",	"btn btn-warning");
-		
-		
-		//$this->view->formulario = $formulario;
+        $idEvaluador = $this->getParam("ev");
 		
         if ($request->isPost()) {
             $datos = $request->getPost();

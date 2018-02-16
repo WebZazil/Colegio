@@ -10,6 +10,7 @@ class Encuesta_Data_DAO_Evaluacion {
     private $tableEncuesta;
     private $tableConjuntoEvaluador;
     private $tableEvaluador;
+    private $tableEvaluacionRealizada;
     
     public function __construct($adapter) {
         $config = array('db' => $adapter);
@@ -18,6 +19,8 @@ class Encuesta_Data_DAO_Evaluacion {
         $this->tableEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
         $this->tableConjuntoEvaluador = new Encuesta_Data_DbTable_ConjuntoEvaluador($config);
         $this->tableEvaluador = new Encuesta_Data_DbTable_Evaluador($config);
+        
+        $this->tableEvaluacionRealizada = new Encuesta_Data_DbTable_EvaluacionRealizada($config);
     }
     
     public function getEvaluacionById($idEvaluacion) {
@@ -87,5 +90,53 @@ class Encuesta_Data_DAO_Evaluacion {
        return $rowEvaluador->toArray();
     }
     
+    public function getAsignacionesConjuntosByIdGrupo($idGrupo) {
+        $tCE = $this->tableConjuntoEvaluador;
+        $select = $tCE->select()->from($tCE,array('idConjuntoEvaluador'))->where('idGrupoEscolar=?',$idGrupo);
+        $rowsCE = $tCE->fetchAll($select)->toArray();
+        
+        $ids = array();
+        foreach ($rowsCE as $rowCE){
+            $ids[] = $rowCE['idConjuntoEvaluador'];
+        }
+        
+        //print_r($ids);
+        $tEC = $this->tableEvaluacionConjunto;
+        $select = $tEC->select()->from($tEC,array('idsAsignacionesGrupo'))->where('idConjuntoEvaluador IN (?)',$ids);
+        $rowsEC = $tEC->fetchAll($select)->toArray();
+        
+        $idsAsignaciones = array();
+        foreach ($rowsEC as $rowEC){
+            $idsAG = explode(',', $rowEC['idsAsignacionesGrupo']);
+            foreach ($idsAG as $idAG){
+                if($idAG != "" && !in_array($idAG, $idsAsignaciones)){
+                    $idsAsignaciones[] = $idAG;
+                }
+            }
+            
+        }
+        
+        return $idsAsignaciones;
+    }
     
+    /**
+     * Obtiene los tipos de evaluacion que tiene relacionada la idAsignacion
+     * Es decir: obtiene idEvaluacion 3,2,4, etc si estan relacionados a esta asignacion
+     */
+    public function getTiposEvaluacionByIdAsignacion($idAsignacion) {
+        $tablaEvalRel = $this->tableEvaluacionRealizada;
+        $select = $tablaEvalRel->select()->distinct()->from($tablaEvalRel, array('idEvaluacion'))->where("idAsignacionGrupo=?",$idAsignacion);
+        $rowsEvalsReal = $tablaEvalRel->fetchAll($select);  
+        
+        //print_r($rowsEvalsReal->toArray());
+        return $rowsEvalsReal->toArray();
+    }
+    
+    public function getEvaluacionesByAsignacionAndEvaluacion($idAsignacion, $idEvaluacion) {
+        $tablaEvalReal = $this->tableEvaluacionRealizada;
+        $select = $tablaEvalReal->select()->from($tablaEvalReal)->where("idAsignacionGrupo=?",$idAsignacion)->where("idEvaluacion=?",$idEvaluacion);
+        $rowsEvalsReal = $tablaEvalReal->fetchAll($select);
+        
+        return $rowsEvalsReal->toArray();
+    }
 }

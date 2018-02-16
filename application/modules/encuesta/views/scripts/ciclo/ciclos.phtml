@@ -1,19 +1,25 @@
 <?php 
     $plan = $this->plan;
     $ciclos = $this->ciclos;
+    
+    $params = array("module"=>"encuesta","controller"=>"plan","action"=>"index");
+    $urlPlanes = $this->url($params,null,true);
+    
+    $params = array("module"=>"encuesta","controller"=>"ciclo","action"=>"alta","pl"=>$plan["idPlanEducativo"]);
+    $urlAltaCiclo = $this->url($params,null,true);
 ?>
 <div class="row">
     <div class="col-xs-12">
-    	<div class="panel panel-default">
+    	<div class="panel panel-info">
     		<div class="panel-heading">
 	            Ciclos Escolares
 	        </div>
 	        <div class="panel-body">
 	            <div>
-	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"plan","action"=>"index"),null,true) ?>">
+	                <a class="btn btn-info" href="<?php echo $urlPlanes; ?>">
 	                    <span class="fa fa-arrow-circle-left"></span> Planes de Estudio
 	                </a>
-	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"alta","idPlan"=>$plan["idPlanEducativo"]),null,true) ?>">
+	                <a class="btn btn-success" href="<?php echo $urlAltaCiclo; ?>">
 	                    <span class="fa fa-plus"></span> Nuevo Ciclo
 	                </a><br />
 	            </div>
@@ -31,7 +37,10 @@
 	                    	</tr>
 	                    </thead>
 	                    <tbody>
-	                        <?php foreach ($ciclos as $ciclo) : ?>
+	                        <?php foreach ($ciclos as $ciclo) : 
+	                        $params = array("module"=>"encuesta","controller"=>"ciclo","action"=>"admin","cl"=>$ciclo['idCicloEscolar']);
+	                        $urlAdminCiclo = $this->url($params,null,true);
+	                        ?>
 	                        <tr>
 	                            <td><?php echo $ciclo['ciclo']; ?></td>
 	                            <td><?php echo $ciclo['vigente'] == '1' ? 'Vigente' : 'No Vigente' ; ?></td>
@@ -39,7 +48,7 @@
 	                            <td><?php echo $ciclo['inicio']; ?></td>
 	                            <td><?php echo $ciclo['termino']; ?></td>
 	                            <td>
-	                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"admin","idCiclo"=>$ciclo['idCicloEscolar']),null,true) ?>">
+	                                <a class="btn btn-warning btn-block" href="<?php echo $urlAdminCiclo; ?>">
 	                                    <span class="fa fa-cogs"></span> Configurar 
 	                                </a>
 	                            </td>

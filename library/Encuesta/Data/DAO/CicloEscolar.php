@@ -41,4 +41,16 @@ class Encuesta_Data_DAO_CicloEscolar {
         
         return $rowCE->toArray();
     }
+    
+    public function addCicloEscolar($datos) {
+        $tCE = $this->tableCicloEscolar;
+        return $tCE->insert($datos);
+    }
+    
+    public function updateCicloEscolar($idCiclo, $datos) {
+        $tCE = $this->tableCicloEscolar;
+        $where = $tCE->getAdapter()->quoteInto('idCicloEscolar=?', $idCiclo);
+        
+        $tCE->update($datos, $where);
+    }
 }

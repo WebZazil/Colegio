@@ -12,13 +12,10 @@ class Encuesta_GradoController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $identity = $auth->getIdentity();
-        
         if (!$auth->hasIdentity()) {
-            $auth->clearIdentity();
-            
             $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
         }
+        $identity = $auth->getIdentity();
         
 		$this->cicloDAO = new Encuesta_Data_DAO_CicloEscolar($identity['adapter']);
 		$this->nivelDAO = new Encuesta_Data_DAO_NivelEducativo($identity['adapter']);

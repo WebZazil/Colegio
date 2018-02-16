@@ -167,7 +167,7 @@ class App_Data_DAO_Login {
                 //print_r('Resultado Valido: <br /><br />');
                 $datos = $authAdapter->getResultRowObject(null,null);
                 $rol = $this->getRolById($datos->idRol);
-                
+                print_r($rol);
                 $tSub = $this->tSubscripcion;
                 $select = $tSub->select()->from($tSub)
                     ->where('idOrganizacion=?',$organizacion['idOrganizacion'])

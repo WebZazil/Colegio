@@ -10,14 +10,13 @@ class Encuesta_OpcionController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        
-        
         if (!$auth->hasIdentity()) {
-            
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
         }
-        
         $identity = $auth->getIdentity();
+        
         $this->categoriaDAO = new Encuesta_Data_DAO_Categoria($identity["adapter"]);
+        $this->opcionDAO = new Encuesta_Data_DAO_OpcionCategoria($identity['adapter']);
     }
 
     public function indexAction()
@@ -28,13 +27,19 @@ class Encuesta_OpcionController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
-        $idOpcion = $this->getParam("idOpcion");
-		$opcion = $this->opcionDAO->obtenerOpcion($idOpcion);
-		$this->view->opcion = $opcion;
-		$formulario = new Encuesta_Form_AltaOpcion;
-		$formulario->getElement("submit")->setLabel("Actualiza Opcion");
+        $request = $this->getRequest();
+        
+        $idOpcion = $this->getParam("op");
+		$opcion = $this->opcionDAO->getOpcionesByIdCategoria($idOpcion);
+		$categoria = $this->categoriaDAO->getCategoriaById($opcion['idCategoriasRespuesta']);
 		
-		$this->view->formulario = $formulario;
+		$this->view->opcion = $opcion;
+		$this->view->categoria = $categoria;
+		
+		if ($request->isPost()) {
+		    $datos = $request->getPost();
+		    
+		}
     }
 
     public function altaAction()

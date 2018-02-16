@@ -1,8 +1,17 @@
 <?php
 	$categoria = $this->categoria;
 	$opciones = $this->opciones;
-	$formulario = $this->formulario; 
-	$formulario->setAction($this->url(array("module"=>"encuesta", "controller"=>"categoria", "action" => "edita", "idCategoria"=>$categoria["idCategoriasRespuesta"]), null, true));
+	
+	$tiposValorOpcion = array(
+	    'EN' => 'Entero',
+	    'DC' => 'Decimal',
+	    'ST' => 'Texto'
+	);
+	
+	$params = array("module"=>"encuesta","controller"=>"categoria","action"=>"opciones","ca"=>$categoria["idCategoriasRespuesta"]);
+	$urlOpciones = $this->url($params,null,true);
+	$params = array("module"=>"encuesta","controller"=>"categoria","action"=>"index");
+	$urlCategorias = $this->url($params,null,true);
 ?>
 <div class="row">
     <div class="col-xs-12">
@@ -12,17 +21,19 @@
 	        </div>
 	        <div class="panel-body">
 	            <div>
-	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"index"),null,true) ?>">
+	                <a class="btn btn-info" href="<?php echo $urlCategorias; ?>">
 	                    <span class="fa fa-chevron-circle-left"></span> Regresar a Categorias
 	                </a>
 	            </div>
 	            <hr />
 	            <table class="table table-striped table-condensed">
 	                <thead>
-	                    <th>Categoría</th>
-	                    <th>Creación</th>
-	                    <th>Descripción</th>
-	                    <th>Opciones</th>
+	                	<tr>
+	                		<th>Categoría</th>
+    	                    <th>Creación</th>
+    	                    <th>Descripción</th>
+    	                    <th>Opciones</th>
+	                	</tr>
 	                </thead>
 	                <tbody>
 	                    <tr>
@@ -30,7 +41,7 @@
 	                        <td><?php echo $categoria["fecha"]; ?></td>
 	                        <td><?php echo $categoria["descripcion"]; ?></td>
 	                        <td>
-	                            <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"opciones","idCategoria"=>$categoria["idCategoriasRespuesta"])) ?>">
+	                            <a class="btn btn-info btn-block" href="<?php echo $urlOpciones; ?>">
 	                                <span class="fa fa-cog"></span> Opciones
 	                            </a>
 	                        </td>
@@ -75,4 +86,70 @@
 	        </div>
     	</div>
     </div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Opciones de la Categoria <strong><?php echo $categoria['categoria'] ?></strong></h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					
+				</div>
+				<div>
+					<table class="table table-condensed table-striped">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Orden</th>
+								<th>Tipo Valor</th>
+								<th>Valor</th>
+								<th>V. Mayor</th>
+								<th>V. Menor</th>
+								<th>Configurar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($opciones as $opcion): 
+							 //$mayor = $opcion['']
+							 $valor = '';
+							 switch ($opcion['tipoValor']){
+							     case 'EN' :
+							         $valor = $opcion['valorEntero'];
+							         break;
+							     case 'DC' :
+							         $valor = $opcion['valorDecimal'];
+							         break;
+							     case 'ST' :
+							         $valor = $opcion['valorTexto'];
+							         break;
+							}
+							 $mayor = $categoria['idOpcionMayor'] == $opcion['idOpcionCategoria'] ? 'Mayor' : '';
+							 $menor = $categoria['idOpcionMenor'] == $opcion['idOpcionCategoria'] ? 'Menor' : '';
+							 
+							 $params = array('module'=>'encuesta','controller'=>'opcion','action'=>'admin','op'=>$opcion['idOpcionCategoria']);
+							 $urlOpcionAdmin = $this->url($params,null,true);
+							?>
+							<tr>
+								<td><?php echo $opcion['nombreOpcion'] ?></td>
+								<td><?php echo $opcion['orden'].'°' ?></td>
+								<td><?php echo $tiposValorOpcion[$opcion['tipoValor']]; ?></td>
+								<td><?php echo $valor; ?></td>
+								<td><?php echo $mayor; ?></td>
+								<td><?php echo $menor; ?></td>
+								<td>
+									<a class="btn btn-link" href="<?php echo $urlOpcionAdmin; ?>">
+										<i class="fa fa-cogs"></i> Configurar
+									</a>
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

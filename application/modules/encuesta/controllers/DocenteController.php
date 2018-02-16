@@ -12,7 +12,6 @@ class Encuesta_DocenteController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        
         if (!$auth->hasIdentity()) {
             $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
         }

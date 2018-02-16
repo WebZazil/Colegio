@@ -215,6 +215,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         
         $idsAsignacionesGrupo = $this->evaluacionDAO->getAsignacionesConjuntosByIdGrupo($idGrupo);
         //print_r($idsAsignacionesGrupo);print_r("<br /><br />");
+        //return;
         $evaluaciones = array();
         
         foreach ($idsAsignacionesGrupo as $key => $idAsignacion) {
@@ -237,16 +238,18 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     {
         // action body
         $idAsignacionGrupo = $this->getParam("as");
+        //$idGrupo
+        //$asignacion = $this->
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacionGrupo);
-        print_r($asignacion); print_r("<br />");
+        //print_r($asignacion); print_r("<br />");
         $this->view->asignacion = $asignacion;
         
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
-        print_r($materia); print_r("<br />");
+        //print_r($materia); print_r("<br />");
         $docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
-        print_r($docente); print_r("<br />");
+        //print_r($docente); print_r("<br />");
         $grupoE = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
-        print_r($grupoE); print_r("<br />");
+        //print_r($grupoE); print_r("<br />");
         $this->view->materia = $materia;
         $this->view->docente = $docente;
         $this->view->grupoE = $grupoE;
