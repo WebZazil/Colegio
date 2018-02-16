@@ -155,7 +155,7 @@ class App_Data_DAO_Login {
             //print_r('On simpleLogin<br /><br />');
             $organizacion = $this->getOrganizacionByClave($claveOrg);
             $modulo = $this->getModuloByTipo($tipoModulo);
-            
+            //print_r($modulo);
             $auth = Zend_Auth::getInstance();
             
             $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('zbase'), 'Usuario','nickname','password','SHA1(?)');
@@ -173,7 +173,7 @@ class App_Data_DAO_Login {
                     ->where('idOrganizacion=?',$organizacion['idOrganizacion'])
                     ->where('idModulo=?',$modulo['idModulo'])
                     ->where('idRol=?',$rol['idRol']);
-                
+                //print_r($select->__toString());
                 $rowSub = $tSub->fetchRow($select)->toArray();
                 
                 $conn = array();
