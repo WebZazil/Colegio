@@ -24,6 +24,11 @@ class Encuesta_Data_DAO_Categoria implements Encuesta_Data_DAO_Interface_ICatego
     public function getAllCategorias() {
         return $this->tableCategoriasRespuesta->fetchAll()->toArray();
     }
+    
+    public function addCategoria($datos) {
+        $tC = $this->tableCategoriasRespuesta;
+        return $tC->insert($datos);
+    }
 
     public function getMaxOpcionCategoria($idCategoria, $tipoVal) {
         
@@ -71,6 +76,32 @@ class Encuesta_Data_DAO_Categoria implements Encuesta_Data_DAO_Interface_ICatego
         $rowOpcion = $tOp->fetchRow($select);
         
         return $rowOpcion->toArray();
+    }
+    
+    public function normalizeCategoria($idCategoria) {
+        $tOC = $this->tableOpcionCategoria;
+        $select = $tOC->select()->from($tOC)->where('idCategoriasRespuesta=?',$idCategoria);
+        $rowsOC = $tOC->fetchAll($select)->toArray();
+        
+        $ids = array();
+        
+        foreach ($rowsOC as $rowOC){
+            $ids[] = $rowOC['idOpcionCategoria'];
+        }
+        
+       
+        
+        $tCR = $this->tableCategoriasRespuesta;
+        $select = $tCR->select()->from($tCR)->where('idCategoriasRespuesta',$idCategoria);
+        $rowCR = $tCR->fetchRow($select);
+        $rowCR->idsOpciones = implode(',', $ids);
+        $rowCR->save();
+    }
+    
+    public function updateCategoria($idCategoria,$datos) {
+        $tCR = $this->tableCategoriasRespuesta;
+        $where = $tCR->getAdapter()->quoteInto('idCategoriasRespuesta=?', $idCategoria);
+        $tCR->update($datos, $where);
     }
 
 }

@@ -17,7 +17,7 @@
     <div class="col-xs-12">
     	<div class="panel panel-info">
     		<div class="panel-heading">
-	            <h5 class="panel-title">Detalle Categoría</h5>
+	            <h5 class="panel-title"><strong><i class="fa fa-search"></i></strong> Detalle Categoría</h5>
 	        </div>
 	        <div class="panel-body">
 	            <div>
@@ -57,7 +57,7 @@
     <div class="col-xs-12">
     	<div class="panel panel-warning">
     		<div class="panel-heading">
-	            <h5 class="panel-title">Editar Categoría</h5>
+	            <h5 class="panel-title"><strong><i class="fa fa-pencil"></i></strong> Editar Categoría</h5>
 	        </div>
 	        <div class="panel-body">
 	            <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
@@ -87,17 +87,29 @@
     	</div>
     </div>
 </div>
-
+<?php
+    $params = array('module'=>'encuesta','controller'=>'opcion','action'=>'alta','ca'=>$categoria['idCategoriasRespuesta']);
+    $urlAltaOpcion = $this->url($params,null,true);
+    
+    $params = array('module'=>'encuesta','controller'=>'opcion','action'=>'normalize','ca'=>$categoria['idCategoriasRespuesta']);
+    $urlNormalize = $this->url($params,null,true);
+?>
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h5 class="panel-title">Opciones de la Categoria <strong><?php echo $categoria['categoria'] ?></strong></h5>
+				<h5 class="panel-title"><strong><i class="fa fa-search"></i></strong> Opciones de la Categoria <strong><?php echo $categoria['categoria'] ?></strong></h5>
 			</div>
 			<div class="panel-body">
 				<div>
-					
+					<a href="<?php echo $urlAltaOpcion; ?>" class="btn btn-success">
+						<i class="fa fa-plus"></i> Agregar Opcion a Categoria
+					</a>
+					<a href="<?php echo $urlNormalize; ?>" class="btn btn-warning">
+						<i class="fa fa-refresh fa-spin fa-fw"></i> Normalizar Opciones
+					</a>
 				</div>
+				<hr />
 				<div>
 					<table class="table table-condensed table-striped">
 						<thead>
@@ -113,7 +125,6 @@
 						</thead>
 						<tbody>
 							<?php foreach ($opciones as $opcion): 
-							 //$mayor = $opcion['']
 							 $valor = '';
 							 switch ($opcion['tipoValor']){
 							     case 'EN' :

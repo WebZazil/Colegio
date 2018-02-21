@@ -28,27 +28,47 @@ class Encuesta_OpcionController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-        
         $idOpcion = $this->getParam("op");
-		$opcion = $this->opcionDAO->getOpcionesByIdCategoria($idOpcion);
+		
+		if ($request->isPost()) {
+		    $datos = $request->getPost();
+		    //print_r($datos);
+		    switch ($datos["tipoValor"]) {
+		        case 'EN':
+		            $datos["valorEntero"] = $datos["valor"];
+		            break;
+		        case 'TX':
+		            $datos["valorTexto"] = $datos["valor"];
+		            break;
+		        case 'DC':
+		            $datos["valorDecimal"] = $datos["valor"];
+		            break;
+		    }
+		    
+		    unset($datos['valor']);
+		    
+		    try {
+		        $this->opcionDAO->updateOpcion($idOpcion, $datos);
+		    } catch (Exception $e) {
+		        print_r($e->getMessage());
+		    }
+		}
+		
+		$opcion = $this->opcionDAO->getOpcionById($idOpcion);
 		$categoria = $this->categoriaDAO->getCategoriaById($opcion['idCategoriasRespuesta']);
 		
 		$this->view->opcion = $opcion;
 		$this->view->categoria = $categoria;
-		
-		if ($request->isPost()) {
-		    $datos = $request->getPost();
-		    
-		}
     }
 
     public function altaAction()
     {
         // action body
         $request = $this->getRequest();
-		$idCategoria = $this->getParam("idCategoria");
-		//$categoria = $this->categoriaDAO->obtenerCategoria($idCategoria);
-		$this->view->categoria = $this->categoriaDAO->getCategoriaById($idCategoria);
+		$idCategoria = $this->getParam("ca");
+		
+		$categoria = $this->categoriaDAO->getCategoriaById($idCategoria);
+		$this->view->categoria = $categoria;
 		
 		if ($request->isPost()) {
 			$datos = $request->getPost();
@@ -72,11 +92,13 @@ class Encuesta_OpcionController extends Zend_Controller_Action
                     break;
             }
             
+            $datos['orden'] = count(explode(',', $categoria['idsOpciones']));
             $datos["fecha"] = date("Y-m-d H:i:s",time());
             unset($datos["valor"]);
             //print_r($datos);
             try{
-                $this->opcionDAO->crearOpcion($idCategoria, $datos);
+                $this->opcionDAO->addOpcionCategoria($datos);
+                $this->categoriaDAO->normalizeCategoria($idCategoria);
                 $this->view->messageSuccess = "Opcion: <strong>".$datos["nombreOpcion"]."</strong> dada de alta exitosamente en el sistema";
             }catch(Exception $ex){
                 $this->view->messageFail = $ex->getMessage();
@@ -84,52 +106,56 @@ class Encuesta_OpcionController extends Zend_Controller_Action
 		}
     }
 
-    public function avalorAction()
+    /**
+     * Normalizamos las opciones mayor y menor para categoria
+     */
+    public function normalizeAction()
     {
         // action body
-        $request = $this->getRequest();
+        $idCategoria = $this->getParam('ca');
+        $opciones = $this->opcionDAO->getOpcionesByIdCategoria($idCategoria);
         
-        $idOpcion = $this->getParam("idOpcion");
-		$idCategoria = $this->getParam("idCategoria");
-		
-		$opcion = $this->opcionDAO->obtenerOpcion($idOpcion);
-		$categoria = $this->categoriaDAO->getCategoriaById($idCategoria);
-		
-		$this->view->opcion = $opcion;
-		$this->view->categoria = $categoria;
-		
-		$formulario = new Encuesta_Form_AltaValor;
-		
-		$this->view->formulario = $formulario;
-		
-		if($request->isPost()){
-			if($formulario->isValid($request->getPost())){
-				$datos = $formulario->getValues();
-				$datos["idOpcion"] = $idOpcion;
-				
-				try{
-					$this->opcionDAO->asignarValorOpcion($idOpcion, $datos);
-					$this->view->messageSuccess = "Valor: <strong>".$datos["valor"]." asignado a la Opcion: <strong>".$opcion->getOpcion()."</strong> exitosamente !!";
-				}catch(Exception $ex){
-					$this->view->messageFail = $ex->getMessage();
-				}
-			}
-		}
-    }
-
-    public function editaAction()
-    {
-        // action body
+        $valMax = 0;
+        $valMin = 1000;
+        
+        $idValMax = '';
+        $idValMin = '';
+        
+        foreach ($opciones as $opcion){
+            $tValor = $opcion['tipoValor'];
+            $valOpt = '';
+            
+            switch ($tValor){
+                case 'EN' : $valOpt = $opcion['valorEntero'];
+                    break;
+                case 'DC' : $valOpt = $opcion['valorDecimal'];
+                    break;
+            }
+            
+            if ($valOpt > $valMax) {
+                $valMax = $valOpt;
+                $idValMax = $opcion['idOpcionCategoria'];
+            }
+            
+            if ($valOpt < $valMin) {
+                $valMin = $valOpt;
+                $idValMin = $opcion['idOpcionCategoria'];
+            }
+        }
+        
+        //print_r('Id Max: '.$idValMax);
+        //print_r('Id Min: '.$idValMin);
+        
+        $datos = array(
+            'idOpcionMayor' => $idValMax,
+            'idOpcionMenor' => $idValMin
+        );
+        
+        $this->categoriaDAO->updateCategoria($idCategoria, $datos);
+        $this->opcionDAO->reordenarOpciones($idCategoria);
+        $this->_helper->redirector->gotoSimple("admin", "categoria", "encuesta",array('ca'=>$idCategoria));
     }
 
 
 }
-
-
-
-
-
-
-
-
 

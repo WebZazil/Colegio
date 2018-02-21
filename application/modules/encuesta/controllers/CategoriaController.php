@@ -1,18 +1,18 @@
 <?php
 /**
- * 
  * @author EnginnerRodriguez
  * Actualizado: Noviembre 2017
- *
+ * 
  */
+
 class Encuesta_CategoriaController extends Zend_Controller_Action
 {
 
-	private $categoriaDAO = null;
-	
-	/**
-	 * Actualizado: Noviembre 2017
-	 */
+    private $categoriaDAO = null;
+
+    /**
+     * Actualizado: Noviembre 2017
+     */
     public function init()
     {
         /* Initialize action controller here */
@@ -60,10 +60,13 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
         $request = $this->getRequest();
         if ($request->isPost()) {
             $datos = $request->getPost();
+            $datos['idsOpciones'] = '';
+            $datos['idOpcionMayor'] = 0;
+            $datos['idOpcionMenor'] = 0;
             $datos["fecha"] = date("Y-m-d H:i:s", time());
             
             try{
-                $this->categoriaDAO->crearCategoria($datos);
+                $this->categoriaDAO->addCategoria($datos);
                 $this->view->messageSuccess = "La categoría <strong>".$datos["categoria"]."</strong> ha sido creada exitosamente.";
             }catch(Exception $ex){
                 $this->view->messageFail = $ex->getMessage();
@@ -99,4 +102,11 @@ class Encuesta_CategoriaController extends Zend_Controller_Action
 		
     }
 
+    public function normalizeAction()
+    {
+        // action body
+    }
+
+
 }
+

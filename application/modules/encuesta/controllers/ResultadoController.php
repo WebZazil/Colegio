@@ -257,7 +257,6 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $tiposEvaluacion = $this->evaluacionDAO->getTiposEvaluacionByIdAsignacion($idAsignacionGrupo);
         $this->view->evaluaciones = $tiposEvaluacion;
         $this->view->encuestaDAO = $this->encuestaDAO;
-        //$this->view->
     }
 
     public function resgrasAction()

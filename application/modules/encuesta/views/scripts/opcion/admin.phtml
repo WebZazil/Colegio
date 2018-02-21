@@ -23,9 +23,11 @@
     $mayor = $categoria['idOpcionMayor'] == $opcion['idOpcionCategoria'] ? 'Mayor' : '';
     $menor = $categoria['idOpcionMenor'] == $opcion['idOpcionCategoria'] ? 'Menor' : '';
     
-    $params = array('module'=>'encuesta','controller'=>'categoria','action'=>'admin','ca'=>$opcion['idOpcionCategoria']);
+    $params = array('module'=>'encuesta','controller'=>'categoria','action'=>'admin','ca'=>$opcion['idCategoriasRespuesta']);
     $urlCategoriaAdmin = $this->url($params,null,true);
     
+    $params = array('module'=>'encuesta','controller'=>'categoria','action'=>'delete','op'=>$opcion['idOpcionCategoria']);
+    $urlDeleteOpcion = $this->url($params,null,true);
 ?>
 <div class="row">
 	<div class="col-md-12">
@@ -37,6 +39,10 @@
 				<div>
 					<a href="<?php echo $urlCategoriaAdmin; ?>" class="btn btn-info">
 						<i class="fa fa-chevron-left"></i> Regresar a Categoria
+					</a>
+					
+					<a href="<?php echo $urlDeleteOpcion; ?>" class="btn btn-danger">
+						<i class="fa fa-close"></i> Eliminar Opcion
 					</a>
 					<hr />
 					<table class="table table-condensed table-striped">
@@ -78,7 +84,7 @@
 			</div>
 			<div class="panel-body">
 				<div>
-					<form action="" class="form-horizontal">
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
 						<div class="form-group">
 							<label for="nombreOpcion" class="col-md-2 control-label">Nombre: </label>
 							<div class="col-md-10">
