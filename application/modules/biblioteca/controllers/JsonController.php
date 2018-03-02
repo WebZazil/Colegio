@@ -4,19 +4,13 @@ class Biblioteca_JsonController extends Zend_Controller_Action
 {
 
     private $autorDAO = null;
-
     private $recursoDAO = null;
-
     private $materialDAO = null;
-
     private $coleccionDAO = null;
-
     private $clasificacionDAO = null;
-
     private $ejemplarDAO = null;
     
     private $testConnector = null;
-    
     private $serviceLogin = null;
 
     public function init()
@@ -144,8 +138,31 @@ class Biblioteca_JsonController extends Zend_Controller_Action
         echo Zend_Json::encode($container);
     }
 
-
+    public function brecbybcAction()
+    {
+        // action body
+        //print_r('Hola');
+        $tipoBarcode = $this->getParam('tb');
+        $barcode = $this->getParam('bc');
+        if ($tipoBarcode == 'CP') {
+            $copia = $this->ejemplarDAO->getCopiaEjemplarByBarcode($barcode);
+            //print_r($copia);
+            $ejemplar = $this->ejemplarDAO->getObjectEjemplar($copia['idEjemplar']);
+            //print_r($ejemplar);
+            $recurso = $this->recursoDAO->getObjectRecurso($ejemplar['ejemplar']['idRecurso']);
+            //print_r($recurso);
+            
+            $contenedor = array();
+            $contenedor['copia'] = $copia;
+            $contenedor['ejemplar'] = $ejemplar;
+            $contenedor['recurso'] = $recurso;
+            
+            echo Zend_Json::encode($contenedor);
+        }
+    }
 }
+
+
 
 
 

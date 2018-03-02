@@ -938,6 +938,7 @@
               <actionMethod actionName="brecursos"/>
               <actionMethod actionName="loginu"/>
               <actionMethod actionName="brecindex"/>
+              <actionMethod actionName="brecbybc"/>
             </controllerFile>
             <controllerFile controllerName="Usuario">
               <actionMethod actionName="index"/>
@@ -1311,6 +1312,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Serieejemplar">
                 <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="brecbybc"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1861,6 +1865,7 @@
                 <testApplicationActionMethod forActionName="brecursos"/>
                 <testApplicationActionMethod forActionName="loginu"/>
                 <testApplicationActionMethod forActionName="brecindex"/>
+                <testApplicationActionMethod forActionName="brecbybc"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Usuario">
                 <testApplicationActionMethod forActionName="index"/>

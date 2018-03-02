@@ -75,5 +75,6 @@ class Biblioteca_Data_DAO_Autor {
 	    $tA->update($datos, $where);
 	}
 	
+	
     
 }

@@ -50,7 +50,7 @@
                 </div>
                 <hr />
                 <div>
-                	<form  class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                	<form id="formAdminAutor" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
                 		<div class="form-group">
 							<label for="tipo" class="control-label col-md-2">Tipo Autor: </label>
 							<div class="col-md-5">
@@ -89,7 +89,7 @@
 						
 						<div class="form-group">
 							<div class="col-md-offset-2 col-md-5">
-								<button class="btn btn-warning" type="submit">
+								<button id="btnActualizar" class="btn btn-warning" type="submit">
 									<i class="fa fa-reload"></i> Actualizar Autor
 								</button>
 							</div>
@@ -103,8 +103,34 @@
 
 <script>
 	$().ready(function(){
+	
+		console.log('jQuery activo!!')
+		
+			var combo = document.getElementById("tipo").value;
+			//alert(combo);
 
-		console.log('JQary activo!!')
+			switch(combo) {
+			case("VR") :
+			case("IN") :
+				console.log("Varios o Indefinido seleccionado");
+				
+				$("input#nombres").attr('disabled','true');
+				$("input#apellidos").attr('disabled','true');
+				$("input#autores").attr('required','required');
+				$("input#autores").removeAttr('disabled');
+				break;
+			case("UN") :
+				console.log("Unico seleccionado");
+				$("input#autores").attr('disabled','true');
+				$("input#nombres").removeAttr('disabled');
+				$("input#apellidos").removeAttr('disabled');
+				$("input#nombres").attr('required','required');
+				$("input#apellidos").attr('required','required');
+				break;
+		}
+
+		
+			
 		$("select#tipo").on('change',function(){
 			console.log("combo cambio!!!");
 			var valorCombo = $(this).val();
@@ -117,22 +143,35 @@
 					
 					$("input#nombres").attr('disabled','true');
 					$("input#apellidos").attr('disabled','true');
-					$("input#nombres").val('');
+					
+					$("#nombres").attr({value:''});
 					$("input#apellidos").val('');
-					$("input#autores").attr('required','required');
+					
+					//$("input#autores").attr('required','required');
 					$("input#autores").removeAttr('disabled');
 					break;
 				case("UN") :
 					console.log("Unico seleccionado");
 					$("input#autores").attr('disabled','true');
-					$("input#autores").val('');
+					
+					$("#autores").attr({value:''});
+					
 					$("input#nombres").removeAttr('disabled');
 					$("input#apellidos").removeAttr('disabled');
-					$("input#nombres").attr('required','required');
-					$("input#apellidos").attr('required','required');
+					//$("input#nombres").attr('required','required');
+					//$("input#apellidos").attr('required','required');
 					break;
 			}
 		});
+
+		$('#btnActualizar').click(function(){
+			console.log('click');
+			document.getElementById("formAdminAutor").reset();
+			//$('input[type="text"]').val('');
+
+		});
+	
+		
 		
 	});
 </script>
