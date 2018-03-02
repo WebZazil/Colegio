@@ -4,7 +4,7 @@
  * @author EnginnerRodriguez
  *
  */
-class Evento_Model_DAO_Evento {
+class Evento_Data_DAO_Evento {
     
     private $tableModulo;
     private $tableOrganizacion;
@@ -21,16 +21,16 @@ class Evento_Model_DAO_Evento {
     public function __construct($dbAdapter) {
         $config = array('db' => $dbAdapter);
         
-        $this->tableModulo = new Evento_Model_DbTable_Main_Modulo($config);
+        $this->tableModulo = new Evento_Data_DbTable_Main_Modulo($config);
         $this->tableOrganizacion = new Evento_Model_DbTable_Main_Organizacion($config);
-        $this->tableRol = new Evento_Model_DbTable_Main_Rol($config);
-        $this->tableSubscripcion = new Evento_Model_DbTable_Main_Subscripcion($config);
-        $this->tableUsuario = new Evento_Model_DbTable_Main_Usuario($config);
+        $this->tableRol = new Evento_Data_DbTable_Main_Rol($config);
+        $this->tableSubscripcion = new Evento_Data_DbTable_Main_Subscripcion($config);
+        $this->tableUsuario = new Evento_Data_DbTable_Main_Usuario($config);
         
-        $this->tableAsistente = new Evento_Model_DbTable_Asistente($config);
-        $this->tableEvento = new Evento_Model_DbTable_Evento($config);
-        $this->tableAsistentesEvento = new Evento_Model_DbTable_AsistentesEvento($config);
-        $this->tableAsistentesConfirmados = new Evento_Model_DbTable_AsistentesConfirmados($config);
+        $this->tableAsistente = new Evento_Data_DbTable_Asistente($config);
+        $this->tableEvento = new Evento_Data_DbTable_Evento($config);
+        $this->tableAsistentesEvento = new Evento_Data_DbTable_AsistentesEvento($config);
+        $this->tableAsistentesConfirmados = new Evento_Data_DbTable_AsistentesConfirmados($config);
     }
     
     /**

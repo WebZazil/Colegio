@@ -173,7 +173,7 @@ class App_Data_DAO_Login {
                     ->where('idOrganizacion=?',$organizacion['idOrganizacion'])
                     ->where('idModulo=?',$modulo['idModulo'])
                     ->where('idRol=?',$rol['idRol']);
-                //print_r($select->__toString());
+                print_r($select->__toString());
                 $rowSub = $tSub->fetchRow($select)->toArray();
                 
                 $conn = array();

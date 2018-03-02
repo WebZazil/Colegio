@@ -13,7 +13,7 @@ class Evento_JsonController extends Zend_Controller_Action
             
         }
         
-        $this->registroDAO = new Evento_Model_DAO_Evento($identity['adapter']);
+        $this->registroDAO = new Evento_Data_DAO_Evento($identity['adapter']);
         
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);

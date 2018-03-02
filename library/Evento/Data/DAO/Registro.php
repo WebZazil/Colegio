@@ -4,14 +4,14 @@
  * @author EnginnerRodriguez
  *
  */
-class Evento_Model_DAO_Registro {
+class Evento_Data_DAO_Registro {
     
     private $tableAsistente;
     private $tableAsistentesEvento;
     
     function __construct($dbAdapter) {
-        $this->tableAsistente = new Evento_Model_DbTable_Asistente(array("db"=>$dbAdapter));
-        $this->tableAsistentesEvento = new Evento_Model_DbTable_AsistentesEvento(array("db"=>$dbAdapter));
+        $this->tableAsistente = new Evento_Data_DbTable_Asistente(array("db"=>$dbAdapter));
+        $this->tableAsistentesEvento = new Evento_Data_DbTable_AsistentesEvento(array("db"=>$dbAdapter));
     }
     
     public function getAsistenteById($idAsistente) {

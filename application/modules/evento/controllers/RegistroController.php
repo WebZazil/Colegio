@@ -16,8 +16,8 @@ class Evento_RegistroController extends Zend_Controller_Action
             $this->_helper->redirector->gotoSimple("index", "index", "evento");
         }
         
-        $this->registroDAO = new Evento_Model_DAO_Registro($identity['adapter']);
-        $this->eventoDAO = new Evento_Model_DAO_Evento($identity['adapter']);
+        $this->registroDAO = new Evento_Data_DAO_Registro($identity['adapter']);
+        $this->eventoDAO = new Evento_Data_DAO_Evento($identity['adapter']);
     }
 
     public function indexAction()
