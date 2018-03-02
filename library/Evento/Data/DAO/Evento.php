@@ -22,7 +22,7 @@ class Evento_Data_DAO_Evento {
         $config = array('db' => $dbAdapter);
         
         $this->tableModulo = new Evento_Data_DbTable_Main_Modulo($config);
-        $this->tableOrganizacion = new Evento_Model_DbTable_Main_Organizacion($config);
+        $this->tableOrganizacion = new Evento_Data_DbTable_Main_Organizacion($config);
         $this->tableRol = new Evento_Data_DbTable_Main_Rol($config);
         $this->tableSubscripcion = new Evento_Data_DbTable_Main_Subscripcion($config);
         $this->tableUsuario = new Evento_Data_DbTable_Main_Usuario($config);
