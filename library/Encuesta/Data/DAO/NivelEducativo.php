@@ -1,4 +1,9 @@
 <?php
+/**
+ * 
+ * @author EnginnerRodriguez
+ *
+ */
 class Encuesta_Data_DAO_NivelEducativo {
     
     private $tableNivelEducativo;
@@ -20,5 +25,17 @@ class Encuesta_Data_DAO_NivelEducativo {
         $rowNE = $tNE->fetchRow($select);
         
         return $rowNE->toArray(); 
+    }
+    
+    public function addNivelEducativo(array $nivel){
+        $tablaNivel = $this->tablaNivel;
+        return $tablaNivel->insert($nivel);
+    }
+    
+    public function updateNivelEducativo($idNivel, array $datos){
+        $tablaNivel = $this->tablaNivel;
+        
+        $where = $tablaNivel->getAdapter()->quoteInto("idNivelEducativo = ?", $idNivel);
+        $tablaNivel->update($datos, $where);
     }
 }

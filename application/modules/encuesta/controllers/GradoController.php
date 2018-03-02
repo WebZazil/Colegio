@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * 
+ * @author EnginnerRodriguez
+ *
+ */
 class Encuesta_GradoController extends Zend_Controller_Action
 {
 
@@ -38,7 +42,7 @@ class Encuesta_GradoController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
-        $idGrado = $this->getParam("idGrado");
+        $idGrado = $this->getParam("gr");
 		$grado = $this->gradoDAO->getGradoEducativoById($idGrado);
 		$nivel = $this->nivelDAO->getNivelEducativoById($grado['idNivelEducativo']);
 		
@@ -97,7 +101,7 @@ class Encuesta_GradoController extends Zend_Controller_Action
     public function gradosAction()
     {
         // action body
-        $idNivel = $this->getParam("idNivel");
+        $idNivel = $this->getParam("ni");
         
         $nivel = $this->nivelDAO->getNivelEducativoById($idNivel);
         $grados = $this->gradoDAO->getAllGradosEducativosByIdNivelEducativo($idNivel);

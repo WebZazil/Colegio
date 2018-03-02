@@ -11,15 +11,17 @@ class Encuesta_GrupoController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
+        
         if (!$auth->hasIdentity()) {
             $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
         }
+        
         $identity = $auth->getIdentity();
         
-        $this->grupoDAO = new Encuesta_DAO_Grupo($identity["adapter"]);
-		$this->seccionDAO = new Encuesta_DAO_Seccion($identity["adapter"]);
-		$this->preguntaDAO = new Encuesta_DAO_Pregunta($identity["adapter"]);
-		$this->opcionDAO = new Encuesta_DAO_Opcion($identity["adapter"]);
+        $this->grupoDAO = new Encuesta_Data_DAO_GrupoSeccion($identity["adapter"]);
+		$this->seccionDAO = new Encuesta_Data_DAO_SeccionEncuesta($identity["adapter"]);
+		$this->preguntaDAO = new Encuesta_Data_DAO_Pregunta($identity["adapter"]);
+		$this->opcionDAO = new Encuesta_Data_DAO_OpcionCategoria($identity["adapter"]);
     }
 
     public function indexAction()
@@ -141,10 +143,10 @@ class Encuesta_GrupoController extends Zend_Controller_Action
         $request = $this->getRequest();
         $idGrupo = $this->getParam("idGrupo");
 		$grupo = $this->grupoDAO->obtenerGrupo($idGrupo);
-		$formulario = new Encuesta_Form_AltaSeleccion;
+		//$formulario = new Encuesta_Form_AltaSeleccion;
 		if($request->isGet()){
 			$this->view->grupo = $grupo;
-			$this->view->formulario = $formulario;
+			//$this->view->formulario = $formulario;
 			
 		}elseif($request->isPost()){
 			if($formulario->isValid($request->getPost())){

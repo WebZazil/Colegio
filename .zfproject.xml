@@ -40,8 +40,7 @@
         </layoutScriptsDirectory>
       </layoutsDirectory>
       <modelsDirectory>
-        <dbTableDirectory>
-        </dbTableDirectory>
+        <dbTableDirectory/>
       </modelsDirectory>
       <modulesDirectory>
         <moduleDirectory moduleName="encuesta">
@@ -63,6 +62,9 @@
               <actionMethod actionName="processform"/>
               <actionMethod actionName="tiposrep"/>
               <actionMethod actionName="reportesgrals"/>
+              <actionMethod actionName="secciones"/>
+              <actionMethod actionName="grupossec"/>
+              <actionMethod actionName="preguntas"/>
             </controllerFile>
             <controllerFile controllerName="Categoria">
               <actionMethod actionName="index"/>
@@ -253,14 +255,12 @@
               <actionMethod actionName="conjuntos"/>
             </controllerFile>
           </controllersDirectory>
-          <formsDirectory>
-          </formsDirectory>
+          <formsDirectory/>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>
           </layoutsDirectory>
           <modelsDirectory>
-            <dbTableDirectory>
-            </dbTableDirectory>
+            <dbTableDirectory/>
           </modelsDirectory>
           <servicesDirectory enabled="false"/>
           <viewsDirectory>
@@ -705,6 +705,15 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Evaluacion">
                 <viewScriptFile forActionName="evaluaciones"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="secciones"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="grupossec"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="preguntas"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1489,6 +1498,9 @@
                 <testApplicationActionMethod forActionName="processform"/>
                 <testApplicationActionMethod forActionName="tiposrep"/>
                 <testApplicationActionMethod forActionName="reportesgrals"/>
+                <testApplicationActionMethod forActionName="secciones"/>
+                <testApplicationActionMethod forActionName="grupossec"/>
+                <testApplicationActionMethod forActionName="preguntas"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Categoria">
                 <testApplicationActionMethod forActionName="index"/>

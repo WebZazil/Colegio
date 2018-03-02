@@ -19,16 +19,18 @@ class Evento_Model_DAO_Evento {
     
     
     public function __construct($dbAdapter) {
-        $this->tableModulo = new Evento_Model_DbTable_Main_Modulo(array("db"=>$dbAdapter));
-        $this->tableOrganizacion = new Evento_Model_DbTable_Main_Organizacion(array("db"=>$dbAdapter));
-        $this->tableRol = new Evento_Model_DbTable_Main_Rol(array("db"=>$dbAdapter));
-        $this->tableSubscripcion = new Evento_Model_DbTable_Main_Subscripcion(array("db"=>$dbAdapter));
-        $this->tableUsuario = new Evento_Model_DbTable_Main_Usuario(array("db"=>$dbAdapter));
+        $config = array('db' => $dbAdapter);
         
-        $this->tableAsistente = new Evento_Model_DbTable_Asistente(array("db"=>$dbAdapter));
-        $this->tableEvento = new Evento_Model_DbTable_Evento(array("db"=>$dbAdapter));
-        $this->tableAsistentesEvento = new Evento_Model_DbTable_AsistentesEvento(array("db"=>$dbAdapter));
-        $this->tableAsistentesConfirmados = new Evento_Model_DbTable_AsistentesConfirmados(array("db"=>$dbAdapter));
+        $this->tableModulo = new Evento_Model_DbTable_Main_Modulo($config);
+        $this->tableOrganizacion = new Evento_Model_DbTable_Main_Organizacion($config);
+        $this->tableRol = new Evento_Model_DbTable_Main_Rol($config);
+        $this->tableSubscripcion = new Evento_Model_DbTable_Main_Subscripcion($config);
+        $this->tableUsuario = new Evento_Model_DbTable_Main_Usuario($config);
+        
+        $this->tableAsistente = new Evento_Model_DbTable_Asistente($config);
+        $this->tableEvento = new Evento_Model_DbTable_Evento($config);
+        $this->tableAsistentesEvento = new Evento_Model_DbTable_AsistentesEvento($config);
+        $this->tableAsistentesConfirmados = new Evento_Model_DbTable_AsistentesConfirmados($config);
     }
     
     /**

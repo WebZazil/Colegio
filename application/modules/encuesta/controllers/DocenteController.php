@@ -7,6 +7,7 @@ class Encuesta_DocenteController extends Zend_Controller_Action
     private $gruposDAO = null;
     private $asignacionGrupoDAO = null;
     private $materiaDAO = null;
+    private $docenteDAO = null;
 
     public function init()
     {
@@ -20,14 +21,17 @@ class Encuesta_DocenteController extends Zend_Controller_Action
         $this->encuestaDAO = new Encuesta_DAO_Encuesta($identity["adapter"]);
         $this->registroDAO = new Encuesta_DAO_Registro($identity["adapter"]);
         $this->gruposDAO = new Encuesta_DAO_Grupos($identity["adapter"]);
-        $this->asignacionGrupoDAO = new Encuesta_DAO_AsignacionGrupo($identity["adapter"]);
+        //$this->asignacionGrupoDAO = new Encuesta_DAO_AsignacionGrupo($identity["adapter"]);
         $this->materiaDAO = new Encuesta_DAO_Materia($identity["adapter"]);
+        
+        $this->docenteDAO = new Encuesta_Data_DAO_Docente($identity['adapter']);
+        $this->asignacionGrupoDAO = new Encuesta_Data_DAO_AsignacionGrupo($identity["adapter"]);
     }
 
     public function indexAction()
     {
         // action body
-        $this->view->docentes = $this->registroDAO->obtenerDocentes();
+        $this->view->docentes = $this->docenteDAO->getAllDocentes();
     }
 
     public function adminAction()
@@ -39,7 +43,7 @@ class Encuesta_DocenteController extends Zend_Controller_Action
         if ($request->isPost()) {
             $datos = $request->getPost();
             //print_r($datos);
-            $this->registroDAO->editarRegistro($idDocente, $datos);
+            $this->docenteDAO->updateDocente($idDocente,$datos);
         }
         
         $docente = $this->registroDAO->obtenerRegistro($idDocente);
@@ -53,12 +57,13 @@ class Encuesta_DocenteController extends Zend_Controller_Action
         $request = $this->getRequest();
         if ($request->isPost()) {
             $datos = $request->getPost();
-            $datos["fecha"] = date("Y-m-d H:i:s",time());
+            $datos["creacion"] = date("Y-m-d H:i:s",time());
             $datos["tipo"] = "DO";
-            print_r($datos);
+            //print_r($datos);
             //$registro = new Encuesta_Model_Registro($datos);
             try{
-                $this->registroDAO->crearRegistro($datos);
+                $this->docenteDAO->addDocente($datos);
+                
                 $this->view->messageSuccess = "Docente: <strong>".$datos["apellidos"].", ".$datos["nombres"]."</strong> dado de alta exitosamente";
             }catch(Exception $ex){
                 $this->view->messageFail = $ex->getMessage();
@@ -70,10 +75,10 @@ class Encuesta_DocenteController extends Zend_Controller_Action
     public function evaluacionesAction()
     {
         // action body
-        $idDocente = $this->getParam("idDocente");
-        $docente = $this->registroDAO->obtenerRegistro($idDocente);
+        $idDocente = $this->getParam("do");
+        $docente = $this->docenteDAO->getDocenteById($idDocente);
         
-        $asignaciones = $this->asignacionGrupoDAO->obtenerAsignacionesDocente($idDocente);
+        $asignaciones = $this->asignacionGrupoDAO->getAsignacionesByIdDocente($idDocente);
         //print_r($asignaciones);
         $this->view->docente = $docente;
         $this->view->asignaciones = $asignaciones;

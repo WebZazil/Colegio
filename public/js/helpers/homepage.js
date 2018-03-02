@@ -23,7 +23,7 @@ $().ready(function(){
 		var idNivel = $(this).val();
 		//console.log("IdNivel:"+idNivel);
 		var urlQueryEvaluaciones = url+"/json/grados/idNivel/"+idNivel;
-		//console.log("Url: " + urlQueryEvaluaciones);
+		console.log("Url: " + urlQueryEvaluaciones);
 		$.ajax({
 			url: urlQueryEvaluaciones,
 			dataType: "json",
@@ -48,16 +48,16 @@ $().ready(function(){
 			var idCiclo = $("#ciclo").val();
 			//console.log("IdCiclo:"+idCiclo);
 			var urlQueryEvaluaciones = url+"/json/grupos/idCiclo/"+idCiclo+"/idGrado/"+idGrado;
-			//console.log("Url: " + urlQueryEvaluaciones);
+			console.log("Url: " + urlQueryEvaluaciones);
 			$.ajax({
 				url: urlQueryEvaluaciones,
 				dataType: "json",
 				success: function(data){
-					//console.dir(data);
+					console.dir(data);
 					$("#grupo").empty();
 					$("#grupo").append($("<option></option>").attr("value","0").text("Seleccione Grupo"));
 					$.each(data, function(index,value){//function(key,value)
-						$("#grupo").append($("<option></option>").attr("value",value.idGrupo).text(value.grupo));
+						$("#grupo").append($("<option></option>").attr("value",value.idGrupoEscolar).text(value.grupoEscolar));
 					});
 					//$("#grupo").empty();
 					

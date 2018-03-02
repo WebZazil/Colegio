@@ -93,7 +93,7 @@ class Encuesta_OpcionController extends Zend_Controller_Action
             }
             
             $datos['orden'] = count(explode(',', $categoria['idsOpciones']));
-            $datos["fecha"] = date("Y-m-d H:i:s",time());
+            $datos["creacion"] = date("Y-m-d H:i:s",time());
             unset($datos["valor"]);
             //print_r($datos);
             try{

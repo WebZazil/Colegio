@@ -14,16 +14,16 @@ class Encuesta_DAO_Reporte implements Encuesta_Interfaces_IReporte {
     
 	
 	public function __construct($dbAdapter) {
-	    
+	    $config = array('db' => $dbAdapter);
 		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
 		
-		$this->tablaReporte = new Encuesta_Model_DbTable_ReportesEncuesta(array('db'=>$dbAdapter));
-		$this->tablaERealizadas = new Encuesta_Model_DbTable_EncuestasRealizadas(array('db'=>$dbAdapter));
-        $this->tablaReporteEncuesta = new Encuesta_Model_DbTable_ReportesEncuesta(array('db'=>$dbAdapter));
+		$this->tablaReporte = new Encuesta_Data_DbTable_ReportesEncuesta($config);
+		$this->tablaERealizadas = new Encuesta_Data_DbTable_EncuestasRealizadas($config);
+        $this->tablaReporteEncuesta = new Encuesta_Data_DbTable_ReportesEncuesta($config);
         
-        $this->tablaGrupoEscolar = new Encuesta_Model_DbTable_GrupoEscolar(array('db'=>$dbAdapter));
-        $this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
-        $this->tablaReportesGenerales = new Encuesta_Model_DbTable_ReportesGenerales(array('db'=>$dbAdapter));
+        $this->tablaGrupoEscolar = new Encuesta_Data_DbTable_GrupoEscolar($config);
+        $this->tablaAsignacionGrupo = new Encuesta_Data_DbTable_AsignacionGrupo($config);
+        $this->tablaReportesGenerales = new Encuesta_Data_DbTable_ReportesGenerales($config);
 	}
 	
 	/**

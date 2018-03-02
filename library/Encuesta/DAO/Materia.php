@@ -9,11 +9,11 @@ class Encuesta_DAO_Materia implements Encuesta_Interfaces_IMateria {
 	private $tablaCiclo;
 	
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+	    $config = array('db'=>$dbAdapter);
 		
-		$this->tablaMateria = new Encuesta_Model_DbTable_MateriaEscolar(array('db'=>$dbAdapter));
-		$this->tablaCiclo = new Encuesta_Model_DbTable_CicloEscolar(array('db'=>$dbAdapter));
-		$this->tablaGrado = new Encuesta_Model_DbTable_GradoEducativo(array('db'=>$dbAdapter));
+		$this->tablaMateria = new Encuesta_Data_DbTable_MateriaEscolar($config);
+		$this->tablaCiclo = new Encuesta_Data_DbTable_CicloEscolar($config);
+		$this->tablaGrado = new Encuesta_Data_DbTable_GradoEducativo($config);
 		//$this->tablaMateria->setDefaultAdapter($dbAdapter);
 	}
 	
@@ -65,8 +65,8 @@ class Encuesta_DAO_Materia implements Encuesta_Interfaces_IMateria {
 		if(is_null($rowMateria)){
 			return null;
 		}else{
-			$modelMateria = new Encuesta_Model_Materia($rowMateria->toArray());
-			return $modelMateria;
+			//$modelMateria = new Encuesta_Model_Materia($rowMateria->toArray());
+			return $rowMateria->toArray();
 		}
 	}
 	
@@ -74,13 +74,8 @@ class Encuesta_DAO_Materia implements Encuesta_Interfaces_IMateria {
 		$tablaMateria = $this->tablaMateria;
 		$select = $tablaMateria->select()->from($tablaMateria)->where("idCicloEscolar=?",$idCiclo)->where("idGradoEducativo=?",$idGrado);
 		$rowsMaterias = $tablaMateria->fetchAll($select);
-		$modelMaterias = array();
-		foreach ($rowsMaterias as $row) {
-			$modelMateria = new Encuesta_Model_Materia($row->toArray());
-			$modelMaterias[] = $modelMateria;
-		}
 		
-		return $modelMaterias;
+		return $rowsMaterias->toArray();
 	}
 	
 	public function obtenerMateriasGrado($idGrado){
@@ -95,27 +90,15 @@ class Encuesta_DAO_Materia implements Encuesta_Interfaces_IMateria {
 		$tablaMateria = $this->tablaMateria;
 		$select = $tablaMateria->select()->from($tablaMateria)->where("idCicloEscolar=?",$idCiclo)->where("idGradoEducativo=?",$idGrado);
 		$rowsMaterias = $tablaMateria->fetchAll($select);
-		$modelMaterias = array();
-		foreach ($rowsMaterias as $row) {
-			$modelMateria = new Encuesta_Model_Materia($row->toArray());
-			$modelMaterias[] = $modelMateria;
-		}
-		return $modelMaterias;
+		
+		return $rowsMaterias->toArray();
 	}
 	
-	public function crearMateria(Encuesta_Model_Materia $materia){
+	public function crearMateria(array $materia){
 		$tablaMateria = $this->tablaMateria;
-		$materia->setFecha(date('Y-m-d h:i:s',time()));
+		$materia['fecha'] = date('Y-m-d h:i:s',time());
 		
-		$tablaMateria->insert($materia->toArray());
-		/*
-		try{
-			$tablaMateria->insert($materia->toArray());
-		}catch(Exception $ex){
-			throw new Util_Exception_BussinessException("Error: <strong>". $ex->getMessage() . "</strong>");
-		}*/
-		
-		
+		return $tablaMateria->insert($materia);
 	}
 	
 	public function editarMateria($idMateria, array $materia){

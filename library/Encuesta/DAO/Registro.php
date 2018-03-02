@@ -11,11 +11,11 @@ class Encuesta_DAO_Registro implements Encuesta_Interfaces_IRegistro {
     private $tablaAsignacionGrupo = null;
 	
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+	    $config = array('db'=>$dbAdapter);
 		
-		$this->tablaRegistro = new Encuesta_Model_DbTable_Registro(array('db'=>$dbAdapter));
-        $this->tablaGrupoEscolar = new Encuesta_Model_DbTable_GrupoEscolar(array('db'=>$dbAdapter));
-        $this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
+		$this->tablaRegistro = new Encuesta_Data_DbTable_Registro($config);
+        $this->tablaGrupoEscolar = new Encuesta_Data_DbTable_GrupoEscolar($config);
+        $this->tablaAsignacionGrupo = new Encuesta_Data_DbTable_AsignacionGrupo($config);
 	}
 	
 	// =====================================================================================>>>   Buscar
@@ -23,13 +23,8 @@ class Encuesta_DAO_Registro implements Encuesta_Interfaces_IRegistro {
 		$tablaRegistro = $this->tablaRegistro;
 		$select = $tablaRegistro->select()->from($tablaRegistro)->where("idRegistro = ?", $idRegistro);
 		$rowRegistro = $tablaRegistro->fetchRow($select);
-		$modelRegistro = null;
 		
-		if(!is_null($rowRegistro)){
-			$modelRegistro = new Encuesta_Model_Registro($rowRegistro->toArray());
-		}
-		
-		return $modelRegistro;
+		return $rowRegistro->toArray();
 	}
 	
 	public function obtenerRegistroReferencia($referencia){
@@ -37,35 +32,23 @@ class Encuesta_DAO_Registro implements Encuesta_Interfaces_IRegistro {
 		$select = $tablaRegistro->select()->from($tablaRegistro)->where("referencia = ?", $referencia);
 		$rowRegistro = $tablaRegistro->fetchRow($select);
 		
-		$modelRegistro = new Encuesta_Model_Registro($rowRegistro->toArray());
-		
-		return $modelRegistro;
+		return $rowRegistro->toArray();
 	}
 	
 	public function obtenerRegistros(){
 		$tablaRegistro = $this->tablaRegistro;
 		$select = $tablaRegistro->select()->from($tablaRegistro)->order("apellidos");
 		$rowsRegistros = $tablaRegistro->fetchAll($select);
-		$modelRegistros = array();
-		foreach ($rowsRegistros as $rowRegistro) {
-			$modelRegistro = new Encuesta_Model_Registro($rowRegistro->toArray());
-			$modelRegistros[] = $modelRegistro;
-		}
 		
-		return $modelRegistros;
+		return $rowsRegistros->toArray();
 	}
 	
 	public function obtenerDocentes(){
 		$tablaRegistro = $this->tablaRegistro;
 		$select = $tablaRegistro->select()->from($tablaRegistro)->where("tipo=?","DO")->order("apellidos");
 		$rowsDocentes = $tablaRegistro->fetchAll($select);
-		$modelDocentes = array();
-		foreach ($rowsDocentes as $row) {
-			$modelDocente = new Encuesta_Model_Registro($row->toArray());
-			$modelDocentes[] = $modelDocente;
-		}
 		
-		return $modelDocentes;
+		return $rowsDocentes->toArray();
 	}
 	// =====================================================================================>>>   Insertar
 	public function crearRegistro(array $registro){

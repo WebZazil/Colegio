@@ -1,8 +1,10 @@
 <?php 
 	$conjuntos = $this->conjuntos;
-	$dbAdapter = Zend_Registry::get("dbmodquery");
-	$grupoDAO = new Encuesta_DAO_Grupos($dbAdapter);
-	$urlAlta = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"alta"),null,true);
+	$grupoDAO = $this->grupoDAO;
+	//$dbAdapter = Zend_Registry::get("dbmodquery");
+	//$grupoDAO = new Encuesta_DAO_Grupos($dbAdapter);
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"alta");
+	$urlAltaConjunto = $this->url($params,null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -31,16 +33,16 @@
 						<tbody>
 							<?php foreach ($conjuntos as $conjunto) : 
 								$grupo = $grupoDAO->obtenerGrupo($conjunto["idGrupoEscolar"]);
-								$urlEvaluadores = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
-								$urlEvals = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
-								$urlAsignaciones = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
+								$urlEvaluadores = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","co"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
+								$urlEvals = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","co"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
+								$urlAsignaciones = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
 								$urlAdmin = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"admin","co"=>$conjunto["idConjuntoEvaluador"]),null,true);
 								?>
 							<tr>
-								<td><?php echo $grupo->getGrupo(); ?></td>
+								<td><?php echo $grupo['grupoEscolar']; ?></td>
 								<td>
 								    <a target="_blank" class="btn btn-link" href="<?php echo $urlAdmin ?>">
-								        <?php echo $conjunto["nombre"] ?>
+								        <?php echo $conjunto["conjunto"] ?>
 								    </a>
 								</td>
 								

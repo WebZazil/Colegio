@@ -1,16 +1,18 @@
 <?php
     $docentes = $this->docentes;
     
+    $params = array("module"=>"encuesta","controller"=>"docente","action"=>"alta");
+    $urlAltaDocente = $this->url($params,null,true);
 ?>
 <div class="row">
-    <div class="col-xs-12">
-    	<div class="panel panel-default">
+    <div class="col-md-12">
+    	<div class="panel panel-info">
     		<div class="panel-heading">
 	            <h5 class="panel-title">Docentes del Sistema</h5>
 	        </div>
 	        <div class="panel-body">
 	            <div>
-	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"docente","action"=>"alta"),null,true) ?>">
+	                <a class="btn btn-success" href="<?php echo $urlAltaDocente; ?>">
 	                    <span class="fa fa-plus"></span> Agregar Docente
 	                </a>
 	            </div>
@@ -27,21 +29,24 @@
 	                        </tr>
 	                    </thead>
 	                    <tbody>
-	                        <?php foreach ($docentes as $docente) : 
-	                            $urlConfig = $this->url(array("module"=>"encuesta","controller"=>"docente","action"=>"admin","do" =>$docente->getIdRegistro()),null,true);
-	                            ?>
+	                        <?php foreach ($docentes as $docente) :
+	                           $params = array("module"=>"encuesta","controller"=>"docente","action"=>"admin","do" =>$docente['idDocente']);
+	                           $urlConfig = $this->url($params,null,true);
+	                           $params = array("module"=>"encuesta","controller"=>"docente","action"=>"evaluaciones","do"=>$docente['idDocente']);
+	                           $urlEvaluaciones = $this->url($params,null,true);
+	                        ?>
 	                        <tr>
-	                            <td><?php echo $docente->getNombres() ?></td>
-	                            <td><?php echo $docente->getApellidos() ?></td>
-	                            <td><?php echo $docente->getFecha() ?></td>
+	                            <td><?php echo $docente['nombres'] ?></td>
+	                            <td><?php echo $docente['apellidos'] ?></td>
+	                            <td><?php echo $docente['creacion'] ?></td>
 	                            <td>
 	                                <a class="btn btn-link" href="<?php echo $urlConfig; ?>">
-	                                    <i class="fa fa-cog"></i> Configurar
+	                                    <i class="fa fa-cogs"></i> Configurar
 	                                </a>
 	                            </td>
 	                            <td>
-	                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"docente","action"=>"evaluaciones","idDocente"=>$docente->getIdRegistro()),null,true); ?>">
-	                                    <span class="fa fa-search"></span> Evaluaciones
+	                                <a class="btn btn-info btn-block" href="<?php echo $urlEvaluaciones; ?>">
+	                                    <i class="fa fa-search"></i> Evaluaciones
 	                                </a>
 	                            </td>
 	                        </tr>

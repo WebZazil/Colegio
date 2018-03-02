@@ -1,31 +1,33 @@
 <?php 
 	$evaluadores = $this->evaluadores;
 	$conjunto = $this->conjunto;
+	
+	$evaluacionDAO = $this->evaluacionDAO;
 	$tiposEvaluador = Zend_Registry::get("tiposEvaluador");
-	$dbAdapter = Zend_Registry::get("dbmodquery");
-	$evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
+	//$dbAdapter = Zend_Registry::get("dbmodquery");
+	//$evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
 	$urlAsociarEvaluador = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
 	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,TRUE);
     $urlScriptEvaluadores = $this->baseUrl()."/public/js/helpers/searchEvaluadores.js";
     
-    $urlPreviousConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","idConjunto"=>$conjunto["conjuntoAnterior"]),null,true);
-    $urlNextConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","idConjunto"=>$conjunto["conjuntoSiguiente"]),null,true);
+    $urlPreviousConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","co"=>$conjunto["idConjuntoAnterior"]),null,true);
+    $urlNextConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","co"=>$conjunto["idConjuntoSiguiente"]),null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
 		<div id="searchPanel" class="panel panel-success" conjunto="<?php echo $conjunto["idConjuntoEvaluador"]; ?>">
 			<div class="panel-heading">
-				<h5 class="panel-title">Asociar Evaluador en Conjunto: <strong><?php echo $conjunto["nombre"]; ?></strong>  </h5>
+				<h5 class="panel-title">Asociar Evaluador en Conjunto: <strong><?php echo $conjunto["conjunto"]; ?></strong>  </h5>
 			</div>
 			<div class="panel-body">
 				<div>
 					<a class="btn btn-info" href="<?php echo $urlConjuntos; ?>">
 						<i class="fa fa-cubes"></i> Regresar a los conjuntos
 					</a>
-					<a <?php echo ($conjunto["conjuntoAnterior"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
+					<a <?php echo ($conjunto["idConjuntoAnterior"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-left"></i> Anterior Conjunto
                     </a>
-                    <a <?php echo ($conjunto["conjuntoSiguiente"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
+                    <a <?php echo ($conjunto["idConjuntoSiguiente"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-right"></i> Siguiente Conjunto
                     </a>
 				</div>
@@ -35,7 +37,7 @@
 						<div class="form-group">
 							<label for="evaluador" class="control-label col-xs-2">Evaluador: </label>
 							<div class="col-xs-10">
-								<input id="evaluador" name="evaluador" type="text" class="form-control" autofocus="" />
+								<input id="evaluador" name="evaluador" type="text" class="form-control" autofocus="autofocus" />
 							</div>
 						</div>
 					</div>
@@ -63,7 +65,7 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h5 class="panel-title">Evaluadores del Conjunto: <strong><?php echo $conjunto["nombre"]; ?></strong> </h5>
+				<h5 class="panel-title">Evaluadores del Conjunto: <strong><?php echo $conjunto["conjunto"]; ?></strong> </h5>
 			</div>
 			<div class="panel-body">
 				<div>

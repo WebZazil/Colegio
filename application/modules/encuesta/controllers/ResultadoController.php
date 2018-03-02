@@ -26,6 +26,8 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     private $utilJSON = null;
 
     private $utilText = null;
+    
+    private $nivelDAO;
 
     public function init()
     {
@@ -57,11 +59,15 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $this->reporter = new Encuesta_Util_Reporteador($dbAdapter);
         $this->utilJSON = new Encuesta_Util_Json;
         $this->utilText = new Encuesta_Util_Text;
+        
+        $this->nivelDAO = new Encuesta_Data_DAO_NivelEducativo($dbAdapter);
     }
 
     public function indexAction()
     {
         // action body
+        $niveles = $this->nivelDAO->getAllNivelesEducativos();
+        $this->view->niveles = $niveles;
     }
 
     public function graficaAction()

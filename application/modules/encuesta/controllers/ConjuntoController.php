@@ -9,6 +9,9 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
     private $grupoDAO = null;
     private $registroDAO = null;
     private $materiaDAO = null;
+    
+    private $conjuntoDAO = null;
+    private $docenteDAO = null;
 
     public function init()
     {
@@ -29,12 +32,16 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
 		$this->grupoDAO = new Encuesta_DAO_Grupos($identity['adapter']);
 		$this->registroDAO = new Encuesta_DAO_Registro($identity['adapter']);
 		$this->materiaDAO = new Encuesta_DAO_Materia($identity['adapter']);
+		
+		$this->conjuntoDAO = new Encuesta_Data_DAO_ConjuntoEvaluador($identity['adapter']);
+		$this->docenteDAO = new Encuesta_Data_DAO_Docente($identity['adapter']);
     }
 
     public function indexAction()
     {
         // action body
         $this->view->conjuntos = $this->evaluacionDAO->getAllConjuntos();
+        $this->view->grupoDAO = $this->grupoDAO;
     }
 
     public function altaAction()
@@ -66,14 +73,9 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
         // configuramos conjunto
         $request = $this->getRequest();
         $idConjunto = $this->getParam("co");
+        
         $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
-        
         $evaluaciones = $this->evaluacionDAO->getEvaluacionesByIdConjunto($idConjunto);
-        
-        //print_r($conjunto); print_r("<br />");
-        //print_r($evaluaciones);
-        
-        
         
         // Evaluaciones del conjunto
         $this->view->conjunto = $conjunto;
@@ -92,13 +94,14 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
     public function evaluadoresAction()
     {
         // action body
-        $idConjunto = $this->getParam("idConjunto");
-		$conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
+        $idConjunto = $this->getParam("co");
+        $conjunto = $this->conjuntoDAO->getRowConjuntoById($idConjunto);
+		// $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
 		$evaluadores = $this->evaluacionDAO->getEvaluadoresByIdConjunto($idConjunto);
 		$this->view->evaluadores = $evaluadores;
 		$this->view->conjunto = $conjunto;
 		//$this->evaluacionDAO->getEvaluadoresByIdConjunto; // Evaluadores registrados en un conjunto
-        
+        $this->view->evaluacionDAO = $this->evaluacionDAO;
     }
 
     /**
@@ -171,8 +174,9 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
     public function asignacionesAction()
     {
         // action body
-        $idConjunto = $this->getParam("idConjunto");
-        $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
+        $idConjunto = $this->getParam("co");
+        $conjunto = $this->conjuntoDAO->getRowConjuntoById($idConjunto);
+        //$conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
         $this->view->conjunto = $conjunto;
         $evaluaciones = $this->evaluacionDAO->getEvaluacionesByIdConjunto($idConjunto);
         
@@ -187,7 +191,7 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
                 //print_r($asignacion);print_r("<br />");
                 $arrAsignacionConjunto["idAsignacion"] = $asignacion["idAsignacionGrupo"];
                 $arrAsignacionConjunto["materia"] = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
-                $arrAsignacionConjunto["docente"] = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+                $arrAsignacionConjunto["docente"] = $this->docenteDAO->getDocenteById($asignacion['idDocente']);//registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
                 $arrAsignacionConjunto["evaluacion"] = $encuesta;
                 $evaluacionesC[] = $arrAsignacionConjunto;
             }
@@ -200,7 +204,7 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
             
             $arrAsignacionGrupo["asignacion"] = $asignacionGrupo;
             $arrAsignacionGrupo["materia"] = $this->materiaDAO->getMateriaById($asignacionGrupo["idMateriaEscolar"]);
-            $arrAsignacionGrupo["docente"] = $this->registroDAO->obtenerRegistro($asignacionGrupo["idRegistro"])->toArray();
+            $arrAsignacionGrupo["docente"] = $this->docenteDAO->getDocenteById($asignacionGrupo['idDocente']);
             $evaluacionesG[] = $arrAsignacionGrupo;
             
         }

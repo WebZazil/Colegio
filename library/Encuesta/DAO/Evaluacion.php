@@ -13,12 +13,14 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	private $tablaEvaluacionRealizada;
 	
 	function __construct($dbAdapter) {
-		$this->tablaConjuntoEvaluador = new Encuesta_Model_DbTable_ConjuntoEvaluador(array('db'=>$dbAdapter));
-		$this->tablaEvaluador = new Encuesta_Model_DbTable_Evaluador(array('db'=>$dbAdapter));
-		$this->tablaEvaluacionConjunto = new Encuesta_Model_DbTable_EvaluacionConjunto(array('db'=>$dbAdapter));
-		$this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
-		$this->tablaEncuesta = new Encuesta_Model_DbTable_Encuesta(array('db'=>$dbAdapter));
-		$this->tablaEvaluacionRealizada = new Encuesta_Model_DbTable_EvaluacionRealizada(array('db'=>$dbAdapter));
+	    $config = array('db'=>$dbAdapter);
+	    
+		$this->tablaConjuntoEvaluador = new Encuesta_Data_DbTable_ConjuntoEvaluador($config);
+		$this->tablaEvaluador = new Encuesta_Data_DbTable_Evaluador($config);
+		$this->tablaEvaluacionConjunto = new Encuesta_Data_DbTable_EvaluacionConjunto($config);
+		$this->tablaAsignacionGrupo = new Encuesta_Data_DbTable_AsignacionGrupo($config);
+		$this->tablaEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
+		$this->tablaEvaluacionRealizada = new Encuesta_Data_DbTable_EvaluacionRealizada($config);
 	}
 	
 	public function getEvaluadoresByTipo($tipo) {
@@ -141,11 +143,7 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		
 		$rowsConjuntos = $tablaConjunto->fetchAll($where);
 		
-		if(is_null($rowsConjuntos)){
-			return array();
-		}else{
-			return $rowsConjuntos->toArray();
-		}
+		return $rowsConjuntos->toArray();
 	}
 	
 	public function getEvaluadoresByString($string) {
@@ -189,7 +187,7 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
         $rowsEvalsConjunto = $tablaEvalsConjunto->fetchAll($select);
         $arrayEvals = array();
         foreach ($rowsEvalsConjunto as $rowEval) {
-            $idEncuesta = $rowEval->idEvaluacion;
+            $idEncuesta = $rowEval->idEncuesta;
             $idsAsignaciones = explode(",", $rowEval->idsAsignacionesGrupo);
             $arrAsignacion = array();
             foreach ($idsAsignaciones as $index => $idAsignacion) {
@@ -316,18 +314,14 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		$tablaEvalsConjunto = $this->tablaEvaluacionConjunto;
 		$where = $tablaEvalsConjunto->getAdapter()->quoteInto("idConjuntoEvaluador=?", $idConjunto);
         
-		$rowsConjunto = $tablaEvalsConjunto->fetchAll($where);
-        /*
-        if (!empty($rowsConjunto)) {
-            print_r("NoVacio");
-            print_r($rowsConjunto->toArray());
-        }
-        */
+		$rowsConjunto = $tablaEvalsConjunto->fetchAll($where)->toArray();
+        
         if(!empty($rowsConjunto)){
             $idsEncuestas = array();
             foreach ($rowsConjunto as $rowConjunto) {
-                $idsEncuestas[] = $rowConjunto->idEvaluacion;
+                $idsEncuestas[] = $rowConjunto['idEncuesta'];
             }
+            
             if (!empty($idsEncuestas)) {
                 $tablaEncuesta = $this->tablaEncuesta;
                 $select = $tablaEncuesta->select()->from($tablaEncuesta)->where("idEncuesta IN (?)", $idsEncuestas);

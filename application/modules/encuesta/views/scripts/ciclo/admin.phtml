@@ -4,7 +4,7 @@
 	
 	$tInicio = new DateTime($ciclo['inicio']);
 	$tTermino = new DateTime($ciclo['termino']);
-	$tCreacion = new DateTime($ciclo['fecha']);
+	$tCreacion = new DateTime($ciclo['creacion']);
 	
 	$params = array("module"=>"encuesta","controller"=>"ciclo","action"=>"ciclos","pl"=>$ciclo['idPlanEducativo']);
 	$urlCiclos = $this->url($params,null,true);

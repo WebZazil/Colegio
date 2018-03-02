@@ -9,32 +9,24 @@ class Encuesta_DAO_Nivel implements Encuesta_Interfaces_INivel {
 	private $tablaNivel;
 	
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+	    $config = array('db'=>$dbAdapter);
 		
-		$this->tablaNivel = new Encuesta_Model_DbTable_NivelEducativo(array('db'=>$dbAdapter));
-		//$this->tablaNivel->setDefaultAdapter($dbAdapter);
+		$this->tablaNivel = new Encuesta_Data_DbTable_NivelEducativo($config);
 	}
 	
 	public function obtenerNivel($idNivel){
 		$tablaNivel = $this->tablaNivel;
 		$select = $tablaNivel->select()->from($tablaNivel)->where("idNivelEducativo = ?",$idNivel);
 		$rowNivel = $tablaNivel->fetchRow($select);
-		$modelNivel = new Encuesta_Model_Nivel($rowNivel->toArray());
 		
-		return $modelNivel;
+		return $rowNivel->toArray();
 	}
 	
 	public function obtenerNiveles(){
 		$tablaNivel = $this->tablaNivel;
 		$rowsNiveles = $tablaNivel->fetchAll();
 		
-		$modelNiveles = array();
-		foreach ($rowsNiveles as $row) {
-			$modelNivel = new Encuesta_Model_Nivel($row->toArray());
-			$modelNiveles[] = $modelNivel;
-		}
-		
-		return $modelNiveles;
+		return $rowsNiveles->toArray();
 	}
 	
 	public function crearNivel(array $nivel){
