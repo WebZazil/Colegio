@@ -3,7 +3,7 @@
 ?>
 <div class="row">
     <div class="col-xs-12">
-    	<div class="panel panel-default">
+    	<div class="panel panel-info">
     		<div class="panel-heading">
 	        	<i class="fa fa-comments fa-fw"></i> Categorias Disponibles
 	        </div>
@@ -18,20 +18,22 @@
 	                <thead>
 	                    <tr>
 	                        <th>Nombre</th>
-	                        <th>Creación</th>
 	                        <th>Descripción</th>
+	                        <th>Creación</th>
 	                        <th>Configuración</th>
 	                    </tr>
 	                </thead>
 	                <tbody>
-	                    <?php foreach ($categorias as $categoria) : ?>
+	                    <?php foreach ($categorias as $categoria) : 
+	                    $params = array("module"=>"encuesta","controller"=>"categoria","action"=>"admin","ca"=>$categoria["idCategoriasRespuesta"]);
+	                    $url = $this->url($params, null, true);
+	                    ?>
 	                    <tr>
 	                        <td><?php echo $categoria["categoria"] ?></td>
-	                        <td><?php echo $categoria["fecha"] ?></td>
 	                        <td><?php echo $categoria["descripcion"] ?></td>
+	                        <td><?php echo $categoria["creacion"] ?></td>
 	                        <td>
-	                            <a class="btn btn-warning btn-block" 
-	                                href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"admin","idCategoria"=>$categoria["idCategoriasRespuesta"] ), null, true) ?>">
+	                            <a class="btn btn-link btn-block" href="<?php echo $url; ?>">
 	                                <span class="fa fa-cogs"></span> Configuración
 	                            </a>
 	                        </td>

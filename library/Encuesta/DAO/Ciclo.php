@@ -9,9 +9,9 @@ class Encuesta_DAO_Ciclo implements Encuesta_Interfaces_ICiclo {
 	private $tablaCiclo;
 	
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+		$config = array('db' => $dbAdapter);
 		
-		$this->tablaCiclo = new Encuesta_Model_DbTable_CicloEscolar(array('db'=>$dbAdapter));
+		$this->tablaCiclo = new Encuesta_Data_DbTable_CicloEscolar($config);
 		//$this->tablaCiclo->setDefaultAdapter($dbAdapter);
 	}
     

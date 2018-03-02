@@ -34,7 +34,7 @@
 	                            <td><?php echo $grado['gradoEducativo']; ?></td>
 	                            <td><?php echo $grado['descripcion']; ?></td>
 	                            <td>
-	                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado['idGradoEducativo']),null,true) ?>">
+	                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","gr"=>$grado['idGradoEducativo']),null,true) ?>">
 	                                    <span class="fa fa-cogs"></span> Configurar
 	                                </a>
 	                            </td>

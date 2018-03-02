@@ -11,13 +11,13 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 	private $tablaAsignacionGrupo;
 	
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+		$config = array('db' => $dbAdapter);
 		
 		$this->registroDAO = new Encuesta_DAO_Registro($dbAdapter);
 		$this->materiaDAO = new Encuesta_DAO_Materia($dbAdapter);
 		$this->gruposDAO = new Encuesta_DAO_Grupos($dbAdapter);
 		
-		$this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
+		$this->tablaAsignacionGrupo = new Encuesta_Data_DbTable_AsignacionGrupo($config);
 		
 	}
 	
@@ -81,7 +81,7 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 		
 		$asignaciones = $tablaAsignacion->fetchAll($select);
 		
-		if(is_null($asignaciones)) throw new Util_Exception_BussinessException("Error: No hay Asignaciones para el grupo con Id: <strong>".$idGrupo."</strong>", 1);
+		if(is_null($asignaciones)) throw new Exception("Error: No hay Asignaciones para el grupo con Id: <strong>".$idGrupo."</strong>", 1);
 		
 		return $asignaciones->toArray();
 		

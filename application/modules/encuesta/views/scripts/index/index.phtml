@@ -1,10 +1,11 @@
     <?php
 	$ciclosEscolares = $this->ciclosEscolares;
-	$nivelesEscolares = $this->nivelesEscolares;
+	$nivelesEducativos = $this->nivelesEducativos;
 	//$niveles = array();
 	$evaluaciones = array();
     $encuestasActivas = true;
     $consultaActiva = true;
+    $messageForm = $this->messageForm;
 ?>
 <!-- Navegacion  --> 
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -52,19 +53,28 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
-				<form class="form-horizontal" action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"index","action"=>"login"),null,true) ?>" method="post" enctype="application/x-www-form-urlencoded">
+				<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
 					<fieldset>
 						<legend>Acceso al Sistema:</legend>
+						<?php if ($messageForm != '') { ?>
 						<div class="form-group">
-							<label class="col-xs-2" for="usuario">Usuario: </label>
+							<div class="col-md-12">
+								<label class="control-label">
+									<?php echo $messageForm; ?>
+								</label>
+							</div>
+						</div>
+						<?php } ?>
+						<div class="form-group">
+							<label class="col-xs-2" for="nickname">Usuario: </label>
 							<div class="col-xs-10">
-								<input type="text" class="form-control" name="usuario" placeholder="Usuario..." autofocus>
+								<input name="nickname" type="text" class="form-control" placeholder="Usuario...">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-2" for="password">Password: </label>
 							<div class="col-xs-10">
-								<input type="password" class="form-control" name="password">
+								<input name="password" type="password" class="form-control" >
 							</div>
 						</div>
 						<div class="form-group">
@@ -111,8 +121,8 @@
 							<div class="col-xs-10">
 								<select id="nivel" class="form-control" name="nivel">
 									<option value="0">Seleccione Nivel Educativo</option>
-									<?php foreach ($nivelesEscolares as $nivelEscolar) : ?>
-										<option value="<?php echo $nivelEscolar->getIdNivel() ?>" > <?php echo $nivelEscolar->getNivel() ?></option>
+									<?php foreach ($nivelesEducativos as $nivelEducativo) : ?>
+										<option value="<?php echo $nivelEducativo['idNivelEducativo'] ?>" > <?php echo $nivelEducativo['nivelEducativo'] ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -129,6 +139,14 @@
 							<div class="col-xs-10">
 								<select id="grupo" class="form-control" name="grupo">
 								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<a id="btnQueryEncuestas" class="btn btn-success hidden" href="#">
+									<i class="fa fa-search"></i> Buscar Evaluaciones
+								</a>
 							</div>
 						</div>
 					</fieldset>
@@ -169,8 +187,8 @@
                             <div class="col-xs-10">
                                 <select id="nivelR" class="form-control" name="nivelR">
                                     <option value="0">Seleccione Nivel Educativo</option>
-                                    <?php foreach ($nivelesEscolares as $nivelEscolar) : ?>
-                                        <option value="<?php echo $nivelEscolar->getIdNivel() ?>" > <?php echo $nivelEscolar->getNivel() ?></option>
+                                    <?php foreach ($nivelesEducativos as $nivelEducativo) : ?>
+                                        <option value="<?php echo $nivelEducativo['idNivelEducativo'] ?>" > <?php echo $nivelEducativo['nivelEducativo'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -220,8 +238,8 @@
                             <div class="col-xs-10">
                                 <select id="nivelTwo" class="form-control" name="nivelTwo">
                                     <option value="0">Seleccione Nivel Educativo</option>
-                                    <?php foreach ($nivelesEscolares as $nivelEscolar) : ?>
-                                        <option value="<?php echo $nivelEscolar->getIdNivel() ?>" > <?php echo $nivelEscolar->getNivel() ?></option>
+                                    <?php foreach ($nivelesEducativos as $nivelEducativo) : ?>
+                                        <option value="<?php echo $nivelEducativo['idNivelEducativo'] ?>" > <?php echo $nivelEducativo['nivelEducativo'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

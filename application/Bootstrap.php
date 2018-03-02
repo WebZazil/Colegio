@@ -38,16 +38,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 		Zend_Registry::set('multidb', $resource);
 		
-		Zend_Registry::set('zbase', $resource->getDb('zbase')); 
-		
-		Zend_Registry::set('dbmodadmin', $resource->getDb('dbmodadmin'));
-		Zend_Registry::set('dbmodquery', $resource->getDb('dbmodquery'));
-        
-        Zend_Registry::set('dbmodadminb', $resource->getDb('dbmodadminb'));
-        Zend_Registry::set('dbmodqueryb', $resource->getDb('dbmodqueryb'));
-        
-        Zend_Registry::set('dbbaseevento', $resource->getDb('dbbaseevento'));
-        Zend_Registry::set('dbbaseeventoquery', $resource->getDb('dbbaseeventoquery'));
+		Zend_Registry::set('zbase', $resource->getDb('zbase'));
 	}
 	
 	/**

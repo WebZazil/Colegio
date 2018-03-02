@@ -1,4 +1,122 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Opcion</b> and script/action name <b>admin</b></p>
+<?php
+    $opcion = $this->opcion;
+    $categoria = $this->categoria;
+    
+    $tiposValorOpcion = array(
+        'EN' => 'Entero',
+        'DC' => 'Decimal',
+        'ST' => 'Texto'
+    );
+    //print_r($opcion);
+    $valor = '';
+    switch ($opcion['tipoValor']){
+        case 'EN' :
+            $valor = $opcion['valorEntero'];
+            break;
+        case 'DC' :
+            $valor = $opcion['valorDecimal'];
+            break;
+        case 'ST' :
+            $valor = $opcion['valorTexto'];
+            break;
+    }
+    $mayor = $categoria['idOpcionMayor'] == $opcion['idOpcionCategoria'] ? 'Mayor' : '';
+    $menor = $categoria['idOpcionMenor'] == $opcion['idOpcionCategoria'] ? 'Menor' : '';
+    
+    $params = array('module'=>'encuesta','controller'=>'categoria','action'=>'admin','ca'=>$opcion['idCategoriasRespuesta']);
+    $urlCategoriaAdmin = $this->url($params,null,true);
+    
+    $params = array('module'=>'encuesta','controller'=>'categoria','action'=>'delete','op'=>$opcion['idOpcionCategoria']);
+    $urlDeleteOpcion = $this->url($params,null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title"> <strong><i class="fa fa-cogs"></i></strong> Configuracion de Opción: <strong><?php echo $opcion['nombreOpcion'] ?></strong> </h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlCategoriaAdmin; ?>" class="btn btn-info">
+						<i class="fa fa-chevron-left"></i> Regresar a Categoria
+					</a>
+					<hr />
+					<table class="table table-condensed table-striped">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+	                            <th>Orden</th>
+	                            <th>Valor</th>
+	                            <th>Mayor</th>
+	                            <th>Menor</th>
+	                            <th>Creación</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><?php echo $opcion["nombreOpcion"]; ?></td>
+	                            <td><?php echo $opcion["orden"].'°'; ?></td>
+	                            <td><?php echo $valor; ?></td>
+	                            <td><?php echo $mayor; ?></td>
+	                            <td><?php echo $menor; ?></td>
+	                            <td><?php echo $opcion['creacion']; ?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title"><strong><i class="fa fa-pencil"></i></strong> Editar Opción: <strong><?php echo $opcion['nombreOpcion']; ?></strong> </h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="nombreOpcion" class="col-md-2 control-label">Nombre: </label>
+							<div class="col-md-10">
+								<input name="nombreOpcion" type="text" class="form-control" value="<?php echo $opcion['nombreOpcion'] ?>" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="tipoValor" class="col-md-2 control-label">Tipo Valor: </label>
+							<div class="col-md-10">
+								<select name="tipoValor" class="form-control">
+									<?php foreach ($tiposValorOpcion as $clave => $tipoValor): ?>
+									<option value="<?php echo $clave; ?>"><?php echo $tipoValor; ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="valor" class="col-md-2 control-label">Valor: </label>
+							<div class="col-md-10">
+								<input name="valor" type="text" class="form-control" value="<?php echo $valor; ?>" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<button class="btn btn-warning" type="submit" >
+									<i class="fa fa-refresh"></i> Actualizar Opción
+								</button>
+							</div>
+						</div>
+						
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -8,7 +8,7 @@ class Biblioteca_DashboardController extends Zend_Controller_Action
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
         if (! $auth->hasIdentity()) {
-            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+            $this->_helper->redirector->gotoSimple("index", "index", "evento");;
         }
         
         $identity = $auth->getIdentity();

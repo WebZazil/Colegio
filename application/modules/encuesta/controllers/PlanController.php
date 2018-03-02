@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * 
+ * @author EnginnerRodriguez
+ *
+ */
 class Encuesta_PlanController extends Zend_Controller_Action
 {
 	private $planDAO = null;
@@ -39,7 +43,7 @@ class Encuesta_PlanController extends Zend_Controller_Action
     public function adminAction()
     {
         // action body
-        $idPlan = $this->getParam("idPlan");
+        $idPlan = $this->getParam("pl");
 		$planDAO = $this->planDAO;
 		$plan = $planDAO->getPlanEducativoById($idPlan);
 		$this->view->plan = $plan;

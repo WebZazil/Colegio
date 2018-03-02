@@ -14,7 +14,7 @@ class Evento_ConsultaController extends Zend_Controller_Action
             $this->_helper->redirector->gotoSimple("index", "index", "evento");
         }
         
-        $this->eventoDAO = new Evento_Model_DAO_Evento($identity['adapter']);
+        $this->eventoDAO = new Evento_Data_DAO_Evento($identity['adapter']);
     }
 
     public function indexAction()

@@ -2,16 +2,11 @@
  * @author IngenieroRodriguez
  */
 $().ready(function() {
-		//$urlEncuesta = "/General/public/encuesta/";
-		//var url = window.location.origin + "/General/";
-		//console.log(url);
 		var appname = "/colegio/";
         var url = window.location.origin + appname;
-		/**
-		 *  Listener que maneja los botones de la columna de encuestas 
-		 */
-		$("button[tipo='encuesta']").click(function() {
-			//console.log($(this).attr("claveEncuesta"));
+		
+        $("button[tipo='encuesta']").click(function() {
+			console.log($(this).attr("claveEncuesta"));
 			var claveEncuesta = $(this).attr("claveEncuesta");
 			var claveContenedor = $("div#detalles").attr("claveContenedor");
 			//$hashContainer = $("div#detalles").attr("hash");

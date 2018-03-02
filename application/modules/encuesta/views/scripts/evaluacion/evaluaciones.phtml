@@ -1,0 +1,65 @@
+<?php
+    $conjunto = $this->conjunto;
+    $grupo = $conjunto['grupo'];
+    $evaluador = $this->evaluador;
+    $evaluacion = $this->evaluacion;
+    
+    $asignaciones = $this->asignaciones;
+?>
+<section id="evaluacion">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h4>Grupo: <strong style="color: red;"><?php echo $grupo['grupoEscolar']; ?></strong></h4>
+                <h4>Evaluador: <strong style="color: red;"><?php echo $evaluador['apellidos'].' '.$evaluador['nombres']; ?></strong></h4>
+                <h4>Evaluacion: <strong style="color: red;"><?php echo $evaluacion['nombre'] ?></strong></h4>
+                
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+            	<table class="table table-condensed table-striped">
+            		<thead>
+            			<tr>
+            				<th>Docente</th>
+            				<th>Materia</th>
+            				<th>Evaluacion</th>
+            			</tr>
+            		</thead>
+            		<tbody>
+            			<?php foreach ($asignaciones as $asignacion): 
+            			     //print_r($asignacion);
+            			     $asig = $asignacion['as'];
+            			     $materia = $asignacion['me'];
+            			     $grupo = $asignacion['ge'];
+            			     $registro = $asignacion['re'];
+            			     
+            			     $params = array(
+            			         'module' => 'encuesta',
+            			         'controller' => 'evaluacion',
+            			         'action' => 'evaluar',
+            			         'co'=>$conjunto['conjunto']['idConjuntoEvaluador'],
+            			         'ev' => $evaluacion['idEncuesta'],
+            			         'as' => $asig['idAsignacionGrupo'],
+            			         'er' => $evaluador['idEvaluador']
+            			     );
+            			     
+            			     $url = $this->url($params,null,true);
+            			?>
+            			<tr>
+            				<td><?php echo $registro['apellidos'].' '.$registro['nombres']; ?></td>
+            				<td><?php echo $materia['materiaEscolar'] ?></td>
+            				<td>
+            					<a href="<?php echo $url; ?>" class="btn btn-success">
+            						<i class="fa fa-check-square-o"></i> Evaluar
+            					</a>
+            				</td>
+            			</tr>
+            			<?php endforeach; ?>
+            		</tbody>
+            	</table>
+            </div>
+        </div>
+    </div>
+</section>

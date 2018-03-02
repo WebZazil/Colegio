@@ -155,31 +155,26 @@ class App_Data_DAO_Login {
             //print_r('On simpleLogin<br /><br />');
             $organizacion = $this->getOrganizacionByClave($claveOrg);
             $modulo = $this->getModuloByTipo($tipoModulo);
-            
+            //print_r($modulo);
             $auth = Zend_Auth::getInstance();
-            //$auth->clearIdentity();
-            //$auth->setStorage(new Zend_Auth_Storage_Session($credentials['usuario']));
             
             $authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('zbase'), 'Usuario','nickname','password','SHA1(?)');
             $authAdapter->setIdentity($credentials['nickname'])->setCredential($credentials['password']);
-            //$resultado = $authAdapter->authenticate();
+            
             $resultado = $auth->authenticate($authAdapter);
             
             if ($resultado->isValid()) {
                 //print_r('Resultado Valido: <br /><br />');
                 $datos = $authAdapter->getResultRowObject(null,null);
                 $rol = $this->getRolById($datos->idRol);
-                
+                print_r($rol);
                 $tSub = $this->tSubscripcion;
                 $select = $tSub->select()->from($tSub)
-                ->where('idModulo=?',$modulo['idModulo'])
-                ->where('idRol=?',$rol['idRol']);
-                
-                //print_r($select->__toString());
-                //    ->where('clave=?', '');
+                    ->where('idOrganizacion=?',$organizacion['idOrganizacion'])
+                    ->where('idModulo=?',$modulo['idModulo'])
+                    ->where('idRol=?',$rol['idRol']);
+                print_r($select->__toString());
                 $rowSub = $tSub->fetchRow($select)->toArray();
-                
-                //print_r($rowSub); print_r('<br /><br />');
                 
                 $conn = array();
                 $conn['host'] = $rowSub['host'];
@@ -199,7 +194,14 @@ class App_Data_DAO_Login {
                 $auth->getStorage()->write($sessionObj);
                 
             }else{
-                throw new Exception('Error de authenticacion: <strong>'.$resultado->getMessages().'</strong>');
+                $messages = $resultado->getMessages();
+                print_r($resultado->getCode());
+                $strMessage = '<ul>';
+                foreach ($messages as $message){
+                    $strMessage .= '<li>'.$message.'</li>';
+                }
+                $strMessage .= '</ul>';
+                throw new Exception('Error de authenticacion: <strong>'.$strMessage.'</strong>');
             }
         } else {
             throw new Exception('Error en credenciales');

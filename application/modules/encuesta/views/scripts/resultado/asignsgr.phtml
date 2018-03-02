@@ -27,7 +27,8 @@
                         </thead>
                         <tbody>
                             <?php foreach ($evaluaciones as $asignacion => $evaluacion) : 
-                                $urlEvaluaciones = $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"evalsas","as"=>$asignacion),null,true);
+                                $params = array("module"=>"encuesta","controller"=>"resultado","action"=>"evalsas","as"=>$asignacion,"gr"=>$grupo->getIdGrupo());
+                                $urlEvaluaciones = $this->url($params,null,true);
                                 ?>
                             <tr>
                                 <td><?php echo $evaluacion["materia"]["materiaEscolar"]; ?></td>

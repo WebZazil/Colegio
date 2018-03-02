@@ -21,7 +21,7 @@
     //print_r($encuesta);
     //print_r($grupoE);
     
-    $urlRepGrupal = $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"descarga","idReporte"=>$idReporte),null,TRUE);
+    $urlRepGrupal = $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"descarga","rpt"=>$idReporte),null,TRUE);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -90,7 +90,7 @@
                             } ?></td>
                             <td>
                                 <a class="btn btn-link" target="_blank" href="<?php ?>">
-                                    <i class="fa fa-area-chart"></i> 
+                                    Ver Gráfico <i class="fa fa-area-chart"></i> 
                                 </a>
                             </td>
                         </tr>

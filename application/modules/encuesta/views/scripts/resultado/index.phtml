@@ -1,4 +1,6 @@
 <?php
+    $niveles = $this->niveles;
+    
     $params = array(
         "module"=>"encuesta",
         "controller"=>"resultado",
@@ -12,15 +14,162 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 		    <div class="panel-heading">
-		        <h5 class="panel-title">Consultar Evaluaciones</h5>
+		        <h5 class="panel-title"> <strong><i class="fa fa-search"></i></strong> Consultar Evaluaciones</h5>
 		    </div>
     		<div class="panel-body">
     			<div>
     			    <a class="btn btn-success" href="<?php echo $urlGrupos; ?>">
                         <i class="fa fa-search"></i> Evaluaciones por Grupos
                     </a>
-    			</div>
+    			</div>
+    			<hr />				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="idNivel" class="control-label col-md-2">Nivel:</label>
+							<div class="col-md-10">
+								<select name="idNivel" id="idNivel" class="form-control">
+									<option value="0" >Seleccione Nivel...</option>
+									<?php foreach ($niveles as $nivel): ?>
+									<option value="<?php echo $nivel['idNivelEducativo'] ?>" ><?php echo $nivel['nivelEducativo'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idGrado" class="control-label col-md-2">Grado:</label>
+							<div class="col-md-10">
+								<select name="idGrado" id="idGrado" class="form-control">
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idGrupo" class="control-label col-md-2">Grupo:</label>
+							<div class="col-md-10">
+								<select name="idGrupo" id="idGrupo" class="form-control">
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
     		</div>
 	   </div>
     </div>
 </div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Resultados</h5>
+			</div>
+			<div class="panel-body">
+				<table id="evaluaciones" class="table table-condensed table-striped">
+					<thead>
+						<tr>
+							<th>Evaluación</th>
+							<th>Docente</th>
+							<th>Materia</th>
+							<th>Materia</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$().ready(function(){
+		var module = '/colegio/encuesta';
+		var url = window.location.origin + module;
+
+		$('#idNivel').on('change',function(){
+			var idNivel = $(this).val();
+
+			if(idNivel != 0){
+				var urlQueryRecurso = url + '/json/grados/idNivel/'+idNivel;
+				
+				$.ajax({
+					url: urlQueryRecurso,
+					dataType: "json",
+					success: function(data){
+						//console.dir(data);
+						var selectGrado = $("#idGrado");
+	            		selectGrado.empty();
+	            		selectGrado.append($("<option></option>").attr("value","0").text("Seleccione grado..."));
+	            		$.each(data, function(index,value){
+	    					selectGrado.append($("<option></option>").attr("value",value.idGradoEducativo).text(value.gradoEducativo));
+	    				});
+
+	            		var selectGrupo = $("#idGrupo");
+	            		selectGrupo.empty();
+					}
+				});
+			}
+		});
+
+		$('#idGrado').on('change',function(){
+			var idGrado = $(this).val();
+			if(idGrado!= 0){
+				var urlQueryRecurso = url + '/json/grupos/idGrado/'+idGrado;
+				
+				$.ajax({
+					url: urlQueryRecurso,
+					dataType: "json",
+					success: function(data){
+						//console.dir(data);
+						var selectGrupo = $("#idGrupo");
+	            		selectGrupo.empty();
+	            		selectGrupo.append($("<option></option>").attr("value","0").text("Seleccione grupo..."));
+	            		$.each(data, function(index,value){
+	    					selectGrupo.append($("<option></option>").attr("value",value.idGrupo).text(value.grupo));
+	    				});
+
+	            		//var selectGrupo = $("#idGrupo");
+	            		//selectGrupo.empty();
+					}
+				});
+			}
+		});
+
+		$('#idGrupo').on('change',function(){
+			var idGrupo = $(this).val();
+			if(idGrupo != 0){
+				var urlQueryRecurso = url + '/json/encrealizadas/idGrupo/'+idGrupo;
+				console.log(idGrupo);
+				$.ajax({
+					url: urlQueryRecurso,
+					dataType: "json",
+					success: function(data){
+						console.dir(data);
+
+						tbody = $("#evaluaciones").find('tbody');
+	            		tbody.empty();
+	            		
+	            		$.each(data, function(index, value){
+	            			var encuesta = value.encuesta;
+	                		var docente = value.docente;
+	                		var materia = value.materia;
+
+	                		var urlDetails = url + '/evaluacion/action/';
+	                		
+	                		var nombreDocente = docente.apellidos + ', '+docente.nombres;
+	                		var boton = $('<a></a>').attr('href',urlDetails).html('btn');
+	                		
+	                		tbody.append( $('<tr>').
+	                            append($('<td>').append(encuesta.nombre)).
+	                            append($('<td>').append(nombreDocente)).
+	                            append($('<td>').append(materia.materiaEscolar)).
+	                            append($('<td>').append(boton)) ) ;
+	                    });
+					}
+				});
+			}
+		});
+
+	});
+</script>

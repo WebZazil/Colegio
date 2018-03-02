@@ -4,16 +4,22 @@
 	$messageFail = $this->messageFail;
 	$messageSuccess = $this->messageSuccess;
     $valores = Zend_Registry::get("tipoValor");
+    
+    $params = array("module"=>"encuesta","controller"=>"categoria","action"=>"admin","ca"=>$categoria["idCategoriasRespuesta"]);
+    $urlCategoria = $this->url($params,null,true);
 ?>
 <div class="row">
     <div class="col-md-12">
     	<div class="panel panel-success">
     		<div class="panel-heading">
-                <h5 class="panel-title">Nueva Opción en la Categoría: <strong><?php echo $categoria["categoria"]; ?></strong></h5>
+                <h5 class="panel-title">
+                	<i class="fa fa-plus"></i>
+                	Nueva Opción en la Categoría: <strong><?php echo $categoria["categoria"]; ?></strong>
+                </h5>
             </div>
             <div class="panel-body">
                 <div>
-                    <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"categoria","action"=>"admin","idCategoria"=>$categoria["idCategoriasRespuesta"]),null,true) ?>">
+                    <a class="btn btn-info" href="<?php echo $urlCategoria; ?>">
                         <span class="fa fa-chevron-left"></span> Regresar a Categoría
                     </a><br />
                     <?php if(!is_null($messageSuccess)){ ?>
@@ -64,7 +70,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <button class="btn btn-success" type="submit">
-                                    <span class="icon icon-save"></span> Guardar Opción
+                                    <span class="fa fa-save"></span> Guardar Opción
                                 </button>
                             </div>
                         </div>

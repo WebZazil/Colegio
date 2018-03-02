@@ -13,28 +13,21 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 	private $tablaMateria;
 	
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+		$config = array('db' => $dbAdapter);
 		$this->dbAdapter = $dbAdapter;
 		
-		$this->tablaGrupo = new Encuesta_Model_DbTable_GrupoEscolar(array('db'=>$dbAdapter));
-		$this->tablaCiclo = new Encuesta_Model_DbTable_CicloEscolar(array('db'=>$dbAdapter));
-		$this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
-		$this->tablaMateria = new Encuesta_Model_DbTable_MateriaEscolar(array('db'=>$dbAdapter));
+		$this->tablaGrupo = new Encuesta_Data_DbTable_GrupoEscolar($config);
+		$this->tablaCiclo = new Encuesta_Data_DbTable_CicloEscolar($config);
+		$this->tablaAsignacionGrupo = new Encuesta_Data_DbTable_AsignacionGrupo($config);
+		$this->tablaMateria = new Encuesta_Data_DbTable_MateriaEscolar($config);
 	}
 	
 	public function obtenerGrupos($idGrado,$idCiclo){
 		$tablaGrupo = $this->tablaGrupo;
 		$select = $tablaGrupo->select()->from($tablaGrupo)->where("idGradoEducativo = ?",$idGrado)->where("idCicloEscolar = ?",$idCiclo)->order("grupoEscolar ASC");
-		$grupos = $tablaGrupo->fetchAll($select);
+		$rowsGrupos = $tablaGrupo->fetchAll($select);
 		
-		$modelGrupos = array();
-		
-		foreach ($grupos as $grupo) {
-			$modelGrupo = new Encuesta_Model_Grupoe($grupo->toArray());
-			$modelGrupos[] = $modelGrupo;
-		}
-		
-		return $modelGrupos;
+		return $rowsGrupos->toArray();
 	}
 	
 	public function obtenerGrupo($idGrupo){
@@ -42,9 +35,7 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 		$select = $tablaGrupo->select()->from($tablaGrupo)->where("idGrupoEscolar = ?",$idGrupo);
 		$rowGrupo = $tablaGrupo->fetchRow($select);
 		
-		$modelGrupo = new Encuesta_Model_Grupoe($rowGrupo->toArray());
-		
-		return $modelGrupo;
+		return $rowGrupo->toArray();
 	}
 	
 	public function obtenerAsignacion($idAsignacion){
@@ -122,7 +113,7 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 			try{
 				$tablaAsignacion->insert($registro);
 			}catch(Exception $ex){
-				throw new Util_Exception_BussinessException("Error: <strong>". $ex->getMessage()."</strong>");
+				throw new Exception("Error: <strong>". $ex->getMessage()."</strong>");
 				
 			}
 			

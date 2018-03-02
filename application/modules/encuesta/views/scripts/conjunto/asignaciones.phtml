@@ -9,28 +9,28 @@
 	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,true);
 	$urlAltaEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
 	$urlAltaAsignacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregarasign","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
-    $urlPreviousConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","idConjunto"=>$conjunto["conjuntoAnterior"]),null,true);
-    $urlNextConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","idConjunto"=>$conjunto["conjuntoSiguiente"]),null,true);
+    $urlPreviousConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$conjunto["idConjuntoAnterior"]),null,true);
+    $urlNextConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$conjunto["idConjuntoSiguiente"]),null,true);
     $urlGrupo = $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","idGrupo"=>$conjunto["idGrupoEscolar"],),null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h5 class="panel-title">Asociar Asignaciones a Conjunto <strong><?php echo $conjunto["nombre"] ?></strong></h5>
+				<h5 class="panel-title">Asociar Asignaciones a Conjunto <strong><?php echo $conjunto["conjunto"] ?></strong></h5>
 			</div>
 			<div class="panel-body">
 				<div>
 					<a class="btn btn-link" href="<?php echo $urlConjuntos; ?>">
 						<i class="fa fa-cubes"></i> Regresar a Conjuntos
 					</a>
-					<a <?php echo ($conjunto["conjuntoAnterior"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
+					<a <?php echo ($conjunto["idConjuntoAnterior"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-left"></i> Anterior Conjunto
                     </a>
 					<a target="_blank" class="btn btn-link" href="<?php echo $urlGrupo; ?>">
 					    <i class="fa fa-external-link-square"></i> Ir al Grupo
 					</a>
-					<a <?php echo ($conjunto["conjuntoSiguiente"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
+					<a <?php echo ($conjunto["idConjuntoSiguiente"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-right"></i> Siguiente Conjunto
                     </a>
 				</div>
@@ -77,7 +77,7 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h5 class="panel-title">Asignaciones del Conjunto <strong><?php echo $conjunto["nombre"] ?></strong> </h5>
+				<h5 class="panel-title">Asignaciones del Conjunto <strong><?php echo $conjunto["conjunto"] ?></strong> </h5>
 			</div>
 			<div class="panel-body">
 				<div>
@@ -99,7 +99,7 @@
                                     "action" => "editasign",
                                     "co" => $conjunto["idConjuntoEvaluador"],
                                     "as" => $asignacion["idAsignacion"],
-                                    "ev" => $asignacion["evaluacion"]->getIdEncuesta()
+                                    "ev" => $asignacion["evaluacion"]['idEncuesta']
                                 );
                                 
                                 $urlMod = $this->url($paramsMod,null,true);
@@ -111,7 +111,7 @@
 							<tr>
 								<td><?php echo $asignacion["materia"]["materiaEscolar"] ?></td>
 								<td><?php echo $asignacion["docente"]["apellidos"].", ".$asignacion["docente"]["nombres"] ?></td>
-								<td><?php echo $asignacion["evaluacion"]->getNombre() ?></td>
+								<td><?php echo $asignacion["evaluacion"]['nombre'] ?></td>
 								<td>
 								    <a class="btn btn-link" href="<?php echo $urlMod; ?>">
 								        <i class="fa fa-pencil"></i> Modificar

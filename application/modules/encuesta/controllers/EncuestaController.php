@@ -3,20 +3,17 @@
 class Encuesta_EncuestaController extends Zend_Controller_Action
 {
 	private $encuestaDAO = null;
-    // private $identity = null;
 
     public function init()
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
         if (!$auth->hasIdentity()) {
-            ;
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
         }
-        
         $identity = $auth->getIdentity();
-        $this->encuestaDAO = new Encuesta_Data_DAO_Encuesta($identity['adapter']);
         
-        //$this->encuestaDAO = new Encuesta_DAO_Encuesta($this->identity["adapter"]);
+        $this->encuestaDAO = new Encuesta_Data_DAO_Encuesta($identity['adapter']);
     }
 
     public function indexAction()

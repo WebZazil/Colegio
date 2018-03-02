@@ -72,7 +72,7 @@ class Encuesta_Data_DAO_GrupoEscolar {
     public function getConjuntosByIdGrupoEscolar($idGrupoEscolar) {
         $tC = $this->tableConjuntoEvaluador;
         $select = $tC->select()->from($tC)->where('idGrupoEscolar=?',$idGrupoEscolar);
-        $rowsC = $tC->fetchRow($select);
+        $rowsC = $tC->fetchAll($select);
         
         return $rowsC->toArray();
     }

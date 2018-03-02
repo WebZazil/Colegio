@@ -8,14 +8,14 @@ class Evento_DashboardController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        
-        $identity = Zend_Auth::getInstance()->getIdentity();
-        if (is_null($identity)) {
-            // Redirect to login page
-            $this->_helper->redirector->gotoSimple("index", "index", "evento");
+        $auth = Zend_Auth::getInstance();
+        if (! $auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
         }
         
-        $this->eventoDAO = new Evento_Model_DAO_Evento($identity['adapter']);
+        $identity = $auth->getIdentity();
+        
+        $this->eventoDAO = new Evento_Data_DAO_Evento($identity['adapter']);
     }
 
     public function indexAction()

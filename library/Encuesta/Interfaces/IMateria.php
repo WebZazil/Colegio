@@ -9,7 +9,7 @@ interface Encuesta_Interfaces_IMateria {
 	public function obtenerMateriasGrado($idGrado);
 	public function obtenerMateriasGrupo($idCiclo,$idGrado);
 	
-	public function crearMateria(Encuesta_Model_Materia $materia);
+	public function crearMateria(array $materia);
 	public function editarMateria($idMateria, array $materia);
 	
 }

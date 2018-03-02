@@ -2,8 +2,8 @@
 	$planes = $this->planes;
 ?>
 <div class="row">
-    <div class="col-xs-12">
-    	<div class="panel panel-default">
+    <div class="col-md-12">
+    	<div class="panel panel-info">
     		<div class="panel-heading">
 	            <span></span>
 	            <h5 class="panel-title">Consulta de Planes de Estudio</h5>
@@ -20,23 +20,28 @@
 	                    <thead>
 	                        <tr>
 	                            <th>Plan de Estudios</th>
-	                            <th>Vigente</th>
+	                            <th>En curso</th>
 	                            <th>Ciclos Escolares</th>
 	                            <th>Configurar</th>
 	                        </tr>
 	                    </thead>
 	                    <tbody>
-	                        <?php foreach ($planes as $plan) : ?>
+	                        <?php foreach ($planes as $plan) : 
+	                        $params = array("module"=>"encuesta","controller"=>"ciclo","action"=>"ciclos","pl"=>$plan["idPlanEducativo"]);
+	                        $urlCiclosEscolares = $this->url($params,null,true);
+	                        $params = array("module"=>"encuesta", "controller"=>"plan", "action"=>"admin", "pl"=>$plan["idPlanEducativo"]);
+	                        $urlAdminPlan = $this->url($params,null,true);
+	                        ?>
 	                        <tr>
 	                            <td><?php echo $plan["planEducativo"] ?></td>
-	                            <td><?php echo ($plan["vigente"] == 1 ) ?  "Vigente" : "No Vigente" ; ?></td>
+	                            <td><?php echo ($plan["vigente"] == 1 ) ?  '<strong style="color: blue;">Vigente</strong>' : '<strong style="color: red;">No Vigente</strong>' ; ?></td>
 	                            <td>
-	                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"ciclo","action"=>"ciclos","idPlan"=>$plan["idPlanEducativo"],),null,true) ?>">
+	                                <a class="btn btn-info" href="<?php echo $urlCiclosEscolares; ?>">
 	                                    <span class="fa fa-search"></span> Ciclos Escolares
 	                                </a>
 	                            </td>
 	                            <td>
-	                                <a class="btn btn-warning btn-block" href="<?php echo $this->url(array("module"=>"encuesta", "controller"=>"plan", "action"=>"admin", "idPlan"=>$plan["idPlanEducativo"])) ?>">
+	                                <a class="btn btn-warning" href="<?php echo $urlAdminPlan; ?>">
 	                                    <span class="fa fa-cogs"></span> Configurar
 	                                </a>
 	                            </td>

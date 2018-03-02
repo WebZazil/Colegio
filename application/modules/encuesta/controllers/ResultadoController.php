@@ -26,13 +26,23 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     private $utilJSON = null;
 
     private $utilText = null;
+    
+    private $nivelDAO;
 
     public function init()
     {
         /* Initialize action controller here */
-        $dbAdapter = Zend_Registry::get("dbmodquery");
+        $auth = Zend_Auth::getInstance();
+        if (! $auth->hasIdentity()) {
+            ;
+        }
         
-        $this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
+        $identity = $auth->getIdentity();
+        $dbAdapter = $identity['adapter'];
+        
+        //$this->evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
+        $this->evaluacionDAO = new Encuesta_Data_DAO_Evaluacion($dbAdapter);
+        
         $this->grupoDAO = new Encuesta_DAO_Grupos($dbAdapter);
         $this->cicloDAO = new Encuesta_DAO_Ciclo($dbAdapter);
         $this->encuestaDAO = new Encuesta_DAO_Encuesta($dbAdapter);
@@ -49,11 +59,15 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $this->reporter = new Encuesta_Util_Reporteador($dbAdapter);
         $this->utilJSON = new Encuesta_Util_Json;
         $this->utilText = new Encuesta_Util_Text;
+        
+        $this->nivelDAO = new Encuesta_Data_DAO_NivelEducativo($dbAdapter);
     }
 
     public function indexAction()
     {
         // action body
+        $niveles = $this->nivelDAO->getAllNivelesEducativos();
+        $this->view->niveles = $niveles;
     }
 
     public function graficaAction()
@@ -207,6 +221,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         
         $idsAsignacionesGrupo = $this->evaluacionDAO->getAsignacionesConjuntosByIdGrupo($idGrupo);
         //print_r($idsAsignacionesGrupo);print_r("<br /><br />");
+        //return;
         $evaluaciones = array();
         
         foreach ($idsAsignacionesGrupo as $key => $idAsignacion) {
@@ -229,16 +244,18 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     {
         // action body
         $idAsignacionGrupo = $this->getParam("as");
+        //$idGrupo
+        //$asignacion = $this->
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacionGrupo);
-        print_r($asignacion); print_r("<br />");
+        //print_r($asignacion); print_r("<br />");
         $this->view->asignacion = $asignacion;
         
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
-        print_r($materia); print_r("<br />");
+        //print_r($materia); print_r("<br />");
         $docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
-        print_r($docente); print_r("<br />");
+        //print_r($docente); print_r("<br />");
         $grupoE = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
-        print_r($grupoE); print_r("<br />");
+        //print_r($grupoE); print_r("<br />");
         $this->view->materia = $materia;
         $this->view->docente = $docente;
         $this->view->grupoE = $grupoE;
@@ -246,7 +263,6 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $tiposEvaluacion = $this->evaluacionDAO->getTiposEvaluacionByIdAsignacion($idAsignacionGrupo);
         $this->view->evaluaciones = $tiposEvaluacion;
         $this->view->encuestaDAO = $this->encuestaDAO;
-        //$this->view->
     }
 
     public function resgrasAction()

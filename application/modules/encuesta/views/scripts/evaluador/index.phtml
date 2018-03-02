@@ -38,7 +38,7 @@
 								<td><?php echo $evaluador["apellidos"] ?></td>
 								<td><?php echo $tiposEvaluador[$evaluador["tipo"]] ?></td>
 								<td>
-									<?php $urlAdmin = $this->url(array("module"=>"encuesta","controller"=>"evaluador","action"=>"admin","idEvaluador"=>$evaluador["idEvaluador"]),null,true); ?>
+									<?php $urlAdmin = $this->url(array("module"=>"encuesta","controller"=>"evaluador","action"=>"admin","ev"=>$evaluador["idEvaluador"]),null,true); ?>
 									<a class="btn btn-link" href="<?php echo $urlAdmin ?>">
 										<i class="fa fa-cogs"></i> Configurar
 									</a>

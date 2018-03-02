@@ -1,16 +1,19 @@
 <?php
 	$niveles = $this->niveles;
+	$params = array("module"=>"encuesta","controller"=>"nivel","action"=>"alta");
+	$urlAltaNivel = $this->url($params,null,true);
+	
 ?>
 <div class="row">
     <div class="col-xs-12">
-    	<div class="panel panel-default">
+    	<div class="panel panel-info">
     		<div class="panel-heading">
-	            <h5 class="panel-title">Niveles Educativos</h5>
+	            <h5 class="panel-title"> <strong><i class="fa fa-list"></i></strong> Niveles Educativos</h5>
 	        </div>
 	        <div class="panel-body">
 	            <div>
-	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"nivel","action"=>"alta"),null,true); ?>">
-	                    <span class="fa fa-plus-circle"></span> Nuevo Nivel
+	                <a class="btn btn-success" href="<?php echo $urlAltaNivel; ?>">
+	                    <i class="fa fa-plus-circle"></i> Nuevo Nivel
 	                </a>
 	            </div>
 	            <hr />
@@ -21,18 +24,23 @@
 	                            <th>Nivel</th>
 	                            <th>Descripción</th>
 	                            <th>Grados Educativos</th>
+	                            <th>Creación</th>
 	                        </tr>
 	                    </thead>
 	                    <tbody>
-	                        <?php foreach ($niveles as $nivel) : ?>
+	                        <?php foreach ($niveles as $nivel) : 
+	                           $params = array("module"=>"encuesta","controller"=>"grado","action"=>"grados","ni"=>$nivel['idNivelEducativo']);
+	                           $urlGradosNivel = $this->url($params,null,true)
+	                        ?>
 	                        <tr>
 	                            <td><?php echo $nivel['nivelEducativo']; ?></td>
 	                            <td><?php echo $nivel['descripcion']; ?></td>
 	                            <td>
-	                                <a class="btn btn-info btn-block" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"grados","idNivel"=>$nivel['idNivelEducativo']),null,true) ?>">
+	                                <a class="btn btn-info btn-block" href="<?php echo $urlGradosNivel; ?>">
 	                                    <span class="fa fa-search"></span> Grados
 	                                </a>
 	                            </td>
+	                            <td><?php echo $nivel['creacion'] ?></td>
 	                        </tr>
 	                        <?php endforeach ?>
 	                    </tbody>

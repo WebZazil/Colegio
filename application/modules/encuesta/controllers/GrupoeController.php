@@ -43,22 +43,22 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
     {
         // action body
         $idGrupo = $this->getParam("idGrupo");
-		$grupo = $this->gruposDAO->obtenerGrupo($idGrupo);
+		$grupo = $this->grupoeDAO->getGrupoById($idGrupo);
 		//$ciclo = $this->cicloDAO->obtenerCiclo($grupo->getIdCiclo());
-		$ciclo = $this->cicloDAO->getCicloById($grupo->getIdCiclo());
+		$ciclo = $this->cicloDAO->getCicloEscolarById($grupo['idCicloEscolar']);
 		//$grado = $this->gradoDAO->obtenerGrado($grupo->getIdGrado());
-		$grado = $this->gradoDAO->getGradoById($grupo->getIdGrado());
-		$nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
+		$grado = $this->gradoDAO->getGradoEducativoById($grupo['idGradoEducativo']);
+		$nivel = $this->nivelDAO->getNivelEducativoById($grado['idNivelEducativo']);
 		//$nivel = $this->nivelDAO->;
-		$materias = $this->materiaDAO->obtenerMateriasGrupo($ciclo->getIdCiclo(), $grupo->getIdGrado());
+		$materias = $this->materiaDAO->getMateriasByIdGrupoEscolar($idGrupo);
 		
 		$this->view->nivel = $nivel;
 		$this->view->grado = $grado;
 		$this->view->grupo = $grupo;
 		$this->view->materias = $materias;
 		
-		$profesores = $this->gruposDAO->obtenerDocentes($idGrupo);
-		$this->view->profesores = $profesores;
+		//$profesores = $this->gruposDAO->obtenerDocentes($idGrupo);
+		$this->view->profesores = array();
     }
 
     public function adminAction()

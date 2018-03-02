@@ -1,13 +1,17 @@
 <?php
-
+/**
+ * 
+ * @author EnginnerRodriguez
+ *
+ */
 class Biblioteca_Data_DAO_Subdivision{
 	
 	private $tableSubDivision;
 	
-	function __construct(){
+	function __construct($dbAdapter){
+		$config = array('db' => $dbAdapter);
 		
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
-		$this->tableSubDivision = new Biblioteca_Data_DbTable_SubDivision(array('db'=>$dbAdapter));
+		$this->tableSubDivision = new Biblioteca_Data_DbTable_Subdivision($config);
 	}
 	
 	

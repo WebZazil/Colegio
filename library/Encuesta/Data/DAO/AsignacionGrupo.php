@@ -1,4 +1,9 @@
 <?php
+/**
+ * 
+ * @author EnginnerRodriguez
+ *
+ */
 class Encuesta_Data_DAO_AsignacionGrupo {
     
     private $tableAsignacionGrupo;
@@ -89,6 +94,14 @@ class Encuesta_Data_DAO_AsignacionGrupo {
         }else{
             return true;
         }
+    }
+    
+    public function getAsignacionesByIdDocente($idDocente){
+        $tAG = $this->tableAsignacionGrupo;
+        $select = $tAG->select()->from($tAG)->where('idDocente=?',$idDocente);
+        $rowsAG = $tAG->fetchAll($select);
+        
+        return $rowsAG->toArray();
     }
     
     

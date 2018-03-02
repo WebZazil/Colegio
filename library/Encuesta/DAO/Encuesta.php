@@ -19,22 +19,18 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
 	private $tablaMateriaEscolar;
 	
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
-        //print_r("Encuesta_DAO_Encuesta<br /><br />");
-        //print_r($dbAdapter);
-        //print_r("<br />");
+		$config = array('db'=> $dbAdapter);
         
-        $this->tablaEncuesta = new Encuesta_Model_DbTable_Encuesta(array('db'=>$dbAdapter));
-        //$this->tablaEncuesta->setDefaultAdapter($dbAdapter);
-		$this->tablaSeccionEncuesta = new Encuesta_Model_DbTable_SeccionEncuesta(array('db'=>$dbAdapter));
-		$this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array('db'=>$dbAdapter));
-		$this->tablaEncuestasRealizadas = new Encuesta_Model_DbTable_EncuestasRealizadas(array('db'=>$dbAdapter));
-		$this->tablaPreferenciaSimple = new Encuesta_Model_DbTable_PreferenciaSimple(array('db'=>$dbAdapter));
-		$this->tablaGrupoSeccion = new Encuesta_Model_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
-		$this->tablaAsignacionGrupo = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
-		$this->tablaRespuesta = new Encuesta_Model_DbTable_Respuesta(array('db'=>$dbAdapter));
-		$this->tablaRegistro = new Encuesta_Model_DbTable_Registro(array('db'=>$dbAdapter));
-		$this->tablaMateriaEscolar = new Encuesta_Model_DbTable_MateriaEscolar(array('db'=>$dbAdapter));
+        $this->tablaEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
+        $this->tablaSeccionEncuesta = new Encuesta_Data_DbTable_SeccionEncuesta($config);
+		$this->tablaPregunta = new Encuesta_Data_DbTable_Pregunta($config);
+		$this->tablaEncuestasRealizadas = new Encuesta_Data_DbTable_EncuestasRealizadas($config);
+		$this->tablaPreferenciaSimple = new Encuesta_Data_DbTable_PreferenciaSimple($config);
+		$this->tablaGrupoSeccion = new Encuesta_Data_DbTable_GrupoSeccion($config);
+		$this->tablaAsignacionGrupo = new Encuesta_Data_DbTable_AsignacionGrupo($config);
+		$this->tablaRespuesta = new Encuesta_Data_DbTable_Respuesta($config);
+		$this->tablaRegistro = new Encuesta_Data_DbTable_Registro($config);
+		$this->tablaMateriaEscolar = new Encuesta_Data_DbTable_MateriaEscolar($config);
 	}
 	
 	// =====================================================================================>>>   Buscar
@@ -154,15 +150,9 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
 		$tablaPregunta = $this->tablaPregunta;
 		$select = $tablaPregunta->select()->from($tablaPregunta)->where("idEncuesta = ?", $idEncuesta);
 		
-		$rowsPregunta = $tablaPregunta->fetchAll($select);
-		$modelPreguntas = array();
+		$rowsPreguntas = $tablaPregunta->fetchAll($select);
 		
-		foreach ($rowsPregunta as $row) {
-			$modelPregunta = new Encuesta_Model_Pregunta($row->toArray());
-			$modelPreguntas[] = $modelPregunta;
-		}
-		
-		return $modelPreguntas;
+		return $rowsPreguntas->toArray();
 	}
 	
 	/**
@@ -255,7 +245,7 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
 	
 	public function obtenerGruposEncuesta($idEncuesta){
 		$secciones = $this->obtenerSecciones($idEncuesta);
-		$tablaGrupo = new Encuesta_Model_DbTable_Grupo;
+		$tablaGrupo = $this->tablaGrupoSeccion;
 		$grupos = array();
 		foreach ($secciones as $seccion) {
 			$select = $tablaGrupo->select()->from($tablaGrupo)->where("idSeccionEncuesta=?",$seccion->getIdSeccion());
@@ -429,9 +419,9 @@ class Encuesta_DAO_Encuesta implements Encuesta_Interfaces_IEncuesta {
 			return null;
 		}else{
 			// Si no es null enviamos un objeto Model al procedimiento que ejecuto este metodo
-			$modelEncuesta = new Encuesta_Model_Encuesta($rowEncuesta->toArray());
+			//$modelEncuesta = new Encuesta_Model_Encuesta($rowEncuesta->toArray());
 			
-			return $modelEncuesta;
+			return $rowEncuesta->toArray();
 		}
 	}
 	
