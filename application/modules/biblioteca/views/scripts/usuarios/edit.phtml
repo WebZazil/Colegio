@@ -40,13 +40,13 @@
                         </button>
                         <?php echo $messageFail; ?>
                     </div>
-                    <br />
+                    <br /><br />
                     <?php } ?>
 					
 				</div>
 				<hr />
 				<div>
-					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+					<form id="formUsuario" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
 						<div class="form-group">
 							<label for="tipoUsuario" class="control-label col-md-2">Tipo Usuario: </label>
 							<div class="col-md-5">
@@ -118,7 +118,7 @@
 						
 						<div class="form-group">
 							<div class="col-md-offset-2 col-md-5">
-								<button class="btn btn-warning" type="submit">
+								<button id="btnActualizar" class="btn btn-warning" type="submit">
 									<i class="fa fa-refresh"></i> Actualizar usuario
 								</button>
 							</div>
@@ -129,3 +129,22 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$().ready(function(){
+
+
+		console.log('JQary activo!!');
+
+		/**$('#btnActualizar').click(function(){
+			console.log('click');
+			
+			//alert('click');
+			//document.getElementById("formUsuario").reset();
+			$('input[type="text"]').val('');
+
+		});**/
+	
+	
+	});
+</script>

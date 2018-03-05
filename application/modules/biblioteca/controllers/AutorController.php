@@ -107,23 +107,44 @@ class Biblioteca_AutorController extends Zend_Controller_Action
         
         $request = $this->getRequest();
         $idAutor = $this->getParam('atr');
-        
         $autor = $this->autorDAO->getAutorById($idAutor);
         
         $this->view->autor = $autor;
         
         if($request->isPost()) {
             $datos = $request->getPost();
+            $datosActualizados = array();
+            $datosActualizados['tipo'] = $datos['tipo'];
+            
+            switch ($datos['tipo']){
+                case 'UN' : 
+                    $datosActualizados['autores'] = '';
+                    $datosActualizados['nombres'] = $datos['nombres'];
+                    $datosActualizados['apellidos'] = $datos['apellidos'];
+                    break;
+                case 'IN' :
+                case 'VR' :
+                    $datosActualizados['autores'] = $datos['autores'];
+                    $datosActualizados['nombres'] = '';
+                    $datosActualizados['apellidos'] = '';
+                    break;
+            }
             
             try{
                 
-                $idAutor = $this->autorDAO->editarAutor($idAutor, $datos);
-                $this->view->messageSuccess = "Autor(es) editado(s)  exitosamente.";
+                $num = $this->autorDAO->editarAutor($idAutor, $datosActualizados);
+                $this->view->messageSuccess = '<strong>'.$num.'</strong>' ." Autor(es) editado(s)  exitosamente.";
+                
+                $autor = $this->autorDAO->getAutorById($idAutor);
+                $this->view->autor = $autor;
             }catch(Exception $ex){
                 $this->view->messageFail = "Error en edicion de autor(es) <strong>".$ex->getMessage()."</strong>";
             }
-            
         }
+        
+        print_r($idAutor);
+        
+        
     }
 
 

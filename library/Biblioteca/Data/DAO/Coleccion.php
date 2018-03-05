@@ -6,9 +6,10 @@ class Biblioteca_Data_DAO_Coleccion {
 	
     private $tableColeccion;
     
-	function __construct() {
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
-        $this->tableColeccion = new Biblioteca_Data_DbTable_Coleccion(array("db"=>$dbAdapter));
+	function __construct($dbAdapter) {
+	    $config = array('db' => $dbAdapter);
+		//$dbAdapter = Zend_Registry::get("dbmodqueryb");
+        $this->tableColeccion = new Biblioteca_Data_DbTable_Coleccion($config);
 	}
     
     public function getAllColecciones() {

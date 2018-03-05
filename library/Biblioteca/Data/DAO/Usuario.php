@@ -80,17 +80,17 @@ class Biblioteca_Data_DAO_Usuario {
     
     public function getObjectsUsuario() {
         $tU = $this->tableUsuario;
-        $rowsUsuarios = $tU->fetchAll()->toArray();
+        $rowsUsuario = $tU->fetchAll()->toArray();
         
-        $tContact = $this->tableContacto;
+      //  $tContact = $this->tableContacto;
       
         
         $container = array();
         
-        foreach ($rowsUsuarios as $rowUsuario) {
+        foreach ($rowsUsuario as $rowUsuario) {
             $obj = array();
             $obj['usuario'] = $rowUsuario;
-            #Obtenemos Coleccion;
+            
         }
     }
     
@@ -101,6 +101,9 @@ class Biblioteca_Data_DAO_Usuario {
         $where = $tU->getAdapter()->quoteInto("id=?", $idUsuario);
         $tU->update($datos, $where);
     }
+    
+    
+ 
     
     
    
