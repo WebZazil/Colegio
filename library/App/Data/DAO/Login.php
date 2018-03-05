@@ -230,7 +230,7 @@ class App_Data_DAO_Login {
              ->where('idRol=?',$rol['idRol']);
        
         $rowSub = $tSub->fetchRow($select)->toArray();
-        
+        print_r($rowSub);
         $connector = array();
         $connector['host'] = $rowSub['host'];
         $connector['username'] = $rowSub['username'];
