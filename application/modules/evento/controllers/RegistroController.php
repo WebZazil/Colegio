@@ -51,10 +51,12 @@ class Evento_RegistroController extends Zend_Controller_Action
                 
                 $imgPath = QR_PATH . "/evento/1775418046/evts/usr/";
                 $contents = implode(",", $datos);
-                $filename = md5($contents).".png";
                 $clave = md5($contents);
+                
+                $filename = $clave.".png";
+                
                 //$urlPath = $this->view->baseUrl()."/colegio/evento/registro/ev/".$idEvento."/ky/".md5($contents);
-                $urlDir = $this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>md5($contents)),null,true);
+                $urlDir = $this->view->url(array("module"=>"evento","controller"=>"registro","action"=>"confirm","ev"=>$idEvento,"ky"=>$clave),null,true);
                 $urlPath = "http://".$_SERVER["SERVER_NAME"].$urlDir;
                 
                 $absolutePath = $imgPath.$filename;
@@ -66,7 +68,7 @@ class Evento_RegistroController extends Zend_Controller_Action
                 }
                 
                 $datos['clave'] = $clave;
-                $datos['archivo'] = $absolutePath;
+                $datos['archivo'] = $filename;
                 
                 $txt = "Registro a Evento: <strong>".$evento['nombre']."</strong><br />".
                     "Que se llevara a cabo en: <strong>".$evento['lugar']."</strong><br />".
@@ -92,14 +94,22 @@ class Evento_RegistroController extends Zend_Controller_Action
                     //'auth' => 'login',
                     'username' => 'dev.bugzilla@zazil.net',
                     'password' => 'Godzilla#2017',
-                    //'ssl' => 'tls',
+                    //'ssl' => 'starttls',
                     //'port' => 26
                 );
-                 
+                
+                Zend_Mail::setDefaultReplyTo('giovanni.rodriguez@zazil.net','Giovanni Rodriguez');
                  //$transport = new Zend_Mail_Transport_Smtp('mail.zazil.net',$config);
                  $transport = new Zend_Mail_Transport_Smtp();
                  $protocol = new Zend_Mail_Protocol_Smtp('mail.zazil.net',26, $config);
+                 //new Zend_Mail_Protocol_Smtp();
+                 $mailServers = array(
+                     'gmail'=>'mail.google.com',
+                     'hotmail'=>'outlook.live.com',
+                 );
+                 
                  $protocol->connect();
+                 
                  $protocol->helo('mail.zazil.net');
                  $transport->setConnection($protocol);
                  
@@ -117,18 +127,20 @@ class Evento_RegistroController extends Zend_Controller_Action
                  $attachment->type = 'image/png';
                  $attachment->disposition = Zend_Mime::DISPOSITION_INLINE;
                  $attachment->encoding = Zend_Mime::ENCODING_BASE64;
-                 $attachment->filename = 'acceso.png';
+                 $attachment->filename = 'invitacion_'.$clave.'.png';
                  
                  //fclose($arch);
                  
                  $mail->addAttachment($attachment);
-                 $protocol->rset();
+                 //$protocol->rset();
                  $mail->send($transport);
                  $protocol->quit();
                  $protocol->disconnect();
                  fclose($arch);
             }catch (Exception $ex){
                 print_r($ex->getMessage());
+                print_r('<br /><br />');
+                print_r($ex->getTrace());
             }
             
         }
