@@ -8,11 +8,11 @@ class Biblioteca_Data_DAO_Material{
 	private $tableRecurso;
 	
 	function __construct($dbAdapter){
+		$config = array('db' => $dbAdapter);
+		//$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
-		
-		$this->tableMaterial = new Biblioteca_Data_DbTable_Material(array("db"=>$dbAdapter));
-		$this->tableRecurso = new Biblioteca_Model_DbTable_Recurso(array("db"=>$dbAdapter));
+		$this->tableMaterial = new Biblioteca_Data_DbTable_Material($config);
+		$this->tableRecurso = new Biblioteca_Model_DbTable_Recurso($config);
 	}
 	
 	

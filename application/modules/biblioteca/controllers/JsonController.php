@@ -27,7 +27,7 @@ class Biblioteca_JsonController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         
-        $this->autorDAO = new Biblioteca_Data_DAO_Autor;
+        $this->autorDAO = new Biblioteca_Data_DAO_Autor($this->testConnector);
         
         $this->recursoDAO = new Biblioteca_Data_DAO_Recurso($this->testConnector);
         $this->materialDAO = new Biblioteca_Data_DAO_Material($this->testConnector);

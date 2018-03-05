@@ -6,10 +6,11 @@ class Biblioteca_Data_DAO_Autor {
     
     private $tableAutor;
 	
-	function __construct() {
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
+	function __construct($dbAdapter) {
+	    $config = array('db' => $dbAdapter);
+		//$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
-		$this->tableAutor = new Biblioteca_Data_DbTable_Autor(array("db" => $dbAdapter));
+		$this->tableAutor = new Biblioteca_Data_DbTable_Autor($config);
 	}
     
     public function getAllAutores() {

@@ -106,32 +106,31 @@
 	
 		console.log('jQuery activo!!')
 		
-			var combo = document.getElementById("tipo").value;
-			//alert(combo);
-
-			switch(combo) {
-			case("VR") :
-			case("IN") :
-				console.log("Varios o Indefinido seleccionado");
-				
-				$("input#nombres").attr('disabled','true');
-				$("input#apellidos").attr('disabled','true');
-				$("input#autores").attr('required','required');
-				$("input#autores").removeAttr('disabled');
-				break;
-			case("UN") :
-				console.log("Unico seleccionado");
-				$("input#autores").attr('disabled','true');
-				$("input#nombres").removeAttr('disabled');
-				$("input#apellidos").removeAttr('disabled');
-				$("input#nombres").attr('required','required');
-				$("input#apellidos").attr('required','required');
-				break;
+		var combo = document.getElementById("tipo").value;
+		switch(combo) {
+    		case("VR") :
+    		case("IN") :
+    			console.log("Varios o Indefinido seleccionado");
+    			
+    			$("input#nombres").attr('disabled','disabled');
+    			$("input#apellidos").attr('disabled','disabled');
+    			$("input#autores").attr('required','required');
+    			$("input#autores").removeAttr('disabled');
+    			break;
+    		case("UN") :
+    			console.log("Unico seleccionado");
+			
+    			$("input#autores").attr('disabled','true');
+    			$("input#nombres").removeAttr('disabled');
+    			$("input#apellidos").removeAttr('disabled');
+    			$("input#nombres").attr('required','required');
+    			$("input#apellidos").attr('required','required');
+    			$("#autores").attr({value:''});
+    			break;
 		}
-
 		
 			
-		$("select#tipo").on('change',function(){
+		$("#tipo").on('change',function(){
 			console.log("combo cambio!!!");
 			var valorCombo = $(this).val();
 			console.log(valorCombo);
@@ -141,8 +140,8 @@
 				case("IN") :
 					console.log("Varios o Indefinido seleccionado");
 					
-					$("input#nombres").attr('disabled','true');
-					$("input#apellidos").attr('disabled','true');
+					$("input#nombres").attr('disabled','disabled');
+					$("input#apellidos").attr('disabled','disabled');
 					
 					$("#nombres").attr({value:''});
 					$("input#apellidos").val('');
@@ -152,7 +151,7 @@
 					break;
 				case("UN") :
 					console.log("Unico seleccionado");
-					$("input#autores").attr('disabled','true');
+					$("input#autores").attr('disabled','disabled');
 					
 					$("#autores").attr({value:''});
 					
@@ -165,8 +164,9 @@
 		});
 
 		$('#btnActualizar').click(function(){
-			console.log('click');
-			document.getElementById("formAdminAutor").reset();
+			//console.log('click');
+			//document.getElementById("formAdminAutor").reset();
+			//$('form#').reset();
 			//$('input[type="text"]').val('');
 
 		});

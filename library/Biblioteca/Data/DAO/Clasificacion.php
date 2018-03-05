@@ -7,9 +7,9 @@ class Biblioteca_Data_DAO_Clasificacion {
     private $tableClasificacion;
     
 	function __construct($dbAdapter) {
-		
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
-		$this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion(array("db"=>$dbAdapter));
+		$config = array('db' => $dbAdapter);
+		//$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		$this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion($config);
 	}
     
     public function getAllClasificaciones() {
