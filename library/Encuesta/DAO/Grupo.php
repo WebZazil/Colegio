@@ -12,12 +12,12 @@ class Encuesta_DAO_Grupo implements Encuesta_Interfaces_IGrupo {
 	private $tablaOpcionCategoria;
 		
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+		$config = array('db' => $dbAdapter);
 		
-		$this->tablaSeccionEncuesta = new Encuesta_Model_DbTable_SeccionEncuesta(array('db'=>$dbAdapter));
-		$this->tablaGrupoSeccion = new Encuesta_Model_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
-		$this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array('db'=>$dbAdapter));
-		$this->tablaOpcionCategoria = new Encuesta_Model_DbTable_OpcionCategoria(array('db'=>$dbAdapter));
+		$this->tablaSeccionEncuesta = new Encuesta_Data_DbTable_SeccionEncuesta($config);
+		$this->tablaGrupoSeccion = new Encuesta_Data_DbTable_GrupoSeccion($config);
+		$this->tablaPregunta = new Encuesta_Data_DbTable_Pregunta($config);
+		$this->tablaOpcionCategoria = new Encuesta_Data_DbTable_OpcionCategoria($config);
 	}
 	// =====================================================================================>>>   Buscar
 	/*
