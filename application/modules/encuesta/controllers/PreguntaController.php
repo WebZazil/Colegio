@@ -191,6 +191,7 @@ class Encuesta_PreguntaController extends Zend_Controller_Action
     public function opcionesAction()
     {
         // action body
+        /*
         $request = $this->getRequest();
         $idPregunta = $this->getParam("idPregunta");
 		
@@ -226,6 +227,7 @@ class Encuesta_PreguntaController extends Zend_Controller_Action
 				//$this->_helper->redirector->gotoSimple("admin", "pregunta", "encuesta", array("idPregunta"=>$idPregunta));
 			}
 		}
+		*/
     }
 
 

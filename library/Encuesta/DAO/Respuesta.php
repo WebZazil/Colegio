@@ -15,15 +15,15 @@ class Encuesta_DAO_Respuesta implements Encuesta_Interfaces_IRespuesta {
 	public function __construct($dbAdapter) {
 		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
 		
-		$this->tablaCategoria = new Encuesta_Model_DbTable_CategoriasRespuesta(array('db'=>$dbAdapter));
+		$this->tablaCategoria = new Encuesta_Data_DbTable_CategoriasRespuesta(array('db'=>$dbAdapter));
 		
-		$this->tablaOpcion = new Encuesta_Model_DbTable_OpcionCategoria(array('db'=>$dbAdapter));
+		$this->tablaOpcion = new Encuesta_Data_DbTable_OpcionCategoria(array('db'=>$dbAdapter));
 		
-		$this->tablaRespuesta = new Encuesta_Model_DbTable_Respuesta(array('db'=>$dbAdapter));
+		$this->tablaRespuesta = new Encuesta_Data_DbTable_Respuesta(array('db'=>$dbAdapter));
 		
-		$this->tablaPreferenciaSimple = new Encuesta_Model_DbTable_PreferenciaSimple(array('db'=>$dbAdapter));
+		$this->tablaPreferenciaSimple = new Encuesta_Data_DbTable_PreferenciaSimple(array('db'=>$dbAdapter));
 		
-		$this->tablaERealizadas = new Encuesta_Model_DbTable_EncuestasRealizadas(array('db'=>$dbAdapter));
+		$this->tablaERealizadas = new Encuesta_Data_DbTable_EncuestasRealizadas(array('db'=>$dbAdapter));
 	}
 	
 	// =====================================================================================>>>   Buscar
@@ -33,16 +33,7 @@ class Encuesta_DAO_Respuesta implements Encuesta_Interfaces_IRespuesta {
 		$select = $tablaRespuesta->select()->from($tablaRespuesta)->where("idEncuesta = ?", $idEncuesta);
 		$rowsRespuestas = $tablaRespuesta->fetchAll($select);
 		
-		$modelRespuestas = array();
-		if(!is_null($rowsRespuestas)) {
-			foreach ($rowsRespuestas as $row) {
-				$modelRespuesta = new Encuesta_Model_Respuesta($row->toArray());
-				
-				$modelRespuestas[] = $modelRespuesta;
-			}
-		}
-		//si no hay respuestas para la encuesta seleccionada retorno array vacio
-		return $rowsRespuestas;
+		return $rowsRespuestas->toArray();
 	}
 	
 	public function obtenerIdPreguntasEncuesta($idEncuesta){
@@ -66,16 +57,7 @@ class Encuesta_DAO_Respuesta implements Encuesta_Interfaces_IRespuesta {
 		$select = $tablaRespuesta->select()->from($tablaRespuesta)->where("idEncuesta = ?", $idEncuesta)->where("idRegistro = ?", $idRegistro);
 		$rowsRespuestas = $tablaRespuesta->fetchAll($select);
 		
-		$modelRespuestas = array();
-		if(!is_null($rowsRespuestas)){
-			foreach ($rowsRespuestas as $row) {
-				$modelRespuesta = new Encuesta_Model_Respuesta($row->toArray());
-				
-				$modelRespuestas[] = $modelRespuesta;
-			}
-		}
-		
-		return $modelRespuestas;
+		return $rowsRespuestas->toArray();
 	}
 	
 	/**
@@ -86,13 +68,13 @@ class Encuesta_DAO_Respuesta implements Encuesta_Interfaces_IRespuesta {
 		$select = $tablaRespuesta->select()->from($tablaRespuesta)->where("idEncuesta=?",$idEncuesta)->where("idAsignacion=?",$idAsignacion)->where("idPregunta=?",$idPregunta);
 		$respuestas = $tablaRespuesta->fetchAll($select);
 		
-		if(is_null($respuestas)) throw new Util_Exception_BussinessException("Error: No hay respuestas para este conjunto de condiciones");
+		if(is_null($respuestas)) throw new Exception("Error: No hay respuestas para este conjunto de condiciones");
 		
 		return $respuestas->toArray();
 	}
 	
 	// =====================================================================================>>>   Insertar
-	public function crearRespuesta($idEncuesta, Encuesta_Model_Respuesta $respuesta) {
+	public function crearRespuesta($idEncuesta, array $respuesta) {
 		$tablaRespuesta = $this->tablaRespuesta;
 		$respuesta->setFecha(date("Y-m-d H:i:s", time()));
 		

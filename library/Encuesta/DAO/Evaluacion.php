@@ -35,11 +35,9 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		}
 	}
 	
-	public function addEvaluador(array $evaluador) {
+	public function addEvaluador(array $datos) {
 		$tablaEvaluador = $this->tablaEvaluador;
-		
-		$evaluador["creacion"] = date("Y-m-d H:i:s");
-		$tablaEvaluador->insert($evaluador);
+		return $tablaEvaluador->insert($datos);
 	}
 	
 	public function getEvaluadorById($idEvaluador) {

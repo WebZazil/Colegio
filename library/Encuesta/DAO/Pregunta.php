@@ -14,11 +14,11 @@ class Encuesta_DAO_Pregunta implements Encuesta_Interfaces_IPregunta {
 	public function __construct($dbAdapter) {
 		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
 		
-		$this->tablaSeccionEncuesta = new Encuesta_Model_DbTable_SeccionEncuesta(array('db'=>$dbAdapter));
-		$this->tablaGrupoSeccion = new Encuesta_Model_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
-		$this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array('db'=>$dbAdapter));
+		$this->tablaSeccionEncuesta = new Encuesta_Data_DbTable_SeccionEncuesta(array('db'=>$dbAdapter));
+		$this->tablaGrupoSeccion = new Encuesta_Data_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
+		$this->tablaPregunta = new Encuesta_Data_DbTable_Pregunta(array('db'=>$dbAdapter));
 		
-		$this->tablaPreferenciaSimple = new Encuesta_Model_DbTable_PreferenciaSimple(array('db'=>$dbAdapter));
+		$this->tablaPreferenciaSimple = new Encuesta_Data_DbTable_PreferenciaSimple(array('db'=>$dbAdapter));
 	}
 	// =====================================================================================>>>   Buscar
 	/*
@@ -166,7 +166,7 @@ class Encuesta_DAO_Pregunta implements Encuesta_Interfaces_IPregunta {
 		$tablaPregunta = $this->tablaPregunta;
 		$select = $tablaPregunta->select()->from($tablaPregunta)->where("tipo=?","AB")->where("idEncuesta=?",$idEncuesta);
 		$preguntas = $tablaPregunta->fetchAll($select);
-		if(is_null($preguntas)) throw new Util_Exception_BussinessException("Error: No hay preguntas abiertas en esta encuesta", 1);
+		if(is_null($preguntas)) throw new Exception("Error: No hay preguntas abiertas en esta encuesta", 1);
 		
 		return $preguntas->toArray();
 	}

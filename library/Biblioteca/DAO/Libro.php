@@ -9,18 +9,18 @@ class Biblioteca_DAO_Libro implements Biblioteca_Interfaces_ILibro {
 	
 	private $tablaLibro;
 	
-	function __construct() {
-		//$dbAdapter = Zend_Registry::get('dbmodgeneral');
-		$dbAdapter = Zend_Registry::get("dbgenerale");
+	function __construct($dbAdapter) {
+		$config = array('db' => $dbAdapter);
+		//$dbAdapter = Zend_Registry::get("dbgenerale");
 		
-		$this->tablaLibro = new Biblioteca_Model_DbTable_Libro(array('db'=>$dbAdapter));
+		$this->tablaLibro = new Biblioteca_Data_DbTable_Libro($config);
 	}
 	
 	/**
 	 * Función que agrega un libro al catalogo de libros
 	 * @param $libro libro a agregar
 	 */
-	public function agregarLibro(Biblioteca_Model_Libro $libro){//firma de la función
+	public function agregarLibro(Biblioteca_Model_Libro $libro){
 		
 		$tablaLibro = $this->tablaLibro;
 		$tablaLibro->insert($libro->toArray());
