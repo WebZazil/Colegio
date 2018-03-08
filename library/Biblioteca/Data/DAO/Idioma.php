@@ -1,15 +1,18 @@
 <?php
 /**
  * 
+ * @author EnginnerRodriguez
+ *
  */
- class Biblioteca_Data_DAO_Idioma{
+class Biblioteca_Data_DAO_Idioma{
  	
 	private $tableIdioma;
 	
-	function __construct() 
+	public function __construct($dbAdapter) 
 	{
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
-		$this->tableIdioma = new Biblioteca_Data_DbTable_Idioma(array("db"=>$dbAdapter));
+	    $config = array('db' => $dbAdapter);
+		//$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		$this->tableIdioma = new Biblioteca_Data_DbTable_Idioma($config);
 	}
 	
 		public function agregarIdioma($data)

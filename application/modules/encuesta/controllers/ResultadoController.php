@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * 
+ * @author EnginnerRodriguez
+ *
+ */
 class Encuesta_ResultadoController extends Zend_Controller_Action
 {
 

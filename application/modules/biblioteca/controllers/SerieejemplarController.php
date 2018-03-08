@@ -8,8 +8,14 @@ class Biblioteca_SerieejemplarController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity()){
+            $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
+        }
         
-        $dbAdapter = Zend_Registry::get('dbmodqueryb');
+        $identity = $auth->getIdentity();
+        
+        $dbAdapter = $identity['adapter'];
         $this->serieEjemplarDAO = new Biblioteca_Data_DAO_SerieEjemplar($dbAdapter);
         
     }

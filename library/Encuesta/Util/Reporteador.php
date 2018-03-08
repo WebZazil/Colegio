@@ -155,7 +155,7 @@ class Encuesta_Util_Reporteador {
         }
         
         if (!file_exists($archivo)) {
-            //$reporte->saveDocument();
+            $reporte->saveDocument();
             print_r($archivo);
         }
             
