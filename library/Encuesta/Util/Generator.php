@@ -283,10 +283,9 @@ class Encuesta_Util_Generator {
 			$datos["respuesta"] = $respuesta;
 			$datos["tipo"] = $pregunta->getTipo();
 			$datos["conjunto"] = $conjunto;
-			//$datos["fecha"] = date('Y-m-d h:i:s', time());
-			$modelRespuesta = new Encuesta_Model_Respuesta($datos);
+			$datos["creacion"] = date('Y-m-d h:i:s', time());
 			
-			$idRespuesta = $respuestaDAO->crearRespuesta($idEncuesta, $modelRespuesta);
+			$idRespuesta = $respuestaDAO->crearRespuesta($idEncuesta, $datos);
 			
 			if($pregunta->getTipo() == "SS"){
 				$this->preferenciaDAO->agregarPreferenciaPreguntaAsignacion($idAsignacion, $idPregunta, $respuesta); //($idPregunta,

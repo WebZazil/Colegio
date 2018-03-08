@@ -1,6 +1,8 @@
 <?php
 /**
  * 
+ * @author EnginnerRodriguez
+ *
  */
 class Encuesta_Util_Reporteador {
     
@@ -38,6 +40,8 @@ class Encuesta_Util_Reporteador {
     private $tablaReportesEncuesta;
     private $tablaReportesConjunto;
     private $tablaReportesGrupo;
+    private $tableDocente;
+    private $tableEncuestasRealizadas;
 	
 	public function __construct($dbAdapter) {
 	    $config = array('db' => $dbAdapter);
@@ -64,12 +68,11 @@ class Encuesta_Util_Reporteador {
         $this->opcionDAO = new Encuesta_DAO_Opcion($dbAdapter);
         $this->preguntaDAO = new Encuesta_DAO_Pregunta($dbAdapter);
         $this->grupoDAO = new Encuesta_DAO_Grupo($dbAdapter);
-        /*
-        $this->tablaReportesConjunto = new Encuesta_Data_DbTable_ReportesConjunto($config);
-        $this->tablaReportesGrupo = new Encuesta_Data_DbTable_ReportesGrupo($config);
-        $this->tablaReportesEncuesta = new Encuesta_Data_DbTable_ReportesEncuesta($config);
-        */
+        
         $this->tablaEvaluador = new Encuesta_Data_DbTable_Evaluador($config);
+        $this->tableDocente = new Encuesta_Data_DbTable_Docente($config);
+        $this->tablaReportesEncuesta = new Encuesta_Data_DbTable_ReportesEncuesta($config);
+        $this->tableEncuestasRealizadas = new Encuesta_Data_DbTable_EncuestasRealizadas($config);
 	}
 
     /**
@@ -124,9 +127,12 @@ class Encuesta_Util_Reporteador {
         
         $reporte = $this->reporteActiveHorizontal;
         $reporte->addPage($pagina);
-        $reporte->saveDocument();
+        
         //Lo guardamos en la tabla Reportes Grupo
         //$tablaReportesGrupo = $this->tablaReportesGrupo;
+        $nombreReporte = $this->utilText->cleanString(str_replace(" ", "", $this->nombreReporte));
+        $archivo = $this->rutaReporte.'/'.$nombreReporte;
+        
         $tablaReportesEncuesta = $this->tablaReportesEncuesta;
         $idReporte = 0;
         $select = $tablaReportesEncuesta->select()->from($tablaReportesEncuesta)->where("idAsignacionGrupo=?",$idAsignacion)->where("idEncuesta=?",$idEncuesta);
@@ -137,21 +143,29 @@ class Encuesta_Util_Reporteador {
             $datos["idEncuesta"] = $idEncuesta;
             $datos["idAsignacionGrupo"] = $idAsignacion;
             //$datos["idsEvaluadores"]="";
-            $datos["nombreReporte"] = $this->utilText->cleanString(str_replace(" ", "", $this->nombreReporte));
+            $datos["nombreReporte"] = $nombreReporte;
             $datos["tipoReporte"] = "RGRU";
             $datos["rutaReporte"] = $this->rutaReporte."/";
-            $datos["fecha"] = date("Y-m-d H:i:s", time());
+            $datos["creacion"] = date("Y-m-d H:i:s", time());
             print_r($datos);
             $idReporte = $tablaReportesEncuesta->insert($datos);
         }else{
             $idReporte = $rowReporte->idReporte;
         }
-        //print_r("idReporte: ".$idReporte);
+        
+        if (!file_exists($archivo)) {
+            //$reporte->saveDocument();
+            print_r($archivo);
+        }
+            
         return $idReporte;
     }
     
     /**
      * 
+     * @param int $idEncuesta
+     * @param int $idAsignacion
+     * @return My_Pdf_Page
      */
     public function obtenerReporteBaseGrupalHorizontal($idEncuesta, $idAsignacion) {
         $auth = Zend_Auth::getInstance();
@@ -167,11 +181,11 @@ class Encuesta_Util_Reporteador {
         $select = $tablaGrupoE->select()->from($tablaGrupoE)->where("idGrupoEscolar=?", $rowAsignacion->idGrupoEscolar);
         $rowGrupoE = $tablaGrupoE->fetchRow($select);
         
-        $tablaRegistro = $this->tablaRegistro;
-        $select = $tablaRegistro->select()->from($tablaRegistro)->where("idRegistro=?",$rowAsignacion->idRegistro);
-        $rowRegistro = $tablaRegistro->fetchRow($select);
+        $tablaDocente = $this->tableDocente;
+        $select = $tablaDocente->select()->from($tablaDocente)->where("idDocente=?",$rowAsignacion->idDocente);
+        $rowDocente = $tablaDocente->fetchRow($select);
         
-        $nombreArchivo = $this->utilText->cleanString(str_replace(" ", "", $rowGrupoE->grupoEscolar."-".$idEncuesta."-".$rowRegistro->apellidos.$rowRegistro->nombres."-".$idAsignacion."-RGPH.pdf")) ;
+        $nombreArchivo = $this->utilText->cleanString(str_replace(" ", "", $rowGrupoE->grupoEscolar."-".$idEncuesta."-".$rowDocente->apellidos.$rowDocente->nombres."-".$idAsignacion."-RGPH.pdf")) ;
         //print_r("Nombre Archivo Antes: ");
         //print_r($nombreArchivo); print_r("<br /><br />");
         //print_r("Nombre Archivo Despues: ");
@@ -219,9 +233,9 @@ class Encuesta_Util_Reporteador {
         $select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idAsignacionGrupo=?",$idAsignacion);
         $asignacion = $tablaAsignacion->fetchRow($select)->toArray();
         // Registro
-        $tablaRegistro = $this->tablaRegistro;
-        $select = $tablaRegistro->select()->from($tablaRegistro)->where("idRegistro=?",$asignacion["idRegistro"]);
-        $docente = $tablaRegistro->fetchRow($select)->toArray();
+        $tablaDocente = $this->tableDocente;
+        $select = $tablaDocente->select()->from($tablaDocente)->where("idDocente=?",$asignacion["idDocente"]);
+        $docente = $tablaDocente->fetchRow($select)->toArray();
         // Materia
         $tablaMateriaEscolar = $this->tablaMateriaEscolar;
         $select = $tablaMateriaEscolar->select()->from($tablaMateriaEscolar)->where("idMateriaEscolar=?",$asignacion["idMateriaEscolar"]);

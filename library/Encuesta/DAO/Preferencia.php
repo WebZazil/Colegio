@@ -13,12 +13,12 @@ class Encuesta_DAO_Preferencia implements Encuesta_Interfaces_IPreferencia {
 	private $opcionDAO;
 	
 	public function __construct($dbAdapter) {
-		$dbAdapter2 = Zend_Registry::get('dbmodquery');
+		$config = array('db' => $dbAdapter);
 		
-		$this->tablaGrupoSeccion = new Encuesta_Model_DbTable_GrupoSeccion(array('db' => $dbAdapter2));
-		$this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array('db' => $dbAdapter2));
-		$this->tablaOpcion = new Encuesta_Model_DbTable_OpcionCategoria(array('db' => $dbAdapter2));
-		$this->tablaPreferenciaSimple = new Encuesta_Model_DbTable_PreferenciaSimple(array('db' => $dbAdapter2));
+		$this->tablaGrupoSeccion = new Encuesta_Data_DbTable_GrupoSeccion($config);
+		$this->tablaPregunta = new Encuesta_Data_DbTable_Pregunta($config);
+		$this->tablaOpcion = new Encuesta_Data_DbTable_OpcionCategoria($config);
+		$this->tablaPreferenciaSimple = new Encuesta_Data_DbTable_PreferenciaSimple($config);
 		$this->opcionDAO = new Encuesta_DAO_Opcion($dbAdapter);
 	}
 	

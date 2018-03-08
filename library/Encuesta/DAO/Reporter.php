@@ -20,22 +20,23 @@ class Encuesta_DAO_Reporter {
     private $tableNivelEducativo = null;
 	
 	function __construct($dbAdapter) {
-		$this->tableEncuesta = new Encuesta_Model_DbTable_Encuesta(array('db'=>$dbAdapter));
-        $this->tableSeccion = new Encuesta_Model_DbTable_SeccionEncuesta(array('db'=>$dbAdapter));
-        $this->tableGrupo = new Encuesta_Model_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
-        $this->tablePregunta = new Encuesta_Model_DbTable_Pregunta(array('db'=>$dbAdapter));
+	    $config = array('db' => $dbAdapter);
+		$this->tableEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
+        $this->tableSeccion = new Encuesta_Data_DbTable_SeccionEncuesta($config);
+        $this->tableGrupo = new Encuesta_Data_DbTable_GrupoSeccion($config);
+        $this->tablePregunta = new Encuesta_Data_DbTable_Pregunta($config);
         
-        $this->tableAsignacion = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
-        $this->tableGrupoEscolar = new Encuesta_Model_DbTable_GrupoEscolar(array('db'=>$dbAdapter));
-        $this->tableMateriaEscolar = new Encuesta_Model_DbTable_MateriaEscolar(array('db'=>$dbAdapter));
-        $this->tableDocente = new Encuesta_Model_DbTable_Registro(array('db'=>$dbAdapter));
-        $this->tableEncuestasRealizadas = new Encuesta_Model_DbTable_EncuestasRealizadas(array('db'=>$dbAdapter));
+        $this->tableAsignacion = new Encuesta_Data_DbTable_AsignacionGrupo($config);
+        $this->tableGrupoEscolar = new Encuesta_Data_DbTable_GrupoEscolar($config);
+        $this->tableMateriaEscolar = new Encuesta_Data_DbTable_MateriaEscolar($config);
+        $this->tableDocente = new Encuesta_Data_DbTable_Registro($config);
+        $this->tableEncuestasRealizadas = new Encuesta_Data_DbTable_EncuestasRealizadas($config);
         
-        $this->tablePreferenciaSimple = new Encuesta_Model_DbTable_PreferenciaSimple(array('db'=>$dbAdapter));
-        $this->tableOpcionCategoria = new Encuesta_Model_DbTable_OpcionCategoria(array('db'=>$dbAdapter));
+        $this->tablePreferenciaSimple = new Encuesta_Data_DbTable_PreferenciaSimple($config);
+        $this->tableOpcionCategoria = new Encuesta_Data_DbTable_OpcionCategoria($config);
         
-        $this->tableGradoEducativo = new Encuesta_Model_DbTable_GradoEducativo(array('db'=>$dbAdapter));
-        $this->tableNivelEducativo = new Encuesta_Model_DbTable_NivelEducativo(array('db'=>$dbAdapter));
+        $this->tableGradoEducativo = new Encuesta_Data_DbTable_GradoEducativo($config);
+        $this->tableNivelEducativo = new Encuesta_Data_DbTable_NivelEducativo($config);
         
 	}
     
