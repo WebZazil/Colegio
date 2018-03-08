@@ -38,14 +38,16 @@ class Encuesta_ReporteController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
-        
-        $this->serviceLogin = new Encuesta_Service_Login();
-        $testConnector = $this->serviceLogin->getTestConnection($testData);
-        
         $auth = Zend_Auth::getInstance();
-        $dataIdentity = $auth->getIdentity();
-        //print_r($dataIdentity);
+        if (!$auth->hasIdentity()) {
+            $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
+            
+            $this->serviceLogin = new Encuesta_Service_Login();
+            $testConnector = $this->serviceLogin->getTestConnection($testData);
+        }else {
+            $identity = $auth->getIdentity();
+            $testConnector = $identity['adapter'];
+        }
         
         $this->encuestaDAO = new Encuesta_DAO_Encuesta($testConnector);
         $this->seccionDAO = new Encuesta_DAO_Seccion($testConnector);

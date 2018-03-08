@@ -54,10 +54,8 @@ class Encuesta_MateriaController extends Zend_Controller_Action
 		if($request->isPost()){
 			if($formulario->isValid($request->getPost())){
 				$datos = $formulario->getValues();
-				//print_r($datos);
-				$materia = new Encuesta_Model_Materia($datos);
 				try{
-					$this->materiaDAO->crearMateria($materia);
+					$this->materiaDAO->crearMateria($datos);
 					$this->view->messageSuccess = "Materia: <strong>" . $materia->getMateriaEscolar() . "</strong> dada de alta exitosamente";
 				}catch(Exception $ex){
 					//print_r($ex->__toString());
@@ -73,20 +71,17 @@ class Encuesta_MateriaController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-        $formulario = new Encuesta_Form_ConsultaMateria;
-		$this->view->formulario = $formulario;
-		$this->view->materias = array();
+        $this->view->materias = array();
+		
 		if($request->isPost()){
-			if($formulario->isValid($request->getPost())){
-				$datos = $formulario->getValues();
-				
-				$materias = $this->materiaDAO->obtenerMaterias($datos["idCiclo"], $datos["idGrado"]);
-				
-				$this->view->ciclo = $this->cicloDAO->obtenerCiclo($datos["idCiclo"]);
-				$this->view->nivel = $this->nivelDAO->obtenerNivel($datos["idNivel"]);
-				$this->view->grado = $this->gradoDAO->obtenerGrado($datos["idGrado"]);
-				$this->view->materias = $materias;
-			}
+		    $datos = $request->getPost();
+		    
+		    $materias = $this->materiaDAO->obtenerMaterias($datos["idCiclo"], $datos["idGrado"]);
+		    
+		    $this->view->ciclo = $this->cicloDAO->obtenerCiclo($datos["idCiclo"]);
+		    $this->view->nivel = $this->nivelDAO->obtenerNivel($datos["idNivel"]);
+		    $this->view->grado = $this->gradoDAO->obtenerGrado($datos["idGrado"]);
+		    $this->view->materias = $materias;
 		}
     }
 

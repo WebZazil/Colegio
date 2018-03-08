@@ -86,24 +86,19 @@ class Encuesta_DAO_Reporte implements Encuesta_Interfaces_IReporte {
 	
 	/**
 	 * 
+	 * {@inheritDoc}
+	 * @see Encuesta_Interfaces_IReporte::obtenerReporte()
 	 */
 	public function obtenerReporte($idReporte){
-		$tablaReporte = $this->tablaReporteEncuesta;
-		$select = $tablaReporte->select()->from($tablaReporte)->where("idReporte=?",$idReporte);
-		$rowReporte = $tablaReporte->fetchRow($select);
-		//$rutaReporte = PDF_PATH . '/reports/encuesta/grupal/'.$rowReporte->nombreReporte;
-		//print_r($rutaReporte);
-		//print_r("<br />");
-		//$pdf = My_Pdf_Document::load($rutaReporte);
-		//$pdf = Zend_Pdf::parse($rutaReporte);
-		//echo $pdf;
+		$tRE = $this->tablaReportesEncuesta;
+		$select = $tRE->select()->from($tRE)->where("idReporte=?",$idReporte);
+		$rowReporte = $tRE->fetchRow($select);
+		
 		if (is_null($rowReporte)) {
 			return null;
 		} else {
 			return $rowReporte->toArray();
 		}
-		
-		//return $rowReporte->nombreReporte;
 	}
     
     public function obtenerReporteGeneral($idReporte) {

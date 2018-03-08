@@ -278,15 +278,9 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
         $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
         
-        $docente = $this->docenteDAO->getDocenteById($asignacion['idDocente']);//$this->registroDAO->obtenerRegistro($asignacion["idRegistro"]);
+        $docente = $this->docenteDAO->getDocenteById($asignacion['idDocente']);
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
         $grupoE = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
-        
-        //$idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
-        
-        
-        //print_r("IdReporte: ".$idReporte);
-        
         
         $evaluaciones = $this->evaluacionDAO->getEvaluacionesByAsignacionAndEvaluacion($idAsignacion, $idEvaluacion);
         $numeroEvaluadores = count($evaluaciones);

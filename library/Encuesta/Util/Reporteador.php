@@ -103,6 +103,7 @@ class Encuesta_Util_Reporteador {
      * 
      */
     public function generarReporteGrupalAsignacion($idGrupo, $idAsignacion, $idEncuesta) {
+        print_r('En generarReporteGrupalAsignacion');
         $tablaEncuesta = $this->tablaEncuesta;
         $tablaAsignacion = $this->tablaAsignacion;
         $tablaConjunto = $this->tablaConjunto;
@@ -168,6 +169,7 @@ class Encuesta_Util_Reporteador {
      * @return My_Pdf_Page
      */
     public function obtenerReporteBaseGrupalHorizontal($idEncuesta, $idAsignacion) {
+        print_r('En: obtenerReporteBaseGrupalHorizontal <br />');
         $auth = Zend_Auth::getInstance();
         $identity = $auth->getIdentity();
         $organizacion = $identity["organizacion"];
@@ -198,6 +200,7 @@ class Encuesta_Util_Reporteador {
         $this->nombreReporte = $nombreArchivo;
         $this->rutaReporte = $rutaReporte;
         // Obtenemos Template para obtener pagina base
+        /*
         $pdfTemplate = My_Pdf_Document::load(PDF_PATH . '/reports/bases/reporteHBE.pdf');
         $this->reportTemplateHorizontal = $pdfTemplate;
         $pages = $pdfTemplate->pages;
@@ -206,6 +209,13 @@ class Encuesta_Util_Reporteador {
         //Pagina Activa
         $pageZ = clone $pages[0];
         $page = new My_Pdf_Page($pageZ);
+        */
+        $pdfReport = new My_Pdf_Document($nombreArchivo, PDF_PATH . $rutaReporte);
+        //$page = $pdfReport->newPage('letter-landscape');
+        $page = new My_Pdf_Page('letter-landscape'); //$pdfReport->newPage('letter-landscape');
+        
+        $tMembrete = $this->generarMembreteReporte(array(), array(), $page);
+        //$page->
         
         $fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
         $styleDefault = new Zend_Pdf_Style;
@@ -224,6 +234,7 @@ class Encuesta_Util_Reporteador {
      * 
      */
     private function generarHeaderGrupalHorizontal($idEncuesta, $idAsignacion) {
+        print_r('En: generarHeaderGrupalHorizontal <br />');
         // Encuesta
         $tablaEncuesta = $this->tablaEncuesta;
         $select = $tablaEncuesta->select()->from($tablaEncuesta)->where("idEncuesta=?",$idEncuesta);
@@ -277,7 +288,7 @@ class Encuesta_Util_Reporteador {
         $colthA1->setWidth($cellWidth);
         $colthA2->setText(utf8_encode($encuesta['nombre']));
         $colthB1->setText("Docente: ");
-        $colthB1->setWidth($cellWidth); //utf8_encode($docente['apellidos'].", ".$docente['nombres'])
+        $colthB1->setWidth($cellWidth);
         $colthB2->setText($docente['apellidos'].", ".$docente['nombres']);
         $colthC1->setText("Nivel, Grado, Grupo Y Materia: ");
         $colthC1->setWidth($cellWidth);
@@ -314,6 +325,7 @@ class Encuesta_Util_Reporteador {
      * 
      */
     public function generarContentGrupalHorizontal($idEncuesta, $idAsignacion, $page) {
+        print_r('En: generarContentGrupalHorizontal <br />');
         $fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
         // ========================================================== >>> Generamos el cuerpo del reporte
         $tablaContenidoR = new My_Pdf_Table(2);
@@ -516,6 +528,45 @@ class Encuesta_Util_Reporteador {
         
         
         return $page;
+    }
+    
+    /**
+     * 
+     * @param array $infoTitulos
+     * @param array $infoContent
+     */
+    public function generarMembreteReporte(array $infoTitulos, array $infoContent, My_Pdf_Page $pagina) {
+        print_r('En: generarMembreteReporte <br />');
+        $fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+        $anchoCelda = 75;
+        // Tabla
+        $tMembreteTitulos = new My_Pdf_Table(3);
+        // Fila Header
+        $rowMembreteHeader = new My_Pdf_Table_HeaderRow();
+        $rowMembreteHeader->setFont($fontDefault, 14);
+        // Fila Content
+        $rowContent = new My_Pdf_Table_Row();
+        $rowContent->setFont($fontDefault, 10);
+        
+        // Columnas del header
+        $colMH1 = new My_Pdf_Table_Column();
+        $colMH2 = new My_Pdf_Table_Column;
+        
+        $colMH1->setText("Mi titulo de membrete feliz: ");
+        // $colMH1->setWidth($anchoCelda);
+        $colMH2->setText("Mi sub-titulo de membrete feliz: ");
+        // Contenedores de columnas de headers y contents de la tabla
+        $columnsHeaders = array($colMH1, $colMH2);
+        $columnsContents = array();
+        
+        $rowMembreteHeader->setColumns($columnsHeaders);
+        $rowMembreteHeader->setCellPaddings(array(5,5,5,5));
+        $tMembreteTitulos->addRow($rowMembreteHeader);
+        
+        // Columnas del content
+        $pagina->addTable($tMembreteTitulos, 40, 60);
+        
+        return $pagina;
     }
 
     /**
