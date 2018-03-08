@@ -14,10 +14,10 @@ class Encuesta_DAO_Seccion implements Encuesta_Interfaces_ISeccion {
 	public function __construct($dbAdapter) {
 		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
 		
-		$this->tablaEncuesta = new Encuesta_Model_DbTable_Encuesta(array('db'=>$dbAdapter));
-		$this->tablaSeccionEncuesta = new Encuesta_Model_DbTable_SeccionEncuesta(array('db'=>$dbAdapter));
-		$this->tablaGrupoSeccion = new Encuesta_Model_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
-		$this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array('db'=>$dbAdapter));
+		$this->tablaEncuesta = new Encuesta_Data_DbTable_Encuesta(array('db'=>$dbAdapter));
+		$this->tablaSeccionEncuesta = new Encuesta_Data_DbTable_SeccionEncuesta(array('db'=>$dbAdapter));
+		$this->tablaGrupoSeccion = new Encuesta_Data_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
+		$this->tablaPregunta = new Encuesta_Data_DbTable_Pregunta(array('db'=>$dbAdapter));
 	}
 	// =====================================================================================>>>   Buscar
 	/*

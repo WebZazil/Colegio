@@ -6,6 +6,7 @@ class Encuesta_HtmlController extends Zend_Controller_Action
     private $seccionDAO = null;
     private $grupoDAO = null;
     private $preguntaDAO = null;
+    private $docenteDAO;
 
     public function init()
     {
@@ -13,10 +14,18 @@ class Encuesta_HtmlController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         $auth = Zend_Auth::getInstance();
         $this->identity = $auth->getIdentity();
-        $this->encuestaDAO = new Encuesta_DAO_Encuesta($this->identity["adapter"]);
-        $this->seccionDAO = new Encuesta_DAO_Seccion($this->identity["adapter"]);
-        $this->grupoDAO = new Encuesta_DAO_Grupo($this->identity["adapter"]);
-        $this->preguntaDAO = new Encuesta_DAO_Pregunta($this->identity["adapter"]);
+        if (!$auth->hasIdentity()) {
+            //perform a redirect;
+        }
+        $identity = $auth->getIdentity();
+        $adapter = array('db' => $identity['adapter']);
+        
+        $this->encuestaDAO = new Encuesta_DAO_Encuesta($adapter);
+        $this->seccionDAO = new Encuesta_DAO_Seccion($adapter);
+        $this->grupoDAO = new Encuesta_DAO_Grupo($adapter);
+        $this->preguntaDAO = new Encuesta_DAO_Pregunta($adapter);
+        
+        $this->docenteDAO = new Encuesta_Data_DAO_Docente($adapter);
     }
 
     public function indexAction()
@@ -126,7 +135,7 @@ class Encuesta_HtmlController extends Zend_Controller_Action
         $idEncuesta = $this->getParam("idEncuesta");
         $referencia = $this->getParam("referencia");
         
-        $tablaRegistro = new Encuesta_Model_DbTable_Registro;
+        $tD = $this->docenteDAO;
         $select = $tablaRegistro->select()->from($tablaRegistro)->where("referencia = ?", $referencia);
         //print_r($select->__toString());
         $rowRef = $tablaRegistro->fetchRow($select);
@@ -141,13 +150,7 @@ class Encuesta_HtmlController extends Zend_Controller_Action
         $select = $tablaRespuesta->select()->from($tablaRespuesta)->where("idEncuesta = ?", $idEncuesta)->where("idRegistro = ?", $rowRef->idRegistro);
         $rowsRespuestas = $tablaRespuesta->fetchAll($select);
         $numeroRespuestas = count($rowsRespuestas);
-        //print_r("<br />");
-        //print_r($select->__toString());
-        //print_r("<br />");
-        //print_r($rowsRespuestas->toArray());
-        //print_r("<br />");
-        //print_r($numeroRespuestas);
-        //print_r("<br />");
+        
         if($numeroRespuestas == 0){
             $this->view->messageSuccess = "Usuario : <strong>" . $rowRef->apellidos .", " . $rowRef->nombres ."</strong> puede contestar esta encuesta";
             return;

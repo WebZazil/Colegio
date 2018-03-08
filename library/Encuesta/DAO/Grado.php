@@ -12,7 +12,7 @@ class Encuesta_DAO_Grado implements Encuesta_Interfaces_IGrado {
 	public function __construct($dbAdapter) {
 		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
 		
-		$this->tablaGradoEducativo = new Encuesta_Model_DbTable_GradoEducativo(array('db'=>$dbAdapter));
+		$this->tablaGradoEducativo = new Encuesta_Data_DbTable_GradoEducativo(array('db'=>$dbAdapter));
 		//$this->tablaNivelEducativo = new Encuesta_Model_DbTable_NivelEducativo(array('db'=>$dbAdapter));
 	}
 	/*

@@ -1,1 +1,8 @@
 *.pdf
+/public/pdf/reports/Encuesta/grupal/*.pdf
+/public/pdf/reports/Encuesta/grupal/1775418046/*.pdf
+/public/pdf/reports/Encuesta/grupal/1775418046/Autoevaluacion/*.pdf
+.settings/
+.buildpath
+.project
+arch.txt

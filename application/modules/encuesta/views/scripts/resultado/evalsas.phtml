@@ -13,7 +13,7 @@
     <div class="col-xs-12">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h5 class="panel-title">Resultados de la asignación en el Grupo: <strong><?php echo $grupoE->getGrupo() ?></strong></h5>
+                <h5 class="panel-title">Resultados de la asignación en el Grupo: <strong><?php echo $grupoE['grupoEscolar']; ?></strong></h5>
             </div>
             <div class="panel-body">
                 <div>
@@ -24,7 +24,7 @@
                 <div>
                     <?php foreach ($evaluaciones as $evaluacion) : 
                         //print_r($evaluacion);
-                        $encuesta = $encuestaDAO->getEncuestaById($evaluacion["idEvaluacion"])->toArray();
+                        $encuesta = $encuestaDAO->getEncuestaById($evaluacion["idEncuesta"]);
                         //print_r($encuesta->toArray());
                         
                         //$url = $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"resgras","as"=>$asignacion["idAsignacionGrupo"],"ev"=>$encuesta["idEncuesta"]),null,true);

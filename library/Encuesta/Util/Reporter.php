@@ -32,32 +32,33 @@ class Encuesta_Util_Reporter {
     private $organizacion = null;
 	
 	public function __construct($dbAdapter) {
+	    $config = array('db' => $dbAdapter);
 	    $auth = Zend_Auth::getInstance();
         $dataIdentity = $auth->getIdentity();
         $this->organizacion = $dataIdentity["organizacion"];
 		
-		$this->tablaRegistro = new Encuesta_Model_DbTable_Registro(array('db'=>$dbAdapter));
+		$this->tablaRegistro = new Encuesta_Data_DbTable_Registro($config);
 		
-		$this->tablaEncuesta = new Encuesta_Model_DbTable_Encuesta(array('db'=>$dbAdapter));
-		$this->tablaSeccion = new Encuesta_Model_DbTable_SeccionEncuesta(array('db'=>$dbAdapter));
-		$this->tablaGrupo = new Encuesta_Model_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
-		$this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array('db'=>$dbAdapter));
+		$this->tablaEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
+		$this->tablaSeccion = new Encuesta_Data_DbTable_SeccionEncuesta($config);
+		$this->tablaGrupo = new Encuesta_Data_DbTable_GrupoSeccion($config);
+		$this->tablaPregunta = new Encuesta_Data_DbTable_Pregunta($config);
 		
-		$this->tablaRespuesta = new Encuesta_Model_DbTable_Respuesta(array('db'=>$dbAdapter));
-		$this->tablaPreferenciaS = new Encuesta_Model_DbTable_PreferenciaSimple(array('db'=>$dbAdapter));
-		$this->tablaOpcion = new Encuesta_Model_DbTable_OpcionCategoria(array('db'=>$dbAdapter));
+		$this->tablaRespuesta = new Encuesta_Data_DbTable_Respuesta($config);
+		$this->tablaPreferenciaS = new Encuesta_Data_DbTable_PreferenciaSimple($config);
+		$this->tablaOpcion = new Encuesta_Data_DbTable_OpcionCategoria($config);
 		
-		$this->tablaPlanE = new Encuesta_Model_DbTable_PlanEducativo(array('db'=>$dbAdapter));
-		$this->tablaCicloE = new Encuesta_Model_DbTable_CicloEscolar(array('db'=>$dbAdapter));
-		$this->tablaNivelE = new Encuesta_Model_DbTable_NivelEducativo(array('db'=>$dbAdapter));
-		$this->tablaGradoE = new Encuesta_Model_DbTable_GradoEducativo(array('db'=>$dbAdapter));
+		$this->tablaPlanE = new Encuesta_Data_DbTable_PlanEducativo($config);
+		$this->tablaCicloE = new Encuesta_Data_DbTable_CicloEscolar($config);
+		$this->tablaNivelE = new Encuesta_Data_DbTable_NivelEducativo($config);
+		$this->tablaGradoE = new Encuesta_Data_DbTable_GradoEducativo($config);
 		
-		$this->tablaMateriaE = new Encuesta_Model_DbTable_MateriaEscolar(array('db'=>$dbAdapter));
-		$this->tablaGrupoE = new Encuesta_Model_DbTable_GrupoEscolar(array('db'=>$dbAdapter));
-		$this->tablaAsignacionG = new Encuesta_Model_DbTable_AsignacionGrupo(array('db'=>$dbAdapter));
+		$this->tablaMateriaE = new Encuesta_Data_DbTable_MateriaEscolar($config);
+		$this->tablaGrupoE = new Encuesta_Data_DbTable_GrupoEscolar($config);
+		$this->tablaAsignacionG = new Encuesta_Data_DbTable_AsignacionGrupo($config);
 		
-		$this->tablaERealizadas = new Encuesta_Model_DbTable_EncuestasRealizadas(array('db'=>$dbAdapter));
-        $this->tablaReportesEncuesta = new Encuesta_Model_DbTable_ReportesEncuesta(array('db'=>$dbAdapter));
+		$this->tablaERealizadas = new Encuesta_Data_DbTable_EncuestasRealizadas($config);
+        $this->tablaReportesEncuesta = new Encuesta_Data_DbTable_ReportesEncuesta($config);
         
 		$this->reporteDAO = new Encuesta_DAO_Reporte($dbAdapter);
         

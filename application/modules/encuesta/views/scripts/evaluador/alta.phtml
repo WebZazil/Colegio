@@ -4,6 +4,15 @@
 	$messageFail = $this->messageFail;
 	$urlEvaluadores = $this->url(array("module"=>"encuesta","controller"=>"evaluador","action"=>"index"),null,true);
 	$urlScript = $this->baseUrl()."/public/js/helpers/checkEvaluador.js";
+	
+	$estatusEvaluadores = $this->estatusEvaluadores;
+	
+	$tiposEvaluador = array(
+	    'ALUM' => 'Alumna',
+	    'DOCE' => 'Docente',
+	    'EXAL' => 'ExAlumna',
+	    'PAFA' => 'Padres de Familia'
+	);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -35,23 +44,47 @@
 	                </div>
 	                <?php } ?>
 					<hr />
-					<?php //echo $formulario; ?>
 					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
 						<div class="form-group">
-							<label for="apellidos" class="control-label col-md-2">
-								Apellidos: 
-							</label>
+							<label for="tipo" class="control-label col-md-2">Tipo Evaluador:</label>
 							<div class="col-md-10">
-								<input id="apellidos" name="apellidos" type="text" class="form-control" />
+								<select name="tipo" id="tipo" class="form-control">
+									<?php foreach ($tiposEvaluador as $clave => $tipoEvaluador) : ?>
+									<option value="<?php echo $clave; ?>"><?php echo $tipoEvaluador; ?></option>
+									<?php endforeach; ?>
+								</select>
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label for="nombres" class="control-label col-md-2">
-								Nombres: 
-							</label>
+							<label for="idEstatusEvaluador" class="control-label col-md-2">Estatus Evaluador:</label>
 							<div class="col-md-10">
-								<input id="nombres" name="nombres" type="text" class="form-control" />
+								<select name="idEstatusEvaluador" id="idEstatusEvaluador" class="form-control">
+									<?php foreach ($estatusEvaluadores as $estatusEvaluador) : ?>
+									<option value="<?php echo $estatusEvaluador['idEstatusEvaluador']; ?>"><?php echo $estatusEvaluador['descripcion']; ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+					
+						<div class="form-group">
+							<label for="apellidos" class="control-label col-md-2">Apellidos:</label>
+							<div class="col-md-10">
+								<input id="apellidos" name="apellidos" type="text" class="form-control" placeholder="Apellidos..." />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="nombres" class="control-label col-md-2">Nombres:</label>
+							<div class="col-md-10">
+								<input id="nombres" name="nombres" type="text" class="form-control" placeholder="Nombres..." />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="clave" class="control-label col-md-2">Clave (Matricula):</label>
+							<div class="col-md-10">
+								<input id="clave" name="clave" type="text" class="form-control" placeholder="Clave o Matricula..." />
 							</div>
 						</div>
 						
@@ -88,4 +121,8 @@
 	</div>
 </div>
 <script type="text/javascript" src="<?php echo $urlScript; ?>"></script>
-
+<script type="text/javascript">
+	$().ready(function(){
+		$('#evaluadores').DataTable();
+	});
+</script>

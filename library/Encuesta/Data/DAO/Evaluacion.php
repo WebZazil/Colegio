@@ -125,7 +125,7 @@ class Encuesta_Data_DAO_Evaluacion {
      */
     public function getTiposEvaluacionByIdAsignacion($idAsignacion) {
         $tablaEvalRel = $this->tableEvaluacionRealizada;
-        $select = $tablaEvalRel->select()->distinct()->from($tablaEvalRel, array('idEvaluacion'))->where("idAsignacionGrupo=?",$idAsignacion);
+        $select = $tablaEvalRel->select()->distinct()->from($tablaEvalRel, array('idEncuesta'))->where("idAsignacionGrupo=?",$idAsignacion);
         $rowsEvalsReal = $tablaEvalRel->fetchAll($select);  
         
         //print_r($rowsEvalsReal->toArray());
@@ -134,7 +134,7 @@ class Encuesta_Data_DAO_Evaluacion {
     
     public function getEvaluacionesByAsignacionAndEvaluacion($idAsignacion, $idEvaluacion) {
         $tablaEvalReal = $this->tableEvaluacionRealizada;
-        $select = $tablaEvalReal->select()->from($tablaEvalReal)->where("idAsignacionGrupo=?",$idAsignacion)->where("idEvaluacion=?",$idEvaluacion);
+        $select = $tablaEvalReal->select()->from($tablaEvalReal)->where("idAsignacionGrupo=?",$idAsignacion)->where("idEncuesta=?",$idEvaluacion);
         $rowsEvalsReal = $tablaEvalReal->fetchAll($select);
         
         return $rowsEvalsReal->toArray();
