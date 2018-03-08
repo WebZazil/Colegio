@@ -29,7 +29,7 @@ class Biblioteca_IndexController extends Zend_Controller_Action
         
         $this->loginDAO = new Biblioteca_Data_DAO_Login($this->testConnector);
         $this->recursoDAO = new Biblioteca_Data_DAO_Recurso($this->testConnector);
-        $this->materialDAO = new Biblioteca_D ata_DAO_Material($this->testConnector);
+        $this->materialDAO = new Biblioteca_Data_DAO_Material($this->testConnector);
         $this->coleccionDAO = new Biblioteca_Data_DAO_Coleccion($this->testConnector);
         $this->clasificacionDAO = new Biblioteca_Data_DAO_Clasificacion($this->testConnector);
         $this->autorDAO = new Biblioteca_Data_DAO_Autor($this->testConnector);
