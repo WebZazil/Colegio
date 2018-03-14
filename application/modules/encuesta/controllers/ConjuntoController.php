@@ -45,7 +45,11 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-        $this->view->conjuntos = $this->evaluacionDAO->getAllConjuntos();
+        $cicloActual = $this->cicloDAO->getCicloEscolarActual();
+        $conjuntos = $this->conjuntoDAO->getAllConjuntosByIdCicloEscolar($cicloActual['idCicloEscolar']);
+        
+        $this->view->cicloEscolar = $cicloActual;
+        $this->view->conjuntos = $conjuntos;
         $this->view->grupoDAO = $this->grupoDAO;
     }
 
@@ -152,7 +156,7 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
         
         try{
             $this->evaluacionDAO->asociarAsignacionAConjunto($idConjunto, $idEvaluacion, $idAsignacion);
-            $this->_helper->redirector->gotoSimple("asignaciones", "conjunto", "encuesta", array("idConjunto"=>$idConjunto));
+            $this->_helper->redirector->gotoSimple("asignaciones", "conjunto", "encuesta", array("co"=>$idConjunto));
         }catch(Exception $ex){
             print_r($ex->getMessage());
         }
@@ -270,6 +274,12 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
     public function delasignAction()
     {
         // action body
+        $idConjunto = $this->getParam('co');
+        $idAsignacion = $this->getParam('as');
+        $idEncuesta = $this->getParam('ev');
+        
+        $this->conjuntoDAO->deleteAsignacionConjunto($idConjunto, $idAsignacion, $idEncuesta);
+        $this->_helper->redirector->gotoSimple("asignaciones", "conjunto", "encuesta", array("co"=>$idConjunto));
     }
 
 
