@@ -543,28 +543,33 @@ class Encuesta_Util_Reporteador {
         $tMembreteTitulos = new My_Pdf_Table(3);
         // Fila Header
         $rowMembreteHeader = new My_Pdf_Table_HeaderRow();
-        $rowMembreteHeader->setFont($fontDefault, 14);
+        $rowMembreteHeader->setFont($fontDefault, 32);
         // Fila Content
         $rowContent = new My_Pdf_Table_Row();
         $rowContent->setFont($fontDefault, 10);
         
         // Columnas del header
-        $colMH1 = new My_Pdf_Table_Column();
+        $colMH1 = new My_Pdf_Table_Column;
         $colMH2 = new My_Pdf_Table_Column;
         
         $colMH1->setText("Mi titulo de membrete feliz: ");
         // $colMH1->setWidth($anchoCelda);
         $colMH2->setText("Mi sub-titulo de membrete feliz: ");
         // Contenedores de columnas de headers y contents de la tabla
-        $columnsHeaders = array($colMH1, $colMH2);
-        $columnsContents = array();
+        $columnsHeaders = array($colMH1);
+        $columnsContents = array($colMH2);
         
         $rowMembreteHeader->setColumns($columnsHeaders);
         $rowMembreteHeader->setCellPaddings(array(5,5,5,5));
-        $tMembreteTitulos->addRow($rowMembreteHeader);
         
+        $rowContent->setColumns($columnsContents);
+        $rowContent->setCellPaddings(array(5,5,5,5));
+        
+        //$tMembreteTitulos->addRow($rowMembreteHeader);
+        $tMembreteTitulos->setHeader($rowMembreteHeader);
+        $tMembreteTitulos->addRow($rowContent);
         // Columnas del content
-        $pagina->addTable($tMembreteTitulos, 40, 60);
+        $pagina->addTable($tMembreteTitulos, 0, 0);
         
         return $pagina;
     }

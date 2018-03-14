@@ -143,7 +143,7 @@ class Encuesta_DAO_Reporte implements Encuesta_Interfaces_IReporte {
         //print_r($select->__toString());
         $rowsAsignacion = $tablaAsignacion->fetchAll($select);
         
-        $tablaRE = $this->tablaReporteEncuesta;
+        $tablaRE = $this->tablaReportesEncuesta;
         $select = $tablaRE->select()->from($tablaRE)->where("idAsignacionGrupo IN (?)", $rowsAsignacion->toArray());
         $rowsRepos = $tablaRE->fetchAll($select)->toArray();
         //print_r($rowsRepos);

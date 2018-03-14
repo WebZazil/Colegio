@@ -66,7 +66,7 @@ class Encuesta_Data_DAO_ConjuntoEvaluador {
         if (!empty($rowsEC)) {
             $tEn = $this->tableEncuesta;
             foreach ($rowsEC as $rowEC){
-                $select = $tEn->select()->from($tEn)->where('idEncuesta=?',$rowEC['idEvaluacion']);
+                $select = $tEn->select()->from($tEn)->where('idEncuesta=?',$rowEC['idEncuesta']);
                 $rowEvC = $tEn->fetchRow($select)->toArray();
                 
                 $obj['evaluaciones'][] = $rowEvC;
@@ -82,7 +82,7 @@ class Encuesta_Data_DAO_ConjuntoEvaluador {
         $tEC = $this->tableEvaluacionConjunto;
         $select = $tEC->select()->from($tEC)
             ->where('idConjuntoEvaluador=?',$idConjunto)
-            ->where('idEvaluacion=?',$idEvaluacion);
+            ->where('idEncuesta=?',$idEvaluacion);
         $rowEC = $tEC->fetchRow($select)->toArray();
         
         $idsAsignaciones = explode(',', $rowEC['idsAsignacionesGrupo']);

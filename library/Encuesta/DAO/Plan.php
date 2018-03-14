@@ -11,7 +11,7 @@ class Encuesta_DAO_Plan implements Encuesta_Interfaces_IPlan {
 	public function __construct($dbAdapter) {
 		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
 		
-		$this->tablaPlanEstudios = new Encuesta_Model_DbTable_PlanEducativo(array('db'=>$dbAdapter));
+		$this->tablaPlanEstudios = new Encuesta_Data_DbTable_PlanEducativo(array('db'=>$dbAdapter));
 	}
 	
 	// =====================================================================================>>>   Buscar
@@ -29,7 +29,7 @@ class Encuesta_DAO_Plan implements Encuesta_Interfaces_IPlan {
 		$rowPlan = $tablaPlan->fetchRow($select);
 		
 		if(is_null($rowPlan)){
-			throw new Util_Exception_BussinessException("Error: No hay plan de estudios vigente, seleccione un plan de estudios como vigente");
+			throw new Exception("Error: No hay plan de estudios vigente, seleccione un plan de estudios como vigente");
 		}
 		
 		return $rowPlan->toArray();

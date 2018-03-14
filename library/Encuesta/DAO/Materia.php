@@ -96,7 +96,6 @@ class Encuesta_DAO_Materia implements Encuesta_Interfaces_IMateria {
 	
 	public function crearMateria(array $materia){
 		$tablaMateria = $this->tablaMateria;
-		$materia['fecha'] = date('Y-m-d h:i:s',time());
 		
 		return $tablaMateria->insert($materia);
 	}

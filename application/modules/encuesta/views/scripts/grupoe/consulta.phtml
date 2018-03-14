@@ -12,7 +12,7 @@
 			</h3>
 		</div>
 		<div class="panel-body">
-			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado['idGradoEducativo']), null, true); ?>">
+			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","gr"=>$grado['idGradoEducativo']), null, true); ?>">
 				<span class="glyphicon glyphicon-chevron-left"></span> Regresar al Grado: <strong><?php echo $grado['gradoEducativo']; ?></strong>.
 			</a><br /><br />
 			<?php echo $this->formulario; ?>

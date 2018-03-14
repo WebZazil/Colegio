@@ -1,35 +1,66 @@
 <?php 
 	$evaluaciones = $this->evaluaciones;
 	$conjunto = $this->conjunto;
+	//print_r($conjunto);
 	$estatusEncuesta = Zend_Registry::get("estatus");
 	$encuestas = $this->encuestas;
-	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,true);
-	$urlAltaEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"],),null,TRUE);
+	
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"index");
+	$urlConjuntos = $this->url($params,null,true);
+	
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval");
+	$urlAltaEvaluacion = $this->url($params,null,TRUE);
     
-    $urlPreviousConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","idConjunto"=>$conjunto["conjuntoAnterior"]),null,true);
-    $urlNextConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","idConjunto"=>$conjunto["conjuntoSiguiente"]),null,true);
+	$valorId = 0;
+	
+	if ($conjunto['idConjuntoAnterior'] == 0) {
+	    $valorId = $conjunto['idConjuntoEvaluador'];
+	}else{
+	    $valorId = $conjunto['idConjuntoAnterior'];
+	}
+	
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","co"=>$valorId);
+    $urlPreviousConjunto = $this->url($params,null,true);
+    
+    $valorId = 0;
+    
+    if ($conjunto['idConjuntoSiguiente'] == 0) {
+        $valorId = $conjunto['idConjuntoEvaluador'];;
+    }else{
+        $valorId = $conjunto['idConjuntoSiguiente'];
+    }
+    $params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","co"=>$valorId);
+    $urlNextConjunto = $this->url($params,null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-warning">
 			<div class="panel-heading">
-				<h5 class="panel-title">Agregar Evaluacion a Conjunto: <strong><?php echo $conjunto["nombre"]; ?></strong> </h5>
+				<h5 class="panel-title">Agregar Evaluacion a Conjunto: <strong><?php echo $conjunto["conjunto"]; ?></strong> </h5>
 			</div>
 			<div class="panel-body">
 				<div>
 					<a class="btn btn-info" href="<?php echo $urlConjuntos; ?>">
 						<i class="fa fa-arrow-circle-left"></i> Regresar al Conjunto
 					</a>
-					<a <?php echo ($conjunto["conjuntoAnterior"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
+					<a class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-left"></i> Anterior Conjunto
                     </a>
-                    <a <?php echo ($conjunto["conjuntoSiguiente"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
+                    <a class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-right"></i> Siguiente Conjunto
                     </a>    
 				</div>
 				<hr />
 				<div>
 					<form action="<?php echo $urlAltaEvaluacion; ?>" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="idConjuntoEvaluador" class="control-label col-md-2">Conjunto Evaluador:</label>
+							<div class="col-xs-10">
+								<select name="idConjuntoEvaluador" class="form-control">
+									<option value="<?php echo $conjunto['idConjuntoEvaluador'] ?>"><?php echo $conjunto['conjunto'] ?></option>
+								</select>
+							</div>
+						</div>
 						<div class="form-group">
 							<label for="idEncuesta" class="col-xs-2 control-label">Evaluaciones: </label>
 							<div class="col-xs-10">
@@ -59,7 +90,7 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h5 class="panel-title">Evaluaciones del Conjunto: <strong><?php echo $conjunto["nombre"]; ?></strong> </h5>
+				<h5 class="panel-title">Evaluaciones del Conjunto: <strong><?php echo $conjunto["conjunto"]; ?></strong> </h5>
 			</div>
 			<div class="panel-body">
 				<div>
@@ -78,7 +109,7 @@
 								<td><?php echo $evaluacion["nombre"]; ?></td>
 								<td><?php echo $evaluacion["descripcion"]; ?></td>
 								<td><?php echo $estatusEncuesta[$evaluacion["estatus"]]; ?></td>
-								<td><?php echo $evaluacion["fecha"]; ?></td>
+								<td><?php echo $evaluacion["creacion"]; ?></td>
 							</tr>
 							<?php endforeach; ?>
 						</tbody>

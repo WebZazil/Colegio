@@ -15,18 +15,17 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
     private $preferenciaDAO = null;
     private $asignacionDAO = null;
     
+    private $docenteDAO;
 
     public function init()
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        $identity = $auth->getIdentity();
-        
         if (!$auth->hasIdentity()) {
-            $auth->clearIdentity();
-            
             $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
         }
+        
+        $identity = $auth->getIdentity();
         
         $this->grupoeDAO = new Encuesta_Data_DAO_GrupoEscolar($identity['adapter']);
         $this->gradoDAO = new Encuesta_Data_DAO_GradoEducativo($identity['adapter']);
@@ -36,13 +35,13 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
         $this->nivelDAO = new Encuesta_Data_DAO_NivelEducativo($identity['adapter']);
         $this->registroDAO = new Encuesta_Data_DAO_Registro($identity['adapter']);
         $this->asignacionDAO = new Encuesta_Data_DAO_AsignacionGrupo($identity['adapter']);
-        
+        $this->docenteDAO = new Encuesta_Data_DAO_Docente($identity['adapter']);
     }
 
     public function indexAction()
     {
         // action body
-        $idGrupo = $this->getParam("idGrupo");
+        $idGrupo = $this->getParam("gpo");
 		$grupo = $this->grupoeDAO->getGrupoById($idGrupo);
 		//$ciclo = $this->cicloDAO->obtenerCiclo($grupo->getIdCiclo());
 		$ciclo = $this->cicloDAO->getCicloEscolarById($grupo['idCicloEscolar']);
@@ -105,7 +104,7 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		$this->view->materiasGrado = $materiasGrado;
         //$this->asignacionDAO->getAsignacionById($id);
         $this->view->asignacionDAO = $this->asignacionDAO;
-        $this->view->registroDAO = $this->registroDAO;
+        $this->view->docenteDAO = $this->docenteDAO;
         
     }
 
@@ -114,13 +113,14 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
         // action body
         $request = $this->getRequest();
 		$formulario = new Encuesta_Form_ConsultaGrupos;
-		$idGrado = $this->getParam("idGrado");
-		$idNivel = $this->getParam("idNivel");
+		
+		$idGrado = $this->getParam("gr");
+		$idNivel = $this->getParam("nv");
 		
 		$ciclo = $this->cicloDAO->getCicloEscolarActual();
 		$this->view->ciclo = $ciclo;
 		
-		//Cuando viene la la vista encuesta/grado/admin/idGrado/valor
+		//Cuando viene de la vista encuesta/grado/admin/gr/valor - encuesta/grupoe/admin/gpo/valor
 		//No desplegamos formulario de consulta, traemos tabla con los grupos del grado del ciclo actual
 		if(!is_null($idGrado)){
 			$grado = $this->gradoDAO->getGradoEducativoById($idGrado);
@@ -168,26 +168,27 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-		$idGrado = $this->getParam("idGrado");
-		//$grado = $this->gradoDAO->obtenerGrado($idGrado);
-		$grado = $this->gradoDAO->getGradoById($idGrado);
+		$idGrado = $this->getParam("gr");
 		
-		$formulario = new Encuesta_Form_AltaGrupoEscolar;
-		$formulario->getElement("idGradoEducativo")->addMultiOption($grado->getIdGradoEducativo(),$grado->getGradoEducativo());
-        
-		$this->view->formulario = $formulario;
+		$grado = $this->gradoDAO->getGradoEducativoById($idGrado);
+		$nivel = $this->nivelDAO->getNivelEducativoById($grado['idNivelEducativo']);
+		$ciclo = $this->cicloDAO->getCicloEscolarActual();
+		
 		$this->view->grado = $grado;
+		$this->view->nivel = $nivel;
+		$this->view->ciclo = $ciclo;
 		
 		if($request->isPost()){
-			if($formulario->isValid($request->getPost())){
-				$datos = $formulario->getValues();
-				try{
-					$this->gruposDAO->crearGrupo($datos);
-					$this->view->messageSuccess = "Grupo: <strong>".$datos["grupoEscolar"]."</strong> dado de alta en el Grado: <strong>" . $grado->getGradoEducativo() . "</strong> exitosamente";
-				}catch(Exception $ex){
-					$this->view->messageFail = $ex->getMessage();
-				}
-			}
+		    $datos = $request->getPost();
+		    $datos['idsMaterias'] = '';
+		    $datos['creacion'] = date('Y-m-d H:i:s');
+		    //print_r($datos);
+		    try{
+		        $this->grupoeDAO->addGrupoEscolar($datos);
+		        $this->view->messageSuccess = "Grupo: <strong>".$datos["grupoEscolar"]."</strong> dado de alta en el Grado: <strong>" . $grado['gradoEducativo'] . "</strong> exitosamente";
+		    }catch(Exception $ex){
+		        $this->view->messageFail = $ex->getMessage();
+		    }
 		}
     }
 
@@ -218,30 +219,25 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		
 		$this->view->grupo = $grupo;
         $this->view->materia = $materia;
-		
-		$formulario = new Encuesta_Form_MateriasProfesor;
-		$formulario->getElement("idMateriaEscolar")->clearMultiOptions();
-		$formulario->getElement("idMateriaEscolar")->addMultiOption($materia['idMateriaEscolar'],$materia['materiaEscolar']);
-		
 		$this->view->grupo = $grupo;
-		$this->view->formulario = $formulario;
+		
 		if($request->getPost()){
-			if($formulario->isValid($request->getPost())){
-				$datos = $formulario->getValues();
-				//print_r($datos);
-				$registro = array();
-				$registro["idGrupoEscolar"] = $idGrupo;
-				$registro["idRegistro"] = $datos["idProfesor"];
-				$registro["idMateriaEscolar"] = $datos["idMateriaEscolar"];
-				try{
-					$this->gruposDAO->agregarDocenteGrupo($registro);
-					$docente = $this->registroDAO->getRegistroById($registro["idRegistro"]);
-					//$this->view->messageSuccess = "Docente: <strong>".$docente->getApellidos().", ".$docente->getNombres()."</strong> asociado a la materia <strong>".$materia->getMateriaEscolar()."</strong> exitosamente.";
-					$this->_helper->redirector->gotoSimple("index", "grupoe", "encuesta", array("idGrupo"=>$idGrupo));
-				}catch(Exception $ex){
-					$this->view->messageFail = $ex->getMessage();
-				}
-			}
+		    $datos = $request->getPost();
+		    
+		    print_r($datos);
+		    
+		    $registro = array();
+		    $registro["idGrupoEscolar"] = $idGrupo;
+		    $registro["idRegistro"] = $datos["idProfesor"];
+		    $registro["idMateriaEscolar"] = $datos["idMateriaEscolar"];
+		    try{
+		        //$this->gruposDAO->agregarDocenteGrupo($registro);
+		        //$docente = $this->registroDAO->getRegistroById($registro["idRegistro"]);
+		        //$this->view->messageSuccess = "Docente: <strong>".$docente->getApellidos().", ".$docente->getNombres()."</strong> asociado a la materia <strong>".$materia->getMateriaEscolar()."</strong> exitosamente.";
+		        $this->_helper->redirector->gotoSimple("index", "grupoe", "encuesta", array("idGrupo"=>$idGrupo));
+		    }catch(Exception $ex){
+		        $this->view->messageFail = $ex->getMessage();
+		    }
 		}
     }
 
@@ -337,12 +333,13 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
         // action body
         $request = $this->getRequest();
 		if($request->isPost()){
-			$idGrupoEscolar = $this->getParam("idGrupoEscolar");
+			$idGrupoEscolar = $this->getParam("gpo");
 			$datos = $request->getPost();
-			print_r($datos);
+			//print_r($datos);
 			
-			$this->gruposDAO->asociarMateriaAgrupo($idGrupoEscolar, $datos["idMateriaEscolar"]);
-			$this->_helper->redirector->gotoSimple("admin", "grupoe", "encuesta", array("idGrupo"=>$idGrupoEscolar));
+			$this->grupoeDAO->asociarMateriaAgrupo($idGrupoEscolar, $datos['idMateriaEscolar']);
+			
+			$this->_helper->redirector->gotoSimple("admin", "grupoe", "encuesta", array("gpo"=>$idGrupoEscolar));
 		}else{
 			$this->_helper->redirector->gotoSimple("index", "nivel", "encuesta");
 		}
@@ -355,13 +352,15 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
         $idMateria = $this->getParam("mat");
         $idDocente = $this->getParam("doc");
         
-        $registro = array();
-        $registro["idGrupoEscolar"] = $idGrupo;
-        $registro["idRegistro"] = $idDocente;
-        $registro["idMateriaEscolar"] = $idMateria;
-        $this->gruposDAO->agregarDocenteGrupo($registro);
+        $datos = array();
+        $datos["idGrupoEscolar"] = $idGrupo;
+        $datos["idMateriaEscolar"] = $idMateria;
+        $datos["idDocente"] = $idDocente;
+        $datos['creacion'] = date('Y-m-d H:i:s');
         
-        $this->_helper->redirector->gotoSimple("admin", "grupoe", "encuesta", array("idGrupo"=>$idGrupo));
+        $this->asignacionDAO->addAsignacionGrupo($datos);
+        
+        $this->_helper->redirector->gotoSimple("admin", "grupoe", "encuesta", array("gpo"=>$idGrupo));
     }
 
 

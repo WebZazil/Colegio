@@ -2,6 +2,12 @@
     $grado = $this->grado;
     $grupos = $this->grupos;
     
+    $params = array("module"=>"encuesta","controller"=>"grado","action"=>"admin","gr"=>$grado['idGradoEducativo']);
+    $urlAdminGrado = $this->url($params,null,true);
+    
+    $params = array("module"=>"encuesta","controller"=>"grupoe","action"=>"alta","gr"=>$grado['idGradoEducativo']);
+    $urlAltaGrupo = $this->url($params,null,true);
+    
 ?>
 <div class="row">
 	<div class="col-md-12">
@@ -10,7 +16,14 @@
 				<h5 class="panel-title">Grupos en el Grado: <strong><?php echo $grado['gradoEducativo'] ?></strong> </h5>
 			</div>
 			<div class="panel-body">
-				<div></div>
+				<div>
+					<a class="btn btn-info" href="<?php echo $urlAdminGrado; ?>">
+        				<span class="fa fa-arrow-circle-left"></span> Regresar al Grado: <strong><?php echo $grado['gradoEducativo']; ?></strong>
+        			</a>
+        			<a class="btn btn-success" href="<?php echo $urlAltaGrupo; ?>">
+        				<span class="fa fa-plus"></span> Agregar Grupo Escolar
+        			</a>
+				</div>
 				<hr />
 				<div>
 					<table class="table table-striped">
@@ -22,17 +35,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($grupos as $grupo): 
-							     $url = $this->url(array('module'=>'encuesta', 'controller'=>'grupoe', 'action'=>'admin','gpo'=>$grupo['idGrupoEscolar']),null,true);
+							<?php foreach ($grupos as $grupo):
+							     $params = array('module'=>'encuesta', 'controller'=>'grupoe', 'action'=>'admin','gpo'=>$grupo['idGrupoEscolar']);
+							     $urlAdminGrupo = $this->url($params,null,true);
 							?>
 							<tr>
 								<td><?php echo $grupo['grupoEscolar']; ?></td>
 								<td>
-									<a class="btn btn-link" href="<?php echo $url; ?>">
+									<a class="btn btn-link" href="<?php echo $urlAdminGrupo; ?>">
 										<i class="fa fa-cog"></i> Configurar
 									</a>
 								</td>
-								<td><?php echo $grupo['fecha'] ?></td>
+								<td><?php echo $grupo['creacion'] ?></td>
 							</tr>
 							<?php endforeach; ?>
 						</tbody>

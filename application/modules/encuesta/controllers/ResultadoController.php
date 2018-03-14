@@ -34,6 +34,8 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     private $nivelDAO;
     
     private $docenteDAO;
+    
+    private $resumenDAO;
 
     public function init()
     {
@@ -67,6 +69,8 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         
         $this->nivelDAO = new Encuesta_Data_DAO_NivelEducativo($dbAdapter);
         $this->docenteDAO = new Encuesta_Data_DAO_Docente($dbAdapter);
+        
+        $this->resumenDAO = new Encuesta_Data_DAO_Resumen($dbAdapter);
     }
 
     public function indexAction()
@@ -277,10 +281,24 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $idAsignacion = $this->getParam("as");
         $idEvaluacion = $this->getParam("ev");
         
-        $reporteador = $this->reporter;
+        $resumen = $this->resumenDAO->obtenerResumen($idAsignacion, $idEvaluacion);
+        
+        try {
+            $this->resumenDAO->crearResumen($idAsignacion, $idEvaluacion);
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
         
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
         $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
+        
+        $this->view->resumen = $resumen;
+        $this->view->encuesta = $encuesta;
+        $this->view->asignacion = $asignacion;
+        
+        $reporteador = $this->reporter;
+        
+        
         
         $docente = $this->docenteDAO->getDocenteById($asignacion['idDocente']);
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
@@ -361,8 +379,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         }
 
         $this->view->grupoE = $grupoE;
-        $this->view->encuesta = $encuesta;
-        $this->view->asignacion = $asignacion;
+        
         $this->view->docente = $docente;
         $this->view->materia = $materia;
         $this->view->idReporte = $idReporte;
@@ -370,6 +387,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $this->view->preferencias = $preferencias;
         $this->view->preguntaDAO = $this->preguntaDAO;
         $this->view->respuestaDAO = $this->respuestaDAO;
+        
     }
 
     public function resasignAction()

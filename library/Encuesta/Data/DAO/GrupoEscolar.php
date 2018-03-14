@@ -77,5 +77,32 @@ class Encuesta_Data_DAO_GrupoEscolar {
         return $rowsC->toArray();
     }
     
+    public function addGrupoEscolar($datos) {
+        $tGE = $this->tableGrupoEscolar;
+        
+        return $tGE->insert($datos);
+    }
     
+    /**
+     *
+     */
+    public function asociarMateriaAgrupo($idGrupoEscolar, $idMateriaEscolar) {
+        $tGE = $this->tableGrupoEscolar;
+        $select = $tGE->select()->from($tGE)->where("idGrupoEscolar=?",$idGrupoEscolar);
+        $rowGrupo = $tGE->fetchRow($select);
+        $idsMaterias = '';
+        
+        if ($rowGrupo->idsMaterias != '') {
+            $idsMaterias = explode(",", $rowGrupo->idsMaterias);
+        }else{
+            $idsMaterias = array();
+        }
+        
+        if (!in_array($idMateriaEscolar, $idsMaterias)) {
+            $idsMaterias[] = $idMateriaEscolar;
+        }
+        
+        $rowGrupo->idsMaterias = implode(",", $idsMaterias);
+        $rowGrupo->save();
+    }
 }

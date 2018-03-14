@@ -56,7 +56,7 @@ class Encuesta_Form_ConsultaGrupos extends Zend_Form
 		$eNivel->setAttrib("class", "form-control");
 		
 		foreach ($niveles as $nivel) {
-			$eNivel->addMultiOption($nivel->getIdNivel(), $nivel->getNivel());
+			$eNivel->addMultiOption($nivel['idNivelEducativo'], $nivel['nivelEducativo']);
 		}
 		
 		$idNivel = $eNivel->getId();
@@ -69,7 +69,7 @@ class Encuesta_Form_ConsultaGrupos extends Zend_Form
 		//$eGradoEscolar->addMultiOption("0","Seleccione Nivel Educativo");
 		if(!is_null($grados)){
 			foreach ($grados as $index => $grado) {
-				$eGradoEscolar->addMultiOption($grado->getIdGradoEducativo(), $grado->getGradoEducativo());
+				$eGradoEscolar->addMultiOption($grado['idGradoEducativo'], $grado['gradoEducativo']);
 			}
 		}
 		//$eGradoEscolar->clearMultiOptions();

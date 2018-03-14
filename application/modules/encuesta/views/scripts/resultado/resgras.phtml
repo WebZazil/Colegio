@@ -1,4 +1,6 @@
 <?php
+    $resumen = $this->resumen;
+    
     $utilText = new Encuesta_Util_Text;
     $asignacion = $this->asignacion;
     $encuesta = $this->encuesta;
@@ -18,10 +20,11 @@
     
     $idReporte = $this->idReporte;
     $respuestas = null;
-    //print_r($encuesta);
-    //print_r($grupoE);
     
-    $urlRepGrupal = $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"descarga","rpt"=>$idReporte),null,TRUE);
+    //print_r($idReporte);
+    
+    $params = array("module"=>"encuesta","controller"=>"reporte","action"=>"descarga","rpt"=>$idReporte);
+    $urlRepGrupal = $this->url($params,null,TRUE);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -31,8 +34,12 @@
 			</div>
 			<div class="panel-body">
 			    <div>
-			        <h4>Grupo: <strong><?php echo $grupoE['grupoEscolar']  ?></strong> - Evaluadores: <strong><?php echo $totalEvaluadores; ?></strong> </h4>
-			        <h4>Materia: <strong><?php echo $materia["materiaEscolar"]; ?></strong> - Docente: <strong><?php echo $docente["apellidos"].", ".$docente["nombres"]  ?></strong> </h4>
+			        <h4>
+			        	Grupo: <strong><?php echo $grupoE['grupoEscolar']  ?></strong> - 
+			        	Evaluadores: <strong><?php echo $totalEvaluadores; ?></strong>
+			        	Materia: <strong><?php echo $materia["materiaEscolar"]; ?></strong> - 
+			        	Docente: <strong><?php echo $docente["apellidos"].", ".$docente["nombres"]  ?></strong>
+			        </h4>
 			        <a class="btn btn-success" href="<?php echo $urlRepGrupal; ?>">
 			            <i class="fa fa-file-pdf-o"></i> Reporte Grupal de la Asignacion
 			        </a>
@@ -117,7 +124,7 @@
                 </table>
                 <?php } ?>
             </div>
-            <div class="panel-footer">
+            <div class="panel-footer panel-info">
                 <?php echo "Promedio General: <strong>". sprintf('%.2f', $sumaTotal/$totalPreguntas. "</strong>"); ?>
             </div>
 		</div>

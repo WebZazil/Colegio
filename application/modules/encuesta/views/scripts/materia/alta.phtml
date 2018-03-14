@@ -1,62 +1,89 @@
 <?php
-	$grado = $this->grado;
-	$formulario = $this->formulario;
-	$messageSuccess = $this->messageSuccess;
+    $grado = $this->grado;
+    $nivel = $this->nivel;
+    $ciclo = $this->ciclo;
+    
+    $messageSuccess = $this->messageSuccess;
 	$messageFail = $this->messageFail;
+	
+	$params = array("module"=>"encuesta","controller"=>"grado","action"=>"admin","gr"=>$grado['idGradoEducativo']);
+	$urlAdminGrado = $this->url($params,null,true);
+	
 ?>
-<section class="row">
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<h3 class="panel-title">
-				Alta de Materia.
-			</h3>
-		</div>
-			<div class="panel-body">
-				<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado->getIdGradoEducativo()),null,true) ?>">
-					<span class="glyphicon glyphicon-chevron-left"></span> Regresar a el grado: <strong><?php echo $grado->getGradoEducativo() ?></strong>
-				</a><br /><br />
-				<?php if(!is_null($messageSuccess)){ ?>
-				<div class="alert alert-success" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-					<?php echo $messageSuccess; ?>
-				</div>
-				<?php }elseif(!is_null($messageFail)){ ?>
-				<div class="alert alert-danger" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-					<?php echo $messageFail; ?>
-				</div>
-				<?php } ?>
-				<?php echo $formulario; ?>
-		</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+    		<div class="panel-heading">
+    			<h3 class="panel-title">
+    				Alta de Materia Escolar.
+    			</h3>
+    		</div>
+    			<div class="panel-body">
+    				<div>
+    					<a class="btn btn-info" href="<?php echo $urlAdminGrado; ?>">
+        					<span class="glyphicon glyphicon-chevron-left"></span> Regresar a el grado: <strong><?php echo $grado['gradoEducativo']; ?></strong>
+        				</a><br /><br />
+        				<?php if(!is_null($messageSuccess)){ ?>
+        				<div class="alert alert-success" role="alert">
+        					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        					  <span aria-hidden="true">&times;</span>
+        					</button>
+        					<?php echo $messageSuccess; ?>
+        				</div>
+        				<?php }elseif(!is_null($messageFail)){ ?>
+        				<div class="alert alert-danger" role="alert">
+        					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        					  <span aria-hidden="true">&times;</span>
+        					</button>
+        					<?php echo $messageFail; ?>
+        				</div>
+        				<?php } ?>
+    				</div>
+    				<hr />
+    				<div>
+    					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+    						<div class="form-group">
+    							<label for="idCicloEscolar" class="control-label col-md-2">Ciclo Escolar: </label>
+    							<div class="col-md-10">
+    								<select name="idCicloEscolar" class="form-control">
+    									<option value="<?php echo $ciclo['idCicloEscolar']; ?>"><?php echo $ciclo['ciclo']; ?></option>
+    								</select>
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<label for="idGradoEducativo" class="control-label col-md-2">Grado Educativo: </label>
+    							<div class="col-md-10">
+    								<select name="idGradoEducativo" class="form-control">
+    									<option value="<?php echo $grado['idGradoEducativo']; ?>"><?php echo $grado['gradoEducativo']; ?></option>
+    								</select>
+    							</div>
+    						</div>
+    					
+    						<div class="form-group">
+    							<label for="materiaEscolar" class="control-label col-md-2">Materia Escolar: </label>
+    							<div class="col-md-10">
+    								<input name="materiaEscolar" type="text" class="form-control" placeholder="Nombre Materia..." autofocus="autofocus" />
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<label for="creditos" class="control-label col-md-2">Creditos: </label>
+    							<div class="col-md-10">
+    								<input name="creditos" type="number" class="form-control" value="1" />
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<div class="col-md-offset-2 col-md-10">
+    								<button class="btn btn-success" type="submit">
+    									<i class="fa fa-save"></i> Agregar Materia Escolar
+    								</button>
+    							</div>
+    						</div>
+    					</form>
+    				</div>
+    		</div>
+    	</div>
 	</div>
-</section>
-<script>
-	$().ready(function(){
-		$("select#idNivel").on('change', function(){
-			console.log(this.value);
-			//Borro el contenido del select municipio
-			//Obtengo los municipios del estado
-			$url = "/General/public/encuesta/json/grados/idNivel/" + this.value;
-			console.log($url);
-			$.ajax({
-				url: $url,
-				dataType: "json",
-				success: function(data){
-					console.log($url);
-					console.dir(data);
-					$("select#idGrado").empty();
-					$.each(data, function(i,item){//function(key,value)		
-						$("select#idGrado").append($("<option></option>").attr("value",data[i].idGrado).text(data[i].grado));
-						//$("select#1-idMunicipio").append($("<option></option>").attr("value",key).text(value)); 
-					});
-					
-				}
-			});
-		});
-		
-	});
-</script>
+</div>

@@ -33,37 +33,26 @@ class Encuesta_MateriaController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-		//$idCiclo = $this->getParam("idCiclo");
-		$idGrado = $this->getParam("idGrado");
-		//$grado = $this->gradoDAO->obtenerGrado($idGrado);
+		$idGrado = $this->getParam("gr");
+		
 		$grado = $this->gradoDAO->getGradoById($idGrado);
-		$nivel = $this->nivelDAO->obtenerNivel($grado->getIdNivelEducativo());
-		//$this->view->ciclo = $this->cicloDAO->obtenerCiclo($idCiclo);
-		
-		//$grado = $this->gradoDAO->obtenerGrado($idGrado);
-		
-        $formulario = new Encuesta_Form_AltaMateria;
-		$formulario->getElement("idNivelEducativo")->clearMultiOptions();
-		$formulario->getElement("idNivelEducativo")->addMultiOption($nivel->getIdNivel(),$nivel->getNivel());
-		$formulario->getElement("idGradoEducativo")->clearMultiOptions();
-		$formulario->getElement("idGradoEducativo")->addMultiOption($grado->getIdGradoEducativo(),$grado->getGradoEducativo());
+		$nivel = $this->nivelDAO->obtenerNivel($grado['idNivelEducativo']);
+		$ciclo = $this->cicloDAO->getCurrentCiclo();
 		
 		$this->view->grado = $grado;
-		$this->view->formulario = $formulario;
+		$this->view->nivel = $nivel;
+		$this->view->ciclo = $ciclo;
 		
 		if($request->isPost()){
-			if($formulario->isValid($request->getPost())){
-				$datos = $formulario->getValues();
-				try{
-					$this->materiaDAO->crearMateria($datos);
-					$this->view->messageSuccess = "Materia: <strong>" . $materia->getMateriaEscolar() . "</strong> dada de alta exitosamente";
-				}catch(Exception $ex){
-					//print_r($ex->__toString());
-					$this->view->messageFail = $ex->getMessage();
-				}
-				
-				//$this->view->datos = $datos;
-			}
+		    $datos = $request->getPost();
+		    $datos['creacion'] = date('Y-m-d H:i:s');
+		    //print_r($datos);
+		    try{
+		        $this->materiaDAO->crearMateria($datos);
+		        $this->view->messageSuccess = "Materia: <strong>" . $datos['materiaEscolar'] . "</strong> dada de alta exitosamente";
+		    }catch(Exception $ex){
+		        $this->view->messageFail = $ex->getMessage();
+		    }
 		}
     }
 

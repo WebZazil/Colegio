@@ -40,15 +40,15 @@ class Encuesta_Data_DAO_AsignacionGrupo {
         $select = $tGE->select()->from($tGE)->where('idGrupoEscolar=?',$rowAsignacion->idGrupoEscolar);
         $rowGE = $tGE->fetchRow($select);
         
-        $tR = $this->tableRegistro;
-        $select = $tR->select()->from($tR)->where('idRegistro=?',$rowAsignacion->idRegistro);
-        $rowR = $tR->fetchRow($select);
+        $tD = $this->tableDocente;
+        $select = $tD->select()->from($tD)->where('idDocente=?',$rowAsignacion->idDocente);
+        $rowD = $tD->fetchRow($select);
         
         $object = array();
         $object['as'] = $rowAsignacion->toArray();
         $object['me'] = $rowME->toArray();
         $object['ge'] = $rowGE->toArray();
-        $object['re'] = $rowR->toArray();
+        $object['re'] = $rowD->toArray();
         
         return $object;
     }
@@ -58,11 +58,11 @@ class Encuesta_Data_DAO_AsignacionGrupo {
         $select = $tAG->select()->from($tAG)->where('idAsignacionGrupo=?',$idAsignacion);
         $rowAG = $tAG->fetchRow($select)->toArray();
         
-        $tR = $this->tableRegistro;
-        $select = $tR->select()->from($tR)->where('idRegistro=?', $rowAG['idRegistro']);
-        $rowR = $tR->fetchRow($select);
+        $tD = $this->tableDocente;
+        $select = $tD->select()->from($tD)->where('idDocente=?', $rowAG['idDocente']);
+        $rowD = $tD->fetchRow($select);
         
-        return $rowR->toArray();
+        return $rowD->toArray();
     }
     
     public function getAsignacionesGrupoByIdGrupo($idGrupoEscolar) {
@@ -104,5 +104,9 @@ class Encuesta_Data_DAO_AsignacionGrupo {
         return $rowsAG->toArray();
     }
     
-    
+    public function addAsignacionGrupo($datos) {
+        $tAG = $this->tableAsignacionGrupo;
+        
+        return $tAG->insert($datos);
+    }
 }

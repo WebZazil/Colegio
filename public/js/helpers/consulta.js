@@ -47,11 +47,11 @@ $().ready(function(){
                         console.dir(data);
                         $("#grupoR").empty();
                         $("#grupoR").append($("<option></option>").attr("value","0").text("Seleccione Grupo"));
-                        $.each(data, function(i,item){//function(key,value)
-                            $("#grupoR").append($("<option></option>").attr("value",data[i].idGrupo).text(data[i].grupo));
+                        $.each(data, function(i,item){
+                        	
+                        	console.log(item);
+                            $("#grupoR").append($("<option></option>").attr("value",item.idGrupoEscolar).text(item.grupoEscolar));
                         });
-                        //$("#grupo").empty();
-                        
                     }
                 });
                 

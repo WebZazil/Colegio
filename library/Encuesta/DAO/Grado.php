@@ -59,9 +59,7 @@ class Encuesta_DAO_Grado implements Encuesta_Interfaces_IGrado {
 		$select = $tablaGrado->select()->from($tablaGrado)->where("idGradoEducativo = ?", $id);
 		$rowGrado = $tablaGrado->fetchRow($select);
 		
-		$modelGrado = new Encuesta_Models_GradoEducativo($rowGrado->toArray());
-		
-		return $modelGrado;
+		return $rowGrado->toArray();
 	}
 	
 	/**

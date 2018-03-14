@@ -16,6 +16,7 @@
 					<a class="btn btn-success" href="<?php echo $urlAltaEncuesta; ?>">
                         <i class="fa fa-plus"></i> Nueva Encuesta
                     </a>
+                    
 				</div>
 				<hr />
 				<div>
@@ -110,118 +111,23 @@
                 <h5 class="panel-title">Preguntas</h5>
             </div>
             <div class="panel-body">
-                
+                <div>
+                	<table id="preguntas" class="table table-striped table-condensed">
+                		<thead>
+                			<tr>
+                				<th>Pregunta</th>
+                				<th>Tipo Pregunta</th>
+                				<th>Orden</th>
+                				<th>Creación</th>
+                			</tr>
+                		</thead>
+                		<tbody></tbody>
+                	</table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
-$().ready(function(){
-	var appname = "/colegio/encuesta";
-    var url = window.location.origin + appname;
-
-    $("button[name='btnQuerySecciones']").click(function() {
-		var encuesta = $(this).attr('encuesta');
-		console.log(encuesta);
-
-		//var bodySecciones = $('#secciones').find('tbody');
-		
-
-		var urlQuery = url + '/json/secciones/en/'+encuesta;
-		console.log(urlQuery);
-		$.ajax({
-            url: urlQuery,
-            dataType: "json",
-            success: function(data){
-                console.dir(data);
-                
-                var tbody = $("#secciones").find('tbody');
-                tbody.empty();
-
-                $.each(data, function(index,value){
-
-                	var urlGrupos = url + "/json/grupossec/sec/"+value.idSeccionEncuesta;
-                    
-                    var buttonGrupos = $("<button></button>")
-                         .attr('class','btn btn-link')
-                         .attr('name','btnQueryGrupos')
-                         .attr('seccion',value.idSeccionEncuesta)
-                         .html('<i class="fa fa-th" ></i> Grupos');
-                    
-                    tbody.append($('<tr>').
-                        append($('<td>').append(value.nombre)).
-                        append($('<td>').append(buttonGrupos)).
-                        append($('<td>').append(value.orden)).
-                        append($('<td>').append(value.elementos)).
-                        append($('<td>').append(value.creacion))
-                    );
-                });
-                //$("#grupo").empty();
-                
-            }
-        });
-		
-    });
-	
-    $(document).on('click','button[name="btnQueryGrupos"]',function() {
-    	var seccion = $(this).attr('seccion');
-		console.log(seccion);
-
-		var urlQuery = url + '/json/grupossec/se/'+seccion;
-		console.log(urlQuery);
-		$.ajax({
-            url: urlQuery,
-            dataType: "json",
-            success: function(data){
-                console.dir(data);
-                
-                var tbody = $("#grupos").find('tbody');
-                tbody.empty();
-
-                $.each(data, function(index,value){
-
-                	var tipoGrupo = '';
-
-                	switch (value.tipo) {
-					case 'SS':
-						tipoGrupo = 'Simple Selección';
-						break;
-
-					case 'AB':
-						tipoGrupo = 'Abiertas';
-						break;
-					}
-                    
-                    var buttonPreguntas = $("<button></button>")
-                         .attr('class','btn btn-link')
-                         .attr('name','btnQueryPreguntas')
-                         .attr('grupo',value.idGrupoSeccion)
-                         .html('<i class="fa fa-th" ></i> Preguntas');
-                    
-                    tbody.append($('<tr>').
-                        append($('<td>').append(value.nombre)).
-                        append($('<td>').append(tipoGrupo)).
-                        append($('<td>').append(value.valorMaximo)).
-                        append($('<td>').append(value.valorMinimo)).
-                        append($('<td>').append(buttonPreguntas)).
-                        append($('<td>').append(value.orden)).
-                        append($('<td>').append(value.elementos)).
-                        append($('<td>').append(value.creacion))
-                    );
-                });
-                //$("#grupo").empty();
-                
-            }
-        });
-    });
-
-    $(document).on('click','button[name="btnQueryPreguntas"]',function() {
-    	var grupo = $(this).attr('grupo');
-		console.log(grupo);
-
-		var urlQuery = url + '/json/preguntasgpo/gpo/'+grupo;
-		console.log(urlQuery);
-    });
-});
+<script type="text/javascript" src="<?php echo $this->baseUrl().'/public/js/encuesta/consulta.js' ?>">
 </script>

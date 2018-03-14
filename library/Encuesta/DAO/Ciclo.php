@@ -62,9 +62,7 @@ class Encuesta_DAO_Ciclo implements Encuesta_Interfaces_ICiclo {
 			throw new Exception("Error: No hay ciclos escolares");
 		}
 		
-		$modelCiclo = new Encuesta_Models_Ciclo($row->toArray());
-		
-		return $modelCiclo;
+		return $row->toArray();
 	}
 	
 	/**

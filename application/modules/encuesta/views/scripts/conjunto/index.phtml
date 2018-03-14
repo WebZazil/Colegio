@@ -14,7 +14,7 @@
 			</div>
 			<div class="panel-body">
 				<div>
-					<a class="btn btn-success" href="<?php echo $urlAlta; ?>">
+					<a class="btn btn-success" href="<?php echo $urlAltaConjunto; ?>">
 						<i class="fa fa-plus-circle"></i> Agregar Nuevo Conjunto
 					</a>
 				</div>
@@ -25,6 +25,7 @@
 							<tr>
 								<th>Grupo</th>
 								<th>Conjunto</th>
+								<th>Creación</th>
 								<th>Asignaciones</th>
 								<th>Evaluadores</th>
 								<th>Evaluaciones</th>
@@ -33,9 +34,9 @@
 						<tbody>
 							<?php foreach ($conjuntos as $conjunto) : 
 								$grupo = $grupoDAO->obtenerGrupo($conjunto["idGrupoEscolar"]);
-								$urlEvaluadores = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","co"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
-								$urlEvals = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","co"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
-								$urlAsignaciones = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
+								$urlEvaluadores = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","co"=>$conjunto["idConjuntoEvaluador"]),null,true);
+								$urlEvals = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","co"=>$conjunto["idConjuntoEvaluador"]),null,true);
+								$urlAsignaciones = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$conjunto["idConjuntoEvaluador"]),null,true);
 								$urlAdmin = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"admin","co"=>$conjunto["idConjuntoEvaluador"]),null,true);
 								?>
 							<tr>
@@ -45,7 +46,9 @@
 								        <?php echo $conjunto["conjunto"] ?>
 								    </a>
 								</td>
-								
+								<td>
+									<?php echo $conjunto["creacion"] ?>
+								</td>
 								<td>
 									<a target="_blank" class="btn btn-link" href="<?php echo $urlAsignaciones;  ?>">
 										<i class="fa fa-graduation-cap"></i> Asignaciones Conjunto
