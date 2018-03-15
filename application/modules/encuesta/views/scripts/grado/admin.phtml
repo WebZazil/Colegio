@@ -12,7 +12,7 @@
 	        </div>
 	        <div class="panel-body">
 	            <div>
-	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"grados","idNivel"=>$grado['idNivelEducativo']),null,true) ?>">
+	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"grados","ni"=>$grado['idNivelEducativo']),null,true) ?>">
 	                    <span class="fa fa-arrow-circle-left"></span> Regresar al Nivel
 	                </a>
 	                <a class="btn btn-success" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"materia","action"=>"alta","gr"=>$grado['idGradoEducativo']),null,true) ?>">

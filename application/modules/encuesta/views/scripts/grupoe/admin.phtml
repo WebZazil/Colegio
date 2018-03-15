@@ -2,6 +2,7 @@
 	$grupo = $this->grupo;
 	$grado = $this->grado;
 	$nivel = $this->nivel;
+	$materiasGrupo = $this->materiasGrupo;
 	$materiasGrado = $this->materiasGrado;
 	$materiasDisponibles = $this->materiasDisponibles;
     
@@ -67,23 +68,23 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($materiasGrado as $materiaGrado) : 
+							<?php foreach ($materiasGrupo as $materiaGrupo) : 
 							    //print_r($materiaAsociada["idMateriaEscolar"]);
 							    ?>
 							<tr>
 								<td><?php echo $nivel['nivelEducativo'] ?></td>
 								<td><?php echo $grado['gradoEducativo']; ?></td>
 								<td><?php echo $grupo['grupoEscolar'] ?></td>
-								<td><?php echo $materiaGrado['materiaEscolar'] ?></td>
+								<td><?php echo $materiaGrupo['materiaEscolar'] ?></td>
 								<td>
-								    <?php if ($asignacionDAO->existeDocenteEnAsignacion($grupo['idGrupoEscolar'], $materiaGrado['idMateriaEscolar']) ) {
-								        $params = array('idGrupoEscolar'=>$grupo['idGrupoEscolar'],'idMateriaEscolar'=>$materiaGrado['idMateriaEscolar']);
+								    <?php if ($asignacionDAO->existeDocenteEnAsignacion($grupo['idGrupoEscolar'], $materiaGrupo['idMateriaEscolar']) ) {
+								        $params = array('idGrupoEscolar'=>$grupo['idGrupoEscolar'],'idMateriaEscolar'=>$materiaGrupo['idMateriaEscolar']);
 								        $asignacion = $asignacionDAO->getAsignacionByParams($params);
 								        $docente = $docenteDAO->getDocenteById($asignacion["idDocente"]);
                                         //$registro = $registroDAO->getRegistroById($asignacion["idRegistro"]);
                                         echo $docente["apellidos"]." ".$docente["nombres"];
 									}else{ ?>
-								        <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asocdoc","gpo"=>$grupo['idGrupoEscolar'],"mat"=>$materiaGrado["idMateriaEscolar"]),null,true) ?>">
+								        <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asocdoc","gpo"=>$grupo['idGrupoEscolar'],"mat"=>$materiaGrupo["idMateriaEscolar"]),null,true) ?>">
                                             <i class="fa fa-plus-circle"></i> Asociar Docente
                                         </a>
 								    <?php } ?>

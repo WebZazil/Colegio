@@ -72,7 +72,8 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 		$cicloEscolar = $this->cicloDAO->getCicloEscolarActual();
 		
 		$materiasGrado = $this->materiaDAO->getMateriasByIdGradoEducativoAndIdCicloEscolar($grado['idGradoEducativo'],$cicloEscolar['idCicloEscolar']);
-		
+		$materiasGrupo = $this->grupoeDAO->getMateriasGrupo($idGrupo);
+		$this->view->materiasGrupo = $materiasGrupo;
 		
 		$idsRelacionadas = explode(",", $grupo['idsMaterias']);
 		

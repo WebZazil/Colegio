@@ -8,12 +8,14 @@ class Encuesta_Data_DAO_GrupoEscolar {
     
     private $tableGrupoEscolar;
     private $tableConjuntoEvaluador;
+    private $tableMateriaEscolar;
     
     public function __construct($dbAdapter) {
         $config = array('db' => $dbAdapter);
         
         $this->tableGrupoEscolar = new Encuesta_Data_DbTable_GrupoEscolar($config);
         $this->tableConjuntoEvaluador = new Encuesta_Data_DbTable_ConjuntoEvaluador($config);
+        $this->tableMateriaEscolar = new Encuesta_Data_DbTable_MateriaEscolar($config);
     }
     
     /**
@@ -104,5 +106,23 @@ class Encuesta_Data_DAO_GrupoEscolar {
         
         $rowGrupo->idsMaterias = implode(",", $idsMaterias);
         $rowGrupo->save();
+    }
+    
+    /**
+     * 
+     * @param int $idGrupoEscolar
+     * @return array
+     */
+    public function getMateriasGrupo($idGrupoEscolar) {
+        $tGE = $this->tableGrupoEscolar;
+        $select = $tGE->select()->from($tGE)->where('idGrupoEscolar=?',$idGrupoEscolar);
+        $rowGE = $tGE->fetchRow($select)->toArray();
+        
+        $idsMateriasGrupo = explode(',', $rowGE['idsMaterias']);
+        
+        $tMG = $this->tableMateriaEscolar;
+        $select = $tMG->select()->from($tMG)->where('idMateriaEscolar IN (?)',$idsMateriasGrupo);
+        $rowsMG = $tMG->fetchAll($select)->toArray();
+        return $rowsMG;
     }
 }
