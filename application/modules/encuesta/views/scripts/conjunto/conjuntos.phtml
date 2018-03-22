@@ -31,19 +31,36 @@
 							<tr>
 								<th>Nombre</th>
 								<th>Creacion</th>
+								<th>Asignaciones</th>
 								<th>Evaluadores</th>
+								<th>Evaluaciones</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php foreach ($conjuntos as $conjunto) :
-								$urlEvaluaciones = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjuntos",""=>"",),null,true);
+							     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'asignaciones','co'=>$conjunto['idConjuntoEvaluador']);
+							     $urlAsignaciones = $this->url($params,null,true);
+							     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'evaluadores','co'=>$conjunto['idConjuntoEvaluador']);
+							     $urlEvaluadores = $this->url($params,null,true);
+							     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'evaluaciones','co'=>$conjunto['idConjuntoEvaluador']);
+							     $urlEvaluaciones = $this->url($params,null,true);
 								?>
 							<tr>
 								<td><?php echo $conjunto["conjunto"] ?></td>
 								<td><?php echo $conjunto["creacion"] ?></td>
 								<td>
-									<a class="btn btn-info" href="<?php echo $urlEvaluaciones; ?>">
-										<i class="fa fa-check-square-o"></i> Evaluadores
+									<a class="btn btn-link" href="<?php echo $urlAsignaciones; ?>">
+										<i class="fa fa-graduation-cap"></i> Asignaciones Conjunto
+									</a>
+								</td>
+								<td>
+									<a class="btn btn-link" href="<?php echo $urlEvaluadores; ?>">
+										<i class="fa fa-users"></i> Evaluadores
+									</a>
+								</td>
+								<td>
+									<a class="btn btn-link" href="<?php echo $urlEvaluaciones; ?>">
+										<i class="fa fa-check-square-o"></i> Evaluaciones
 									</a>
 								</td>
 							</tr>

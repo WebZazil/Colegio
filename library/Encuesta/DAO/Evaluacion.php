@@ -523,7 +523,7 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
         $rowsEvaluadores = $tablaEvaluador->fetchAll();
         
         foreach ($rowsEvaluadores as $key => $rowEvaluador) {
-            print_r($rowEvaluador->nombres." ". $rowEvaluador->apellidos);
+            //print_r($rowEvaluador->nombres." ". $rowEvaluador->apellidos);
             $rowEvaluador->nombres = ucwords(strtolower($rowEvaluador->nombres));
             $rowEvaluador->apellidos = ucwords(strtolower($rowEvaluador->apellidos));
             $rowEvaluador->save();

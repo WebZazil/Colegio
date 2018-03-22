@@ -1,4 +1,15 @@
 <?php
+/**
+ * @author EnginnerRodriguez
+ * 
+ */
+
+
+
+
+
+
+
 
 class Encuesta_JsonController extends Zend_Controller_Action
 {
@@ -28,9 +39,10 @@ class Encuesta_JsonController extends Zend_Controller_Action
     private $dbConnector = null;
 
     private $serviceLogin = null;
-    
-    private $seccionEncuestaDAO;
-    private $preguntaDAO;
+
+    private $seccionEncuestaDAO = null;
+
+    private $preguntaDAO = null;
 
     public function init()
     {
@@ -127,7 +139,8 @@ class Encuesta_JsonController extends Zend_Controller_Action
         // action body
         $idCiclo = $this->getParam("idCiclo");
 		$idGrado = $this->getParam("idGrado");
-		if(is_null($idCiclo)) $idCiclo = $this->cicloDAO->getCurrentCiclo()->getIdCiclo();
+		$ciclo = $this->cicloDAO->getCurrentCiclo();
+		if(is_null($idCiclo)) $idCiclo = $ciclo['idCicloEscolar'];
 		$grupos = $this->gruposDAO->obtenerGrupos($idGrado, $idCiclo);
 		
 		echo Zend_Json::encode($grupos);
@@ -318,15 +331,16 @@ class Encuesta_JsonController extends Zend_Controller_Action
         echo Zend_Json::encode($container);
     }
 
+    public function asignacionesgpoAction()
+    {
+        // action body
+        $idGrupo = $this->getParam('gpo');
+        $asignaciones = $this->asignacionDAO->getAsignacionesByIdGrupo($idGrupo);
+        $objAsignaciones = $this->asignacionDAO->getObjectAsignaciones($asignaciones);
+        
+        echo Zend_Json::encode($objAsignaciones);
+    }
+
 
 }
-
-
-
-
-
-
-
-
-
 

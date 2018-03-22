@@ -1,11 +1,7 @@
 <?php
     $niveles = $this->niveles;
     
-    $params = array(
-        "module"=>"encuesta",
-        "controller"=>"resultado",
-        "action"=>"conjuntos"
-    );
+    $params = array("module"=>"encuesta","controller"=>"resultado","action"=>"conjuntos");
     $urlConjuntos = $this->url($params,null,true);
     $params["action"] = "grupos";
     $urlGrupos = $this->url($params,null,true);
@@ -20,6 +16,10 @@
     			<div>
     			    <a class="btn btn-success" href="<?php echo $urlGrupos; ?>">
                         <i class="fa fa-search"></i> Evaluaciones por Grupos
+                    </a>
+                    
+                    <a id="recalculate" href="" class="btn btn-danger hidden">
+                    	<i class="fa fa-refresh"></i> Recalcular evaluaciones 
                     </a>
     			</div>
     			<hr />				<div>

@@ -65,6 +65,7 @@
               <actionMethod actionName="secciones"/>
               <actionMethod actionName="grupossec"/>
               <actionMethod actionName="preguntas"/>
+              <actionMethod actionName="asignacionesgpo"/>
             </controllerFile>
             <controllerFile controllerName="Categoria">
               <actionMethod actionName="index"/>
@@ -714,6 +715,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Json">
                 <viewScriptFile forActionName="preguntas"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="asignacionesgpo"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1505,6 +1509,7 @@
                 <testApplicationActionMethod forActionName="secciones"/>
                 <testApplicationActionMethod forActionName="grupossec"/>
                 <testApplicationActionMethod forActionName="preguntas"/>
+                <testApplicationActionMethod forActionName="asignacionesgpo"/>
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Categoria">
                 <testApplicationActionMethod forActionName="index"/>

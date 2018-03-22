@@ -11,7 +11,7 @@ $().ready(function(){
 
 		if(idNivel != 0){
 			var urlQueryRecurso = url + '/json/grados/idNivel/'+idNivel;
-			
+			console.log(urlQueryRecurso);
 			$.ajax({
 				url: urlQueryRecurso,
 				dataType: "json",
@@ -35,7 +35,7 @@ $().ready(function(){
 		var idGrado = $(this).val();
 		if(idGrado!= 0){
 			var urlQueryRecurso = url + '/json/grupos/idGrado/'+idGrado;
-			
+			console.log(urlQueryRecurso);
 			$.ajax({
 				url: urlQueryRecurso,
 				dataType: "json",
@@ -54,24 +54,28 @@ $().ready(function(){
 	$('#idGrupo').on('change',function(){
 		var idGrupo = $(this).val();
 		if(idGrupo != 0){
-			var urlQueryRecurso = url + '/json/encrealizadas/idGrupo/'+idGrupo;
+			var urlQueryRecurso = url + '/json/asignacionesgpo/gpo/'+idGrupo;
 			console.log(urlQueryRecurso);
 			$.ajax({
 				url: urlQueryRecurso,
 				dataType: "json",
 				success: function(data){
 					console.dir(data);
-
+					
+					var numEvals = data.length;
+					console.log(numEvals);
+					
 					tbody = $("#evaluaciones").find('tbody');
             		tbody.empty();
             		
             		$.each(data, function(index, value){
             			var asignacion = value.asignacion;
-            			var encuesta = value.encuesta;
+            			//var encuesta = value.encuesta;
                 		var docente = value.docente;
-                		var materia = value.materia;
+                		var materiae = value.materiae;
+                		var grupoe = value.grupoe;
 
-                		var urlDetails = url + '/resultado/resgras/as/'+asignacion.idAsignacionGrupo+'/ev/'+encuesta.idEncuesta;
+                		var urlDetails = url + '/resultado/resgras/as/'+asignacion.idAsignacionGrupo+'/ev/'+0;
                 		
                 		var nombreDocente = docente.apellidos + ', '+docente.nombres;
                 		var boton = $('<a></a>').
@@ -80,9 +84,9 @@ $().ready(function(){
                 			html('Ver Reporte');
                 		
                 		tbody.append( $('<tr>').
-                            append($('<td>').append(encuesta.nombre)).
+                            //append($('<td>').append(encuesta.nombre)).
                             append($('<td>').append(nombreDocente)).
-                            append($('<td>').append(materia.materiaEscolar)).
+                            append($('<td>').append(materiae.materiaEscolar)).
                             append($('<td>').append(boton)) ) ;
                     });
 				}

@@ -9,6 +9,9 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 	private $gruposDAO;
 	
 	private $tablaAsignacionGrupo;
+	private $tablaGrupoEscolar;
+	private $tablaMateriaEscolar;
+	private $tablaDocente;
 	
 	public function __construct($dbAdapter) {
 		$config = array('db' => $dbAdapter);
@@ -18,7 +21,9 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 		$this->gruposDAO = new Encuesta_DAO_Grupos($dbAdapter);
 		
 		$this->tablaAsignacionGrupo = new Encuesta_Data_DbTable_AsignacionGrupo($config);
-		
+		$this->tablaGrupoEscolar = new Encuesta_Data_DbTable_GrupoEscolar($config);
+		$this->tablaMateriaEscolar = new Encuesta_Data_DbTable_MateriaEscolar($config);
+		$this->tablaDocente = new Encuesta_Data_DbTable_Docente($config);
 	}
 	
 	/**
@@ -112,6 +117,50 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 		$row = $tablaAsignacion->fetchRow($select);
 		
 		return $row->toArray();
+	}
+	
+	public function getAsignacionesByIdGrupo($idGrupo) {
+	    $tG = $this->tablaGrupoEscolar;
+	    $select = $tG->select()->from($tG)->where('idGrupoEscolar=?',$idGrupo);
+	    $rowGrupo = $tG->fetchRow($select)->toArray();
+	    
+	    $idsMaterias = explode(',', $rowGrupo['idsMaterias']);
+	    
+	    $tAG = $this->tablaAsignacionGrupo;
+	    $select = $tAG->select()->from($tAG)->where('idGrupoEscolar=?',$idGrupo)->where('idMateriaEscolar IN (?)',$idsMaterias);
+	    //print_r($select->__toString());
+	    $rowsAsignaciones = $tAG->fetchAll($select);
+	    
+	    return $rowsAsignaciones->toArray();
+	}
+	
+	public function getObjectAsignaciones($asignaciones,$idGrupo = null){
+	    $tME = $this->tablaMateriaEscolar;
+	    $tD = $this->tablaDocente;
+	    $tGE = $this->tablaGrupoEscolar;
+	    
+	    $container = array();
+	    
+	    foreach ($asignaciones as $asignacion) {
+	        $obj = array();
+	        $obj['asignacion'] = $asignacion;
+	        // Materia Escolar
+	        $select = $tME->select()->from($tME)->where('idMateriaEscolar=?',$asignacion['idMateriaEscolar']);
+	        $rowME = $tME->fetchRow($select)->toArray();
+	        $obj['materiae'] = $rowME;
+	        // Grupo Escolar
+	        $select = $tGE->select()->from($tGE)->where('idGrupoEscolar=?',$asignacion['idGrupoEscolar']);
+	        $rowGE = $tGE->fetchRow($select)->toArray();
+	        $obj['grupoe'] = $rowGE;
+	        // Docente
+	        $select = $tD->select()->from($tD)->where('idDocente=?',$asignacion['idDocente']);
+	        $rowD = $tD->fetchRow($select)->toArray();
+	        $obj['docente'] = $rowD;
+	        
+	        $container[] = $obj;
+	    }
+	    
+	    return $container;
 	}
     
     /**

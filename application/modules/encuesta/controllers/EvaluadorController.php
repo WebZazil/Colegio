@@ -25,7 +25,18 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-        $evaluadores = $this->evaluacionDAO->getEvaluadoresByTipo("ALUM");
+        $alumnas = $this->evaluacionDAO->getEvaluadoresByTipo("ALUM");
+        $docentes = $this->evaluacionDAO->getEvaluadoresByTipo("DOCE");
+        $evaluadores = array();
+        
+        foreach ($alumnas as $alumna){
+            $evaluadores[] = $alumna;
+        }
+        
+        foreach ($docentes as $docente) {
+            $evaluadores[] = $docente;
+        }
+        
         $this->view->evaluadores = $evaluadores;
     }
 
