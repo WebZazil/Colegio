@@ -1,19 +1,25 @@
 <?php 
-	$grado = $this->grado;	
+	$grado = $this->grado;
+	$nivel = $this->nivel;
+	$ciclo = $this->ciclo;
+	
 	$formulario = $this->formulario;
 	$messageFail = $this->messageFail;
 	$messageSuccess = $this->messageSuccess;
+	
+	$params = array("module"=>"encuesta","controller"=>"grado","action"=>"admin","gr"=>$grado['idGradoEducativo']);
+	$urlAdminGrado = $this->url($params,null,true);
 ?>
 <section class="row">
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Alta de Grupos en Grado: <strong><?php echo $grado->getGradoEducativo() ?></strong>
+				Alta de Grupos en Grado: <strong><?php echo $grado['gradoEducativo']; ?></strong>
 			</h3>
 		</div>
 		<div class="panel-body">
-			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"admin","idGrado"=>$grado->getIdGradoEducativo()), null, true); ?>">
-				<span class="glyphicon glyphicon-chevron-left"></span> Regresar Grado: <strong><?php echo $grado->getGradoEducativo() ?></strong>
+			<a class="btn btn-info" href="<?php echo $urlAdminGrado; ?>">
+				<span class="glyphicon glyphicon-chevron-left"></span> Regresar Grado: <strong><?php echo $grado['gradoEducativo']; ?></strong>
 			</a><br /><br />
 			<?php if(!is_null($messageSuccess)){ ?>
 			<div class="alert alert-success" role="alert">
@@ -31,9 +37,42 @@
 			</div>
 			<?php } ?>
 			<div>
-				<?php echo $this->formulario; ?>
+			<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+				<div class="form-group">
+					<label for="idCicloEscolar" class="control-label col-md-2">Ciclo Escolar: </label>
+					<div class="col-md-10">
+						<select name="idCicloEscolar" class="form-control">
+							<option value="<?php echo $ciclo['idCicloEscolar'] ?>"><?php echo $ciclo['ciclo'] ?></option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="idGradoEducativo" class="control-label col-md-2">Grado Educativo: </label>
+					<div class="col-md-10">
+						<select name="idGradoEducativo" class="form-control">
+							<option value="<?php echo $grado['idGradoEducativo'] ?>"><?php echo $grado['gradoEducativo'] ?></option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="grupoEscolar" class="control-label col-md-2">Grupo Escolar: </label>
+					<div class="col-md-10">
+						<input name="grupoEscolar" type="text" class="form-control" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-offset-2 col-md-10">
+						<button type="submit" class="btn btn-success">
+							<i class="fa fa-save"></i> Guardar Grupo
+						</button>
+					</div>
+				</div>
+				
+			</form>
 			</div>
-			<br /><br />
 		</div>
 	</div>
 </section>

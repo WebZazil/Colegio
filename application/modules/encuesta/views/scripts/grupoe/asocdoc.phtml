@@ -1,11 +1,6 @@
 <?php
     $grupo = $this->grupo;
     $materia = $this->materia;
-	
-	$formulario = $this->formulario;
-	
-	$messageFail = $this->messageFail;
-	$messageSuccess = $this->messageSuccess;
 ?>
 <section class="row">
 	<div class="panel panel-success">
@@ -21,16 +16,16 @@
 			   <hr />
 			   <div class="form-horizontal">
                    <div class="form-group">
-                       <label class="col-md-2 control-label">Materia:</label>
+                       <label for="nombres" class="col-md-2 control-label">Nombres:</label>
                        <div class="col-md-10">
-                           <label class="control-label"><?php echo $materia['materiaEscolar']; ?></label>
+                           <input id="nombres" name="nombres" class="form-control" autofocus="autofocus" />
                        </div>
                    </div>
                    
                    <div class="form-group">
-                       <label class="col-md-2 control-label">Docente: </label>
+                       <label for="apellidos" class="col-md-2 control-label">Apellidos: </label>
                        <div class="col-md-10">
-                           <input id="docente" class="form-control" autofocus="autofocus" />
+                           <input id="apellidos" name="apellidos" class="form-control" autofocus="autofocus" />
                        </div>
                    </div>
                </div>
@@ -57,14 +52,30 @@
         var appname = "/colegio/encuesta";
         var url = window.location.origin + appname;
         
-        $("#docente").on('blur', function(){
+        $("#nombres, #apellidos").on('blur', function(){
             console.log("Saliendo del input!!");
             var valor = $(this).val();
             console.log(valor);
+            var nombres = $("#nombres").val();
+            var apellidos = $("#apellidos").val();
             
             if(valor != ""){
-                var urlDocentes = "/param/"+valor;
-                var urlQueryDocentes = url + "/json/docentes" + urlDocentes;
+				var complement = '';
+				if(nombres != ""){
+					complement += '/nombres/'+nombres;
+				}
+
+				if(apellidos != ""){
+					complement += '/apellidos/'+nombres;
+				}
+
+				if(complement != ''){
+					complement = encodeURI(complement); 
+				}
+                
+                //var urlDocentes = "/param/"+valor;
+                var urlQueryDocentes = url + "/json/docentes" + complement;
+                
                 var idMateria = <?php echo $materia['idMateriaEscolar']; ?>;
                 var idGrupo = <?php echo $grupo['idGrupoEscolar']; ?>;
                 
@@ -74,20 +85,19 @@
                     url: urlQueryDocentes,
                     dataType: "json",
                     success: function(data){
-                        
                         console.dir(data);
                         var tbody = $("#docentes").find('tbody'); 
                         tbody.empty();
                         
-                        $.each(data, function(i,item){
+                        $.each(data, function(index, value){
                             var link = $("<a />").attr("class", "btn btn-success");
-                            var urlLink = url + "/grupoe/asociarmd/gpo/"+idGrupo+"/mat/"+idMateria+"/doc/"+item.idRegistro;
+                            var urlLink = url + "/grupoe/asociarmd/gpo/"+idGrupo+"/mat/"+idMateria+"/doc/"+value.idDocente;
                             //console.log(urlLink);
                             link.attr("href", urlLink).text("Asociar");
                             
                             tbody.append($('<tr>').
-                                append($('<td>').append(item.nombres)).
-                                append($('<td>').append(item.apellidos)).
+                                append($('<td>').append(value.nombres)).
+                                append($('<td>').append(value.apellidos)).
                                 append($('<td>').append(link)) );
                         });
                         /* */

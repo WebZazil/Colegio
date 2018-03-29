@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * 
+ * @author EnginnerRodriguez
+ *
+ */
 class Encuesta_ResultadoController extends Zend_Controller_Action
 {
 
@@ -28,15 +32,18 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     private $utilText = null;
     
     private $nivelDAO;
+    
+    private $docenteDAO;
+    
+    private $resumenDAO;
 
     public function init()
     {
         /* Initialize action controller here */
         $auth = Zend_Auth::getInstance();
-        if (! $auth->hasIdentity()) {
-            ;
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
         }
-        
         $identity = $auth->getIdentity();
         $dbAdapter = $identity['adapter'];
         
@@ -61,6 +68,9 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $this->utilText = new Encuesta_Util_Text;
         
         $this->nivelDAO = new Encuesta_Data_DAO_NivelEducativo($dbAdapter);
+        $this->docenteDAO = new Encuesta_Data_DAO_Docente($dbAdapter);
+        
+        $this->resumenDAO = new Encuesta_Data_DAO_Resumen($dbAdapter);
     }
 
     public function indexAction()
@@ -228,7 +238,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
             $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
             $contenedor = array();
             $contenedor["materia"] = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
-            $contenedor["docente"] = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+            $contenedor["docente"] = $this->docenteDAO->getDocenteById($asignacion['idDocente']); //$this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
             //$contenedor["evaluaciones"] = null;
             //$this->evaluacionDAO->getTiposEvaluacionByIdAsignacion($idAsignacion);
             //print_r("<br />");
@@ -252,7 +262,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
         //print_r($materia); print_r("<br />");
-        $docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
+        $docente = $this->docenteDAO->getDocenteById($asignacion['idDocente']); //$this->registroDAO->obtenerRegistro($asignacion["idRegistro"])->toArray();
         //print_r($docente); print_r("<br />");
         $grupoE = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
         //print_r($grupoE); print_r("<br />");
@@ -271,20 +281,28 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $idAsignacion = $this->getParam("as");
         $idEvaluacion = $this->getParam("ev");
         
-        $reporteador = $this->reporter;
+        $resumen = $this->resumenDAO->obtenerResumen($idAsignacion, $idEvaluacion);
+        
+        try {
+            $this->resumenDAO->crearResumen($idAsignacion, $idEvaluacion);
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
         
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
         $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
         
-        $docente = $this->registroDAO->obtenerRegistro($asignacion["idRegistro"]);
+        $this->view->resumen = $resumen;
+        $this->view->encuesta = $encuesta;
+        $this->view->asignacion = $asignacion;
+        
+        $reporteador = $this->reporter;
+        
+        
+        
+        $docente = $this->docenteDAO->getDocenteById($asignacion['idDocente']);
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
         $grupoE = $this->grupoDAO->obtenerGrupo($asignacion["idGrupoEscolar"]);
-        
-        //$idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
-        
-        
-        //print_r("IdReporte: ".$idReporte);
-        
         
         $evaluaciones = $this->evaluacionDAO->getEvaluacionesByAsignacionAndEvaluacion($idAsignacion, $idEvaluacion);
         $numeroEvaluadores = count($evaluaciones);
@@ -361,15 +379,15 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         }
 
         $this->view->grupoE = $grupoE;
-        $this->view->encuesta = $encuesta;
-        $this->view->asignacion = $asignacion;
-        $this->view->docente = $docente->toArray();
+        
+        $this->view->docente = $docente;
         $this->view->materia = $materia;
         $this->view->idReporte = $idReporte;
         
         $this->view->preferencias = $preferencias;
         $this->view->preguntaDAO = $this->preguntaDAO;
         $this->view->respuestaDAO = $this->respuestaDAO;
+        
     }
 
     public function resasignAction()

@@ -42,12 +42,13 @@ class Encuesta_Data_DAO_Materia {
         $tAG = $this->tableAsignacionGrupo;
         $select = $tAG->select()->from($tAG)->where('idGrupoEscolar=?',$idGrupoEscolar);
         $rowsAG = $tAG->fetchAll($select);
+        //if (empty($rowsAG)) return array();
         
         $idsMaterias = array();
         foreach ($rowsAG as $rowAG) {
             $idsMaterias[] = $rowAG['idMateriaEscolar'];
         }
-        
+        if (empty($idsMaterias)) return array();
         $tM = $this->tableMateria;
         $select = $tM->select()->from($tM)->where('idMateriaEscolar IN (?)', $idsMaterias);
         $rowsM = $tM->fetchAll($select);

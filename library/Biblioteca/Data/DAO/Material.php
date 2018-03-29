@@ -1,6 +1,8 @@
 <?php
 /**
  * 
+ * @author EnginnerRodriguez
+ *
  */
 class Biblioteca_Data_DAO_Material{
 	
@@ -24,9 +26,9 @@ class Biblioteca_Data_DAO_Material{
 	public function getAllMateriales()
 	{
 		$tablaMaterial = $this->tableMaterial;
-        $rowsMeterial = $tablaMaterial->fetchAll();
+        $rowsMaterial = $tablaMaterial->fetchAll();
         
-        return $rowsMeterial->toArray();
+        return $rowsMaterial->toArray();
 	}
 	
 	

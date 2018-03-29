@@ -53,4 +53,20 @@ class Encuesta_Data_DAO_CicloEscolar {
         
         $tCE->update($datos, $where);
     }
+    
+    /**
+     * 
+     * @param int $idCicloEscolar
+     */
+    public function actualizarCiclosACicloVigente($idCicloEscolar) {
+        $tCE = $this->tableCicloEscolar;
+        $rowsCiclos = $tCE->fetchAll();
+        
+        foreach ($rowsCiclos as $rowCiclo) {
+            if ($rowCiclo->idCicloEscolar != $idCicloEscolar) {
+                $rowCiclo->vigente = 0;
+                $rowCiclo->save();
+            }
+        }
+    }
 }

@@ -13,6 +13,7 @@ class Encuesta_Data_DAO_ConjuntoEvaluador {
     private $tableEncuesta;
     private $tableAsignacionGrupo;
     
+    private $tableCicloEscolar;
    
     public function __construct($dbAdapter){
         $config = array('db' => $dbAdapter);
@@ -23,6 +24,8 @@ class Encuesta_Data_DAO_ConjuntoEvaluador {
         $this->tableEvaluacionConjunto = new Encuesta_Data_DbTable_EvaluacionConjunto($config);
         $this->tableEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
         $this->tableAsignacionGrupo = new Encuesta_Data_DbTable_AsignacionGrupo($config);
+        
+        $this->tableCicloEscolar = new Encuesta_Data_DbTable_CicloEscolar($config);
     }
     
     public function getAllRowsConjuntosByIdGrupoEscolar($idGrupoEscolar) {
@@ -66,7 +69,7 @@ class Encuesta_Data_DAO_ConjuntoEvaluador {
         if (!empty($rowsEC)) {
             $tEn = $this->tableEncuesta;
             foreach ($rowsEC as $rowEC){
-                $select = $tEn->select()->from($tEn)->where('idEncuesta=?',$rowEC['idEvaluacion']);
+                $select = $tEn->select()->from($tEn)->where('idEncuesta=?',$rowEC['idEncuesta']);
                 $rowEvC = $tEn->fetchRow($select)->toArray();
                 
                 $obj['evaluaciones'][] = $rowEvC;
@@ -82,7 +85,7 @@ class Encuesta_Data_DAO_ConjuntoEvaluador {
         $tEC = $this->tableEvaluacionConjunto;
         $select = $tEC->select()->from($tEC)
             ->where('idConjuntoEvaluador=?',$idConjunto)
-            ->where('idEvaluacion=?',$idEvaluacion);
+            ->where('idEncuesta=?',$idEvaluacion);
         $rowEC = $tEC->fetchRow($select)->toArray();
         
         $idsAsignaciones = explode(',', $rowEC['idsAsignacionesGrupo']);
@@ -94,5 +97,34 @@ class Encuesta_Data_DAO_ConjuntoEvaluador {
         return $rowsAsignaciones->toArray();
     }
     
+    public function getAllConjuntosByIdCicloEscolar($idCicloEscolar) {
+        $tGE = $this->tableGrupoEscolar;
+        $select = $tGE->select()->from($tGE)->where('idCicloEscolar=?',$idCicloEscolar);
+        $rowsGE = $tGE->fetchAll($select)->toArray();
+        $idsGrupos = array();
+        
+        foreach ($rowsGE as $rowGE) {
+            $idsGrupos[] = $rowGE['idGrupoEscolar'];
+        }
+        
+        $tCE = $this->tableConjuntoEvaluador;
+        $select = $tCE->select()->from($tCE)->where('idGrupoEscolar IN (?)', $idsGrupos);
+        $rowsCE = $tCE->fetchAll($select);
+        
+        return $rowsCE->toArray();
+    }
     
+    public function deleteAsignacionConjunto($idConjunto,$idAsignacion,$idEncuesta) {
+        $tEC = $this->tableEvaluacionConjunto;
+        $select = $tEC->select()->from($tEC)->where('idConjuntoEvaluador=?',$idConjunto)->where('idEncuesta=?',$idEncuesta);
+        $rowEC = $tEC->fetchRow($select);
+        
+        $idsAsignaciones = explode(',', $rowEC->idsAsignacionesGrupo);
+        $id = array_search($idAsignacion, $idsAsignaciones);
+        //unset( array_search('', $idsAsignaciones) );
+        unset($idsAsignaciones[$id]);
+        
+        $rowEC->idsAsignacionesGrupo = implode(',', $idsAsignaciones);
+        $rowEC->save();
+    }
 }

@@ -9,9 +9,25 @@
 	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,true);
 	$urlAltaEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
 	$urlAltaAsignacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregarasign","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
-    $urlPreviousConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$conjunto["idConjuntoAnterior"]),null,true);
-    $urlNextConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$conjunto["idConjuntoSiguiente"]),null,true);
-    $urlGrupo = $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","idGrupo"=>$conjunto["idGrupoEscolar"],),null,true);
+    
+	$valorId = 0;
+	if ($conjunto['idConjuntoAnterior'] == 0) {
+	    $valorId = $conjunto['idConjuntoEvaluador'];
+	}else{
+	    $valorId = $conjunto['idConjuntoAnterior'];
+	}
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$valorId);
+	$urlPreviousConjunto = $this->url($params,null,true);
+	
+	$valorId = 0;
+	if ($conjunto['idConjuntoSiguiente'] == 0) {
+	    $valorId = $conjunto['idConjuntoEvaluador'];;
+	}else{
+	    $valorId = $conjunto['idConjuntoSiguiente'];
+	}
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$valorId);
+    $urlNextConjunto = $this->url($params,null,true);
+    $urlGrupo = $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","gpo"=>$conjunto["idGrupoEscolar"],),null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -24,15 +40,16 @@
 					<a class="btn btn-link" href="<?php echo $urlConjuntos; ?>">
 						<i class="fa fa-cubes"></i> Regresar a Conjuntos
 					</a>
-					<a <?php echo ($conjunto["idConjuntoAnterior"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
+					<a class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-left"></i> Anterior Conjunto
                     </a>
 					<a target="_blank" class="btn btn-link" href="<?php echo $urlGrupo; ?>">
 					    <i class="fa fa-external-link-square"></i> Ir al Grupo
 					</a>
-					<a <?php echo ($conjunto["idConjuntoSiguiente"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
+					<a class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-right"></i> Siguiente Conjunto
                     </a>
+                    <i id="idConjuntoEvaluador" value="<?php echo $conjunto['idConjuntoEvaluador']; ?>"></i>
 				</div>
 				<hr />
 				<div>
@@ -135,7 +152,7 @@
     $().ready(function(){
         var appname = "/colegio/encuesta";
         var url = window.location.origin + appname;
-        var idConjunto = <?php echo $conjunto["idConjuntoEvaluador"]; ?> ;
+        var idConjunto = $("#idConjuntoEvaluador").attr("value");
         
         $("#btnSubmit").click(function(){
             var idEvaluacion = $("#idEvaluacion").val();

@@ -2,11 +2,18 @@
 	$grupo = $this->grupo;
 	$grado = $this->grado;
 	$nivel = $this->nivel;
+	$materiasGrupo = $this->materiasGrupo;
 	$materiasGrado = $this->materiasGrado;
 	$materiasDisponibles = $this->materiasDisponibles;
     
 	$asignacionDAO = $this->asignacionDAO;
-    $registroDAO = $this->registroDAO;
+    $docenteDAO = $this->docenteDAO;
+    
+    $params = array("module"=>"encuesta","controller"=>"grupoe","action"=>"consulta","gr"=>$grado['idGradoEducativo']);
+    $urlGrupos = $this->url($params,null,true);
+    
+    $params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjuntos","gpo"=>$grupo['idGrupoEscolar']);
+    $urlConjuntos = $this->url($params,null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -16,13 +23,17 @@
 			</div>
 			<div class="panel-body">
 				<div>
-					<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"consulta","idGrado"=>$grado['idGradoEducativo']), null,true); ?>">
+					<a class="btn btn-link" href="<?php echo $urlGrupos; ?>">
 						<i class="fa fa-arrow-circle-left"></i> Regresar a grupos
+					</a>
+					
+					<a class="btn btn-link" href="<?php echo $urlConjuntos; ?>">
+						<i class="fa fa-external-link-square"></i> Ir a conjuntos
 					</a>
 				</div>
 				<hr />
 				<div>
-					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarm","idGrupoEscolar" => $grupo['idGrupoEscolar']),null,true) ?>" >
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded" action="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asociarm","gpo" => $grupo['idGrupoEscolar']),null,true) ?>" >
 						<div class="form-group">
 							<label class="col-xs-2 control-label" for="idMateriaEscolar">Materias Disponibles: </label>
 							<div class="col-xs-10">
@@ -67,22 +78,23 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($materiasGrado as $materiaGrado) : 
+							<?php foreach ($materiasGrupo as $materiaGrupo) : 
 							    //print_r($materiaAsociada["idMateriaEscolar"]);
 							    ?>
 							<tr>
 								<td><?php echo $nivel['nivelEducativo'] ?></td>
 								<td><?php echo $grado['gradoEducativo']; ?></td>
 								<td><?php echo $grupo['grupoEscolar'] ?></td>
-								<td><?php echo $materiaGrado['materiaEscolar'] ?></td>
+								<td><?php echo $materiaGrupo['materiaEscolar'] ?></td>
 								<td>
-								    <?php if ($asignacionDAO->existeDocenteEnAsignacion($grupo['idGrupoEscolar'], $materiaGrado['idMateriaEscolar']) ) {
-								        $params = array('idGrupoEscolar'=>$grupo['idGrupoEscolar'],'idMateriaEscolar'=>$materiaGrado['idMateriaEscolar']);
+								    <?php if ($asignacionDAO->existeDocenteEnAsignacion($grupo['idGrupoEscolar'], $materiaGrupo['idMateriaEscolar']) ) {
+								        $params = array('idGrupoEscolar'=>$grupo['idGrupoEscolar'],'idMateriaEscolar'=>$materiaGrupo['idMateriaEscolar']);
 								        $asignacion = $asignacionDAO->getAsignacionByParams($params);
-                                        $registro = $registroDAO->getRegistroById($asignacion["idRegistro"]);
-                                        echo $registro["apellidos"]." ".$registro["nombres"];
+								        $docente = $docenteDAO->getDocenteById($asignacion["idDocente"]);
+                                        //$registro = $registroDAO->getRegistroById($asignacion["idRegistro"]);
+                                        echo $docente["apellidos"]." ".$docente["nombres"];
 									}else{ ?>
-								        <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asocdoc","gpo"=>$grupo['idGrupoEscolar'],"mat"=>$materiaGrado["idMateriaEscolar"]),null,true) ?>">
+								        <a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"asocdoc","gpo"=>$grupo['idGrupoEscolar'],"mat"=>$materiaGrupo["idMateriaEscolar"]),null,true) ?>">
                                             <i class="fa fa-plus-circle"></i> Asociar Docente
                                         </a>
 								    <?php } ?>

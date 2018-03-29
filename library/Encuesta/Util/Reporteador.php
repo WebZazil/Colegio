@@ -1,6 +1,8 @@
 <?php
 /**
  * 
+ * @author EnginnerRodriguez
+ *
  */
 class Encuesta_Util_Reporteador {
     
@@ -38,24 +40,28 @@ class Encuesta_Util_Reporteador {
     private $tablaReportesEncuesta;
     private $tablaReportesConjunto;
     private $tablaReportesGrupo;
+    private $tableDocente;
+    private $tableEncuestasRealizadas;
 	
-	function __construct($dbAdapter) {
-		$this->tablaEncuesta = new Encuesta_Model_DbTable_Encuesta(array("db"=>$dbAdapter));
-        $this->tablaSeccionEncuesta = new Encuesta_Model_DbTable_SeccionEncuesta(array("db"=>$dbAdapter));
-        $this->tablaGrupoSeccion = new Encuesta_Model_DbTable_GrupoSeccion(array("db"=>$dbAdapter));
-        $this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array("db"=>$dbAdapter));
-        $this->tablaOpcion = new Encuesta_Model_DbTable_OpcionCategoria(array("db"=>$dbAdapter));
+	public function __construct($dbAdapter) {
+	    $config = array('db' => $dbAdapter);
+	    
+		$this->tablaEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
+        $this->tablaSeccionEncuesta = new Encuesta_Data_DbTable_SeccionEncuesta($config);
+        $this->tablaGrupoSeccion = new Encuesta_Data_DbTable_GrupoSeccion($config);
+        $this->tablaPregunta = new Encuesta_Data_DbTable_Pregunta($config);
+        $this->tablaOpcion = new Encuesta_Data_DbTable_OpcionCategoria($config);
         
-        $this->tablaAsignacion = new Encuesta_Model_DbTable_AsignacionGrupo(array("db"=>$dbAdapter));
-        $this->tablaMateriaEscolar = new Encuesta_Model_DbTable_MateriaEscolar(array("db"=>$dbAdapter));
-        $this->tablaRegistro = new Encuesta_Model_DbTable_Registro(array("db"=>$dbAdapter));
-        $this->tablaGrupoEscolar = new Encuesta_Model_DbTable_GrupoEscolar(array("db"=>$dbAdapter));
-        $this->tablaGradoEscolar = new Encuesta_Model_DbTable_GradoEducativo(array("db"=>$dbAdapter));
-        $this->tablaNivelEducativo = new Encuesta_Model_DbTable_NivelEducativo(array("db"=>$dbAdapter));
+        $this->tablaAsignacion = new Encuesta_Data_DbTable_AsignacionGrupo($config);
+        $this->tablaMateriaEscolar = new Encuesta_Data_DbTable_MateriaEscolar($config);
+        $this->tablaRegistro = new Encuesta_Data_DbTable_Registro($config);
+        $this->tablaGrupoEscolar = new Encuesta_Data_DbTable_GrupoEscolar($config);
+        $this->tablaGradoEscolar = new Encuesta_Data_DbTable_GradoEducativo($config);
+        $this->tablaNivelEducativo = new Encuesta_Data_DbTable_NivelEducativo($config);
         
-        $this->tablaConjunto = new Encuesta_Model_DbTable_ConjuntoEvaluador(array("db"=>$dbAdapter));
-        $this->tablaEvaluacionConjunto = new Encuesta_Model_DbTable_EvaluacionConjunto(array("db"=>$dbAdapter));
-        $this->tablaEvaluacionRealizada = new Encuesta_Model_DbTable_EvaluacionRealizada(array("db"=>$dbAdapter));
+        $this->tablaConjunto = new Encuesta_Data_DbTable_ConjuntoEvaluador($config);
+        $this->tablaEvaluacionConjunto = new Encuesta_Data_DbTable_EvaluacionConjunto($config);
+        $this->tablaEvaluacionRealizada = new Encuesta_Data_DbTable_EvaluacionRealizada($config);
         
         $this->utilJson = new Encuesta_Util_Json;
         $this->utilText = new Encuesta_Util_Text;
@@ -63,11 +69,10 @@ class Encuesta_Util_Reporteador {
         $this->preguntaDAO = new Encuesta_DAO_Pregunta($dbAdapter);
         $this->grupoDAO = new Encuesta_DAO_Grupo($dbAdapter);
         
-        $this->tablaReportesConjunto = new Encuesta_Model_DbTable_ReportesConjunto(array("db"=>$dbAdapter));
-        $this->tablaReportesGrupo = new Encuesta_Model_DbTable_ReportesGrupo(array("db"=>$dbAdapter));
-        $this->tablaReportesEncuesta = new Encuesta_Model_DbTable_ReportesEncuesta(array("db"=>$dbAdapter));
-        
-        $this->tablaEvaluador = new Encuesta_Model_DbTable_Evaluador(array("db"=>$dbAdapter));
+        $this->tablaEvaluador = new Encuesta_Data_DbTable_Evaluador($config);
+        $this->tableDocente = new Encuesta_Data_DbTable_Docente($config);
+        $this->tablaReportesEncuesta = new Encuesta_Data_DbTable_ReportesEncuesta($config);
+        $this->tableEncuestasRealizadas = new Encuesta_Data_DbTable_EncuestasRealizadas($config);
 	}
 
     /**
@@ -98,6 +103,7 @@ class Encuesta_Util_Reporteador {
      * 
      */
     public function generarReporteGrupalAsignacion($idGrupo, $idAsignacion, $idEncuesta) {
+        print_r('En generarReporteGrupalAsignacion');
         $tablaEncuesta = $this->tablaEncuesta;
         $tablaAsignacion = $this->tablaAsignacion;
         $tablaConjunto = $this->tablaConjunto;
@@ -122,9 +128,12 @@ class Encuesta_Util_Reporteador {
         
         $reporte = $this->reporteActiveHorizontal;
         $reporte->addPage($pagina);
-        $reporte->saveDocument();
+        
         //Lo guardamos en la tabla Reportes Grupo
         //$tablaReportesGrupo = $this->tablaReportesGrupo;
+        $nombreReporte = $this->utilText->cleanString(str_replace(" ", "", $this->nombreReporte));
+        $archivo = $this->rutaReporte.'/'.$nombreReporte;
+        
         $tablaReportesEncuesta = $this->tablaReportesEncuesta;
         $idReporte = 0;
         $select = $tablaReportesEncuesta->select()->from($tablaReportesEncuesta)->where("idAsignacionGrupo=?",$idAsignacion)->where("idEncuesta=?",$idEncuesta);
@@ -135,23 +144,32 @@ class Encuesta_Util_Reporteador {
             $datos["idEncuesta"] = $idEncuesta;
             $datos["idAsignacionGrupo"] = $idAsignacion;
             //$datos["idsEvaluadores"]="";
-            $datos["nombreReporte"] = $this->utilText->cleanString(str_replace(" ", "", $this->nombreReporte));
+            $datos["nombreReporte"] = $nombreReporte;
             $datos["tipoReporte"] = "RGRU";
             $datos["rutaReporte"] = $this->rutaReporte."/";
-            $datos["fecha"] = date("Y-m-d H:i:s", time());
+            $datos["creacion"] = date("Y-m-d H:i:s", time());
             print_r($datos);
             $idReporte = $tablaReportesEncuesta->insert($datos);
         }else{
             $idReporte = $rowReporte->idReporte;
         }
-        //print_r("idReporte: ".$idReporte);
+        
+        if (!file_exists($archivo)) {
+            $reporte->saveDocument();
+            print_r($archivo);
+        }
+            
         return $idReporte;
     }
     
     /**
      * 
+     * @param int $idEncuesta
+     * @param int $idAsignacion
+     * @return My_Pdf_Page
      */
     public function obtenerReporteBaseGrupalHorizontal($idEncuesta, $idAsignacion) {
+        print_r('En: obtenerReporteBaseGrupalHorizontal <br />');
         $auth = Zend_Auth::getInstance();
         $identity = $auth->getIdentity();
         $organizacion = $identity["organizacion"];
@@ -165,11 +183,11 @@ class Encuesta_Util_Reporteador {
         $select = $tablaGrupoE->select()->from($tablaGrupoE)->where("idGrupoEscolar=?", $rowAsignacion->idGrupoEscolar);
         $rowGrupoE = $tablaGrupoE->fetchRow($select);
         
-        $tablaRegistro = $this->tablaRegistro;
-        $select = $tablaRegistro->select()->from($tablaRegistro)->where("idRegistro=?",$rowAsignacion->idRegistro);
-        $rowRegistro = $tablaRegistro->fetchRow($select);
+        $tablaDocente = $this->tableDocente;
+        $select = $tablaDocente->select()->from($tablaDocente)->where("idDocente=?",$rowAsignacion->idDocente);
+        $rowDocente = $tablaDocente->fetchRow($select);
         
-        $nombreArchivo = $this->utilText->cleanString(str_replace(" ", "", $rowGrupoE->grupoEscolar."-".$idEncuesta."-".$rowRegistro->apellidos.$rowRegistro->nombres."-".$idAsignacion."-RGPH.pdf")) ;
+        $nombreArchivo = $this->utilText->cleanString(str_replace(" ", "", $rowGrupoE->grupoEscolar."-".$idEncuesta."-".$rowDocente->apellidos.$rowDocente->nombres."-".$idAsignacion."-RGPH.pdf")) ;
         //print_r("Nombre Archivo Antes: ");
         //print_r($nombreArchivo); print_r("<br /><br />");
         //print_r("Nombre Archivo Despues: ");
@@ -182,6 +200,7 @@ class Encuesta_Util_Reporteador {
         $this->nombreReporte = $nombreArchivo;
         $this->rutaReporte = $rutaReporte;
         // Obtenemos Template para obtener pagina base
+        /*
         $pdfTemplate = My_Pdf_Document::load(PDF_PATH . '/reports/bases/reporteHBE.pdf');
         $this->reportTemplateHorizontal = $pdfTemplate;
         $pages = $pdfTemplate->pages;
@@ -190,6 +209,13 @@ class Encuesta_Util_Reporteador {
         //Pagina Activa
         $pageZ = clone $pages[0];
         $page = new My_Pdf_Page($pageZ);
+        */
+        $pdfReport = new My_Pdf_Document($nombreArchivo, PDF_PATH . $rutaReporte);
+        //$page = $pdfReport->newPage('letter-landscape');
+        $page = new My_Pdf_Page('letter-landscape'); //$pdfReport->newPage('letter-landscape');
+        
+        $tMembrete = $this->generarMembreteReporte(array(), array(), $page);
+        //$page->
         
         $fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
         $styleDefault = new Zend_Pdf_Style;
@@ -208,6 +234,7 @@ class Encuesta_Util_Reporteador {
      * 
      */
     private function generarHeaderGrupalHorizontal($idEncuesta, $idAsignacion) {
+        print_r('En: generarHeaderGrupalHorizontal <br />');
         // Encuesta
         $tablaEncuesta = $this->tablaEncuesta;
         $select = $tablaEncuesta->select()->from($tablaEncuesta)->where("idEncuesta=?",$idEncuesta);
@@ -217,9 +244,9 @@ class Encuesta_Util_Reporteador {
         $select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idAsignacionGrupo=?",$idAsignacion);
         $asignacion = $tablaAsignacion->fetchRow($select)->toArray();
         // Registro
-        $tablaRegistro = $this->tablaRegistro;
-        $select = $tablaRegistro->select()->from($tablaRegistro)->where("idRegistro=?",$asignacion["idRegistro"]);
-        $docente = $tablaRegistro->fetchRow($select)->toArray();
+        $tablaDocente = $this->tableDocente;
+        $select = $tablaDocente->select()->from($tablaDocente)->where("idDocente=?",$asignacion["idDocente"]);
+        $docente = $tablaDocente->fetchRow($select)->toArray();
         // Materia
         $tablaMateriaEscolar = $this->tablaMateriaEscolar;
         $select = $tablaMateriaEscolar->select()->from($tablaMateriaEscolar)->where("idMateriaEscolar=?",$asignacion["idMateriaEscolar"]);
@@ -261,7 +288,7 @@ class Encuesta_Util_Reporteador {
         $colthA1->setWidth($cellWidth);
         $colthA2->setText(utf8_encode($encuesta['nombre']));
         $colthB1->setText("Docente: ");
-        $colthB1->setWidth($cellWidth); //utf8_encode($docente['apellidos'].", ".$docente['nombres'])
+        $colthB1->setWidth($cellWidth);
         $colthB2->setText($docente['apellidos'].", ".$docente['nombres']);
         $colthC1->setText("Nivel, Grado, Grupo Y Materia: ");
         $colthC1->setWidth($cellWidth);
@@ -298,6 +325,7 @@ class Encuesta_Util_Reporteador {
      * 
      */
     public function generarContentGrupalHorizontal($idEncuesta, $idAsignacion, $page) {
+        print_r('En: generarContentGrupalHorizontal <br />');
         $fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
         // ========================================================== >>> Generamos el cuerpo del reporte
         $tablaContenidoR = new My_Pdf_Table(2);
@@ -500,6 +528,50 @@ class Encuesta_Util_Reporteador {
         
         
         return $page;
+    }
+    
+    /**
+     * 
+     * @param array $infoTitulos
+     * @param array $infoContent
+     */
+    public function generarMembreteReporte(array $infoTitulos, array $infoContent, My_Pdf_Page $pagina) {
+        print_r('En: generarMembreteReporte <br />');
+        $fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+        $anchoCelda = 75;
+        // Tabla
+        $tMembreteTitulos = new My_Pdf_Table(3);
+        // Fila Header
+        $rowMembreteHeader = new My_Pdf_Table_HeaderRow();
+        $rowMembreteHeader->setFont($fontDefault, 32);
+        // Fila Content
+        $rowContent = new My_Pdf_Table_Row();
+        $rowContent->setFont($fontDefault, 10);
+        
+        // Columnas del header
+        $colMH1 = new My_Pdf_Table_Column;
+        $colMH2 = new My_Pdf_Table_Column;
+        
+        $colMH1->setText("Mi titulo de membrete feliz: ");
+        // $colMH1->setWidth($anchoCelda);
+        $colMH2->setText("Mi sub-titulo de membrete feliz: ");
+        // Contenedores de columnas de headers y contents de la tabla
+        $columnsHeaders = array($colMH1);
+        $columnsContents = array($colMH2);
+        
+        $rowMembreteHeader->setColumns($columnsHeaders);
+        $rowMembreteHeader->setCellPaddings(array(5,5,5,5));
+        
+        $rowContent->setColumns($columnsContents);
+        $rowContent->setCellPaddings(array(5,5,5,5));
+        
+        //$tMembreteTitulos->addRow($rowMembreteHeader);
+        $tMembreteTitulos->setHeader($rowMembreteHeader);
+        $tMembreteTitulos->addRow($rowContent);
+        // Columnas del content
+        $pagina->addTable($tMembreteTitulos, 0, 0);
+        
+        return $pagina;
     }
 
     /**

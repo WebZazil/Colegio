@@ -2,18 +2,30 @@
     $conjunto = $this->conjunto;
     $conjuntos = $this->conjuntos;
     
-    //print_r($conjuntos);
-    
     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'index');
     $urlConjuntos = $this->url($params,null,true);
     
-    $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'admin','co'=>$conjunto['idConjuntoAnterior']);
+    $params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","co"=>$conjunto["idConjuntoEvaluador"]);
+    $urlEvaluadores = $this->url($params,null,true);
+    
+    $params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$conjunto["idConjuntoEvaluador"]);
+    $urlAsignaciones = $this->url($params,null,true);
+    
+    $params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","co"=>$conjunto["idConjuntoEvaluador"]);
+    $urlEvals = $this->url($params,null,true);
+    
+    $params = array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","gpo"=>$conjunto["idGrupoEscolar"]);
+    $urlGrupo = $this->url($params,null,true);
+    
+    $id = $conjunto['idConjuntoAnterior'];
+    if ($id == 0) $id = $conjunto['idConjuntoEvaluador'];
+    $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'admin','co'=>$id);
     $urlConjuntoAnterior = $this->url($params,null,true);
     
-    $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'admin','co'=>$conjunto['idConjuntoSiguiente']);
+    $id = $conjunto['idConjuntoSiguiente'];
+    if ($id == 0) $id = $conjunto['idConjuntoEvaluador'];
+    $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'admin','co'=>$id);
     $urlConjuntoSiguiente = $this->url($params,null,true);
-    
-    //print_r($conjunto);
 ?>
 <div class="row">
 	<div class="col-md-12">
@@ -23,12 +35,14 @@
             </div>
             <div class="panel-body">
             	<div>
-            		<a href="<?php echo $urlConjuntoAnterior; ?>" class="btn btn-info">
-            			<i class="fa fa-chevron-left"></i> Conjunto Anterior
+            		<a href="<?php echo $urlConjuntoAnterior; ?>" class="btn btn-link">
+            			<i class="fa fa-arrow-circle-o-left"></i> Conjunto Anterior
             		</a>
-            		
-            		<a href="<?php echo $urlConjuntoSiguiente; ?>" class="btn btn-info">
-            			<i class="fa fa-chevron-right"></i> Conjunto Siguiente
+            		<a target="_blank" class="btn btn-link" href="<?php echo $urlGrupo; ?>">
+					    <i class="fa fa-external-link-square"></i> Ir al Grupo
+					</a>
+            		<a href="<?php echo $urlConjuntoSiguiente; ?>" class="btn btn-link">
+            			<i class="fa fa-arrow-circle-o-right"></i> Conjunto Siguiente
             		</a>
             	</div>
             	<hr />
@@ -37,13 +51,29 @@
                     	<thead>
                     		<tr>
                     			<th>Conjunto</th>
+                    			<th>Asignaciones</th>
                     			<th>Evaluadores</th>
+                    			<th>Evaluaciones</th>
                     		</tr>
                     	</thead>
                     	<tbody>
                     		<tr>
                     			<td><?php echo $conjunto['conjunto']; ?></td>
-                    			<td><?php echo count(explode(',', $conjunto['idsEvaluadores'])); ?></td>
+                    			<td>
+									<a class="btn btn-link" href="<?php echo $urlAsignaciones;  ?>">
+										<i class="fa fa-graduation-cap"></i> Asignaciones Conjunto
+									</a>
+								</td>
+                    			<td>
+									<a target="_blank" class="btn btn-link" href="<?php echo $urlEvaluadores;  ?>">
+										<i class="fa fa-users"></i> Evaluadores
+									</a>
+								</td>
+                    			<td>
+                    				<a target="_blank" class="btn btn-link" href="<?php echo $urlEvals; ?>">
+										<i class="fa fa-check-square-o"></i> Evaluaciones
+									</a>
+                    			</td>
                     		</tr>
                     	</tbody>
                     </table>

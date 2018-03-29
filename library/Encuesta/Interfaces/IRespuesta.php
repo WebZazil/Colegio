@@ -14,7 +14,7 @@ interface Encuesta_Interfaces_IRespuesta{
 	public function obtenerRespuestasEncuestaUsuario($idEncuesta, $idRegistro);
 	public function obtenerRespuestasPreguntaAsignacion($idEncuesta, $idAsignacion,$idPregunta);
 	// =====================================================================================>>>   Insertar
-	public function crearRespuesta($idEncuesta, Encuesta_Model_Respuesta $respuesta);
+	public function crearRespuesta($idEncuesta, array $respuesta);
 	// =====================================================================================>>>   Actualizar
 	public function editarRespuesta($idEncuesta, $idRegistro, array $respuesta);
 	// =====================================================================================>>>   Eliminar

@@ -4,15 +4,10 @@ class Biblioteca_IndexController extends Zend_Controller_Action
 {
 
     private $serviceLogin = null;
-
     private $testConnector = null;
-
     private $loginDAO = null;
-
     private $recursoDAO = null;
-
     private $materialDAO = null;
-
     private $coleccionDAO = null;
 
     private $clasificacionDAO = null;
@@ -26,10 +21,11 @@ class Biblioteca_IndexController extends Zend_Controller_Action
         /* Initialize action controller here */
         $this->_helper->layout->setLayout('homeBiblioteca');
         
-        $this->serviceLogin = new Biblioteca_Service_Login();
+        ///$this->serviceLogin = new Biblioteca_Service_Login();
+        $this->serviceLogin = new App_Data_DAO_Login();
         
         $testData = array('nickname' =>'test', 'password' => sha1('zazil'));
-        $this->testConnector = $this->serviceLogin->getTestConnection($testData, 'colsagcor16', 'MOD_BIBLIOTECA');
+        $this->testConnector = $this->serviceLogin->getTestConnector($testData, 'colsagcor16', 'MOD_BIBLIOTECA');//->getTestConnection($testData, 'colsagcor16', 'MOD_BIBLIOTECA');
         
         $this->loginDAO = new Biblioteca_Data_DAO_Login($this->testConnector);
         $this->recursoDAO = new Biblioteca_Data_DAO_Recurso($this->testConnector);

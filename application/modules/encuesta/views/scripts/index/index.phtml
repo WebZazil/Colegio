@@ -1,10 +1,12 @@
     <?php
 	$ciclosEscolares = $this->ciclosEscolares;
 	$nivelesEducativos = $this->nivelesEducativos;
+	
+	//print_r($nivelesEducativos);
 	//$niveles = array();
 	$evaluaciones = array();
     $encuestasActivas = true;
-    $consultaActiva = true;
+    $consultaActiva = false;
     $messageForm = $this->messageForm;
 ?>
 <!-- Navegacion  --> 
@@ -105,7 +107,7 @@
 			<div class="col-sm-8">
 				<div id="form-eval" class="form-horizontal">
 					<fieldset>
-						<legend>Realizar evaluación:</legend>
+						<legend>Consultar Evaluación Disponible:</legend>
 						<div class="form-group">
 							<label class="col-xs-2" for="ciclo">Ciclo Escolar: </label>
 							<div class="col-xs-10">

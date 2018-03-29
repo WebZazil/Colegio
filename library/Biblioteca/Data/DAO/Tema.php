@@ -1,15 +1,17 @@
 <?php
 /**
  * 
+ * @author EnginnerRodriguez
+ *
  */
 class Biblioteca_Data_DAO_Tema {
     
     private $tableTema;
 	
-	function __construct($dbAdapter) {
-	//	$dbAdapter = Zend_Registry::get("dbmodqueryb");
-	
-	    $config = array('db' =>$dbAdapter);
+
+	public function __construct($dbAdapter) {
+		$config = array('db' => $dbAdapter);
+
 		$this->tableTema = new Biblioteca_Data_DbTable_Tema($config);
 	}
     

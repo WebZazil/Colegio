@@ -6,6 +6,7 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
     private $registroDAO = null;
 
     private $evaluacionDAO = null;
+    private $evaluadorDAO = null;
 
     public function init()
     {
@@ -16,6 +17,7 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
         }
         $identity = $auth->getIdentity();
         
+        $this->evaluadorDAO = new Encuesta_Data_DAO_Evaluador($identity['adapter']);
         $this->evaluacionDAO = new Encuesta_DAO_Evaluacion($identity['adapter']);
         $this->registroDAO = new Encuesta_DAO_Registro($identity['adapter']);
     }
@@ -23,7 +25,18 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-        $evaluadores = $this->evaluacionDAO->getEvaluadoresByTipo("ALUM");
+        $alumnas = $this->evaluacionDAO->getEvaluadoresByTipo("ALUM");
+        $docentes = $this->evaluacionDAO->getEvaluadoresByTipo("DOCE");
+        $evaluadores = array();
+        
+        foreach ($alumnas as $alumna){
+            $evaluadores[] = $alumna;
+        }
+        
+        foreach ($docentes as $docente) {
+            $evaluadores[] = $docente;
+        }
+        
         $this->view->evaluadores = $evaluadores;
     }
 
@@ -31,18 +44,20 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-		$formulario = new Encuesta_Form_AltaEvaluador;
-		$this->view->formulario = $formulario;
+        $estatusEvaluadores = $this->evaluadorDAO->getAllEstatusEvaluadores();
+        $this->view->estatusEvaluadores = $estatusEvaluadores;
+		
 		if ($request->isPost()) {
-			if ($formulario->isValid($request->getPost())) {
-				$datos = $formulario->getValues();
-				try{
-					$this->evaluacionDAO->addEvaluador($datos);
-					$this->view->messageSuccess = "Evaluador: <strong>".$datos["apellidos"].", ".$datos["nombres"]."</strong> agregado correctamente.";
-				}catch(Exception $ex){
-					$this->view->messageFail = "Ha ocurrido un error: <strong>".$ex->getMessage()."</strong>";
-				}
-			}
+		    $datos = $request->getPost();
+		    $datos['creacion'] = date('Y-m-d H:i:s', time());
+		    
+		    try{
+		        //$this->evaluacionDAO->addEvaluador($datos);
+		        $this->evaluadorDAO->addEvaluador($datos);
+		        $this->view->messageSuccess = "Evaluador: <strong>".$datos["apellidos"].", ".$datos["nombres"]."</strong> agregado correctamente.";
+		    }catch(Exception $ex){
+		        $this->view->messageFail = "Ha ocurrido un error: <strong>".$ex->getMessage()."</strong>";
+		    }
 		}
     }
 
@@ -68,11 +83,11 @@ class Encuesta_EvaluadorController extends Zend_Controller_Action
 
     public function asociarAction() {
         // action body
-        $idConjunto = $this->getParam("idConjunto");
-		$idEvaluador = $this->getParam("idEvaluador");
+        $idConjunto = $this->getParam("co");
+		$idEvaluador = $this->getParam("ev");
 		try{
 			$this->evaluacionDAO->asociarEvaluadorAConjunto($idEvaluador, $idConjunto);
-			$this->_helper->redirector->gotoSimple("evaluadores", "conjunto", "encuesta",array("idConjunto"=>$idConjunto));
+			$this->_helper->redirector->gotoSimple("evaluadores", "conjunto", "encuesta",array("co"=>$idConjunto));
 		}catch(Exception $ex){
 			print_r($ex->getMessage());
 		}

@@ -6,11 +6,17 @@ class Encuesta_Data_DAO_Encuesta implements Encuesta_Data_DAO_Interface_IEncuest
     private $tableEncuesta;
     private $tableSeccionEncuesta;
     
+    private $tablaEncuestasRealizadas;
+    private $tablaAsignacionGrupo;
+    
     public function __construct($dbAdapter) {
         $config = array('db'=>$dbAdapter);
         
         $this->tableEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
         $this->tableSeccionEncuesta = new Encuesta_Data_DbTable_SeccionEncuesta($config);
+        
+        $this->tablaEncuestasRealizadas = new Encuesta_Data_DbTable_EncuestasRealizadas($config);
+        $this->tablaAsignacionGrupo = new Encuesta_Data_DbTable_AsignacionGrupo($config);
     }
     public function getEncuestaByLowerDate($date) {
         
@@ -73,6 +79,30 @@ class Encuesta_Data_DAO_Encuesta implements Encuesta_Data_DAO_Interface_IEncuest
     public function addEncuesta($data) {
         $tE = $this->tableEncuesta;
         return $tE->insert($data);
+    }
+    
+    /**
+     * Obtiene todas la encuestas realizadas
+     * T.GrupoEscolar.idGrupo => T.AsignacionGrupo => T.EncuestasRealizadas
+     */
+    public function getEncuestasRealizadasByIdGrupoEscolar($idGrupoEscolar) {
+        $tablaAsignacionGrupo = $this->tablaAsignacionGrupo;
+        $select = $tablaAsignacionGrupo->select()->from($tablaAsignacionGrupo,array("idAsignacionGrupo"))->where("idGrupoEscolar=?",$idGrupoEscolar);
+        $rows = $tablaAsignacionGrupo->fetchAll($select);
+        $ids = array();
+        foreach ($rows as $row) {
+            $ids[] = $row["idAsignacionGrupo"];
+        }
+        //print_r($ids);
+        //$ids = array_values($idsAsignacionGrupo->toArray());
+        //print_r($ids);
+        //print_r("<br /><br /><hr /><br /><br />");
+        // ************************** Consulta sobre T.EncuestasRealizadas
+        $tER = $this->tablaEncuestasRealizadas;
+        $select = $tER->select()->from($tER)->where("idAsignacionGrupo IN (?)", $ids);
+        $rowsER = $tER->fetchAll($select);
+        
+        return $rowsER->toArray();
     }
 
 }

@@ -82,10 +82,11 @@ class Encuesta_CicloController extends Zend_Controller_Action
             $datos["inicio"] = $inicio->toString('yyyy-MM-dd hh:mm:ss');
             $datos["termino"] = $termino->toString('yyyy-MM-dd hh:mm:ss');
             $datos["idPlanEducativo"] = $idPlan;
-            $datos["fecha"] = date("Y-m-d H:i:s", time());
+            $datos["creacion"] = date("Y-m-d H:i:s", time());
             
             try{
-                $this->cicloDAO->addCicloEscolar($datos);
+                $idCiclo = $this->cicloDAO->addCicloEscolar($datos);
+                $this->cicloDAO->actualizarCiclosACicloVigente($idCiclo);
                 $this->view->messageSuccess = "Ciclo Escolar: <strong>".$datos["ciclo"]. "</strong> dato de alta correctamente." ;
             }catch(Exception $ex){
                 $this->view->messageFail = $ex->getMessage();

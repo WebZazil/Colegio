@@ -6,7 +6,9 @@
 	$profesores = $this->profesores;
 	$docente = null;
 	$materiaD = null;
-    $urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjuntos","idGrupo"=>$grupo['idGrupoEscolar']),null,true);
+	
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjuntos","gpo"=>$grupo['idGrupoEscolar']);
+    $urlConjuntos = $this->url($params,null,true);
 ?>
 <section class="row">
 	<div class="panel panel-success">
@@ -16,7 +18,7 @@
 			</h3>
 		</div>
 		<div class="panel-body">
-			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"admin","idGrupo"=>$grupo['idGrupoEscolar']), null, true); ?>">
+			<a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"admin","gpo"=>$grupo['idGrupoEscolar']), null, true); ?>">
 				<span class="glyphicon glyphicon-chevron-left"></span> Regresar a Grupo: <strong><?php echo $grupo['grupoEscolar']; ?></strong>
 			</a>
 			<a class="btn btn-link" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grupoe","action"=>"aencuesta","idGrupo"=>$grupo['idGrupoEscolar']), null, true); ?>">

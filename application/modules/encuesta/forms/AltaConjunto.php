@@ -6,12 +6,18 @@ class Encuesta_Form_AltaConjunto extends Zend_Form
     public function init()
     {
         /* Form Elements & Other Definitions Here ... */
-        $dbAdapter = Zend_Registry::get("dbmodquery");
+        $auth = Zend_Auth::getInstance();
+        if (!$auth->hasIdentity()) {
+            $this->_helper->redirector->gotoSimple("index", "index", "encuesta");
+        }
+        $identity = $auth->getIdentity();
+        $dbAdapter = $identity['adapter'];
+        
 		$grupoDAO = new Encuesta_DAO_Grupos($dbAdapter);
 		$cicloDAO = new Encuesta_DAO_Ciclo($dbAdapter);
 		
 		$cicloActual = $cicloDAO->getCurrentCiclo();
-		$gruposEscolares = $grupoDAO->getAllGruposByIdCicloEscolar($cicloActual->getIdCiclo());
+		$gruposEscolares = $grupoDAO->getAllGruposByIdCicloEscolar($cicloActual['idCicloEscolar']);
         
         $eNombre = new Zend_Form_Element_Text("nombre");
 		$eNombre->setLabel("Nombre del Conjunto");

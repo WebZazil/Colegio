@@ -1,4 +1,15 @@
 <?php
+/**
+ * @author EnginnerRodriguez
+ * 
+ */
+
+
+
+
+
+
+
 
 class Encuesta_JsonController extends Zend_Controller_Action
 {
@@ -28,8 +39,10 @@ class Encuesta_JsonController extends Zend_Controller_Action
     private $dbConnector = null;
 
     private $serviceLogin = null;
-    
-    private $seccionEncuestaDAO;
+
+    private $seccionEncuestaDAO = null;
+
+    private $preguntaDAO = null;
 
     public function init()
     {
@@ -70,6 +83,9 @@ class Encuesta_JsonController extends Zend_Controller_Action
 		$this->docenteDAO = new Encuesta_Data_DAO_Docente($dbAdapter);
 		
 		$this->seccionEncuestaDAO = new Encuesta_Data_DAO_SeccionEncuesta($dbAdapter);
+		$this->reporteDAO = new Encuesta_DAO_Reporte($dbAdapter);
+		
+		$this->preguntaDAO = new Encuesta_Data_DAO_Pregunta($dbAdapter);
     }
 
     public function indexAction()
@@ -89,7 +105,7 @@ class Encuesta_JsonController extends Zend_Controller_Action
 		
 		$encuestasRealizadas = $encuestaDAO->getEncuestasRealizadasByIdGrupoEscolar($idGrupoEscolar);
 		// array de encuestas realizadas extendido.
-		$arrayERExt = array();
+		$container = array();
 		foreach ($encuestasRealizadas as $er) {
 			$asignacionGrupo = $asignacionDAO->getAsignacionById($er["idAsignacionGrupo"]);
 			
@@ -99,14 +115,14 @@ class Encuesta_JsonController extends Zend_Controller_Action
 			
 			$contenedor = array();
 			$contenedor["asignacion"] = $er;
-			$contenedor["encuesta"] = $encuesta->toArray();
+			$contenedor["encuesta"] = $encuesta;
 			$contenedor["docente"] = $docente;
-			$contenedor["materia"] = $materia->toArray();
+			$contenedor["materia"] = $materia;
 			
-			$arrayERExt[] = $contenedor;
+			$container[] = $contenedor;
 		}
 		
-		echo Zend_Json::encode($arrayERExt);
+		echo Zend_Json::encode($container);
     }
 
     public function gradosAction()
@@ -123,7 +139,8 @@ class Encuesta_JsonController extends Zend_Controller_Action
         // action body
         $idCiclo = $this->getParam("idCiclo");
 		$idGrado = $this->getParam("idGrado");
-		if(is_null($idCiclo)) $idCiclo = $this->cicloDAO->getCurrentCiclo()->getIdCiclo();
+		$ciclo = $this->cicloDAO->getCurrentCiclo();
+		if(is_null($idCiclo)) $idCiclo = $ciclo['idCicloEscolar'];
 		$grupos = $this->gruposDAO->obtenerGrupos($idGrado, $idCiclo);
 		
 		echo Zend_Json::encode($grupos);
@@ -221,10 +238,16 @@ class Encuesta_JsonController extends Zend_Controller_Action
 		$jsonEncuesta = json_encode(utf8_encode($myData));
 		// $registrada = [true | false]
 		$registrada = $this->evaluacionDAO->saveEncuestaEvaluador($idEvaluador, $idConjunto, $idEvaluacion, $idAsignacion, $jsonEncuesta);
-		
+		$msg = '';
+		if($registrada){
+		    $msg = 'Se ha registrado';
+		}else{
+		    $msg = 'No se ha registrado';
+		}
+		/*
 		$msg = array();
 		$msg["status"] = $registrada;
-		
+		*/
 		echo Zend_Json::encode($msg);
     }
 
@@ -239,7 +262,7 @@ class Encuesta_JsonController extends Zend_Controller_Action
         
         //print_r($asignaciones);
         $reportes = $this->reporteDAO->getReportesGrupo($idGrupo);
-        
+        //$this->reporteDAO->
         echo Zend_Json::encode($reportes);
         
     }
@@ -247,17 +270,14 @@ class Encuesta_JsonController extends Zend_Controller_Action
     public function docentesAction()
     {
         // action body
-        $param = $this->getParam("param");
-        $docentes = $this->registroDAO->getDocentesByParam($param);
+        $params = $this->getAllParams();
+        unset($params['module']);
+        unset($params['controller']);
+        unset($params['action']);
+        //$docentes = $this->registroDAO->getDocentesByParam($param);
+        $docentes = $this->docenteDAO->getDocentesByParams($params);
         
         echo Zend_Json::encode($docentes);
-        /*
-        if (!empty($docentes)) {
-            
-        }else{
-            echo Zend_Json::encode(array());
-        }
-        */
     }
 
     public function tiposrepAction()
@@ -301,17 +321,26 @@ class Encuesta_JsonController extends Zend_Controller_Action
     public function preguntasAction()
     {
         // action body
+        $idGrupo = $this->getParam('gpo');
+        $container = '';
+        if (!is_null($idGrupo)) {
+            $preguntas = $this->preguntaDAO->getPreguntasByOrigen('G', $idGrupo);
+            $container = $preguntas;
+        }
+        
+        echo Zend_Json::encode($container);
+    }
+
+    public function asignacionesgpoAction()
+    {
+        // action body
+        $idGrupo = $this->getParam('gpo');
+        $asignaciones = $this->asignacionDAO->getAsignacionesByIdGrupo($idGrupo);
+        $objAsignaciones = $this->asignacionDAO->getObjectAsignaciones($asignaciones);
+        
+        echo Zend_Json::encode($objAsignaciones);
     }
 
 
 }
-
-
-
-
-
-
-
-
-
 

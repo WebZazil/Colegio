@@ -1,10 +1,12 @@
 <?php
 /**
  * 
+ * @author EnginnerRodriguez
+ *
  */
 class Encuesta_Util_Json {
 	
-	function __construct() {
+	public function __construct() {
 		
 	}
     

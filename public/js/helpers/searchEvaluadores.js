@@ -34,7 +34,7 @@ $().ready(function(){
                         }
                         
                         var link = $("<a />").attr("class", "btn btn-success");
-                        var urlLink = url + "/evaluador/asociar/idConjunto/"+conjunto+"/idEvaluador/"+item.idEvaluador;
+                        var urlLink = url + "/evaluador/asociar/co/"+conjunto+"/ev/"+item.idEvaluador;
                         console.log(urlLink);
                         link.attr("href", urlLink).text("Asociar");
                         

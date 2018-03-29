@@ -15,13 +15,13 @@ class Encuesta_DAO_Opcion implements Encuesta_Interfaces_IOpcion {
 	private $tablaValoresOpcion;
 	
 	public function __construct($dbAdapter) {
-		//$dbAdapter = Zend_Registry::get('dbmodencuesta');
+		$config = array('db' => $dbAdapter);
 		
-		$this->tablaCategoria = new Encuesta_Model_DbTable_CategoriasRespuesta(array('db'=>$dbAdapter));
-		$this->tablaOpcion = new Encuesta_Model_DbTable_OpcionCategoria(array('db'=>$dbAdapter));
-		$this->tablaPregunta = new Encuesta_Model_DbTable_Pregunta(array('db'=>$dbAdapter));
-		$this->tablaGrupo = new Encuesta_Model_DbTable_GrupoSeccion(array('db'=>$dbAdapter));
-		$this->tablaPreferenciaS = new Encuesta_Model_DbTable_PreferenciaSimple(array('db'=>$dbAdapter));
+		$this->tablaCategoria = new Encuesta_Data_DbTable_CategoriasRespuesta($config);
+		$this->tablaOpcion = new Encuesta_Data_DbTable_OpcionCategoria($config);
+		$this->tablaPregunta = new Encuesta_Data_DbTable_Pregunta($config);
+		$this->tablaGrupo = new Encuesta_Data_DbTable_GrupoSeccion($config);
+		$this->tablaPreferenciaS = new Encuesta_Data_DbTable_PreferenciaSimple($config);
 	}
 	
 	// =====================================================================================>>>   Buscar
@@ -155,7 +155,7 @@ class Encuesta_DAO_Opcion implements Encuesta_Interfaces_IOpcion {
 		try{
 			$tablaValorOpcion->insert($valor);
 		}catch(Exception $ex){
-			throw new Util_Exception_BussinessException("Error: <strong>".$ex->getMessage()."</strong>");
+			throw new Exception("Error: <strong>".$ex->getMessage()."</strong>");
 		}
 	}
 	// =====================================================================================>>>   Actualizar

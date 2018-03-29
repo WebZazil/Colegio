@@ -35,11 +35,9 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		}
 	}
 	
-	public function addEvaluador(array $evaluador) {
+	public function addEvaluador(array $datos) {
 		$tablaEvaluador = $this->tablaEvaluador;
-		
-		$evaluador["creacion"] = date("Y-m-d H:i:s");
-		$tablaEvaluador->insert($evaluador);
+		return $tablaEvaluador->insert($datos);
 	}
 	
 	public function getEvaluadorById($idEvaluador) {
@@ -105,24 +103,19 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	}
 
 	/**
-	 * Inserta un nuevo conjunto de Evaluacion
+	 * 
+	 * @param array $conjunto
+	 * @return mixed|array
 	 */
 	public function addConjuntoEvaluador($conjunto) {
 		$tablaConjunto = $this->tablaConjuntoEvaluador;
-		$conjunto["creacion"] = date("Y-m-d H:i:s", time());
-		$conjunto["idsEvaluadores"] = "";
-		//print_r($conjunto);
-		$tablaConjunto->insert($conjunto);
+		
+		return $tablaConjunto->insert($conjunto);
 	}
 	
 	public function getAllConjuntos() {
 		$rowsConjuntos = $this->tablaConjuntoEvaluador->fetchAll();
-		
-		if (is_null($rowsConjuntos)) {
-			return array();
-		}else{
-			return $rowsConjuntos->toArray();
-		}
+		return $rowsConjuntos->toArray();
 	}
 	
 	public function getConjuntoById($idConjunto) {
@@ -280,7 +273,7 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	
 	public function asociarAsignacionAConjunto($idConjunto, $idEvaluacion, $idAsignacion) {
 		$tablaEvalsConjunto = $this->tablaEvaluacionConjunto;
-        $select = $tablaEvalsConjunto->select()->from($tablaEvalsConjunto)->where("idConjuntoEvaluador=?",$idConjunto)->where("idEvaluacion=?",$idEvaluacion);
+        $select = $tablaEvalsConjunto->select()->from($tablaEvalsConjunto)->where("idConjuntoEvaluador=?",$idConjunto)->where("idEncuesta=?",$idEvaluacion);
 		//$where = $tablaEvalsConjunto->getAdapter()->quoteInto("idConjuntoEvaluador=?", $idConjunto);
 		$rowConjunto = $tablaEvalsConjunto->fetchRow($select);
 		$idsAsignaciones = explode(",", $rowConjunto->idsAsignacionesGrupo);
@@ -297,16 +290,17 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	
 	public function asociarEvaluacionAConjunto($idConjunto, $idEncuesta) {
 		$tablaEvalsConjunto = $this->tablaEvaluacionConjunto;
-        $select = $tablaEvalsConjunto->select()->from($tablaEvalsConjunto)->where("idConjuntoEvaluador=?",$idConjunto)->where("idEvaluacion=?",$idEncuesta);
+        $select = $tablaEvalsConjunto->select()->from($tablaEvalsConjunto)->where("idConjuntoEvaluador=?",$idConjunto)->where("idEncuesta=?",$idEncuesta);
         $rowConjunto = $tablaEvalsConjunto->fetchRow($select);
         
         if (is_null($rowConjunto)) {
             $datos = array();
-            $datos["idConjuntoEvaluador"] = $idConjunto;
-            $datos["idEvaluacion"] = $idEncuesta;
-            $datos["idsAsignacionesGrupo"] = "";
+            $datos['idEncuesta'] = $idEncuesta;
+            $datos['idConjuntoEvaluador'] = $idConjunto;
+            $datos['idsAsignacionesGrupo'] = "";
+            $datos['creacion'] = date('Y-m-d H:i:s');
             
-            $tablaEvalsConjunto->insert($datos);
+            return $tablaEvalsConjunto->insert($datos);
         }
 	}
 	
@@ -352,18 +346,19 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		$select = $tablaEvRe->select()->from($tablaEvRe)
 					->where("idEvaluador=?",$idEvaluador)
 					->where("idConjuntoEvaluador=?",$idConjunto)
-					->where("idAsignacionGrupo=?",$idAsignacion)
-					->where("idEvaluacion=?",$idEvaluacion);
+					->where("idEncuesta=?",$idEvaluacion)
+					->where("idAsignacionGrupo=?",$idAsignacion);
+		
 		$rowEvaluacion = $tablaEvRe->fetchRow($select);
 		
 		if (is_null($rowEvaluacion)) {
 			$datos = array();
 			$datos["idEvaluador"] = $idEvaluador;
 			$datos["idConjuntoEvaluador"] = $idConjunto;
+			$datos["idEncuesta"] = $idEvaluacion;
 			$datos["idAsignacionGrupo"] = $idAsignacion;
-			$datos["idEvaluacion"] = $idEvaluacion;
 			$datos["json"] = $jsonEncuesta;
-			$datos["data"] = "";
+			$datos["creacion"] = date('Y-m-d H:i:s');
 			
 			//print_r($datos);
 			
@@ -528,7 +523,7 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
         $rowsEvaluadores = $tablaEvaluador->fetchAll();
         
         foreach ($rowsEvaluadores as $key => $rowEvaluador) {
-            print_r($rowEvaluador->nombres." ". $rowEvaluador->apellidos);
+            //print_r($rowEvaluador->nombres." ". $rowEvaluador->apellidos);
             $rowEvaluador->nombres = ucwords(strtolower($rowEvaluador->nombres));
             $rowEvaluador->apellidos = ucwords(strtolower($rowEvaluador->apellidos));
             $rowEvaluador->save();

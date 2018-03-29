@@ -9,8 +9,8 @@ class Encuesta_Form_MateriasProfesor extends Zend_Form
         $auth = Zend_Auth::getInstance();
         $dataIdentity = $auth->getIdentity();
         
-        $registroDAO = new Encuesta_DAO_Registro($dataIdentity["adapter"]);
-        $docentes = $registroDAO->obtenerDocentes();
+        $docenteDAO = new Encuesta_Data_DAO_Docente($dataIdentity["adapter"]);
+        $docentes = $docenteDAO->getAllDocentes();
         
         $eMateria = new Zend_Form_Element_Select("idMateriaEscolar");
         $eMateria->setLabel("Materia");
@@ -23,7 +23,7 @@ class Encuesta_Form_MateriasProfesor extends Zend_Form
         $eDocente->setAttrib("class", "form-control");
         
         foreach ($docentes as $docente) {
-            $eDocente->addMultiOption($docente->getIdRegistro(), $docente->getApellidos(). " ".$docente->getNombres());
+            $eDocente->addMultiOption($docente['idDocente'], $docente['apellidos']. " ".$docente['nombres']);
         }
         
         $eSubmit = new Zend_Form_Element_Submit("submit");

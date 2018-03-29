@@ -1,8 +1,14 @@
 <?php
-	$formulario = $this->formulario;
+    $grupoEscolar = $this->grupoEscolar;
+    $grupos = $this->grupos;
+    
 	$messageSuccess = $this->messageSuccess;
 	$messageFail = $this->messageFail;
-	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,true);
+	
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"index");
+	if (!is_null($grupoEscolar)) $params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjuntos","gpo"=>$grupoEscolar['idGrupoEscolar']);
+	
+	$urlConjuntos = $this->url($params,null,true);
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -12,7 +18,7 @@
 			</div>
 			<div class="panel-body">
 				<div>
-					<a class="btn btn-info" href="<?php echo $urlConjuntos ?>">
+					<a class="btn btn-link" href="<?php echo $urlConjuntos ?>">
 						<i class="fa fa-arrow-circle-left"></i> Regresar a Conjuntos
 					</a>
 					<?php if(!is_null($messageSuccess)){ ?>
@@ -34,7 +40,38 @@
 				</div>
 				<hr />
 				<div>
-					<?php echo $formulario; ?>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						
+						<div class="form-group">
+							<label for="idGrupoEscolar" class="control-label col-md-2">Grupo Escolar: </label>
+							<div class="col-md-10">
+								<select name="idGrupoEscolar" class="form-control">
+									<?php if(is_null($grupoEscolar)){ 
+								            foreach ($grupos as $grupo) : ?>
+									<option value="<?php echo $grupo['idGrupoEscolar'] ?>"><?php echo $grupo['grupoEscolar'] ?></option>
+									<?php endforeach; 
+								      } else{ ?>
+									<option value="<?php echo $grupoEscolar['idGrupoEscolar'] ?>"><?php echo $grupoEscolar['grupoEscolar'] ?></option>
+									<?php } ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="conjunto" class="control-label col-md-2">Conjunto: </label>
+							<div class="col-md-10">
+								<input name="conjunto" type="text" class="form-control" autofocus="autofocus" placeholder="Nombre Conjunto..." />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<button class="btn btn-success" type="submit">
+									<i class="fa fa-save"></i> Guardar Conjunto
+								</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
