@@ -7,6 +7,6 @@
 
 interface Biblioteca_Interfaces_ITemasSubdivision{
  	
-	public function agregarTemasSubdivision( $idSubdivision, $idTema);
+    public function agregarSubdivisionesT( $datos);
 	
  }

@@ -142,7 +142,7 @@ class Biblioteca_AutorController extends Zend_Controller_Action
             }
         }
         
-        print_r($idAutor);
+       // print_r($idAutor);
         
         
     }

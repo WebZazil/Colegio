@@ -115,7 +115,7 @@ class Biblioteca_Model_Recurso
 		$this->idMaterial = $datos["idMaterial"];
 		$this->idColeccion = $datos["idColeccion"];
 		$this->idClasificacion = $datos["idClasificacion"];
-		$this->extra = $datos["extra"];
+		//$this->extra = $datos["extra"];
 		
 		
 	}
@@ -132,7 +132,7 @@ class Biblioteca_Model_Recurso
 		$datos["idMaterial"] = $this->idMaterial;
 		$datos["idColeccion"] = $this->idColeccion;
 		$datos["idClasificacion"] = $this->idClasificacion;
-		$datos["extra"] = $this->extra;
+	//	$datos["extra"] = $this->extra;
 		$datos["creacion"] = date("Y-m-d h:i:s",time());
 		
 		return $datos;

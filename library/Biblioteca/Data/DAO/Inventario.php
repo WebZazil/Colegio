@@ -22,6 +22,7 @@ class Biblioteca_Data_DAO_Inventario {
     private $tableSerieEjemplar;
     
     public function __construct($dbAdapter) {
+        
         $config = array('db' => $dbAdapter);
         
         $this->tableInventario = new Biblioteca_Data_DbTable_Inventario($config);

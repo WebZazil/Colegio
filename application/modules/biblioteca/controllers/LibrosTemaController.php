@@ -36,11 +36,11 @@ class Biblioteca_LibrosTemaController extends Zend_Controller_Action
 			if ($formulario->isValid($request->getPost())) {
 				$datos = $formulario->getValues();
 				
-				$librosTema = new Biblioteca_Model_Librostema($datos);
+				//$librosTema = new Biblioteca_Model_Librostema($datos);
 				
 				try{
 					//$this->libroTemaDAO->agregarLibrosTema($librosTema);
-					$this->librosTemaDAO->agregarLibrosTema($librosTema->getIdTema(), $librosTema->getIdsRecurso());
+					$this->librosTemaDAO->agregarLibrosTema($datos);
 					$this->view->messageSuccess = "Exito en la inserción";
 				}catch(Exception $ex){
 					$this->view->messageFail = "Fallo al insertar en la BD Error:".$ex->getMessage()."<strong>";

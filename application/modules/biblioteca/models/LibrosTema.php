@@ -3,43 +3,45 @@
 class Biblioteca_Model_LibrosTema
 {
 	
-	private  $idTema;
+	private  $idsTema;
 	
-	public function getIdTema()
+	public function getIdsTema()
 	{
-		return $this->idTema;
+		return $this->idsTema;
 	}
 	
-	public function setIdTema($idTema)
+	public function setIdsTema($idsTema)
 	{
-		$this->idTema = $idTema;
+		$this->idTema = $idsTema;
 	}
 	
-	private $idsRecurso;
+	private $idRecurso;
 	
-	public function getIdsRecurso()
+	public function getIdRecurso()
 	{
-		return $this->idsRecurso;
+		return $this->idRecurso;
 	}
 	
-	public function setIdsRecurso($idsRecurso)
+	public function setIdsRecurso($idRecurso)
 	{
-		$this->idsRecurso = $idsRecurso;
+		$this->idsRecurso = $idRecurso;
 	}
 	
 	
 	public function __construct($datos)
 	{
-		$this->idTema = $datos["idTema"];
-		$this->idsRecurso = $datos["idsRecurso"];
+	    if (array_key_exists("idRecurso", $datos)) $this->idRecurso = $datos["idRecurso"];
+	    
+		$this->idsTema = $datos["idsTema"];
 	}
 	
 	public function toArray()
 	{
 		$datos = array();
 		
-		$datos["idTema"] = $this->idTema;
-		$datos["idsRecurso"] = $this->idsRecurso;
+		$datos["idRecurso"] = $this->idRecurso;
+		$datos["idsTema"] = $this->idsTema;
+		
 		
 		return $datos;
 	}

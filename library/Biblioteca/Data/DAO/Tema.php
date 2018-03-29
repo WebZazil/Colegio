@@ -6,9 +6,11 @@ class Biblioteca_Data_DAO_Tema {
     
     private $tableTema;
 	
-	function __construct() {
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
-		$this->tableTema = new Biblioteca_Data_DbTable_Tema(array("db"=>$dbAdapter));
+	function __construct($dbAdapter) {
+	//	$dbAdapter = Zend_Registry::get("dbmodqueryb");
+	
+	    $config = array('db' =>$dbAdapter);
+		$this->tableTema = new Biblioteca_Data_DbTable_Tema($config);
 	}
     
     public function getTemaById($idTema) {

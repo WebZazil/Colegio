@@ -8,11 +8,17 @@
    $urlSColeccion = $this->url(array("module"=>$modulo,"controller"=>"coleccion","action"=>"index"),null,true);
    $urlSTema = $this->url(array("module"=>$modulo,"controller"=>"tema","action"=>"index"),null,true);
    $urlSIdioma = $this->url(array("module"=>$modulo,"controller"=>"idioma","action"=>"index"),null,true);
+   $urlSPais = $this->url(array("module"=>$modulo,"controller"=>"pais","action"=>"index"),null,true);
    
    $urlSEditorial = $this->url(array("module"=>$modulo,"controller"=>"editorial","action"=>"index"),null,true);
    $urlSSeries = $this->url(array("module"=>$modulo,"controller"=>"serieejemplar","action"=>"index"),null,true);
    $urlSSubdivision = $this->url(array("module"=>$modulo,"controller"=>"subdivision","action"=>"index"),null,true);
    $urlSMaterial = $this->url(array("module"=>$modulo,"controller"=>"material","action"=>"index"),null,true);
+   
+   
+   $urlSTR = $this->url(array("module"=>$modulo,"controller"=>"temasrecurso","action"=>"alta"),null,true);
+   $urlSST = $this->url(array("module"=>$modulo,"controller"=>"subdivisionestema","action"=>"alta"),null,true);
+   $urlSSR = $this->url(array("module"=>$modulo,"controller"=>"subdivisionesrecurso","action"=>"alta"),null,true);
    
    $urlResources = $this->url(array("module"=>$modulo,"controller"=>"recurso","action"=>"index"),null,true);
    $urlRLibro = $this->url(array("module"=>$modulo,"controller"=>"libro","action"=>"index"),null,true);
@@ -61,6 +67,9 @@
                     <li>
                         <a href="<?php echo $urlSIdioma; ?>"><i class="fa fa-globe"></i> Idioma</a>
                     </li>
+                     <li>
+                        <a href="<?php echo $urlSPais; ?>"><i class="fa fa-globe"></i> Pais</a>
+                    </li>
                     <li>
                         <a href="<?php echo $urlSMaterial; ?>"><i class="fa fa-info-circle"></i> Material</a>
                     </li>
@@ -72,6 +81,18 @@
                     </li>
                       <li>
                         <a href="<?php echo $urlSTema; ?>"><i class="fa fa-info-circle"></i> Tema</a>
+                    </li>
+                     </li>
+                      <li>
+                        <a href="<?php echo $urlSTR; ?>"><i class="fa fa-info-circle"></i> Temas Recurso</a>
+                    </li>
+                     </li>
+                      <li>
+                        <a href="<?php echo $urlSSR; ?>"><i class="fa fa-info-circle"></i> Subdivisiones Recurso</a>
+                    </li>
+                     </li>
+                      <li>
+                        <a href="<?php echo $urlSST; ?>"><i class="fa fa-info-circle"></i> Subdivisiones Tema</a>
                     </li>
                      
                 </ul>

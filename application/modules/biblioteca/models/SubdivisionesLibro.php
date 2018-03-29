@@ -30,7 +30,8 @@ class Biblioteca_Model_SubdivisionesLibro
 	
 	public function  __construct($datos)
 	{
-		$this->idRecurso = $datos["idRecurso"];
+	    if (array_key_exists("idRecurso", $datos)) $this->idRecurso = $datos["idRecurso"];
+	    
 		$this->idsSubdivision = $datos["idsSubdivision"];
 	}
 	

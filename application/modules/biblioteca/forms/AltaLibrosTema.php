@@ -8,21 +8,33 @@ class Biblioteca_Form_AltaLibrosTema extends Zend_Form
         /* Form Elements & Other Definitions Here ... */
         
         $this->setAttrib("id", "altaLibrosTema");
-		
-		$recursoDAO = new Biblioteca_DAO_Recurso;
-		$recursos = $recursoDAO->getAllRecursos();
         
-		$eRecurso = new Zend_Form_Element_Select("idsRecurso");
+        $auth = Zend_Auth::getInstance();
+        $identity = $auth->getIdentity();
+        
+		$recursoDAO = new Biblioteca_Data_DAO_Recurso($identity['adapter']);
+		$recursos = $recursoDAO->getAllTableRecursos();
+		
+		$eRecurso = new Zend_Form_Element_Select("idRecurso");
+		$eRecurso->setLabel("Selecciona un recurso");
+		$eRecurso->setAttrib("class", "form-control");
+		$eRecurso->setRegisterInArrayValidator(FALSE);
+		
+		foreach($recursos as $recurso){
+		    $eRecurso->addMultiOption($recurso['idRecurso'], $recurso['titulo']);
+		}
+        
+		/*$eRecurso = new Zend_Form_Element_Select("idsRecurso");
 		$eRecurso->setLabel("Selecciona un recurso");
 		$eRecurso->setAttrib("class", "form-control");
 		$eRecurso->setRegisterInArrayValidator(FALSE);
 		
 		foreach($recursos as $recurso){
 			$eRecurso->addMultiOption($recurso->getIdRecurso(), $recurso->getTitulo());
-		}
+		}*/
 		
 		
-		$temaDAO = new Biblioteca_Data_DAO_Tema;
+		$temaDAO = new Biblioteca_Data_DAO_Tema($identity['adapter']);
 		$temas = $temaDAO->getAllTemas();
 		
 		$eTema = new Zend_Form_Element_Select("idTema");

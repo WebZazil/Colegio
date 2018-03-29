@@ -11,15 +11,16 @@ class Biblioteca_Data_DAO_Recurso {
     private $tableClasificacion;
     
     public function __construct($dbAdapter) {
+        
         $config = array('db' => $dbAdapter);
         
         $this->tableRecurso = new Biblioteca_Data_DbTable_Recurso($config);
         //$this->tableEstatusRecurso = new Biblioteca_Data_DbTable_EstatusRecurso($config);
         
-        $this->tableAutor = new Biblioteca_Data_DbTable_Autor(array('db'=>$dbAdapter));
-        $this->tableColeccion =new Biblioteca_Data_DbTable_Coleccion(array('db'=>$dbAdapter));
-        $this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion(array('db'=>$dbAdapter));
-        $this->tableMaterial = new Biblioteca_Data_DbTable_Material(array('db'=>$dbAdapter));
+        $this->tableAutor = new Biblioteca_Data_DbTable_Autor($config);
+        $this->tableColeccion =new Biblioteca_Data_DbTable_Coleccion($config);
+        $this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion($config);
+        $this->tableMaterial = new Biblioteca_Data_DbTable_Material($config);
     }
     
     public function getEstatusRecurso() {
@@ -43,6 +44,24 @@ class Biblioteca_Data_DAO_Recurso {
         $where = $tR->getAdapter()->quoteInto('idRecurso=?', $idRecurso);
         $data = array('idEstatusRecurso' => $rowEstatus['idEstatusRecurso']);
         $tR->update($data, $where);
+    }
+    
+    public function getAllRecursos() {
+        
+        $tablaRecurso = $this->tableRecurso;
+        $rowsRecurso = $tablaRecurso->fetchAll();
+        
+        if(!is_null($rowsRecurso)){
+            $arrRecursos = $rowsRecurso->toArray();
+            $arrModelRecurso = array();
+            foreach ($arrRecursos as $arrRecurso) {
+                $modelRecurso = new Biblioteca_Model_Recurso($arrRecurso);
+                $arrModelRecurso[] = $modelRecurso;
+            }
+            return $arrModelRecurso;
+        }else{
+            return array();
+        }
     }
     
     /**
