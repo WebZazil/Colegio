@@ -278,27 +278,30 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
     public function resgrasAction()
     {
         // function resultados grupo asignacion: res gr as
+        // ========================================================== Obtenemos parametros
         $idAsignacion = $this->getParam("as");
         $idEvaluacion = $this->getParam("ev");
-        
+        // ========================================================== Obtenemos objetos
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
         $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
+        // ========================================================== Obtenemos preguntas de encuesta
+        $preguntasEncuesta = $this->preguntaDAO->getPreguntasByIdEncuesta($idEvaluacion);
         
         $resumen = null;
-        // Verificar evaluacion
+        // ========================================================== Resolvemos conflicto con tabla
         $this->resumenDAO->verificaEncuestaRealizada($idEvaluacion, $idAsignacion);
-        
+        // ========================================================== Verificamos resumen y creamos si no existe
         if (! $this->resumenDAO->existeResumen($idAsignacion, $idEvaluacion)) {
             $this->resumenDAO->crearResumen($idAsignacion, $idEvaluacion);
         }
-        
+        // ========================================================== Obtenemos resumen
         $resumen = $this->resumenDAO->obtenerResumen($idAsignacion, $idEvaluacion);
-        
-        
-        
+        // ========================================================== Enviamos resumen a vista
         $this->view->resumen = $resumen;
         $this->view->encuesta = $encuesta;
         $this->view->asignacion = $asignacion;
+        
+        $this->view->preguntasEncuesta = $preguntasEncuesta;
         
         $reporteador = $this->reporter;
         
@@ -313,9 +316,6 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $jsonArrays = array();
         //print_r($evaluaciones);
         //$this->utilJSON->processJsonEncuestaDos($json);
-        // #############################################################################################
-        
-        // #############################################################################################
         $resT = array();
         $idReporte = 0;
         switch ($idEvaluacion) {
