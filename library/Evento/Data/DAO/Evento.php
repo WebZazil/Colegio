@@ -16,7 +16,7 @@ class Evento_Data_DAO_Evento {
     private $tableEvento;
     private $tableAsistentesEvento;
     private $tableAsistentesConfirmados;
-    
+    private $tableEstatusEvento;
     
     public function __construct($dbAdapter) {
         $config = array('db' => $dbAdapter);
@@ -31,6 +31,8 @@ class Evento_Data_DAO_Evento {
         $this->tableEvento = new Evento_Data_DbTable_Evento($config);
         $this->tableAsistentesEvento = new Evento_Data_DbTable_AsistentesEvento($config);
         $this->tableAsistentesConfirmados = new Evento_Data_DbTable_AsistentesConfirmados($config);
+        
+        $this->tableEstatusEvento = new Evento_Data_DbTable_EstatusEvento($config);
     }
     
     /**
@@ -65,7 +67,7 @@ class Evento_Data_DAO_Evento {
     
     public function getEventoById($idEvento) {
         $tEvento = $this->tableEvento;
-        $select = $tEvento->select()->from($tEvento)->where("id=?",$idEvento);
+        $select = $tEvento->select()->from($tEvento)->where("idEvento=?",$idEvento);
         $rowEvento = $tEvento->fetchRow($select);
         
         return $rowEvento->toArray();
@@ -96,7 +98,7 @@ class Evento_Data_DAO_Evento {
         }
         
         $tA = $this->tableAsistente;
-        $select = $tA->select()->from($tA)->where("id IN (?)",$idAsistentes);
+        $select = $tA->select()->from($tA)->where("idAsistente IN (?)",$idAsistentes);
         //$select = $tAE->select()->from($tAE);
         foreach ($params as $col => $val) :
             $select->orWhere($col." like ?", "%".$val."%");
@@ -168,4 +170,9 @@ class Evento_Data_DAO_Evento {
         return $contenedor;
     }
     
+    
+    public function getAllEstatusEvento() {
+        $tEE = $this->tableEstatusEvento;
+        return $tEE->fetchAll()->toArray();
+    }
 }

@@ -146,7 +146,8 @@ class Encuesta_HtmlController extends Zend_Controller_Action
             return;
         }
         
-        $tablaRespuesta = new Encuesta_Model_DbTable_Respuesta;
+        //$tablaRespuesta = new Encuesta_Model_DbTable_Respuesta;
+        $tablaRespuesta = new Encuesta_Data_DbTable_Respuesta();
         $select = $tablaRespuesta->select()->from($tablaRespuesta)->where("idEncuesta = ?", $idEncuesta)->where("idRegistro = ?", $rowRef->idRegistro);
         $rowsRespuestas = $tablaRespuesta->fetchAll($select);
         $numeroRespuestas = count($rowsRespuestas);

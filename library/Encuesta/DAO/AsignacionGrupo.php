@@ -13,6 +13,9 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 	private $tablaMateriaEscolar;
 	private $tablaDocente;
 	
+	private $tablaEvaluacionRealizada;
+	private $tablaEncuesta;
+	
 	public function __construct($dbAdapter) {
 		$config = array('db' => $dbAdapter);
 		
@@ -24,6 +27,10 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 		$this->tablaGrupoEscolar = new Encuesta_Data_DbTable_GrupoEscolar($config);
 		$this->tablaMateriaEscolar = new Encuesta_Data_DbTable_MateriaEscolar($config);
 		$this->tablaDocente = new Encuesta_Data_DbTable_Docente($config);
+		
+		$this->tablaEvaluacionRealizada = new Encuesta_Data_DbTable_EvaluacionRealizada($config);
+		
+		$this->tablaEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
 	}
 	
 	/**
@@ -134,6 +141,25 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 	    return $rowsAsignaciones->toArray();
 	}
 	
+	public function getAsignacionesRealizadasByIdGrupo($idGrupo) {
+	    $tAG = $this->tablaAsignacionGrupo;
+	    $select = $tAG->select()->from($tAG)->where('idGrupoEscolar=?',$idGrupo);
+	    $rowsAG = $tAG->fetchAll($select)->toArray();
+	    
+	    $idsAsignaciones = array();
+	    
+	    foreach ($rowsAG as $rowAG) {
+	        $idsAsignaciones[] = $rowAG['idAsignacionGrupo'];
+	    }
+	    
+	    $tER = $this->tablaEvaluacionRealizada;
+	    $select = $tER->select()->distinct()->from($tER,array('idAsignacionGrupo','idEncuesta'))->where('idAsignacionGrupo IN (?)', $idsAsignaciones);
+	    // print_r($select->__toString());
+	    $rowsER = $tER->fetchAll($select)->toArray();
+	    
+	    return $rowsER;
+	}
+	
 	public function getObjectAsignaciones($asignaciones,$idGrupo = null){
 	    $tME = $this->tablaMateriaEscolar;
 	    $tD = $this->tablaDocente;
@@ -159,6 +185,32 @@ class Encuesta_DAO_AsignacionGrupo implements Encuesta_Interfaces_IAsignacionGru
 	        
 	        $container[] = $obj;
 	    }
+	    
+	    return $container;
+	}
+	
+	public function getObjectAsignacion($idAsignacionGrupo) {
+	    $tAG = $this->tablaAsignacionGrupo;
+	    $select = $tAG->select()->from($tAG)->where('idAsignacionGrupo=?',$idAsignacionGrupo);
+	    $rowAG = $tAG->fetchRow($select)->toArray();
+	    // Tabla Docente
+	    $tD = $this->tablaDocente;
+	    $select = $tD->select()->from($tD)->where('idDocente=?',$rowAG['idDocente']);
+	    $rowD = $tD->fetchRow($select)->toArray();
+	    // Tabla MateriaEscolar
+	    $tME = $this->tablaMateriaEscolar;
+	    $select = $tME->select()->from($tME)->where('idMateriaEscolar=?',$rowAG['idMateriaEscolar']);
+	    $rowME = $tME->fetchRow($select)->toArray();
+	    // Tabla GrupoEscolar
+	    $tGE = $this->tablaGrupoEscolar;
+	    $select = $tGE->select()->from($tGE)->where('idGrupoEscolar=?',$rowAG['idGrupoEscolar']);
+	    $rowGE = $tGE->fetchRow($select)->toArray();
+	    
+	    $container = array();
+	    $container['asignacion'] = $rowAG;
+	    $container['docente'] = $rowD;
+	    $container['materiaEscolar'] = $rowME;
+	    $container['grupoEscolar'] = $rowGE;
 	    
 	    return $container;
 	}

@@ -46,7 +46,7 @@ class Evento_Data_DAO_Registro {
         $rowsAE = $tAE->fetchRow($select);
         
         $tAsis = $this->tableAsistente;
-        $select = $tAsis->select()->from($tAsis)->where("id=?",$idAsistente);
+        $select = $tAsis->select()->from($tAsis)->where("idAsistente=?",$idAsistente);
         $rowAsistente = $tAsis->fetchRow($select);
         
         $data = array();

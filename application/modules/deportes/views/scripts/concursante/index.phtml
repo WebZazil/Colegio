@@ -1,0 +1,134 @@
+<?php
+    $estatusConcursante = $this->estatusConcursante;
+    
+    $param = array('module'=>'deportes','controller'=>'concursante','action'=>'alta');
+    $urlAltaConcursante = $this->url($param,null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">
+					<i class="fa fa-search"></i>
+					Búsqueda de Concursantes
+				</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlAltaConcursante; ?>" class="btn btn-success">
+						<i class="fa fa-plus"></i> Alta Concursante
+					</a>
+				</div>
+				<hr />
+				<div>
+					<div class="form-horizontal" >
+						<fieldset>
+							<legend>Busqueda de Concursantes</legend>
+							
+							<div class="form-group">
+    							<label for="nombres" class="control-label col-md-2">Nombres: </label>
+    							<div class="col-md-10">
+    								<input id="nombres" name="nombres" type="text" class="form-control" placeholder="Nombres..." />
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<label for="apellidos" class="control-label col-md-2">Apellidos: </label>
+    							<div class="col-md-10">
+    								<input id="apellidos" name="apellidos" type="text" class="form-control" placeholder="Apellidos..." />
+    							</div>
+    						</div>
+    						    						
+    						<div class="form-group">
+    							<div class="col-md-offset-2 col-md-10">
+    								<button id="queryBtn" class="btn btn-info" type="button">
+    									<i class="fa fa-search"></i> Enviar
+    								</button>
+    							</div>
+    						</div>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">
+					<i class="fa fa-check-square-o"></i>
+					Concursantes Encontrados
+				</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<table id="concursantes" class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var appname = "/colegio/deportes";
+	    var url = window.location.origin + appname;
+	    
+		$('#queryBtn').on('click',function(){
+			var nombres = $('#nombres');
+			var apellidos = $('#apellidos');
+
+			var piece = '';
+
+			if (nombres != '') piece = 'nombres/'+nombres.val();
+			if (apellidos != '') piece += '/apellidos/'+apellidos.val();
+
+			var urlQuery = url + '/json/qintegrantes/'+encodeURI(piece);
+			console.log(urlQuery);
+			$.ajax({
+	            url: urlQuery,
+	            dataType: "json",
+	            success: function(data){
+	                console.dir(data);
+	                
+	                var tbody = $("#concursantes").find('tbody');
+	                tbody.empty();
+
+	                $.each(data, function(index,value){
+
+	                	var url = url + "/json/grupossec/sec/"+value.idSeccionEncuesta;
+	                    
+	                    var link = $("<a></a>")
+	                         .attr('class','btn btn-link')
+	                         .attr('href',url)
+	                         .attr('seccion',value.idSeccionEncuesta)
+	                         .html('<i class="fa fa-th" ></i> Grupos');
+	                    
+	                    tbody.append($('<tr>').
+	                        append($('<td>').append(value.nombre)).
+	                        append($('<td>').append(buttonGrupos)).
+	                        append($('<td>').append(value.orden)).
+	                        append($('<td>').append(value.elementos)).
+	                        append($('<td>').append(value.creacion))
+	                    );
+	                });
+	                
+	            }
+	        });
+		});
+	});
+</script>

@@ -39,87 +39,47 @@
 					<table class="table table-striped table-condensed">
 						<thead>
 							<tr>
-								<th>Detalle</th>
-								<th>Params</th>
-								<th>Acción</th>
+								<th>Alta</th>
+								<th>Evento</th>
+								<th>Registro</th>
+								<th>Asistentes</th>
+								<th>Confirmados</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>
-									<p>
-										Alta de Evento
-									</p>
-								</td>
-								<td></td>
-								<td>
-									<a class="btn btn-success" href="<?php echo $urlEventoAlta; ?>">
-										<i class="fa fa-plus-square-o" ></i> Alta Evento
+									<a href="<?php echo $urlEventoAlta; ?>" class="btn btn-success">
+										<i class="fa fa-plus"></i>
 									</a>
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<p>
-										Consulta asistentes en evento
-									</p>
 								</td>
 								<td>
 									<select id="queryEvento" class="form-control">
 										<?php foreach ($eventos as $evento): ?>
-										<option value="<?php echo $evento['id'] ?>"><?php echo $evento['nombre'] ?></option>
-										<?php endforeach; ?>
-									</select>
-								</td>
-								<td>
-									<button id="btnQuery" class="btn <?php echo $classHasEvents ?>" <?php echo $statusBtn ?> >
-										<i class="fa fa-search"></i> Consulta Asistentes
-									</button>
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<p>
-										Registro de Asistentes a Evento
-									</p>
-								</td>
-								<td>
-									<select id="sEvento" class="form-control">
-										<?php foreach ($eventos as $evento): ?>
-										<option value="<?php echo $evento['id'] ?>"><?php echo $evento['nombre'] ?></option>
+										<option value="<?php echo $evento['idEvento'] ?>"><?php echo $evento['evento'] ?></option>
 										<?php endforeach; ?>
 									</select>
 								</td>
 								<td>
 									<button id="btnRegister" class="btn <?php echo $classHasEvents;  ?>" <?php echo $statusBtn; ?> >
-										<i class="fa fa-user-plus"></i> Registro Asistentes
+										<i class="fa fa-user-plus"></i>
 									</button>
 								</td>
-							</tr>
-							
-							<tr>
 								<td>
-									<p>Consulta de Asistencias en Evento</p>
-								</td>
-								<td>
-									<select id="confirmAsistEvento" class="form-control">
-										<?php foreach ($eventos as $evento): ?>
-										<option value="<?php echo $evento['id'] ?>"><?php echo $evento['nombre'] ?></option>
-										<?php endforeach; ?>
-									</select>
+									<button id="btnQuery" class="btn <?php echo $classHasEvents ?>" <?php echo $statusBtn ?> >
+										<i class="fa fa-users"></i>
+									</button>
 								</td>
 								<td>
 									<button id="btnConfirmAsis" class="btn <?php echo $classHasEvents;  ?>" <?php echo $statusBtn; ?> >
-										<i class="fa fa-search"></i> Consulta de Asistentes Confirmados
+										<i class="fa fa-search"></i>
 									</button>
 								</td>
 							</tr>
 						</tbody>
 					</table>
+				
 				</div>
-				<div></div>
 			</div>
 		</div>
 	</div>
@@ -138,7 +98,7 @@
 		});
 		
 		$("#btnRegister").on('click',function(){
-			var idEvento = $("#sEvento").val();
+			var idEvento = $("#queryEvento").val();
 			// console.log("IdEvento = "+idEvento);
 			var urlRegAsis = url + "/registro/alta/ev/"+idEvento;
 			// console.log("UrlRegAsisEvento = "+urlRegAsis);
@@ -146,7 +106,7 @@
 		});
 
 		$("#btnConfirmAsis").on('click',function(){
-			var idEvento = $("select#confirmAsistEvento").val();
+			var idEvento = $("#queryEvento").val();
 
 			var urlRegAsis = url + "/registro/confirmados/ev/"+idEvento;
 			window.location.href = urlRegAsis;

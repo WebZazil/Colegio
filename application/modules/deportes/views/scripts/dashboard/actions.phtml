@@ -1,0 +1,127 @@
+<?php
+    $module = "deportes";
+    
+    $urlCompetenciaAlta = $this->url(array("module"=>$module,"controller"=>"competencia", "action"=>"alta"),null,true);
+    $urlDeporteQuery = $this->url(array("module"=>$module,"controller"=>"deporte", "action"=>"index"),null,true);
+    $urlEquipoQuery = $this->url(array("module"=>$module,"controller"=>"equipo", "action"=>"index"),null,true);
+    $urlConcursanteQuery = $this->url(array("module"=>$module,"controller"=>"concursante", "action"=>"index"),null,true);
+    
+    $deportes = $this->deportes;
+    $eventosVacios = false;
+    $classSuccess = 'btn-success';
+    $classDanger = 'btn-danger';
+    $statusBtn = 'disabled';
+    
+    $btnAssocClass = 'btn-success';
+    $btnConfirmClass = 'btn-success';
+    
+    if (empty($eventos)) {
+        // print_r('Eventos vacios');
+        $eventosVacios = true;
+    }
+    
+    $classHasEvents = $eventosVacios == false ? $classSuccess : $classDanger;
+    $statusBtn = $eventosVacios == false ? '' : 'disabled=true';
+    
+    $btnAssocClass = $eventosVacios == false ? $classSuccess : $classDanger;
+    $urlRegistroAlta = $eventosVacios == false ? $this->url(array("module"=>$module,"controller"=>"registro", "action"=>"alta"),null,true) : '#';
+    $urlRegistroConfirm = $eventosVacios == false ? $this->url(array("module"=>$module,"controller"=>"registro", "action"=>"index"),null,true) : '#';
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h5 class="panel-title">Acciones del Sistema de Deportes</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlDeporteQuery; ?>" class="btn btn-info">
+    					<i class="fa fa-search"></i> Deportes
+    				</a>
+    				
+    				<a href="<?php echo $urlEquipoQuery; ?>" class="btn btn-info">
+    					<i class="fa fa-search"></i> Equipos
+    				</a>
+					
+					<a href="<?php echo $urlConcursanteQuery; ?>" class="btn btn-info">
+    					<i class="fa fa-search"></i> Concursantes
+    				</a>
+					
+					<a href="<?php echo $urlCompetenciaAlta; ?>" class="btn btn-success">
+    					<i class="fa fa-plus"></i> Nueva Competencia
+    				</a>
+				</div>
+				<hr />
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Deporte</th>
+								<th>Categorias</th>
+								<th>Asistentes</th>
+								<th>Confirmados</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<select id="queryEvento" class="form-control">
+										<?php foreach ($eventos as $evento): ?>
+										<option value="<?php echo $evento['idEvento'] ?>"><?php echo $evento['evento'] ?></option>
+										<?php endforeach; ?>
+									</select>
+								</td>
+								<td>
+									<button id="btnRegister" class="btn <?php echo $classHasEvents;  ?>" <?php echo $statusBtn; ?> >
+										<i class="fa fa-search"></i>
+									</button>
+								</td>
+								<td>
+									<button id="btnQuery" class="btn <?php echo $classHasEvents ?>" <?php echo $statusBtn ?> >
+										<i class="fa fa-users"></i>
+									</button>
+								</td>
+								<td>
+									<button id="btnConfirmAsis" class="btn <?php echo $classHasEvents;  ?>" <?php echo $statusBtn; ?> >
+										<i class="fa fa-search"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$().ready(function(){
+		var appname = "/colegio/evento";
+		var url = window.location.origin + appname;
+
+		$("#btnQuery").on('click',function(){
+			var idEvento = $("#queryEvento").val();
+			// console.log("IdEvento = "+idEvento);
+			var urlRegAsis = url + "/consulta/index/ev/"+idEvento;
+			// console.log("UrlRegAsisEvento = "+urlRegAsis);
+			window.location.href = urlRegAsis;
+		});
+		
+		$("#btnRegister").on('click',function(){
+			var idEvento = $("#queryEvento").val();
+			// console.log("IdEvento = "+idEvento);
+			var urlRegAsis = url + "/registro/alta/ev/"+idEvento;
+			// console.log("UrlRegAsisEvento = "+urlRegAsis);
+			window.location.href = urlRegAsis;
+		});
+
+		$("#btnConfirmAsis").on('click',function(){
+			var idEvento = $("#queryEvento").val();
+
+			var urlRegAsis = url + "/registro/confirmados/ev/"+idEvento;
+			window.location.href = urlRegAsis;
+		});
+	});
+
+</script>

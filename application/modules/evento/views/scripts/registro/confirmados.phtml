@@ -1,22 +1,33 @@
 <?php
     $evento = $this->evento;
     $asistentesConfirmados = $this->asistentesConfirmados;
+    
+    $params = array('module'=>'evento','controller'=>'dashboard','action'=>'actions');
+    $urlDashboard = $this->url($params,null,true);
 ?>
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h5 class="panel-title">Asistentes confirmados en evento: <strong><?php echo $evento['nombre'] ?></strong> </h5>
+				<h5 class="panel-title">Asistentes confirmados en evento: <strong><?php echo $evento['evento'] ?></strong> </h5>
 			</div>
 			<div class="panel-body">
 				<div>
+					<a href="<?php echo $urlDashboard; ?>" class="btn btn-info">
+						<i class="fa fa-arrow-circle-left"></i> Regresar a Acciones
+					</a>
+				</div>
+				<hr />
+				<div>
 					<table class="table table-striped table-condensed">
 						<thead>
-							<th>Nombres</th>
-							<th>A. Paterno</th>
-							<th>A. Materno</th>
-							<th>Evento</th>
-							<th>Sistema</th>
+							<tr>
+								<th>Nombres</th>
+    							<th>A. Paterno</th>
+    							<th>A. Materno</th>
+    							<th>Evento</th>
+    							<th>Sistema</th>
+							</tr>
 						</thead>
 						<tbody>
 							<?php foreach ($asistentesConfirmados as $ac) : ?>

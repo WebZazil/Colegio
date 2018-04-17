@@ -1,18 +1,43 @@
-<?php ?>
+<?php
+    $estatus = $this->estatus;
+    
+    $params = array('module'=>'evento','controller'=>'dashboard','action'=>'actions');
+    $urlDashboard = $this->url($params,null,true);
+?>
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h5 class="panel-title">Alta de Evento</h5>
+				<h5 class="panel-title">
+				<strong><i class="fa fa-plus"></i></strong>
+				Alta de Evento
+				</h5>
 			</div>
 			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlDashboard; ?>" class="btn btn-info">
+						<i class="fa fa-arrow-circle-left"></i> Regresar a Acciones
+					</a>
+				</div>
+				<hr />
 				<div>
 					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
 						<!-- NombreEvento -->
 						<div class="form-group">
-							<label class="control-label col-md-2" for="nombre">Nombre Evento: </label>
+							<label class="control-label col-md-2" for="idEstatusEvento">Estatus Evento: </label>
 							<div class="col-md-5">
-								<input id="nombre" class="form-control" name="nombre" type="text"  />
+								<select name="idEstatusEvento" class="form-control" >
+									<?php foreach ($estatus as $e) : ?>
+									<option value="<?php echo $e['idEstatusEvento'] ?>"><?php echo $e['estatus']  ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						<!-- NombreEvento -->
+						<div class="form-group">
+							<label class="control-label col-md-2" for="evento">Nombre Evento: </label>
+							<div class="col-md-5">
+								<input id="evento" class="form-control" name="evento" type="text"  />
 							</div>
 						</div>
 						<!-- LugarEvento -->
@@ -22,18 +47,32 @@
 								<input id="lugar" class="form-control" name="lugar" type="text"  />
 							</div>
 						</div>
-						<!-- InicioEvento -->
+						<!-- FechaInicioEvento -->
 						<div class="form-group">
-							<label class="control-label col-md-2" for="feInicio">Inicio Evento: </label>
+							<label class="control-label col-md-2" for="fechaInicio">Inicio Evento: </label>
 							<div class="col-md-5">
-								<input id="feInicio" class="form-control" name="feInicio" type="text"  />
+								<input id="fechaInicio" class="form-control date" name="fechaInicio" type="text"  />
 							</div>
 						</div>
-						<!-- TerminoEvento -->
+						<!-- Hora InicioEvento -->
 						<div class="form-group">
-							<label class="control-label col-md-2" for="feTermino">Termino Evento: </label>
+							<label class="control-label col-md-2" for="horaInicio">Hora Inicio Evento: </label>
 							<div class="col-md-5">
-								<input id="feTermino" class="form-control" name="feTermino" type="text"  />
+								<input id="horaInicio" class="form-control time" name="horaInicio" type="text"  />
+							</div>
+						</div>
+						<!-- FechaTerminoEvento -->
+						<div class="form-group">
+							<label class="control-label col-md-2" for="fechaTermino">Termino Evento: </label>
+							<div class="col-md-5">
+								<input id="fechaTermino" class="form-control date" name="fechaTermino" type="text"  />
+							</div>
+						</div>
+						<!-- HoraTerminoEvento -->
+						<div class="form-group">
+							<label class="control-label col-md-2" for="horaTermino">Hora Termino Evento: </label>
+							<div class="col-md-5">
+								<input id="horaTermino" class="form-control time" name="horaTermino" type="text"  />
 							</div>
 						</div>
 						<div class="form-group">
@@ -45,30 +84,21 @@
 						</div>
 					</form>
 				</div>
-				
-				<div>
-					
-				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <script>
 	$().ready(function(){
-		$("#feInicio").datepicker({
-			changeMonth: true,
-			changeYear: true,
-			dateFormat: 'yy-mm-dd',
-			minDate: 0,
-			showAnim: 'drop'			
+		
+		$(".time").timepicker({
+			'showDuration': 'true',
+			'timeformat': 'g:i a'
 		});
 
-		$("#feTermino").datepicker({
-			changeMonth: true,
-			changeYear: true,
-			dateFormat: 'yy-mm-dd',
-			minDate: 0,
-			showAnim: 'drop'
+		$(".date").datepicker({
+			'format': 'yyyy-mm-dd',
+			'autoclose': true
 		});
 	});
 </script>

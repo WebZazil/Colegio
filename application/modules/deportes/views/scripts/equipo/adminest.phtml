@@ -1,0 +1,91 @@
+<?php
+    $estatusEquipo = $this->estatusEquipo;
+    
+    $params = array('module'=>'deportes','controller'=>'dashboard','action'=>'actions');
+    $urlActions = $this->url($params,null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Estatus de Equipo registrados en sistema</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlActions; ?>" class="btn btn-info">
+						<i class="fa fa-arrow-circle-left"></i> Ir a Actions
+					</a>
+				</div>
+				<hr />
+				<div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Estatus</th>
+								<th>Descripción</th>
+								<th>Creación</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($estatusEquipo as $estatusE) { 
+							     $params = array('module'=>'deportes','controller'=>'equipo','action'=>'configest','est'=>$estatusE['idEstatusEquipo']);
+							     $urlAdminEstatus = $this->url($params,null,true);
+							    ?>
+							<tr>
+								<td>
+									<a href="<?php echo $urlAdminEstatus; ?>" class="btn btn-link">
+										<i class="fa fa-gears"></i> <?php echo $estatusE['estatus']; ?>
+									</a>
+								</td>
+								<td><?php echo $estatusE['descripcion']; ?></td>
+								<td><?php echo $estatusE['creacion']; ?></td>
+							</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Nuevo Estatus de Equipo en Sistema</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<fieldset>
+							<legend>Nuevo Estatus</legend>
+							
+							<div class="form-group">
+    							<label for="estatus" class="control-label col-md-2">Estatus: </label>
+    							<div class="col-md-10">
+    								<input name="estatus" type="text" class="form-control" placeholder="En mayúsculas..." />
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<label for="descripcion" class="control-label col-md-2">Descripción:</label>
+    							<div class="col-md-10">
+    								<input name="descripcion" type="text" class="form-control" placeholder="Descripción..." />
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<div class="col-md-offset-2 col-md-10">
+    								<button class="btn btn-success" type="submit">
+    									<i class="fa fa-save"></i> Guardar Estatus
+    								</button>
+    							</div>
+    						</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

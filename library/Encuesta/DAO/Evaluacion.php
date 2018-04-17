@@ -490,7 +490,11 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
     }
     
     /**
-     * Cuando estamos pro
+     * getResultadoIndividual Obtiene de T.EvaluacionRealizada el registro asociado a idAsignacion
+     * @param int $idAsignacion
+     * @param int $idEvaluacion
+     * @param int $idEvaluador
+     * @return array
      */
     public function getResultadoIndividual($idAsignacion, $idEvaluacion, $idEvaluador) {
         $tablaEvalRel = $this->tablaEvaluacionRealizada;

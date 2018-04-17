@@ -42,9 +42,17 @@ class Encuesta_Util_Reporteador {
     private $tablaReportesGrupo;
     private $tableDocente;
     private $tableEncuestasRealizadas;
+    
+    private $organizacion;
+    private $tableResumenEvaluacion;
 	
 	public function __construct($dbAdapter) {
 	    $config = array('db' => $dbAdapter);
+	    
+	    $auth = Zend_Auth::getInstance();
+	    $identity = $auth->getIdentity();
+	    
+	    $this->organizacion = $identity['organizacion'];
 	    
 		$this->tablaEncuesta = new Encuesta_Data_DbTable_Encuesta($config);
         $this->tablaSeccionEncuesta = new Encuesta_Data_DbTable_SeccionEncuesta($config);
@@ -73,6 +81,8 @@ class Encuesta_Util_Reporteador {
         $this->tableDocente = new Encuesta_Data_DbTable_Docente($config);
         $this->tablaReportesEncuesta = new Encuesta_Data_DbTable_ReportesEncuesta($config);
         $this->tableEncuestasRealizadas = new Encuesta_Data_DbTable_EncuestasRealizadas($config);
+        // ========================================================================================================== Improvements
+        $this->tableResumenEvaluacion = new Encuesta_Data_DbTable_ResumenEvaluacion($config);
 	}
 
     /**
@@ -81,22 +91,287 @@ class Encuesta_Util_Reporteador {
      * 
      */
     public function generarReporteGrupal($idAsignacion, $idEncuesta) {
-        $tablaEncuesta = $this->tablaEncuesta;
-        $tablaAsignacion = $this->tablaAsignacion;
-        $tablaConjunto = $this->tablaConjunto;
-        $tablaEvalReal = $this->tablaEvaluacionRealizada;
+        $tEn = $this->tablaEncuesta;
+        $tSE = $this->tablaSeccionEncuesta;
+        $tGS = $this->tablaGrupoSeccion;
+        $tP = $this->tablaPregunta;
         
-        $select = $tablaEncuesta->select()->from($tablaEncuesta)->where("idEncuesta=?",$idEncuesta);
-        $rowEncuesta = $tablaEncuesta->fetchRow($select);
-        $arrEncuesta = $rowEncuesta->toArray();
+        $tAG = $this->tablaAsignacion;
+        $tD = $this->tableDocente;
+        $tME = $this->tablaMateriaEscolar;
+        $tGE = $this->tablaGrupoEscolar;
         
-        $select = $tablaAsignacion->select()->from($tablaAsignacion)->where("idAsignacionGrupo=?",$idAsignacion);
-        $rowAsignacion = $tablaAsignacion->fetchRow($select);
-        $arrAsignacion = $rowAsignacion->toArray();
+        $tGrEd = $this->tablaGradoEscolar;
+        $tNE = $this->tablaNivelEducativo;
         
-        $select = $tablaEvalReal->select()->from($tablaEvalReal)->where("idAsignacionGrupo=?",$idAsignacion);
-        $rowsEvalsReal = $tablaEvalReal->fetchAll($select);
-        $arrEvalsReal = $rowsEvalsReal->toArray();
+        $tReEv = $this->tableResumenEvaluacion;
+        // ========================================================================================================== Datos
+        $select = $tEn->select()->from($tEn)->where("idEncuesta=?",$idEncuesta);
+        $encuesta = $tEn->fetchRow($select)->toArray();
+        
+        $select = $tSE->select()->from($tSE)->where('idEncuesta=?',$encuesta['idEncuesta']);
+        $secciones = $tSE->fetchAll($select)->toArray();
+        
+        $contenedorGrupos = array();
+        foreach ($secciones as $seccion){
+            $select = $tGS->select()->from($tGS)->where('idSeccionEncuesta=?',$seccion['idSeccionEncuesta']);
+            $gruposSeccion = $tGS->fetchAll($select)->toArray();
+            $contenedorGrupos[$seccion['idSeccionEncuesta']]['seccion'] = $seccion;
+            $contenedorGrupos[$seccion['idSeccionEncuesta']]['grupos'] = $gruposSeccion;
+            // print_r($gruposSeccion); print_r('<br /><br />');
+        }
+        
+        $select = $tP->select()->from($tP)->where('idEncuesta=?',$encuesta['idEncuesta']);
+        $preguntasEncuesta = $tP->fetchAll($select)->toArray();
+        
+        // Obtenemos Asignacion y sus componentes: Docente,MateriaEscolar y GrupoEscolar
+        $select = $tAG->select()->from($tAG)->where("idAsignacionGrupo=?",$idAsignacion);
+        $asignacion = $tAG->fetchRow($select)->toArray();
+        
+        $select = $tD->select()->from($tD)->where('idDocente=?',$asignacion['idDocente']);
+        $docente = $tD->fetchRow($select)->toArray();
+        
+        $select = $tME->select()->from($tME)->where('idMateriaEscolar=?',$asignacion['idMateriaEscolar']);
+        $materiaEscolar = $tME->fetchRow($select)->toArray();
+        
+        $select = $tGE->select()->from($tGE)->where('idGrupoEscolar=?',$asignacion['idGrupoEscolar']);
+        $grupoEscolar = $tGE->fetchRow($select)->toArray();
+        
+        
+        $select = $tGrEd->select()->from($tGrEd)->where('idGradoEducativo=?',$grupoEscolar['idGradoEducativo']);
+        $gradoEducativo = $tGrEd->fetchRow($select)->toArray();
+        
+        $select = $tNE->select()->from($tNE)->where('idNivelEducativo=?',$gradoEducativo['idNivelEducativo']);
+        $nivelEducativo = $tNE->fetchRow($select)->toArray();
+        
+        // Obtenemos resumen
+        $select = $tReEv->select()->from($tReEv)->where('idEncuesta=?',$idEncuesta)->where('idAsignacionGrupo=?',$idAsignacion);
+        $resumen = $tReEv->fetchRow($select)->toArray();
+        // ========================================================================================================== Reporte
+        $nombreArchivo = $this->utilText->cleanString(str_replace(" ", "", $grupoEscolar['grupoEscolar']."-".$idEncuesta."-".$docente['apellidos'].$docente['nombres']."-".$idAsignacion."-RGPH.pdf")) ;
+        
+        $directorio = $this->organizacion["directorio"];
+        $rutaReporte = '/reports/Encuesta/grupal/'.$directorio;
+        
+        if (!file_exists($rutaReporte.'/'.$nombreArchivo)) {
+            print_r('No existe');
+        }else{
+            print_r('Existe');
+        }
+        
+        $reportePDF = new My_Pdf_Document($nombreArchivo, PDF_PATH . $rutaReporte);
+        $fontDefault = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+        $anchoCelda = 75;
+        $styleDefault = new Zend_Pdf_Style;
+        $styleDefault->setFont($fontDefault, 12);
+        
+        $pagina = new My_Pdf_Page('letter-landscape');
+        $pagina->setStyle($styleDefault);
+        $pagina->setFont($fontDefault, 12);
+        $imagenEncabezado = Zend_Pdf_Image::imageWithPath(IMAGES_PATH . '/Logo.png');
+        //$page->drawImage($imgEncabezado, 30, 40, 0, 0);
+        //Imagen reducida al 65%
+        //$page->drawImage($imgEncabezado, 35, 20, 720, 97.5);
+        $pagina->drawImage($imagenEncabezado, 140, 30, 145, 89);
+        // ========================================================================================================== Reporte Membrete
+        // Tabla Membrete
+        $tMembreteTitulos = new My_Pdf_Table(1);
+        // Fila Header
+        $rowMembreteHeader = new My_Pdf_Table_HeaderRow();
+        $rowMembreteHeader->setFont($fontDefault, 28);
+        
+        // Fila Content
+        $rowContent = new My_Pdf_Table_Row();
+        $rowContent->setFont($fontDefault, 28);
+        
+        // Columnas del header
+        $colMH1 = new My_Pdf_Table_Column;
+        $colMH2 = new My_Pdf_Table_Column;
+        
+        $colMH1->setText("Evaluación de desempeño");
+        $colMH1->setWidth(405);
+        $colMH2->setText("2017 - 2018");
+        $colMH2->setWidth(405);
+        // Contenedores de columnas de headers y contents de la tabla
+        $columnsHeaders = array($colMH1);
+        $columnsContents = array($colMH2);
+        
+        $rowMembreteHeader->setColumns($columnsHeaders);
+        $rowMembreteHeader->setCellPaddings(array(5,5,5,55));
+        
+        $rowContent->setColumns($columnsContents);
+        $rowContent->setCellPaddings(array(5,5,5,100));
+        
+        $tMembreteTitulos->setHeader($rowMembreteHeader);
+        $tMembreteTitulos->addRow($rowContent);
+        // Columnas del content
+        $pagina->addTable($tMembreteTitulos, 330, 40);
+
+        // ========================================================================================================== Reporte Header
+        // Tabla Header
+        $tableHeader = new My_Pdf_Table(2);
+        $cellWidth = 200;
+        
+        $rowTable1 = new My_Pdf_Table_Row;
+        $rowTable2 = new My_Pdf_Table_Row;
+        $rowTable3 = new My_Pdf_Table_Row;
+        $rowTable4 = new My_Pdf_Table_Row;
+        
+        $colthA1 = new My_Pdf_Table_Column;
+        $colthA2 = new My_Pdf_Table_Column;
+        $colthB1 = new My_Pdf_Table_Column;
+        $colthB2 = new My_Pdf_Table_Column;
+        $colthC1 = new My_Pdf_Table_Column;
+        $colthC2 = new My_Pdf_Table_Column;
+        $colthD1 = new My_Pdf_Table_Column;
+        $colthD2 = new My_Pdf_Table_Column;
+        
+        $colthA1->setText("Evaluación: ");
+        $colthA1->setWidth($cellWidth);
+        $colthA2->setText(utf8_encode($encuesta['nombre']));
+        
+        $colthB1->setText("Docente: ");
+        $colthB1->setWidth($cellWidth);
+        $colthB2->setText($docente['apellidos'].", ".$docente['nombres']);
+        
+        $colthC1->setText("Nivel, Grado: ");
+        $colthC1->setWidth($cellWidth);
+        $colthC2->setText($nivelEducativo["nivelEducativo"].", ".$gradoEducativo["gradoEducativo"]);
+        
+        $colthD1->setText("Grupo, Materia: ");
+        $colthD1->setWidth($cellWidth);
+        $colthD2->setText("Grupo: ".$grupoEscolar["grupoEscolar"].", ".$materiaEscolar['materiaEscolar']);
+        
+        $rowTable1->setColumns(array($colthA1,$colthA2));
+        $rowTable1->setCellPaddings(array(5,5,5,25));
+        $rowTable1->setFont($fontDefault,12);
+        
+        $rowTable2->setColumns(array($colthB1,$colthB2));
+        $rowTable2->setCellPaddings(array(5,5,5,25));
+        $rowTable2->setFont($fontDefault,12);
+        
+        $rowTable3->setColumns(array($colthC1,$colthC2));
+        $rowTable3->setCellPaddings(array(5,5,5,25));
+        $rowTable3->setFont($fontDefault,12);
+        
+        $rowTable4->setColumns(array($colthD1,$colthD2));
+        $rowTable4->setCellPaddings(array(5,5,5,25));
+        $rowTable4->setFont($fontDefault,12);
+        
+        $tableHeader->addRow($rowTable1);
+        $tableHeader->addRow($rowTable2);
+        $tableHeader->addRow($rowTable3);
+        $tableHeader->addRow($rowTable4);
+        
+        $pagina->addTable($tableHeader, 120, 120);
+        // ========================================================================================================== Reporte Content
+        $promedioFinal = 0;
+        $sumaFinal = 0;
+        $numCategorias = 0;
+        $totalGrupos = 0;
+        
+        
+        foreach ($contenedorGrupos as $contenedorGrupo) {
+            $seccion = $contenedorGrupo['seccion'];
+            $grupos = $contenedorGrupo['grupos'];
+            $totalGrupos = count($grupos);
+            
+            $tableContent = new My_Pdf_Table($totalGrupos+1);
+            
+            $rowHeader = new My_Pdf_Table_HeaderRow();
+            $rowHeader->setFont($fontDefault, 12);
+            
+            $rowContent = new My_Pdf_Table_Row();
+            $rowContent->setFont($fontDefault, 12);
+            // =========================================================================== Obtener nombres por grupo
+            $contenedorHeaders = array();
+            foreach ($grupos as $grupo) {
+                $colHeader = new My_Pdf_Table_Column;
+                $colHeader->setText($grupo['nombre']);
+                $colHeader->setWidth($anchoCelda);
+                
+                $contenedorHeaders[] = $colHeader;
+            }
+            // =========================================================================== Obtener puntaje por grupo
+            $arrayResumen = json_decode($resumen['resumen'],true);
+            $puntajesGrupo = array();
+            foreach ($grupos as $grupo) {
+                $objGrupo = array();
+                $objGrupo['grupo'] = $grupo;
+                $preguntasGrupo = array();
+                $puntajeGrupo = 0.0;
+                // ======================================================================= Filtrar preguntas del grupo
+                foreach ($preguntasEncuesta as $preguntaEncuesta) {
+                    if ($preguntaEncuesta['idOrigen'] == $grupo['idGrupoSeccion']) {
+                        $preguntasGrupo[] = $preguntaEncuesta;
+                    }
+                }
+                // ======================================================================= Sumar puntajes de grupo 
+                foreach ($arrayResumen as $idPregunta => $puntaje) {
+                    foreach ($preguntasGrupo as $preguntaGrupo){
+                        if ($preguntaGrupo['idPregunta'] == $idPregunta) {
+                            $puntajeGrupo += $puntaje;
+                        }
+                    }
+                }
+                // ======================================================================= 
+                $objGrupo['puntaje'] = $puntajeGrupo;
+                $puntajesGrupo[] = $objGrupo;
+            }
+            // ===========================================================================
+            $contenedorContent = array();
+            foreach ($puntajesGrupo as $puntajeGrupo) {
+                $puntaje = $puntajeGrupo['puntaje'] / $resumen['numEvals'];
+                $colContent = new My_Pdf_Table_Column;
+                $colContent->setText(sprintf('%.2f', $puntaje));
+                $colContent->setWidth($anchoCelda);
+                
+                $contenedorContent[] = $colContent;
+            }
+            // ===========================================================================
+            $rowHeader->setColumns($contenedorHeaders);
+            $rowHeader->setCellPaddings(array(5,5,5,5));
+            
+            $rowContent->setColumns($contenedorContent);
+            $rowContent->setCellPaddings(array(5,5,5,25));
+            
+            $tableContent->setHeader($rowHeader);
+            $tableContent->addRow($rowContent);
+            
+            $pagina->addTable($tableContent, 60, 220);
+            
+        }
+        // ========================================================================================================== Save Document and Insert in DB
+        $reportePDF->addPage($pagina);
+        
+        $tRepEnc = $this->tablaReportesEncuesta;
+        $idReporte = 0;
+        $select = $tRepEnc->select()->from($tRepEnc)->where("idAsignacionGrupo=?",$idAsignacion)->where("idEncuesta=?",$idEncuesta);
+        $rowRepEnc = $tRepEnc->fetchRow($select);
+        if (is_null($rowRepEnc)) {
+            $datos = array();
+            //$datos["idGrupoEscolar"] = $idGrupo;
+            $datos["idEncuesta"] = $idEncuesta;
+            $datos["idAsignacionGrupo"] = $idAsignacion;
+            //$datos["idsEvaluadores"]="";
+            $datos["nombreReporte"] = $nombreArchivo;
+            $datos["tipoReporte"] = "RGRU";
+            $datos["rutaReporte"] = $this->rutaReporte."/";
+            $datos["creacion"] = date("Y-m-d H:i:s", time());
+            print_r($datos);
+            $idReporte = $tRepEnc->insert($datos);
+        }else{
+            $idReporte = $rowRepEnc->idReporte;
+        }
+        
+        if (!file_exists($rutaReporte.'/'.$nombreArchivo)) {
+            $reportePDF->saveDocument();
+            print_r($nombreArchivo);
+        }else{
+            // Borrar documento y reescribirlo
+        }
+        
+        return $idReporte;
     }
     
     /**

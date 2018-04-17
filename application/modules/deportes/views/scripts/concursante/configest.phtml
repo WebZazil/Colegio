@@ -1,0 +1,52 @@
+<?php
+    $estatus = $this->estatus;
+    
+    $params = array('module'=>'deportes','controller'=>'concursante','action'=>'adminest');
+    $urlEstatus = $this->url($params,null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Editar Estatus de Concursante</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlEstatus; ?>" class="btn btn-info">
+						<i class="fa fa-arrow-circle-left"></i> Volver a Estatus
+					</a>
+				</div>
+				<hr />
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<fieldset>
+							<legend>Editar Estatus</legend>
+							
+							<div class="form-group">
+    							<label for="estatus" class="control-label col-md-2">Estatus: </label>
+    							<div class="col-md-10">
+    								<input name="estatus" type="text" class="form-control" value="<?php echo $estatus['estatus'] ?>" />
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<label for="descripcion" class="control-label col-md-2">Descripción: </label>
+    							<div class="col-md-10">
+    								<input name="descripcion" type="text" class="form-control" value="<?php echo $estatus['descripcion'] ?>" />
+    							</div>
+    						</div>
+    						    						
+    						<div class="form-group">
+    							<div class="col-md-offset-2 col-md-10">
+    								<button class="btn btn-warning" type="submit">
+    									<i class="fa fa-refresh"></i> Actualizar Estatus
+    								</button>
+    							</div>
+    						</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

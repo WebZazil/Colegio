@@ -1,0 +1,25 @@
+<?php
+
+class Deportes_DashboardController extends Zend_Controller_Action
+{
+
+    public function init()
+    {
+        /* Initialize action controller here */
+    }
+
+    public function indexAction()
+    {
+        // action body
+    }
+
+    public function actionsAction()
+    {
+        // action body
+    }
+
+
+}
+
+
+

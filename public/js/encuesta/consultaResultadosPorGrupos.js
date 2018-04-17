@@ -60,7 +60,7 @@ $().ready(function(){
 				url: urlQueryRecurso,
 				dataType: "json",
 				success: function(data){
-					console.dir(data);
+					//console.dir(data);
 					
 					var numEvals = data.length;
 					console.log(numEvals);
@@ -69,25 +69,27 @@ $().ready(function(){
             		tbody.empty();
             		
             		$.each(data, function(index, value){
+            			var encuesta = value.encuesta;
             			var asignacion = value.asignacion;
-            			//var encuesta = value.encuesta;
-                		var docente = value.docente;
-                		var materiae = value.materiae;
-                		var grupoe = value.grupoe;
+            			var asign = asignacion.asignacion;
+            			
+            			var docente = asignacion.docente;
+                		var materiaEscolar = asignacion.materiaEscolar;
+                		var grupoEscolar = asignacion.grupoEscolar;
 
-                		var urlDetails = url + '/resultado/resgras/as/'+asignacion.idAsignacionGrupo+'/ev/'+0;
+                		var urlDetails = url + '/resultado/resgras/as/'+asign.idAsignacionGrupo+'/ev/'+encuesta.idEncuesta;
                 		
                 		var nombreDocente = docente.apellidos + ', '+docente.nombres;
-                		var boton = $('<a></a>').
+                		var link = $('<a></a>').
                 			attr('href',urlDetails).
                 			attr('target','_blank').
-                			html('Ver Reporte');
+                			html('<i class="fa fa-search"></i> Ver Reporte');
                 		
                 		tbody.append( $('<tr>').
-                            //append($('<td>').append(encuesta.nombre)).
+                            append($('<td>').append(encuesta.nombre)).
                             append($('<td>').append(nombreDocente)).
-                            append($('<td>').append(materiae.materiaEscolar)).
-                            append($('<td>').append(boton)) ) ;
+                            append($('<td>').append(materiaEscolar.materiaEscolar)).
+                            append($('<td>').append(link)) ) ;
                     });
 				}
 			});

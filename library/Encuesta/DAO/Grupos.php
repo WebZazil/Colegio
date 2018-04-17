@@ -160,15 +160,10 @@ class Encuesta_DAO_Grupos implements Encuesta_Interfaces_IGrupos {
 	public function getAllGruposByIdCicloEscolar($idCicloEscolar) {
 		$tablaGrupos = $this->tablaGrupo;
 		$where = $tablaGrupos->getAdapter()->quoteInto("idCicloEscolar=?", $idCicloEscolar);
-		//print_r($where);
-		$rowsGrupos = $tablaGrupos->fetchAll($where);
-		//print_r($rowsGrupos->toArray());
-		if (is_null($rowsGrupos)) {
-			return array();
-		}else{
-			return $rowsGrupos->toArray();
-		}
 		
+		$rowsGrupos = $tablaGrupos->fetchAll($where);
+		
+		return $rowsGrupos->toArray();
 	}
 	
 }

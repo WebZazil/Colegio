@@ -1,0 +1,181 @@
+<?php
+    $deportes = $this->deportes;
+    $estatusEquipo = $this->estatusEquipo;
+    
+    $params = array('module'=>'deportes','controller'=>'equipo','action'=>'index');
+    $urlActions = $this->url($params,null,true);
+    
+    $params = array('module'=>'deportes','controller'=>'concursante','action'=>'alta');
+    $urlAltaConcursante = $this->url($params,null,true); 
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Equipos en el Sistema</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlActions ?>" class="btn btn-info">
+						<i class="fa fa-search"></i> Ir a Actions
+					</a>
+					<a href="<?php echo $urlAltaConcursante; ?>" class="btn btn-success">
+						<i class="fa fa-plus"></i> Nuevo Concursante
+					</a>
+				</div>
+				<div>
+					<div class="form-horizontal">
+						<fieldset>
+							<legend>Buscar Equipos</legend>
+							
+							<div class="form-group">
+    							<label for="idDeporte" class="control-label col-md-2">Deportes: </label>
+    							<div class="col-md-10">
+    								<select id="idDeporte" name="idDeporte" class="form-control">
+    									<option value="0">Seleccione Deporte...</option>
+    									<?php foreach ($deportes as $deporte) { ?>
+    									<option value="<?php echo $deporte['idDeporte'] ?>"><?php echo $deporte['deporte'] ?></option>
+    									<?php } ?>
+    								</select>
+    							</div>
+    						</div>
+						</fieldset>
+					</div>
+				</div>
+				<hr />
+				<div>
+					<table id="equipos" class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th>Estatus</th>
+								<th>Equipo</th>
+								<th>Integrantes</th>
+								<th>Creación</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">Nuevo Equipo en Sistema</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+				</div>
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<fieldset>
+							<legend>Nuevo Equipo</legend>
+							
+							<div class="form-group">
+    							<label for="idEstatusEquipo" class="control-label col-md-2">Estatus Equipo: </label>
+    							<div class="col-md-10">
+    								<select name="idEstatusEquipo" class="form-control">
+    									<option value="0">Seleccione Estatus del Equipo...</option>
+    									<?php foreach ($estatusEquipo as $estatus) { ?>
+    									<option value="<?php echo $estatus['idEstatusEquipo']; ?>"><?php echo $estatus['estatus']; ?></option>
+    									<?php } ?>
+    								</select>
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<label for="equipo" class="control-label col-md-2">Equipo: </label>
+    							<div class="col-md-10">
+    								<input name="equipo" type="text" class="form-control" />
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<label for="idEstatusEquipo" class="control-label col-md-2">Deporte: </label>
+    							<div class="col-md-10">
+    								<select name="idDeporte" class="form-control">
+    									<option value="0">Seleccione Deporte del Equipo...</option>
+    									<?php foreach ($deportes as $deporte) { ?>
+    									<option value="<?php echo $deporte['idDeporte']; ?>"><?php echo $deporte['deporte']; ?></option>
+    									<?php } ?>
+    								</select>
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<label for="equipo" class="control-label col-md-2">Descripción: </label>
+    							<div class="col-md-10">
+    								<input name="descripcion" type="text" class="form-control" />
+    							</div>
+    						</div>
+    						    						
+    						<div class="form-group">
+    							<div class="col-md-offset-2 col-md-10">
+    								<button class="btn btn-success" type="submit">
+    									<i class="fa fa-save"></i> Enviar
+    								</button>
+    							</div>
+    						</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var module = '/colegio/deportes';
+		var url = window.location.origin + module;
+
+		$('#idDeporte').on('change',function(){
+			var idDeporte = $(this).val();
+			console.log(idDeporte);
+
+			if(idDeporte != 0){
+				var urlQuery = url + '/json/qequipos/dep/'+idDeporte;
+				console.log(urlQuery);
+				$.ajax({
+					url: urlQuery,
+					dataType: "json",
+					success: function(data){
+						console.dir(data);
+						var tbody = $("#equipos").find('tbody');
+	            		tbody.empty();
+	            		$.each(data, function(index,value){
+	    					var equipo = value.equipo;
+	    					var estatus = value.estatus;
+
+							var configELink = url+'/equipo/config/eq/'+equipo.idEquipo;
+							var configLink = $('<a></a>').
+        						attr('class','btn btn-link').
+        						attr('href', configELink).
+        						html('<i class="fa fa-gears"></i> ' + equipo.equipo );
+	    					
+	    					var link = url+'/equipo/integrantes/eq/'+equipo.idEquipo;
+
+	    					var usersLink = $('<a></a>').
+	    						attr('class','btn btn-link').
+	    						attr('href', link).
+	    						html('<i class="fa fa-users"></i> Integrantes');
+
+	    					tbody.append($('<tr>').
+	    	                        append($('<td>').append(estatus.estatus)).
+	    	                        append($('<td>').append(configLink)).
+	    	                        append($('<td>').append(usersLink)).
+	    	                        append($('<td>').append(equipo.creacion))
+	    	                    );
+	    				});
+					}
+				});
+			}
+			
+		});
+	});
+</script>

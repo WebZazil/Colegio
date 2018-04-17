@@ -27,10 +27,14 @@ class Evento_EventoController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
+        
+        $estatus = $this->eventoDAO->getAllEstatusEvento();
+        $this->view->estatus = $estatus;
+        
         if ($request->isPost()) {
             $datos = $request->getPost();
             $datos['creacion'] = date('Y-m-d H:i:s', time());
-            print_r($datos);
+            //print_r($datos);
             
             try{
                 $this->eventoDAO->saveEvento($datos);

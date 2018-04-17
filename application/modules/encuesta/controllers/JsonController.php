@@ -3,14 +3,6 @@
  * @author EnginnerRodriguez
  * 
  */
-
-
-
-
-
-
-
-
 class Encuesta_JsonController extends Zend_Controller_Action
 {
 
@@ -335,10 +327,52 @@ class Encuesta_JsonController extends Zend_Controller_Action
     {
         // action body
         $idGrupo = $this->getParam('gpo');
-        $asignaciones = $this->asignacionDAO->getAsignacionesByIdGrupo($idGrupo);
-        $objAsignaciones = $this->asignacionDAO->getObjectAsignaciones($asignaciones);
+        $evals = $this->asignacionDAO->getAsignacionesRealizadasByIdGrupo($idGrupo);
         
-        echo Zend_Json::encode($objAsignaciones);
+        $container = array();
+        
+        $evaluaciones = array();
+        $asignaciones = array();
+        
+        foreach ($evals as $eval) {
+            if (! in_array($eval['idEncuesta'], $evaluaciones)) {
+                // $encuesta = $this->encuestaDAO->getEncuestaById($eval['idEncuesta']);
+                $evaluaciones[] = $this->encuestaDAO->getEncuestaById($eval['idEncuesta']);
+            }
+            
+            if (! in_array($eval['idAsignacionGrupo'], $asignaciones)) {
+                // $asignacion = $eval['idAsignacionGrupo'];
+                // $asignaciones[] = $this->asignacionDAO->getAsignacionById($eval['idAsignacionGrupo']);
+                $asignaciones[] = $this->asignacionDAO->getObjectAsignacion($eval['idAsignacionGrupo']);
+            }
+        }
+        
+        foreach ($evals as $eval) {
+            $encuesta = null;
+            foreach ($evaluaciones as $evaluacion) {
+                if ($evaluacion['idEncuesta'] == $eval['idEncuesta']) {
+                    $encuesta = $evaluacion;
+                }
+            }
+            
+            $asignacion = null;
+            foreach ($asignaciones as $asig) {
+                if ($asig['asignacion']['idAsignacionGrupo'] == $eval['idAsignacionGrupo']) {
+                    $asignacion = $asig;
+                }
+            }
+            
+            $obj = array();
+            $obj['encuesta'] = $encuesta;
+            $obj['asignacion'] = $asignacion;
+            
+            $container[] = $obj;
+        }
+        
+        // $objAsignaciones = $this->asignacionDAO->getObjectAsignaciones($asignaciones);
+        
+        //echo Zend_Json::encode($objAsignaciones);
+        echo Zend_Json::encode($container);
     }
 
 

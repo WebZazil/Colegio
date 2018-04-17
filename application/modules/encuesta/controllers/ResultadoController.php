@@ -218,7 +218,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         // action body
         $cicloDAO = $this->cicloDAO;
         $cicloActual = $cicloDAO->getCurrentCiclo();
-        $grupos = $this->grupoDAO->getAllGruposByIdCicloEscolar($cicloActual->getIdCiclo());
+        $grupos = $this->grupoDAO->getAllGruposByIdCicloEscolar($cicloActual['idCicloEscolar']);
         $this->view->grupos = $grupos;
     }
 
@@ -281,24 +281,26 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $idAsignacion = $this->getParam("as");
         $idEvaluacion = $this->getParam("ev");
         
-        $resumen = $this->resumenDAO->obtenerResumen($idAsignacion, $idEvaluacion);
-        
-        try {
-            $this->resumenDAO->crearResumen($idAsignacion, $idEvaluacion);
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-        }
-        
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
         $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
+        
+        $resumen = null;
+        // Verificar evaluacion
+        $this->resumenDAO->verificaEncuestaRealizada($idEvaluacion, $idAsignacion);
+        
+        if (! $this->resumenDAO->existeResumen($idAsignacion, $idEvaluacion)) {
+            $this->resumenDAO->crearResumen($idAsignacion, $idEvaluacion);
+        }
+        
+        $resumen = $this->resumenDAO->obtenerResumen($idAsignacion, $idEvaluacion);
+        
+        
         
         $this->view->resumen = $resumen;
         $this->view->encuesta = $encuesta;
         $this->view->asignacion = $asignacion;
         
         $reporteador = $this->reporter;
-        
-        
         
         $docente = $this->docenteDAO->getDocenteById($asignacion['idDocente']);
         $materia = $this->materiaDAO->getMateriaById($asignacion["idMateriaEscolar"]);
@@ -329,7 +331,8 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
                 }
                 break;
             case '3':
-                $idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
+                //$idReporte = $reporteador->generarReporteGrupalAsignacion($asignacion["idGrupoEscolar"], $idAsignacion, $idEvaluacion);
+                $idReporte = $reporteador->generarReporteGrupal($idAsignacion, $idEvaluacion);
                 foreach ($evaluaciones as $evaluacion) {
                     $jsonArrays[] = $this->utilJSON->processJsonEncuestaTres($evaluacion["json"]);
                 }

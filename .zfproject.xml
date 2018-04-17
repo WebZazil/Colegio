@@ -1308,6 +1308,10 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="alta"/>
             </controllerFile>
+            <controllerFile controllerName="Asistente">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="detalle"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false">
@@ -1372,6 +1376,155 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Registro">
                 <viewScriptFile forActionName="confirmados"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Asistente">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Asistente">
+                <viewScriptFile forActionName="detalle"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
+            <viewHelpersDirectory/>
+            <viewFiltersDirectory/>
+          </viewsDirectory>
+        </moduleDirectory>
+        <moduleDirectory moduleName="deportes">
+          <configsDirectory enabled="false"/>
+          <controllersDirectory>
+            <controllerFile controllerName="Dashboard">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="actions"/>
+            </controllerFile>
+            <controllerFile controllerName="Usuario">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="settings"/>
+              <actionMethod actionName="logout"/>
+            </controllerFile>
+            <controllerFile controllerName="Index">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="login"/>
+            </controllerFile>
+            <controllerFile controllerName="Competencia">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="adminest"/>
+              <actionMethod actionName="configest"/>
+            </controllerFile>
+            <controllerFile controllerName="Deporte">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="configdep"/>
+            </controllerFile>
+            <controllerFile controllerName="Concursante">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="adminest"/>
+              <actionMethod actionName="configest"/>
+              <actionMethod actionName="alta"/>
+            </controllerFile>
+            <controllerFile controllerName="Equipo">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="adminest"/>
+              <actionMethod actionName="configest"/>
+              <actionMethod actionName="config"/>
+              <actionMethod actionName="integrantes"/>
+            </controllerFile>
+            <controllerFile controllerName="Json">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="qdeportes"/>
+              <actionMethod actionName="qequipos"/>
+              <actionMethod actionName="qintegrantes"/>
+            </controllerFile>
+          </controllersDirectory>
+          <formsDirectory enabled="false"/>
+          <layoutsDirectory enabled="false">
+            <layoutScriptsDirectory enabled="false"/>
+          </layoutsDirectory>
+          <modelsDirectory>
+            <dbTableDirectory enabled="false"/>
+          </modelsDirectory>
+          <servicesDirectory enabled="false"/>
+          <viewsDirectory>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Dashboard">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuario">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuario">
+                <viewScriptFile forActionName="settings"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuario">
+                <viewScriptFile forActionName="logout"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Dashboard">
+                <viewScriptFile forActionName="actions"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="login"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Competencia">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Deporte">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Concursante">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Competencia">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Concursante">
+                <viewScriptFile forActionName="adminest"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Competencia">
+                <viewScriptFile forActionName="adminest"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Equipo">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Equipo">
+                <viewScriptFile forActionName="adminest"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Equipo">
+                <viewScriptFile forActionName="configest"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Concursante">
+                <viewScriptFile forActionName="configest"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Competencia">
+                <viewScriptFile forActionName="configest"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Deporte">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Deporte">
+                <viewScriptFile forActionName="configdep"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="qdeportes"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="qequipos"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Equipo">
+                <viewScriptFile forActionName="config"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Equipo">
+                <viewScriptFile forActionName="integrantes"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Json">
+                <viewScriptFile forActionName="qintegrantes"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Concursante">
+                <viewScriptFile forActionName="alta"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -1914,6 +2067,57 @@
               <testApplicationControllerFile forControllerName="Evento">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Asistente">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="detalle"/>
+              </testApplicationControllerFile>
+            </testApplicationControllerDirectory>
+          </testApplicationModuleDirectory>
+          <testApplicationModuleDirectory forModuleName="deportes">
+            <testApplicationControllerDirectory>
+              <testApplicationControllerFile forControllerName="Dashboard">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="actions"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Usuario">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="settings"/>
+                <testApplicationActionMethod forActionName="logout"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Index">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="login"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Competencia">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="adminest"/>
+                <testApplicationActionMethod forActionName="configest"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Deporte">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="configdep"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Concursante">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="adminest"/>
+                <testApplicationActionMethod forActionName="configest"/>
+                <testApplicationActionMethod forActionName="alta"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Equipo">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="adminest"/>
+                <testApplicationActionMethod forActionName="configest"/>
+                <testApplicationActionMethod forActionName="config"/>
+                <testApplicationActionMethod forActionName="integrantes"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Json">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="qdeportes"/>
+                <testApplicationActionMethod forActionName="qequipos"/>
+                <testApplicationActionMethod forActionName="qintegrantes"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

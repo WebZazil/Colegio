@@ -27,6 +27,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$autoloader->registerNamespace('Biblioteca_');
 		$autoloader->registerNamespace('Soporte_');
 		$autoloader->registerNamespace('Evento_');
+		$autoloader->registerNamespace('Deportes_');
 	}
 	
 	/**
@@ -49,7 +50,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$front = Zend_Controller_Front::getInstance();
 		
 		// Instanciamos el Plugin de Layouts
-		$moduleNames = array('encuesta', 'soporte', 'biblioteca', 'evento');
+		$moduleNames = array('encuesta','soporte','biblioteca','evento','deportes');
 		$front->registerPlugin(new App_Plugins_Layout($moduleNames));
 		
 		// Instanciamos el plugin ACL

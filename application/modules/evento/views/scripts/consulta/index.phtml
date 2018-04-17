@@ -1,13 +1,22 @@
 <?php
     $evento = $this->evento;
+    
+    $params = array('module'=>'evento','controller'=>'dashboard','action'=>'actions');
+    $urlDashboard = $this->url($params,null,true);
 ?>
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h5 class="panel-title">Consulta de Asistentes en Evento: <strong><?php echo $evento['nombre']; ?></strong> </h5>
+				<h5 class="panel-title">Consulta de Asistentes en Evento: <strong><?php echo $evento['evento']; ?></strong> </h5>
 			</div>
 			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlDashboard; ?>" class="btn btn-info">
+						<i class="fa fa-arrow-circle-left"></i> Regresar a Acciones
+					</a>
+				</div>
+				<hr />
 				<div>
 					<div class="form-horizontal">
 						<div class="form-group">
@@ -41,7 +50,7 @@
 								<th>A. Paterno</th>
 								<th>A. Materno</th>
 								<th>E-Mail</th>
-								<th>Estatus</th>
+								<th>Detalle</th>
 							</tr>
 						</thead>
 						<tbody></tbody>
@@ -55,21 +64,13 @@
 	$().ready(function(){
 		var appname = "/colegio/evento";
 		var url = window.location.origin + appname;
-		var evento = <?php echo $evento['id'] ?>;
+		var evento = <?php echo $evento['idEvento'] ?>;
 		
-		$("#nombres").on('blur', function(){
-			constructQuery();
-		});
-		$("#apaterno").on('blur', function() {
-			constructQuery();
-		});
-		$("#amaterno").on('blur', function() {
+		$("#nombres, #apaterno, #amaterno").on('blur', function(){
 			constructQuery();
 		});
 
 		function constructQuery() {
-
-			//var evento = $("#evento").val();
 			var nombres = $("#nombres").val();
 			var apaterno = $("#apaterno").val();
 			var amaterno = $("#amaterno").val();
@@ -99,13 +100,13 @@
                     tbody.empty();
                     $.each(data, function(i,item){
 
-                        var urlDetails = url + "/asistente/detalle/as/"+item.id;
+                        var urlDetails = url + "/asistente/detalle/as/"+item.idAsistente;
 
                     	var alink = $("<a></a>")
                         .attr("class","btn btn-link")
-                        .attr("href","#")
+                        .attr("href", urlDetails)
                         .attr("target","_blank")
-                        .text("Detalle");
+                        .html('<i class="fa fa-cogs"></i> Detalle');
                         
                     	tbody.append($('<tr>').
                         	append($('<td>').append(item.nombres)).

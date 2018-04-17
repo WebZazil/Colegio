@@ -1,0 +1,116 @@
+<?php
+    $estatusCompetencia = $this->estatusCompetencia;
+    $deportes = $this->deportes;
+    
+    $params = array('module'=>'deportes','controller'=>'dashboard','action'=>'actions');
+    $urlActions = $this->url($params,null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h5 class="panel-title">
+					<strong><i class="fa fa-search"></i></strong>
+					Nueva Competencia
+				</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlActions; ?>" class="btn btn-info">
+						<i class="fa fa-arrow-circle-left"></i> Regresar a acciones
+					</a>
+				</div>
+				<hr />
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<div class="form-group">
+							<label for="idEstatusCompetencia" class="control-label col-md-2">Estatus Competencia:</label>
+							<div class="col-md-10">
+								<select name="idEstatusCompetencia" class="form-control">
+									<option value="0">Seleccione Estatus</option>
+									<?php foreach ($estatusCompetencia as $estatus) : ?>
+									<option value="<?php echo $estatus['idEstatusCompetencia'] ?>"><?php echo $estatus['estatus'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idDeporte" class="control-label col-md-2">Deporte Competencia:</label>
+							<div class="col-md-10">
+								<select id="idDeporte" name="idDeporte" class="form-control">
+									<option value="0">Seleccione Deporte</option>
+									<?php foreach ($deportes as $deporte) : ?>
+									<option value="<?php echo $deporte['idDeporte'] ?>"><?php echo $deporte['deporte'] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+					
+						<div class="form-group">
+							<label for="competencia" class="control-label col-md-2">Competencia: </label>
+							<div class="col-md-10">
+								<input name="competencia" type="text" class="form-control" placeholder="Nombre de la competencia..." />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idEquipoA" class="control-label col-md-2">Equipo A:</label>
+							<div class="col-md-10">
+								<select name="idEquipoA" class="form-control">
+									<option value="0">Seleccione Deporte</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="idEquipoB" class="control-label col-md-2">Equipo B:</label>
+							<div class="col-md-10">
+								<select name="idEquipoB" class="form-control">
+									<option value="0">Seleccione Deporte</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="descripcion" class="control-label col-md-2">Descripción:</label>
+							<div class="col-md-10">
+								<input name="descripcion" type="text" class="form-control" placeholder="Breve descripción..." />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="inicio" class="control-label col-md-2">Fecha Inicio:</label>
+							<div class="col-md-10">
+								<input name="inicio" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="termino" class="control-label col-md-2">Fecha Termino:</label>
+							<div class="col-md-10">
+								<input name="termino" type="text" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<button class="btn btn-success" type="submit">
+									<i class="fa fa-save"></i> Crear Competencia
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$("select#idDeporte").on('change',function(){
+			
+		});
+	});
+</script>

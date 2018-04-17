@@ -29,12 +29,13 @@ class Evento_RegistroController extends Zend_Controller_Action
     public function altaAction()
     {
         // action body
+        $request = $this->getRequest();
         $idEvento = $this->getParam("ev");
         
         $evento = $this->eventoDAO->getEventoById($idEvento);
         $this->view->evento = $evento;
         
-        $request = $this->getRequest();
+        
         if ($request->isPost()) {
             // @TODO Validar via JavaScript y PHP que el correo sea correcto via RegExp
             $datos = $request->getPost();
@@ -70,9 +71,9 @@ class Evento_RegistroController extends Zend_Controller_Action
                 $datos['clave'] = $clave;
                 $datos['archivo'] = $filename;
                 
-                $txt = "Registro a Evento: <strong>".$evento['nombre']."</strong><br />".
+                $txt = "Registro a Evento: <strong>".$evento['evento']."</strong><br />".
                     "Que se llevara a cabo en: <strong>".$evento['lugar']."</strong><br />".
-                    "El cual dara inicio a las: <strong>".$evento['feInicio']."</strong> y terminara: <strong>".$evento['feTermino']."</strong><br /><br />".
+                    "El cual dara inicio a las: <strong>".$evento['fechaInicio']."</strong> y terminara: <strong>".$evento['fechaTermino']."</strong><br /><br />".
                     "Asistente: <strong>".$datos["nombres"]."</strong> <strong>".$datos["apaterno"]."</strong> <strong>". $datos["amaterno"]."</strong><br />".
                     "email: <strong>".$datos["email"]."</strong>";
                 
@@ -90,33 +91,41 @@ class Evento_RegistroController extends Zend_Controller_Action
                  
                 $this->registroDAO->saveAsistenteEvento($idAsistente, $idEvento);
                 // Enviar Email
+                /*
                 $config = array(
-                    //'auth' => 'login',
+                    'name' => 'mail.zazil.net',
+                    'auth' => 'login',
                     'username' => 'dev.bugzilla@zazil.net',
                     'password' => 'Godzilla#2017',
-                    //'ssl' => 'starttls',
-                    //'port' => 26
+                    'ssl' => 'tls',
+                    'port' => 26
+                );
+                */
+                
+                $config = array(
+                    'name' => 'smtp.gmail.com',
+                    'auth' => 'login',
+                    'username' => 'giovanni.rodriguez.ramos@gmail.com',
+                    'password' => 'rfmywbcacrdcimxt',
+                    'ssl' => 'tls',
+                    'port' => 587
                 );
                 
-                Zend_Mail::setDefaultReplyTo('giovanni.rodriguez@zazil.net','Giovanni Rodriguez');
+                Zend_Mail::setDefaultReplyTo('giovanni.rodriguez.ramos@gmail.com','Hector Rodriguez');
                  //$transport = new Zend_Mail_Transport_Smtp('mail.zazil.net',$config);
-                 $transport = new Zend_Mail_Transport_Smtp();
-                 $protocol = new Zend_Mail_Protocol_Smtp('mail.zazil.net',26, $config);
+                 $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
+                 //$protocol = new Zend_Mail_Protocol_Smtp('mail.zazil.net', $config);
                  //new Zend_Mail_Protocol_Smtp();
-                 $mailServers = array(
-                     'gmail'=>'mail.google.com',
-                     'hotmail'=>'outlook.live.com',
-                 );
                  
-                 $protocol->connect();
+                 //$protocol->connect();
                  
-                 $protocol->helo('mail.zazil.net');
-                 $transport->setConnection($protocol);
+                 // $protocol->helo('mail.zazil.net');
+                 // $transport->setConnection($protocol);
                  
                  
                  $mail = new Zend_Mail();
                  $mail->addTo($datos["email"], $datos["nombres"]." ". $datos['apaterno']);
-                 $mail->setFrom("dev.bugzilla@zazil.net", "Eventos - Colegio Sagrado Corazon");
+                 $mail->setFrom("giovanni.rodriguez.ramos@gmail.com", "Eventos - Colegio Sagrado Corazon");
                  $mail->setSubject("CSC Mexico Aviso de Registro a Evento");
                  //$mail->setBodyText($txt);
                  $mail->setBodyHtml($txt);
@@ -134,12 +143,12 @@ class Evento_RegistroController extends Zend_Controller_Action
                  $mail->addAttachment($attachment);
                  //$protocol->rset();
                  $mail->send($transport);
-                 $protocol->quit();
-                 $protocol->disconnect();
+                 //$protocol->quit();
+                 //$protocol->disconnect();
                  fclose($arch);
             }catch (Exception $ex){
                 print_r($ex->getMessage());
-                print_r('<br /><br />');
+                print_r('<br /><hr /><br />');
                 print_r($ex->getTrace());
             }
             
