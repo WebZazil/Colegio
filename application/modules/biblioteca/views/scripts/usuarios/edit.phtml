@@ -7,7 +7,11 @@
 
     $module = 'biblioteca';
     $urlUsuarios = $this->url(array('module'=>$module,'controller'=>'usuarios','action'=>'index'),null,true);
+   
+    $tipoU = $usuario ['usuario']['tipoUsuario'];
+    
     $tiposUsuario = array(
+        
         'AL' => 'Alumna',
         'DO' => 'Docente',
         'EX' => 'ExAlumna',
@@ -52,9 +56,11 @@
 							<div class="col-md-5">
 								<select id="tipoUsuario" name="tipoUsuario" class="form-control">
 								<?php foreach ($tiposUsuario as $clave => $tipoUsuario) :
-								    $atributo = ($clave == $usuario['tipoUsuario'] ) ? 'selected="selected"' : '';
+								    $atributo = ( $tipoU == $clave ) ? 'selected="selected"' : '';
 								    ?>
-									<option value="<?php echo $clave; echo $atributo; ?>" ><?php echo $tipoUsuario; ?></option>
+									<option value="<?php echo $clave; ?>"<?php echo $atributo; ?> >
+										<?php echo $tipoUsuario; ?>
+								     </option>
 								<?php endforeach;?>
 								</select>
 							</div>
@@ -134,7 +140,8 @@
 	$().ready(function(){
 
 
-		console.log('JQary activo!!');
+		console.log('JQuery activo!!');
+		var combo = document.getElementById("tipoUsuario").value;
 
 		/**$('#btnActualizar').click(function(){
 			console.log('click');

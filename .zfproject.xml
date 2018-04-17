@@ -948,6 +948,23 @@
               <actionMethod actionName="alta"/>
               <actionMethod actionName="admin"/>
             </controllerFile>
+            <controllerFile controllerName="Subdivisionesrecurso">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+            </controllerFile>
+            <controllerFile controllerName="Pais">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+              <actionMethod actionName="admin"/>
+            </controllerFile>
+            <controllerFile controllerName="Temasrecurso">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+            </controllerFile>
+            <controllerFile controllerName="Subdivisionestema">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="alta"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory>
             <formFile formName="AltaAutor"/>
@@ -965,6 +982,7 @@
             <formFile formName="AltaColeccion"/>
             <formFile formName="AltaClasificacion"/>
             <formFile formName="AltaTema"/>
+            <formFile formName="AltaPais"/>
           </formsDirectory>
           <layoutsDirectory enabled="false">
             <layoutScriptsDirectory enabled="false"/>
@@ -992,7 +1010,11 @@
               <dbTableFile dbTableName="Clasificacion"/>
               <dbTableFile dbTableName="Coleccion"/>
               <dbTableFile dbTableName="Material"/>
-              <dbTableFile dbTableName="LibrosTema"/>
+              <dbTableFile dbTableName="Librostema"/>
+              <dbTableFile dbTableName="Subdivisionesrecurso"/>
+              <dbTableFile dbTableName="Pais"/>
+              <dbTableFile dbTableName="Temasrecurso"/>
+              <dbTableFile dbTableName="Subdivisionestema"/>
             </dbTableDirectory>
           </modelsDirectory>
           <servicesDirectory enabled="false"/>
@@ -1267,6 +1289,33 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Json">
                 <viewScriptFile forActionName="brecbybc"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Subdivisionesrecurso">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Subdivisionesrecurso">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Pais">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Pais">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Pais">
+                <viewScriptFile forActionName="admin"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Temasrecurso">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Temasrecurso">
+                <viewScriptFile forActionName="alta"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Subdivisionestema">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Subdivisionestema">
+                <viewScriptFile forActionName="alta"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -2031,6 +2080,25 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="alta"/>
                 <testApplicationActionMethod forActionName="admin"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Subdivisionesrecurso">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Pais">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
+                <testApplicationActionMethod forActionName="admin"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Temasrecurso">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Subdivisionestema">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="alta"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

@@ -110,13 +110,17 @@ class Biblioteca_UsuariosController extends Zend_Controller_Action
             unset($datos['emails']);
             unset($datos['telefonos']);
             
-            print_r($datos); print_r('<br /><br/>');
-            print_r($dataContacto);
+          //  print_r($datos); print_r('<br /><br/>');
+          // print_r($dataContacto);
             
             try {
                 $this->usuarioDAO->editarUsuario($idUsuario, $datos);
                 $this->contactoDAO->editarContacto($usuario['contacto']['idContacto'],$dataContacto);
-                $this->view->messageSuccess ="El usuario: <strong>".$datos['nickname']."</strong> ha sido modificado";
+                $this->view->messageSuccess ="El usuario ha sido modificado correctamente";
+                
+                $usuario = $this->usuarioDAO->getObjectUsuario($idUsuario);
+                
+                $this->view->usuario = $usuario;
             
             }catch (Exception $ex){
                 $this->view->messageFail = "El usuario: <strong>".$datos['nickname']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."<strong>";

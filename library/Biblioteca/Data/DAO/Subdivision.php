@@ -9,6 +9,7 @@ class Biblioteca_Data_DAO_Subdivision{
 	private $tableSubDivision;
 	
 	function __construct($dbAdapter){
+	    
 		$config = array('db' => $dbAdapter);
 		
 		$this->tableSubDivision = new Biblioteca_Data_DbTable_Subdivision($config);

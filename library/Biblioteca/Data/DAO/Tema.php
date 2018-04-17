@@ -8,8 +8,10 @@ class Biblioteca_Data_DAO_Tema {
     
     private $tableTema;
 	
+
 	public function __construct($dbAdapter) {
 		$config = array('db' => $dbAdapter);
+
 		$this->tableTema = new Biblioteca_Data_DbTable_Tema($config);
 	}
     

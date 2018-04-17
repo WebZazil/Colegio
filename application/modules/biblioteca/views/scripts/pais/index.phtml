@@ -1,0 +1,66 @@
+<?php
+    $paises = $this->paises;
+    
+    $params = array("module"=>"biblioteca","controller"=>"pais","action"=>"alta");
+    $urlAltaPais = $this->url($params,null,TRUE);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h5 class="panel-title">Paises Registrados en Biblioteca</h5>
+			</div>
+			<div class="panel-body">
+			    <div>
+			        <a class="btn btn-success" href="<?php echo $urlAltaPais; ?>">
+			            <i class="fa fa-plus"></i> Nuevo Pais
+			        </a>
+			    </div>
+			    <hr />
+			    <div>
+			 
+			        <table id="tPais" class="table table-striped table-condensed">
+			            <thead>
+			                <tr>
+			                    <th>Nombre</th>
+			                    <th>Inglés</th>
+			                    <th>Código</th>
+			                    <th>Creación</th>
+			                    <th>Editar</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <?php foreach ($paises as $pais) :
+			                  $urlAdminPais = $this->url(array('module'=>'biblioteca','controller'=>'pais','action'=>'admin','ps'=>$pais['idPais']));
+			                ?>
+			                <tr>
+			                    <td><?php echo $pais["nombre"]; ?></td>
+			                    <td><?php echo $pais["english"]; ?></td>
+			                    <td><?php echo $pais["codigo"]; ?></td>
+			                    <td><?php echo $pais["creacion"]; ?></td>
+			                    <td>
+			                    	 <a class="btn btn-link" href="<?php echo $urlAdminPais; ?>">
+										<i class="fa fa-edit"></i> 
+									</a>
+			                    </td>
+			                </tr>
+			                <?php endforeach; ?>
+			            </tbody>
+			        </table>
+			        	
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	$().ready(function(){
+		//console.log("jQuery Activo!!");
+
+		$("#tPais").DataTable();
+		
+	});
+		
+</script>

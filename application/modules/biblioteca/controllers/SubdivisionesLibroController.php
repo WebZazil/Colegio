@@ -40,7 +40,8 @@ class Biblioteca_SubdivisionesLibroController extends Zend_Controller_Action
 				$subdivisionesLibro = new Biblioteca_Model_SubdivisionesLibro($datos);
 				
 				try{
-					$this->subdivisionesLibroDAO->agregarSubdivisionesLibro($subdivisionesLibro->getIdRecurso(),$subdivisionesLibro->getIdsSubdivision());
+				    $this->subdivisionesLibroDAO->agregaSubdivisionesLibro($subdivisionesLibro->getIdRecurso(),$subdivisionesLibro->getIdsSubdivision());
+			
 					$this->view->messageSuccess = "Exito en la inserción";
 				}catch(Exception $ex){
 					$this->view->messageFail = "Fallo al insertar en la BD Error:".$ex->getMessage()."<strong>";

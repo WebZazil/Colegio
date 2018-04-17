@@ -10,15 +10,17 @@
 	private $tableTema;
 	private $tableSubdivision;
 	
-	function __construct()
+	function __construct($dbAdapter)
 	{
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		//$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
-		$this->tableTemasSubdivision = new Biblioteca_Model_DbTable_TemasSubdivision(array('db'=>$dbAdapter));
-		$this->tableTema = new Biblioteca_Data_DbTable_Tema(array('db'=>$dbAdapter));
-		$this->tableSubdivision = new Biblioteca_Model_DbTable_SubDivision(array('db'=>$dbAdapter));
+	    $config = array('db' => $dbAdapter);
+		
+	    $this->tableTemasSubdivision = new Biblioteca_Model_DbTable_TemasSubdivision( $config);
+	    $this->tableTema = new Biblioteca_Data_DbTable_Tema($config);
+		$this->tableSubdivision = new Biblioteca_Model_DbTable_SubDivision( $config);
 	}
-	public function agregarTemasSubdivision( $idSubdivision, $idTema)
+	public function agregarSubdivisionesT( $idSubdivision, $idTema)
 	{
 		$tablaTemasSubdivision = $this->tableTemasSubdivision;
 		$select = $tablaTemasSubdivision->select()->from($tablaTemasSubdivision)->where("idSubdivision=?", $idSubdivision);

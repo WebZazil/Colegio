@@ -1,13 +1,12 @@
 <?php
 
-class Biblioteca_TemaController extends Zend_Controller_Action
+class Biblioteca_PaisController extends Zend_Controller_Action
 {
-	
-	private $temaDAO;
-	
+
     public function init()
     {
         /* Initialize action controller here */
+        
         $auth = Zend_Auth::getInstance();
         if (!$auth->hasIdentity()) {
             $this->_helper->redirector->gotoSimple("index", "index", "biblioteca");;
@@ -15,51 +14,46 @@ class Biblioteca_TemaController extends Zend_Controller_Action
         $identity = $auth->getIdentity();
         
         //$dbAdapter = Zend_Registry::get("dbmodqueryb");
-		
-		$this->temaDAO = new Biblioteca_Data_DAO_Tema($identity['adapter']);
+        
+        $this->paisDAO = new Biblioteca_Data_DAO_Pais($identity['adapter']);
     }
 
     public function indexAction()
     {
         // action body
         
-       // $temas = $this->temaDAO->getAllTemas();
-		//$this->view->temas = $temas;
-        $temas = $this->temaDAO->getAllTemas();
         
-        $this->view->temas = $temas;
+        $paises = $this->paisDAO->getAllPaises();
+        
+        $this->view->paises = $paises;
         $request = $this->getRequest();
         
         if($request->isPost()){
-            $temas =$request->getPost();
-            print_r($temas); print_r("<br />");
+            $paises =$request->getPost();
+            print_r($paises); print_r("<br />");
             
             
-            foreach ($temas as $key => $value){
+            foreach ($paises as $key => $value){
                 if($value == "0"){
-                    unset($tema[$key]);
+                    unset($pais[$key]);
                 }
             }
             
-            $resources = $this->temaDAO->getEditorialByParamas($temas);
+            $resources = $this->paisDAO->getPaisById($idPais);
             if(!empty($resources)){
                 
                 $container = array();
                 
                 $container = $resources;
                 $this->view->resources = $container;
-                
             }else{
                 $this->view->resources = $array;
             }
-            
-            
-            
         }else{
             $this->view->resources = array();
         }
         
-        $temaDAO   = $this->temaDAO;
+        $paisDAO = $this->paisDAO;
     }
 
     public function altaAction()
@@ -67,8 +61,8 @@ class Biblioteca_TemaController extends Zend_Controller_Action
         // action body
         
         $request = $this->getRequest();
-        $formulario = new Biblioteca_Form_AltaTema;
-        $this->view->formulario = $formulario;
+        $formulario = new Biblioteca_Form_AltaPais();
+        $this->view->formulario = $formulario;     
         
         if ($request->isPost()) {
             if ($formulario->isValid($request->getPost())) {
@@ -77,18 +71,15 @@ class Biblioteca_TemaController extends Zend_Controller_Action
                 //print_r($datos);
                 
                 try{
-                    $this->temaDAO->addTema($datos);
-                    $this->view->messageSuccess = "Tema dado de de alta exitosamente.";
+                    $this->paisDAO->addPais($data);
+                    $this->view->messageSuccess = "Pais dado de de alta exitosamente.";
                 }catch(Exception $ex){
-                    $this->view->messageFail = "Error en alta de tema <strong>".$ex->getMessage()."</strong>";
+                    $this->view->messageFail = "Error en alta de pais <strong>".$ex->getMessage()."</strong>";
                 }
             }
         }
-    }
-
-    public function editaAction()
-    {
-        // action body
+    
+        
     }
 
     public function adminAction()
@@ -96,36 +87,36 @@ class Biblioteca_TemaController extends Zend_Controller_Action
         // action body
         
         $request = $this->getRequest();
-        $idTema = $this->getParam("tm");
+        $idPais = $this->getParam("ps");
         
-        //print_r($idMaterial);
+        print_r($idPais);
         
-        $temas = $this->temaDAO->getTemaById($idTema);
+        $paises = $this->paisDAO->getPaisById($idPais);
         
-        $this->view->temas = $temas;
+        $this->view->paises = $paises;
         
         
-        if($request->isPost()) {
+        if($request->isPost()){
             $datos = $request->getPost();
             
             try{
                 
-                $idTema = $this->temaDAO->editarTema($idTema, $datos);
-                $this->view->messageSuccess ="Tema: <strong>".$datos['tema']."</strong> ha sido modificado";
+                $idPais = $this->paisDAO->editarPais($idPais, $datos);
+                $this->view->messageSuccess ="Pais: <strong>".$datos['nombre']."</strong> ha sido modificado";
                 
             }catch (Exception $ex){
-                $this->view->messageFail = "El tema: <strong>".$datos['tema']."</strong> no ha sido modificada. Error: <strong>".$ex->getMessage()."</strong>";
+                $this->view->messageFail ="El pais: <strong>".$datos['nombre']."</strong> no ha sido modificado. Error: <strong>".$ex->getMessage()."</strong>";
             }
-            
+          
         }
+        
+        
+        
     
     }
- 
 
 
 }
-
-
 
 
 

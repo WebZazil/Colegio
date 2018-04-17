@@ -12,16 +12,18 @@ class Biblioteca_DAO_Recurso implements Biblioteca_Interfaces_IRecurso {
 	private $tableColeccion;
 	private $tableClasificacion;
 	
-	public function __construct(){
+	public function __construct($dbAdapter){
 		
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		//$dbAdapter = Zend_Registry::get("dbmodqueryb");
 		
-		$this->tableRecurso = new Biblioteca_Model_DbTable_Recurso(array('db'=>$dbAdapter));
+		$config = array('db' => $dbAdapter);
 		
-		$this->tableMaterial = new Biblioteca_Data_DbTable_Material(array('db'=>$dbAdapter));
-		$this->tableColeccion =new Biblioteca_Data_DbTable_Coleccion(array('db'=>$dbAdapter));
-		$this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion(array('db'=>$dbAdapter));
-		$this->tableAutor = new Biblioteca_Data_DbTable_Autor(array('db'=>$dbAdapter));
+		$this->tableRecurso = new Biblioteca_Model_DbTable_Recurso($config);
+		
+		$this->tableMaterial = new Biblioteca_Data_DbTable_Material($config);
+		$this->tableColeccion =new Biblioteca_Data_DbTable_Coleccion($config);
+		$this->tableClasificacion = new Biblioteca_Data_DbTable_Clasificacion($config);
+		$this->tableAutor = new Biblioteca_Data_DbTable_Autor($config);
 	}
 	
 	public function agregarRecurso($recurso) {

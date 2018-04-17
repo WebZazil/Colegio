@@ -9,6 +9,6 @@
  
  interface Biblioteca_Interfaces_ILibrosTema{
  	
-	public function agregarLibrosTema($idTema,$idRecurso);
+	public function agregarLibrosTema($datos);
 	
  }

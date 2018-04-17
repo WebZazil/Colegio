@@ -4,23 +4,24 @@
  * 
  * 
  */
-  class Biblioteca_DAO_SubdivisionesLibro implements Biblioteca_Interfaces_ISubdivisionesLibro{
+  class Biblioteca_DAO_SubdivisionesLibro{
  	
-	private $tableSubdivisionesLibro;
+	private $tableSubdivisionesRecurso;
 	private $tableRecurso;
 	private $tableSubdivision;
 	
-	function __construct()
+	function __construct($dbAdapter)
 	{
-		$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		//$dbAdapter = Zend_Registry::get("dbmodqueryb");
+		$config = array('db' => $dbAdapter);
 		
-		$this->tableSubdivisionesLibro = new Biblioteca_Model_DbTable_SubdivisionesLibro(array('db'=>$dbAdapter));
-		$this->tableRecurso = new Biblioteca_Model_DbTable_Recurso(array('db'=>$dbAdapter));
-		$this->tableSubdivision = new Biblioteca_Data_DbTable_Subdivision(array('db'=>$dbAdapter));
+		$this->tableSubdivisionesRecurso = new Biblioteca_Model_DbTable_Subdivisionesrecurso($config);
+		$this->tableRecurso = new Biblioteca_Model_DbTable_Recurso($config);
+		$this->tableSubdivision = new Biblioteca_Data_DbTable_Subdivision($config);
 	}
-	public function agregarSubdivisionesLibro($idRecurso, $idSubdivision)
+	public function agregaSubdivisionesLibro($idRecurso, $idSubdivision)
 	{
-		$tablaSubdivisionesLibro = $this->tableSubdivisionesLibro;
+		$tablaSubdivisionesLibro = $this->tableSubdivisionesRecurso;
 		$select = $tablaSubdivisionesLibro->select()->from($tablaSubdivisionesLibro)->where("idRecurso=?", $idRecurso);
 		$rowSubdivisionesLibro = $tablaSubdivisionesLibro->fetchRow($select);
 		

@@ -4,7 +4,7 @@
  * 
  */
  
- class Biblioteca_DAO_LibrosTema implements Biblioteca_Interfaces_ILibrosTema {
+ class Biblioteca_DAO_Temasrecurso implements Biblioteca_Interfaces_ILibrosTema {
  	
 	private $tableTemasRecurso;
 	private $tableRecurso;
