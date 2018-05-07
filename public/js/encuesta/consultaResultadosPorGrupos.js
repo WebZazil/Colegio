@@ -73,6 +73,8 @@ $().ready(function(){
             			var asignacion = value.asignacion;
             			var asign = asignacion.asignacion;
             			
+            			console.dir(asignacion);
+            			
             			var docente = asignacion.docente;
                 		var materiaEscolar = asignacion.materiaEscolar;
                 		var grupoEscolar = asignacion.grupoEscolar;

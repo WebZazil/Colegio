@@ -109,6 +109,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         foreach ($resultados as $resultado) {
             //print_r($resultado);
             //$json = $resultado["json"];
+            // Se eliminan los slash del objeto json / no permiten la decodificacion correcta
             $obj = str_replace("\\", "", $resultado["json"]);
             $str = substr($obj, 1, -1);
             //print_r($str); print_r("<br /><br />");
