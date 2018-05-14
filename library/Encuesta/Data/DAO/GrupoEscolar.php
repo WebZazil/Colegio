@@ -85,6 +85,12 @@ class Encuesta_Data_DAO_GrupoEscolar {
         return $tGE->insert($datos);
     }
     
+    public function editGrupoEscolar($datos, $idGrupoEscolar) {
+        $tGE = $this->tableGrupoEscolar;
+        $where = $tGE->getAdapter()->quoteInto('idGrupoEscolar=?', $idGrupoEscolar);
+        $tGE->update($datos, $where);
+    }
+    
     /**
      *
      */

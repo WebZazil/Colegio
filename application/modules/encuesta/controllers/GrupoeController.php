@@ -4,18 +4,26 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
 {
 
     private $grupoeDAO = null;
+
     private $gradoDAO = null;
+
     private $cicloDAO = null;
+
     private $nivelDAO = null;
+
     private $materiaDAO = null;
+
     private $planDAO = null;
-    
+
     private $encuestaDAO = null;
+
     private $registroDAO = null;
+
     private $preferenciaDAO = null;
+
     private $asignacionDAO = null;
-    
-    private $docenteDAO;
+
+    private $docenteDAO = null;
 
     public function init()
     {
@@ -364,7 +372,35 @@ class Encuesta_GrupoeController extends Zend_Controller_Action
         $this->_helper->redirector->gotoSimple("admin", "grupoe", "encuesta", array("gpo"=>$idGrupo));
     }
 
+    public function configAction()
+    {
+        // action body
+        $request = $this->getRequest();
+        $idGrupo = $this->getParam("gpo");
+        
+        if ($request->isPost()) {
+            $datos = $request->getPost();
+            //print_r($datos);
+            
+            try {
+                $this->grupoeDAO->editGrupoEscolar($datos, $idGrupo);
+            } catch (Exception $e) {
+                print_r($e->getMessage());
+            }
+        }
+        
+        $grupo = $this->grupoeDAO->getGrupoById($idGrupo);
+        $grado = $this->gradoDAO->getGradoEducativoById($grupo['idGradoEducativo']);
+        $grados = $this->gradoDAO->getGradosEducativosByIdNivelEscolar($grado['idNivelEducativo']);
+        
+        $this->view->grupo = $grupo;
+        $this->view->grado = $grado;
+        $this->view->grados = $grados;
+    }
+
 
 }
+
+
 
 

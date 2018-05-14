@@ -34,6 +34,14 @@ class Encuesta_Data_DAO_GradoEducativo {
         return $rowGE->toArray();
     }
     
+    public function getGradosEducativosByIdNivelEscolar($idNivel) {
+        $tGE = $this->tableGradoEducativo;
+        $select = $tGE->select()->from($tGE)->where('idNivelEducativo=?',$idNivel);
+        $rowsGrados = $tGE->fetchAll($select);
+        
+        return $rowsGrados->toArray();
+    }
+    
     public function getGruposEscolaresByIdGradoEducativo($idGradoEducativo) {
         //Obtenemos ciclo escolar vigente
         $tCE = $this->tableCicloEscolar;

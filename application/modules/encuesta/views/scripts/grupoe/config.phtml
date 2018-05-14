@@ -1,0 +1,61 @@
+<?php
+    $grupo = $this->grupo;
+    $grado = $this->grado;
+    $grados = $this->grados;
+    
+    $params = array('module'=>'encuesta','controller'=>'grupoe','action'=>'admin','gpo'=>$grupo['idGrupoEscolar']);
+    $urlAdminGrupo = $this->url($params,null,true);
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h5 class="panel-title">Editar Grupo Escolar</h5>
+			</div>
+			<div class="panel-body">
+				<div>
+					<a href="<?php echo $urlAdminGrupo; ?>" class="btn btn-info">
+						<i class="fa fa-arrow-circle-left"></i> Regresar a Grupo Escolar
+					</a>
+				</div>
+				<hr />
+				<div>
+					<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+						<fieldset>
+							<legend>Editar Grupo</legend>
+							
+							<div class="form-group">
+    							<label for="grupoEscolar" class="control-label col-md-2">Grupo: </label>
+    							<div class="col-md-10">
+    								<input name="grupoEscolar" type="text" class="form-control" value="<?php echo $grupo['grupoEscolar'] ?>" />
+    							</div>
+    						</div>
+    						
+    						<div class="form-group">
+    							<label for="idGradoEducativo" class="control-label col-md-2">Grado: </label>
+    							<div class="col-md-10">
+    								<select name="idGradoEducativo" class="form-control">
+    									<?php foreach ($grados as $gr) : 
+    									   $attrSelected = ($gr['idGradoEducativo'] == $grado['idGradoEducativo']) ? 'selected="selected"' : '';
+    									?>
+    									<option value="<?php echo $gr['idGradoEducativo'] ?>" <?php echo $attrSelected; ?> ><?php echo $gr['gradoEducativo'];
+    									 ?></option>
+    									<?php endforeach; ?>
+    								</select>
+    							</div>
+    						</div>
+    						    						
+    						<div class="form-group">
+    							<div class="col-md-offset-2 col-md-10">
+    								<button class="btn btn-warning" type="submit">
+    									<i class="fa fa-refresh"></i> Actualizar Grupo
+    								</button>
+    							</div>
+    						</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
