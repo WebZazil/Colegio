@@ -3,7 +3,7 @@
 class Encuesta_DocenteController extends Zend_Controller_Action
 {
 	private $encuestaDAO = null;
-    private $registroDAO = null;
+    //private $registroDAO = null;
     private $gruposDAO = null;
     private $asignacionGrupoDAO = null;
     private $materiaDAO = null;
@@ -19,7 +19,7 @@ class Encuesta_DocenteController extends Zend_Controller_Action
         $identity = $auth->getIdentity();
         
         $this->encuestaDAO = new Encuesta_DAO_Encuesta($identity["adapter"]);
-        $this->registroDAO = new Encuesta_DAO_Registro($identity["adapter"]);
+        //$this->registroDAO = new Encuesta_DAO_Registro($identity["adapter"]);
         $this->gruposDAO = new Encuesta_DAO_Grupos($identity["adapter"]);
         //$this->asignacionGrupoDAO = new Encuesta_DAO_AsignacionGrupo($identity["adapter"]);
         $this->materiaDAO = new Encuesta_DAO_Materia($identity["adapter"]);
@@ -46,7 +46,7 @@ class Encuesta_DocenteController extends Zend_Controller_Action
             $this->docenteDAO->updateDocente($idDocente,$datos);
         }
         
-        $docente = $this->registroDAO->obtenerRegistro($idDocente);
+        $docente = $this->docenteDAO->getDocenteById($idDocente);
         $this->view->docente = $docente;
         
     }

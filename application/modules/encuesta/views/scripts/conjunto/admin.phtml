@@ -2,17 +2,11 @@
     $conjunto = $this->conjunto;
     $conjuntos = $this->conjuntos;
     
+    $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'conjuntos','gpo'=>$conjunto['idGrupoEscolar']);
+    $urlGrupoConjuntos = $this->url($params,null,true);
+    
     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'index');
     $urlConjuntos = $this->url($params,null,true);
-    
-    $params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","co"=>$conjunto["idConjuntoEvaluador"]);
-    $urlEvaluadores = $this->url($params,null,true);
-    
-    $params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"asignaciones","co"=>$conjunto["idConjuntoEvaluador"]);
-    $urlAsignaciones = $this->url($params,null,true);
-    
-    $params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluaciones","co"=>$conjunto["idConjuntoEvaluador"]);
-    $urlEvals = $this->url($params,null,true);
     
     $params = array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","gpo"=>$conjunto["idGrupoEscolar"]);
     $urlGrupo = $this->url($params,null,true);
@@ -26,6 +20,9 @@
     if ($id == 0) $id = $conjunto['idConjuntoEvaluador'];
     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'admin','co'=>$id);
     $urlConjuntoSiguiente = $this->url($params,null,true);
+    
+    $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'delete','co'=>$id);
+    $urlDeleteConjunto = $this->url($params,null,true);
 ?>
 <div class="row">
 	<div class="col-md-12">
@@ -35,100 +32,71 @@
             </div>
             <div class="panel-body">
             	<div>
+            		<a href="<?php echo $urlGrupoConjuntos; ?>" class="btn btn-link">
+            			<i class="fa fa-external-link-square"></i> Ir a Grupo Conjuntos
+            		</a>
+            		<a target="_blank" class="btn btn-link" href="<?php echo $urlGrupo; ?>">
+					    <i class="fa fa-external-link-square"></i> Ir al Grupo Escolar
+					</a>
+					
             		<a href="<?php echo $urlConjuntoAnterior; ?>" class="btn btn-link">
             			<i class="fa fa-arrow-circle-o-left"></i> Conjunto Anterior
             		</a>
-            		<a target="_blank" class="btn btn-link" href="<?php echo $urlGrupo; ?>">
-					    <i class="fa fa-external-link-square"></i> Ir al Grupo
-					</a>
             		<a href="<?php echo $urlConjuntoSiguiente; ?>" class="btn btn-link">
             			<i class="fa fa-arrow-circle-o-right"></i> Conjunto Siguiente
             		</a>
+            		
+					<a href="<?php echo $urlDeleteConjunto ?>" class="btn btn-link">
+						<i class="fa fa-times"></i> Eliminar Conjunto
+					</a>
+            		
             	</div>
             	<hr />
             	<div>
-            		<table class="table table-striped table-condensed">
-                    	<thead>
-                    		<tr>
-                    			<th>Conjunto</th>
-                    			<th>Asignaciones</th>
-                    			<th>Evaluadores</th>
-                    			<th>Evaluaciones</th>
-                    		</tr>
-                    	</thead>
-                    	<tbody>
-                    		<tr>
-                    			<td><?php echo $conjunto['conjunto']; ?></td>
-                    			<td>
-									<a class="btn btn-link" href="<?php echo $urlAsignaciones;  ?>">
-										<i class="fa fa-graduation-cap"></i> Asignaciones Conjunto
-									</a>
-								</td>
-                    			<td>
-									<a target="_blank" class="btn btn-link" href="<?php echo $urlEvaluadores;  ?>">
-										<i class="fa fa-users"></i> Evaluadores
-									</a>
-								</td>
-                    			<td>
-                    				<a target="_blank" class="btn btn-link" href="<?php echo $urlEvals; ?>">
-										<i class="fa fa-check-square-o"></i> Evaluaciones
-									</a>
-                    			</td>
-                    		</tr>
-                    	</tbody>
-                    </table>
+            		<form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                    	<div class="form-group">
+                    		<label for="conjunto" class="control-label col-md-2">Conjunto: </label>
+                    		<div class="col-md-10"><input name="conjunto" type="text" class="form-control" value="<?php echo $conjunto['conjunto']; ?>" /></div>
+                    	</div>
+                    
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Conjunto Anterior:</label>
+                            <div class="col-md-10">
+                                <select name="idConjuntoAnterior" class="form-control">
+                                    <?php foreach ($conjuntos as $con) :
+                                    if($con['idConjuntoEvaluador'] != $conjunto['idConjuntoEvaluador']){
+                                        $attr = ($conjunto['idConjuntoAnterior'] != $con['idConjuntoAnterior']) ? 'selected="selected"' : '' ;
+                                    ?>
+                                    <option value="<?php echo $con["idConjuntoEvaluador"] ?>" <?php echo $attr; ?> ><?php echo $con["conjunto"] ?></option>
+                                    <?php } endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="" class="col-md-2 control-label">Conjunto Siguiente: </label>
+                            <div class="col-md-10">
+                                <select name="idConjuntoSiguiente" class="form-control">
+                                    <?php foreach ($conjuntos as $con) :
+                                    if($con['idConjuntoEvaluador'] != $conjunto['idConjuntoEvaluador']){
+                                        $attr = ($conjunto['idConjuntoSiguiente'] != $con['idConjuntoSiguiente']) ? 'selected="selected"' : '' ;
+                                    ?>
+                                    <option value="<?php echo $con["idConjuntoEvaluador"] ?>" <?php echo $attr; ?>  ><?php echo $con["conjunto"] ?></option>
+                                    <?php } endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button class="btn btn-warning" type="submit">
+                                    <i class="fa fa-refresh"></i> Actualizar Conjunto
+                                </button>
+                            </div>
+                        </div>
+                    </form>
             	</div>
             </div>
         </div>
 	</div>
-	
-	<div class="col-md-12">
-        <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h5 class="panel-title">Editar Conjunto: <strong><?php echo $conjunto["conjunto"] ?></strong> </h5>
-            </div>
-            <div class="panel-body">
-                <form class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
-                	<div class="form-group">
-                		<label for="conjunto" class="control-label col-md-2">Conjunto: </label>
-                		<div class="col-md-10"><input name="conjunto" type="text" class="form-control" value="<?php echo $conjunto['conjunto']; ?>" /></div>
-                	</div>
-                
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Conjunto Anterior:</label>
-                        <div class="col-md-10">
-                            <select name="idConjuntoAnterior" class="form-control">
-                                <?php foreach ($conjuntos as $con) :
-                                $attr = ($conjunto['idConjuntoAnterior'] != $con['idConjuntoAnterior']) ? 'selected="selected"' : '' ;
-                                ?>
-                                <option value="<?php echo $con["idConjuntoEvaluador"] ?>" <?php echo $attr; ?> ><?php echo $con["conjunto"] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="" class="col-md-2 control-label">Conjunto Siguiente: </label>
-                        <div class="col-md-10">
-                            <select name="idConjuntoSiguiente" class="form-control">
-                                <?php foreach ($conjuntos as $con) : 
-                                $attr = ($conjunto['idConjuntoSiguiente'] != $con['idConjuntoSiguiente']) ? 'selected="selected"' : '' ;
-                                ?>
-                                <option value="<?php echo $con["idConjuntoEvaluador"] ?>" <?php echo $attr; ?>  ><?php echo $con["conjunto"] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <button class="btn btn-warning" type="submit">
-                                <i class="fa fa-refresh"></i> Actualizar Conjunto
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>

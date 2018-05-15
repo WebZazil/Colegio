@@ -6,6 +6,8 @@
 	$asignacionesDisponibles = $this->asignacionesDisponibles;
     $asignacionesGrupo = $this->asignacionesGrupo;
 	$asignacionesConjunto = $this->asignacionesConjunto;
+	$urlGrupoConjunto = $this->url(array('module'=>'encuesta','controller'=>'conjunto','action'=>'conjuntos','gpo'=>$conjunto['idGrupoEscolar']),null,true);
+	
 	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,true);
 	$urlAltaEvaluacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
 	$urlAltaAsignacion = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregarasign","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,true);
@@ -37,8 +39,8 @@
 			</div>
 			<div class="panel-body">
 				<div>
-					<a class="btn btn-link" href="<?php echo $urlConjuntos; ?>">
-						<i class="fa fa-cubes"></i> Regresar a Conjuntos
+					<a class="btn btn-link" href="<?php echo $urlGrupoConjunto; ?>">
+						<i class="fa fa-cubes"></i> Regresar a Grupo
 					</a>
 					<a class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-left"></i> Anterior Conjunto

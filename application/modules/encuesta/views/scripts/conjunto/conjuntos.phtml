@@ -6,6 +6,9 @@
 	$params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'index');
 	$urlConjuntos = $this->url($params,null,true);
 	
+	$params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'index');
+	$urlConfigConjunto = $this->url($params,null,true);
+	
 	$params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'alta','gpo' => $grupo['idGrupoEscolar']);
 	$urlAltaConjunto = $this->url($params,null,true);
 ?>
@@ -18,8 +21,13 @@
 			<div class="panel-body">
 				<div>
 					<a href="<?php echo $urlConjuntos ?>" class="btn btn-link">
-						<i class="fa fa-arrow-circle-left"></i> Regresar a Conjuntos
+						<i class="fa fa-search"></i> Busqueda de Conjuntos
 					</a>
+					
+					<a href="<?php echo $urlConfigConjunto; ?>" class="btn btn-link">
+						<i class="fa fa-pencil"></i> Editar Conjunto
+					</a>
+					
 					<a href="<?php echo $urlAltaConjunto ?>" class="btn btn-link">
 						<i class="fa fa-plus"></i> Agregar Conjunto a Grupo
 					</a>
@@ -38,6 +46,8 @@
 						</thead>
 						<tbody>
 							<?php foreach ($conjuntos as $conjunto) :
+							     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'admin','co'=>$conjunto['idConjuntoEvaluador']);
+							     $urlConfigConjunto = $this->url($params,null,true);
 							     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'asignaciones','co'=>$conjunto['idConjuntoEvaluador']);
 							     $urlAsignaciones = $this->url($params,null,true);
 							     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'evaluadores','co'=>$conjunto['idConjuntoEvaluador']);
@@ -46,7 +56,11 @@
 							     $urlEvaluaciones = $this->url($params,null,true);
 								?>
 							<tr>
-								<td><?php echo $conjunto["conjunto"] ?></td>
+								<td>
+									<a href="<?php echo $urlConfigConjunto; ?>" class="btn btn-link">
+										<i class="fa fa-cogs"></i> <?php echo $conjunto["conjunto"] ?> 
+									</a>
+								</td>
 								<td><?php echo $conjunto["creacion"] ?></td>
 								<td>
 									<a class="btn btn-link" href="<?php echo $urlAsignaciones; ?>">

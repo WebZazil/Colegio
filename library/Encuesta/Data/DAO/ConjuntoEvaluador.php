@@ -114,6 +114,20 @@ class Encuesta_Data_DAO_ConjuntoEvaluador {
         return $rowsCE->toArray();
     }
     
+    public function editConjuntoById($idConjunto,$data) {
+        $tCE = $this->tableConjuntoEvaluador;
+        
+        $where = $tCE->getAdapter()->quoteInto('idConjuntoEvaluador=?', $idConjunto);
+        $tCE->update($data, $where);
+    }
+    
+    public function deleteConjunto($idConjunto) {
+        $tCon = $this->tableConjuntoEvaluador;
+        $where = $tCon->getAdapter()->quoteInto('idConjuntoEvaluador=?', $idConjunto);
+        
+        $tCon->delete($where);
+    }
+    
     public function deleteAsignacionConjunto($idConjunto,$idAsignacion,$idEncuesta) {
         $tEC = $this->tableEvaluacionConjunto;
         $select = $tEC->select()->from($tEC)->where('idConjuntoEvaluador=?',$idConjunto)->where('idEncuesta=?',$idEncuesta);
