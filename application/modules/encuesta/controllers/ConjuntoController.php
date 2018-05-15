@@ -257,6 +257,50 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
         $this->view->evaluaciones = $evaluaciones;
         $this->view->asignacionesConjunto = $evaluacionesC;
         $this->view->asignacionesGrupo = $evaluacionesG;
+        // ======================================================================================= Improvements Mayo 2018
+        // print_r('Asignaciones Grupo ----------------------------------------------<br />');
+        $asignacionesGrupo = $this->evaluacionDAO->getAsignacionesByIdGrupo($conjunto["idGrupoEscolar"]);
+        //print_r($asignacionesGrupo);
+        foreach ($asignacionesGrupo as $ag){
+            //print_r($ag); print_r('<br />');
+        }
+        // print_r('Asignaciones Conjunto----------------------------------------------<br />');
+        $asignacionesConjunto = $this->evaluacionDAO->getRowsAsignacionesByIdConjunto($conjunto['idConjuntoEvaluador']);
+        //print_r($asignacionesConjunto);
+        $idsConjunto = array();
+        foreach ($asignacionesConjunto as $asignacionConjunto){
+            //print_r($asignacionConjunto); print_r('<br />');
+            $idsConjunto[] = $asignacionConjunto['idAsignacionGrupo'];
+        }
+        // print_r('<br />');
+        //print_r($idsConjunto);
+        // print_r('Restantes----------------------------------------------<br />');
+        $idsAsignacionesRestantes = array();
+        $asignacionesRestantes = array();
+        
+        // 
+        
+        // 
+        foreach ($asignacionesGrupo as $asignacionGrupo) {
+            if (in_array($asignacionGrupo['idAsignacionGrupo'], $idsConjunto)) {
+                //print_r('Esta este ID en el array');
+            }else{
+                //print_r('No esta en el array');
+                $idsAsignacionesRestantes[] = $asignacionGrupo; 
+            }
+            //print_r('<br />');
+        }
+        
+        foreach ($idsAsignacionesRestantes as $idAsignacionRestante){
+            // Objeto para guardar Materia y Docente
+            $obj = array();
+            $obj["asignacion"] = $idAsignacionRestante;
+            $obj["materia"] = $this->materiaDAO->getMateriaById($idAsignacionRestante["idMateriaEscolar"]);
+            $obj["docente"] = $this->docenteDAO->getDocenteById($idAsignacionRestante['idDocente']);
+            
+            $asignacionesRestantes[] = $obj;
+        }
+        $this->view->asignacionesDisponibles = $asignacionesRestantes;
     }
 
     public function conjuntosAction()

@@ -169,6 +169,38 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 		$rowConjunto->save();
 	}
 	
+	public function getRowsAsignacionesByIdConjunto($idConjunto) {
+	    $tEvalCon = $this->tablaEvaluacionConjunto;
+	    $select = $tEvalCon->select()->from($tEvalCon)->where('idConjuntoEvaluador=?',$idConjunto);
+	    $rowsEvCon = $tEvalCon->fetchAll($select)->toArray();
+	    // Se guardan los ids de asignacion encontrados
+	    $idsAsignaciones = array();
+	    
+	    foreach ($rowsEvCon as $rowEvCon) {
+	        //print_r($rowEvCon); print_r('<br />');
+	        $strAsignaciones = $rowEvCon['idsAsignacionesGrupo'];
+	        $arrAsignaciones = explode(',', $strAsignaciones);
+	        
+	        foreach ($arrAsignaciones as $arrAs){
+	            if($arrAs != ''){
+	                $idsAsignaciones [] = $arrAs;
+	            }
+	        }
+	    }
+	    // Validacion cuando no hay asignaciones aun en conjunto
+	    if (empty($idsAsignaciones)) {
+	        //print_r('Sin Asignaciones');
+	        return array();
+	    }else{
+	        //print_r('Con al menos 1 asignacion');
+	        $tAG = $this->tablaAsignacionGrupo;
+	        $select = $tAG->select()->from($tAG)->where('idAsignacionGrupo IN (?)',$idsAsignaciones);
+	        $rowsAG = $tAG->fetchAll($select);
+	        
+	        return $rowsAG->toArray();
+	    }
+	}
+	
     /**
      * Obtenemos las relaciones materia-docente del conjunto de evaluacion
      */
