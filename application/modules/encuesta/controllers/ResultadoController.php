@@ -282,6 +282,10 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         // ========================================================== Obtenemos parametros
         $idAsignacion = $this->getParam("as");
         $idEvaluacion = $this->getParam("ev");
+        
+        if ($idEvaluacion == 4) {
+            $this->_helper->redirector->gotoSimple("resautoev", "resultado", "encuesta", array('as'=>$idAsignacion, 'ev'=>$idEvaluacion));
+        }
         // ========================================================== Obtenemos objetos
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
         $encuesta = $this->encuestaDAO->getEncuestaById($idEvaluacion);
@@ -421,7 +425,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         }
         
         $this->view->asignacion = $asignacion;
-        $this->view->evaluacion = $encuesta->toArray();
+        $this->view->evaluacion = $encuesta;
         $this->view->evaluadores = $evaluadores;
         
         $this->view->evaluacionDAO = $this->evaluacionDAO;
@@ -435,7 +439,7 @@ class Encuesta_ResultadoController extends Zend_Controller_Action
         $idEvaluador = $this->getParam("er");
         
         $asignacion = $this->asignacionDAO->getAsignacionById($idAsignacion);
-        $evaluacion = $this->encuestaDAO->getEncuestaById($idEvaluacion)->toArray();
+        $evaluacion = $this->encuestaDAO->getEncuestaById($idEvaluacion);
         $evaluador = $this->evaluacionDAO->getEvaluadorById($idEvaluador);
         
         $resultado = $this->evaluacionDAO->getResultadoIndividual($idAsignacion, $idEvaluacion, $idEvaluador);

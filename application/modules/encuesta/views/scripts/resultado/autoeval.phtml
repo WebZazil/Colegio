@@ -9,7 +9,7 @@
     $numPreguntas = count($resultado);
     $sumaTotal = 0;
     
-    $urlReporte = $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"descarga","idReporte"=>$idReporte),null,true);
+    $urlReporte = $this->url(array("module"=>"encuesta","controller"=>"reporte","action"=>"descarga","rpt"=>$idReporte),null,true);
     $urlAutoEvaluaciones = $this->url(array("module"=>"encuesta","controller"=>"resultado","action"=>"resautoev","as"=>$asignacion["idAsignacionGrupo"],"ev"=>$evaluacion["idEncuesta"]),null,TRUE);
 ?>
 <div class="row">

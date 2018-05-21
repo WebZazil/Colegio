@@ -23,7 +23,7 @@
 	
 	$valorId = 0;
 	if ($conjunto['idConjuntoSiguiente'] == 0) {
-	    $valorId = $conjunto['idConjuntoEvaluador'];;
+	    $valorId = $conjunto['idConjuntoEvaluador'];
 	}else{
 	    $valorId = $conjunto['idConjuntoSiguiente'];
 	}
@@ -51,7 +51,6 @@
 					<a class="btn btn-link" href="<?php echo $urlNextConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-right"></i> Siguiente Conjunto
                     </a>
-                    <i id="idConjuntoEvaluador" value="<?php echo $conjunto['idConjuntoEvaluador']; ?>"></i>
 				</div>
 				<hr />
 				<div>

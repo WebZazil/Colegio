@@ -139,4 +139,22 @@ class Encuesta_Data_DAO_Evaluacion {
         
         return $rowsEvalsReal->toArray();
     }
+    
+    /**
+     * getResultadoIndividual Obtiene de T.EvaluacionRealizada el registro asociado a idAsignacion
+     * @param int $idAsignacion
+     * @param int $idEvaluacion
+     * @param int $idEvaluador
+     * @return array
+     */
+    public function getResultadoIndividual($idAsignacion, $idEvaluacion, $idEvaluador) {
+        $tablaEvalRel = $this->tableEvaluacionRealizada;
+        $select = $tablaEvalRel->select()->from($tablaEvalRel)->where("idAsignacionGrupo=?", $idAsignacion)
+        ->where("idEncuesta=?", $idEvaluacion)
+        ->where("idEvaluador=?", $idEvaluador);
+        
+        $rowEvaluacion = $tablaEvalRel->fetchRow($select);
+        
+        return $rowEvaluacion->toArray();
+    }
 }

@@ -960,7 +960,7 @@ class Encuesta_Util_Reporteador {
         // Obtenemos Evaluacion
         $tablaEvaluacion = $this->tablaEvaluacionRealizada;
         $select = $tablaEvaluacion->select()->from($tablaEvaluacion)->where("idAsignacionGrupo=?", $idAsignacion)
-            ->where("idEvaluacion=?", $idEvaluacion)->where("idEvaluador=?", $idEvaluador);
+            ->where("idEncuesta=?", $idEvaluacion)->where("idEvaluador=?", $idEvaluador);
         
         $rowEvaluacion = $tablaEvaluacion->fetchRow($select);
         
@@ -1189,7 +1189,7 @@ class Encuesta_Util_Reporteador {
             $datos["nombreReporte"] = $nombreArchivo;
             $datos["tipoReporte"] = "RAUT";
             $datos["rutaReporte"] = $rutaReporte;
-            $datos["fecha"] = date("Y-m-d H:i:s", time());
+            $datos["creacion"] = date("Y-m-d H:i:s", time());
             print_r($datos);
             $idReporte = $tablaReportesEncuesta->insert($datos);
         }else{
