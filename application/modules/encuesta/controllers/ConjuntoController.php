@@ -239,6 +239,7 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
         }
         
         $evaluacionesG = array();
+        //print_r(count($asignacionesGrupo));
         foreach ($asignacionesGrupo as $asignacionGrupo) {
             $arrAsignacionGrupo = array();
             //print_r($asignacionGrupo); print_r("<br /><br />");
