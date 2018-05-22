@@ -7,7 +7,7 @@
 	//$dbAdapter = Zend_Registry::get("dbmodquery");
 	//$evaluacionDAO = new Encuesta_DAO_Evaluacion($dbAdapter);
 	$urlAsociarEvaluador = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval","idConjunto"=>$conjunto["idConjuntoEvaluador"]),null,TRUE);
-	$urlConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"index"),null,TRUE);
+	$urlGrupoConjuntos = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjuntos","gpo"=>$conjunto['idGrupoEscolar']),null,TRUE);
     $urlScriptEvaluadores = $this->baseUrl()."/public/js/helpers/searchEvaluadores.js";
     
     $urlPreviousConjunto = $this->url(array("module"=>"encuesta","controller"=>"conjunto","action"=>"evaluadores","co"=>$conjunto["idConjuntoAnterior"]),null,true);
@@ -21,8 +21,8 @@
 			</div>
 			<div class="panel-body">
 				<div>
-					<a class="btn btn-info" href="<?php echo $urlConjuntos; ?>">
-						<i class="fa fa-cubes"></i> Regresar a los conjuntos
+					<a class="btn btn-info" href="<?php echo $urlGrupoConjuntos; ?>">
+						<i class="fa fa-cubes"></i> Regresar a Conjunto
 					</a>
 					<a <?php echo ($conjunto["idConjuntoAnterior"] == "0") ? "disabled=''" : "" ; ?> class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">
                         <i class="fa fa-arrow-circle-o-left"></i> Anterior Conjunto

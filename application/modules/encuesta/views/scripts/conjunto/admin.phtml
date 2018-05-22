@@ -8,7 +8,7 @@
     $params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'index');
     $urlConjuntos = $this->url($params,null,true);
     
-    $params = array("module"=>"encuesta","controller"=>"grupoe","action"=>"index","gpo"=>$conjunto["idGrupoEscolar"]);
+    $params = array("module"=>"encuesta","controller"=>"grupoe","action"=>"admin","gpo"=>$conjunto["idGrupoEscolar"]);
     $urlGrupo = $this->url($params,null,true);
     
     $id = $conjunto['idConjuntoAnterior'];
