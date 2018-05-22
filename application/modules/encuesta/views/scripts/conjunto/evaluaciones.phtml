@@ -8,8 +8,8 @@
 	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"index");
 	$urlConjuntos = $this->url($params,null,true);
 	
-	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjunto","gpo"=>$conjunto['idGrupoEscolar']);
-	$urlConjunto = $this->url($params,null,true);
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjuntos","gpo"=>$conjunto['idGrupoEscolar']);
+	$urlConjuntoGrupo = $this->url($params,null,true);
 	
 	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval");
 	$urlAltaEvaluacion = $this->url($params,null,TRUE);
@@ -43,7 +43,7 @@
 			</div>
 			<div class="panel-body">
 				<div>
-					<a class="btn btn-info" href="<?php echo $urlConjuntos; ?>">
+					<a class="btn btn-info" href="<?php echo $urlConjuntoGrupo; ?>">
 						<i class="fa fa-arrow-circle-left"></i> Regresar al Conjunto
 					</a>
 					<a class="btn btn-link" href="<?php echo $urlPreviousConjunto; ?>">

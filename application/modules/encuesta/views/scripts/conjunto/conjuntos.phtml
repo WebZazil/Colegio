@@ -6,9 +6,6 @@
 	$params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'index');
 	$urlConjuntos = $this->url($params,null,true);
 	
-	$params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'index');
-	$urlConfigConjunto = $this->url($params,null,true);
-	
 	$params = array('module'=>'encuesta','controller'=>'conjunto','action'=>'alta','gpo' => $grupo['idGrupoEscolar']);
 	$urlAltaConjunto = $this->url($params,null,true);
 ?>
@@ -22,10 +19,6 @@
 				<div>
 					<a href="<?php echo $urlConjuntos ?>" class="btn btn-link">
 						<i class="fa fa-search"></i> Busqueda de Conjuntos
-					</a>
-					
-					<a href="<?php echo $urlConfigConjunto; ?>" class="btn btn-link">
-						<i class="fa fa-pencil"></i> Editar Conjunto
 					</a>
 					
 					<a href="<?php echo $urlAltaConjunto ?>" class="btn btn-link">

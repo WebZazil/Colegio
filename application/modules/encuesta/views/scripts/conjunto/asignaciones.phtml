@@ -70,10 +70,10 @@
 							<label for="idAsignacion" class="col-xs-2 control-label">Asignaciones Disponibles</label>
 							<div class="col-xs-10">
 								<select id="idAsignacion" class="form-control" name="idAsignacion">
-									<?php foreach ($asignacionesGrupo as $asignacionDisponible) : 
-										$relacion = $asignacionDisponible["materia"]["materiaEscolar"]." - " .$asignacionDisponible["docente"]["apellidos"].", ".$asignacionDisponible["docente"]["nombres"];
+									<?php foreach ($asignacionesGrupo as $asignacionGrupo) : 
+										$relacion = $asignacionGrupo["materia"]["materiaEscolar"]." - " .$asignacionGrupo["docente"]["apellidos"].", ".$asignacionGrupo["docente"]["nombres"];
 										?>
-									<option value="<?php echo $asignacionDisponible["asignacion"]["idAsignacionGrupo"]; ?>"><?php echo $relacion; ?></option>
+									<option value="<?php echo $asignacionGrupo["asignacion"]["idAsignacionGrupo"]; ?>"><?php echo $relacion; ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
