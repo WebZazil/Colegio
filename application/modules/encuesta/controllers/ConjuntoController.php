@@ -254,6 +254,7 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
         $this->view->evaluaciones = $evaluaciones;
         $this->view->asignacionesConjunto = $evaluacionesC;
         $this->view->asignacionesGrupo = $evaluacionesG;
+        /*
         // ======================================================================================= Improvements Mayo 2018
         // print_r('Asignaciones Grupo ----------------------------------------------<br />');
         $asignacionesGrupo = $this->evaluacionDAO->getAsignacionesByIdGrupo($conjunto["idGrupoEscolar"]);
@@ -298,6 +299,7 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
             $asignacionesRestantes[] = $obj;
         }
         $this->view->asignacionesDisponibles = $asignacionesRestantes;
+        */
     }
 
     public function conjuntosAction()
