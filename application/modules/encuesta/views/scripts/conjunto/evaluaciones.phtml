@@ -8,6 +8,9 @@
 	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"index");
 	$urlConjuntos = $this->url($params,null,true);
 	
+	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"conjunto","gpo"=>$conjunto['idGrupoEscolar']);
+	$urlConjunto = $this->url($params,null,true);
+	
 	$params = array("module"=>"encuesta","controller"=>"conjunto","action"=>"agregareval");
 	$urlAltaEvaluacion = $this->url($params,null,TRUE);
     

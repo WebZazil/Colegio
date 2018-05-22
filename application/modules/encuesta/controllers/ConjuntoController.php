@@ -111,13 +111,6 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
         $request = $this->getRequest();
         $idConjunto = $this->getParam("co");
         
-        $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
-        $evaluaciones = $this->evaluacionDAO->getEvaluacionesByIdConjunto($idConjunto);
-        
-        // Evaluaciones del conjunto
-        $this->view->conjunto = $conjunto;
-        $this->view->conjuntos = $this->evaluacionDAO->getConjuntosByIdGrupoEscolar($conjunto["idGrupoEscolar"]);
-        
         if($request->isPost()){
             $datos = $request->getpost();
             //print_r($datos);
@@ -129,7 +122,11 @@ class Encuesta_ConjuntoController extends Zend_Controller_Action
             }
         }
         
+        $conjunto = $this->evaluacionDAO->getConjuntoById($idConjunto);
+        $evaluaciones = $this->evaluacionDAO->getEvaluacionesByIdConjunto($idConjunto);
         
+        $this->view->conjunto = $conjunto;
+        $this->view->conjuntos = $this->evaluacionDAO->getConjuntosByIdGrupoEscolar($conjunto["idGrupoEscolar"]);
     }
 
     public function evaluadoresAction()
