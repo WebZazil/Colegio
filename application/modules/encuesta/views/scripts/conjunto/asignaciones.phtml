@@ -3,8 +3,9 @@
     //print_r($conjunto);
 	$encuestas = $this->encuestas;
     $evaluaciones = $this->evaluaciones;
-	$asignacionesDisponibles = $this->asignacionesDisponibles;
+	//$asignacionesDisponibles = $this->asignacionesDisponibles;
     $asignacionesGrupo = $this->asignacionesGrupo;
+    $asignacionesDisponibles = $asignacionesGrupo;
 	$asignacionesConjunto = $this->asignacionesConjunto;
 	$urlGrupoConjunto = $this->url(array('module'=>'encuesta','controller'=>'conjunto','action'=>'conjuntos','gpo'=>$conjunto['idGrupoEscolar']),null,true);
 	
@@ -153,7 +154,8 @@
     $().ready(function(){
         var appname = "/colegio/encuesta";
         var url = window.location.origin + appname;
-        var idConjunto = $("#idConjuntoEvaluador").attr("value");
+        //var idConjunto = $("#idConjuntoEvaluador").attr("value");
+        var idConjunto = <?php echo $conjunto['idConjuntoEvaluador']; ?>;
         
         $("#btnSubmit").click(function(){
             var idEvaluacion = $("#idEvaluacion").val();
@@ -168,8 +170,8 @@
             $.ajax({
                 url: urlRelacion,
                 success: function(data){
-                    console.log("Recibido por el server!!");
-                    location.reload();
+                    console.log("Recibido por el server!!")	;
+                    //location.reload();
                 }
             });
         });

@@ -305,7 +305,9 @@ class Encuesta_DAO_Evaluacion implements Encuesta_Interfaces_IEvaluacion {
 	
 	public function asociarAsignacionAConjunto($idConjunto, $idEvaluacion, $idAsignacion) {
 		$tablaEvalsConjunto = $this->tablaEvaluacionConjunto;
-        $select = $tablaEvalsConjunto->select()->from($tablaEvalsConjunto)->where("idConjuntoEvaluador=?",$idConjunto)->where("idEncuesta=?",$idEvaluacion);
+        $select = $tablaEvalsConjunto->select()->from($tablaEvalsConjunto)
+            ->where("idConjuntoEvaluador=?",$idConjunto)
+            ->where("idEncuesta=?",$idEvaluacion);
 		//$where = $tablaEvalsConjunto->getAdapter()->quoteInto("idConjuntoEvaluador=?", $idConjunto);
 		$rowConjunto = $tablaEvalsConjunto->fetchRow($select);
 		$idsAsignaciones = explode(",", $rowConjunto->idsAsignacionesGrupo);
