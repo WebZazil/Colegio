@@ -57,4 +57,9 @@ class Encuesta_Data_DAO_GradoEducativo {
         
         return $rowsGE->toArray();
     }
+    
+    public function addGradoEducativo($datos) {
+        $tGraEd = $this->tableGradoEducativo;
+        return $tGraEd->insert($datos);
+    }
 }

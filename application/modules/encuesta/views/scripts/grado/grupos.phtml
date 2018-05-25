@@ -2,7 +2,7 @@
     $grado = $this->grado;
     $grupos = $this->grupos;
     
-    $params = array("module"=>"encuesta","controller"=>"grado","action"=>"admin","gr"=>$grado['idGradoEducativo']);
+    $params = array("module"=>"encuesta","controller"=>"grado","action"=>"admin","ge"=>$grado['idGradoEducativo']);
     $urlAdminGrado = $this->url($params,null,true);
     
     $params = array("module"=>"encuesta","controller"=>"grupoe","action"=>"alta","gr"=>$grado['idGradoEducativo']);

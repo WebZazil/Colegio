@@ -11,7 +11,7 @@
 	        </div>
 	        <div class="panel-body">
 	            <div>
-	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"index","idNivel"=>$nivel['idNivelEducativo']),null,true) ?>">
+	                <a class="btn btn-info" href="<?php echo $this->url(array("module"=>"encuesta","controller"=>"grado","action"=>"index","ne"=>$nivel['idNivelEducativo']),null,true) ?>">
 	                    <span class="fa fa-arrow-circle-left"></span> Regresar al Nivel <strong><?php echo $nivel['nivelEducativo']; ?></strong>
 	                </a><br />
 	                <?php if(!is_null($messageSuccess)){ ?>

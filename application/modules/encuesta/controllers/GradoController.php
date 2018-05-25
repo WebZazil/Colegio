@@ -30,10 +30,11 @@ class Encuesta_GradoController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-        $idNivel = $this->getParam("idNivel");
+        $idNivel = $this->getParam("ne");
         
 		$nivel = $this->nivelDAO->getNivelEducativoById($idNivel);
-		$grados = $this->gradoDAO->getGradosByIdNivel($idNivel);
+		//$grados = $this->gradoDAO->getGradosByIdNivel($idNivel);
+		$grados = $this->gradoDAO->getGradosEducativosByIdNivelEscolar($idNivel);
 		
 		$this->view->nivel = $nivel;
 		$this->view->grados = $grados;
@@ -62,7 +63,7 @@ class Encuesta_GradoController extends Zend_Controller_Action
     {
         // action body
         $request = $this->getRequest();
-        $idNivel = $this->getParam("idNivel");
+        $idNivel = $this->getParam("ne");
 		
         $nivel = $this->nivelDAO->getNivelEducativoById($idNivel);
 		$this->view->nivel = $nivel;
@@ -70,12 +71,13 @@ class Encuesta_GradoController extends Zend_Controller_Action
 		if($request->isPost()){
 		    $datos = $request->getPost();
             $datos["idNivelEducativo"] = $idNivel;
-            $datos["fecha"] = date("Y-m-d H:i:s",time());
+            $datos["creacion"] = date("Y-m-d H:i:s",time());
             $grado = new Encuesta_Models_GradoEducativo($datos);
 		    //print_r($datos);
             try {
-                $this->gradoDAO->addGrado($grado);
-                $this->view->messageSuccess = "Grado: <strong>".$grado->getGradoEducativo()."</strong> dado de alta al Nivel: <strong>".$nivel->getNivel()."</strong> exitosamente.";
+                $this->gradoDAO->addGradoEducativo($datos);
+                //$this->gradoDAO->addGrado($grado);
+                $this->view->messageSuccess = "Grado: <strong>".$datos['gradoEducativo']."</strong> dado de alta al Nivel: <strong>".$nivel['nivelEducativo']."</strong> exitosamente.";
             } catch(Exception $ex) {
                 $this->view->messageFail = $ex->getMessage();
             }
